@@ -2105,7 +2105,7 @@ let mapSelectedGov = '';
 function switchView(view){
   document.querySelectorAll('#mainNav button').forEach(b=> b.classList.toggle('active', b.dataset.view===view));
   if(view !== 'detail'){ document.getElementById('mobilePledgeBar')?.classList.remove('show'); }
-  if(view === 'map'){ setTimeout(ensureLeafletMap, 260); }
+  if(view === 'map'){ ensureLeafletMap(); }
   const current = document.querySelector('.page.active');
   const next = document.getElementById('view-'+view);
   if(current === next) return;
@@ -2408,11 +2408,24 @@ function ensureLeafletMap(){
     setTimeout(()=> leafletMapInstance.invalidateSize(), 50);
     return;
   }
+  // The container's size depends on the page-transition animation actually finishing —
+  // on mobile this can take longer or shorter than any fixed delay, and initializing
+  // Leaflet against a container that's still 0×0 leaves the map permanently blank for
+  // the rest of the session (it's only ever created once). So instead of guessing a
+  // timeout, keep re-checking on each animation frame until the container genuinely
+  // has real dimensions, then initialize.
+  if(container.offsetWidth === 0 || container.offsetHeight === 0){
+    requestAnimationFrame(ensureLeafletMap);
+    return;
+  }
   leafletMapInstance = L.map('leafletMap', { scrollWheelZoom:false }).setView([33.95, 35.85], 9);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 18,
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors'
   }).addTo(leafletMapInstance);
+  // Safety net: re-measure shortly after init too, in case a layout shift (mobile address
+  // bar collapsing, safe-area insets settling) happened right after we checked.
+  setTimeout(()=> leafletMapInstance && leafletMapInstance.invalidateSize(), 300);
 
   const statusColor = { proposed:'#8b95a3', funding:'#2563EB', progress:'#D97706', complete:'#16A34A' };
   mapLayers = { problems: L.layerGroup(), experts: L.layerGroup(), municipalities: L.layerGroup() };
