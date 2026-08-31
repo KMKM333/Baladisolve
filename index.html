@@ -163,8 +163,7 @@
     transition:transform .22s var(--ease-spring), box-shadow .22s var(--ease-fluid), border-color .2s var(--ease-fluid); }
   .field-card:hover{ border-color:var(--accent); transform:translateY(-3px); box-shadow:0 10px 24px rgba(15,23,42,0.08); }
   .field-card:active{ transform:translateY(-1px) scale(.99); }
-  .field-icon{ width:36px; height:36px; border-radius:9px; background:var(--accent-soft); display:flex; align-items:center; justify-content:center; font-size:16px; margin-bottom:10px; color:var(--accent); }
-  .field-icon svg{ width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+  .field-icon{ width:36px; height:36px; border-radius:9px; background:var(--accent-soft); display:flex; align-items:center; justify-content:center; font-size:16px; margin-bottom:10px; }
   .field-card h3{ font-size:14px; font-weight:700; margin:0 0 6px; }
   .field-card p{ font-size:12px; color:var(--text-dim); line-height:1.55; margin:0; }
   .simple-card h3{ font-size:15px; font-weight:700; margin:0 0 8px; }
@@ -196,8 +195,7 @@
      through a handful of cards on a phone matters more than seeing them all in a grid. */
   .mini-card{ border:1px solid var(--border); border-radius:10px; padding:18px; scroll-snap-align:start; flex:0 0 220px; cursor:pointer; transition:transform .22s var(--ease-spring), box-shadow .22s var(--ease-fluid), border-color .2s var(--ease-fluid); transform:translateZ(0); }
   .mini-card:hover{ border-color:var(--accent); transform:translateY(-3px); box-shadow:0 10px 24px rgba(15,23,42,0.08); }
-  .mini-card-icon{ width:36px; height:36px; border-radius:9px; background:var(--accent-soft); display:flex; align-items:center; justify-content:center; font-size:16px; margin-bottom:10px; color:var(--accent); }
-  .mini-card-icon svg{ width:20px; height:20px; fill:none; stroke:currentColor; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+  .mini-card-icon{ width:36px; height:36px; border-radius:9px; background:var(--accent-soft); display:flex; align-items:center; justify-content:center; font-size:16px; margin-bottom:10px; }
   .mini-card b{ display:block; font-size:14px; margin-bottom:4px; }
   .mini-card p{ font-size:12px; color:var(--text-dim); margin:0; line-height:1.5; }
   @media (max-width:480px){ .mini-card{ flex-basis:78vw; } }
@@ -596,41 +594,6 @@
 </style>
 </head>
 <body>
-<!-- Icon sprite for the eight expert fields. Replaces emoji, which rendered
-     differently on every OS, could not take the accent colour, and read as
-     informal on a page whose argument is institutional trust. 24x24 grid,
-     1.5px stroke, currentColor throughout. -->
-<svg aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
-  <symbol id="ic-electricity" viewBox="0 0 24 24">
-    <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/>
-  </symbol>
-  <symbol id="ic-waste" viewBox="0 0 24 24">
-    <path d="M4 7h16"/><path d="M6 7v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7"/>
-    <path d="M9.5 7V5a1 1 0 0 1 1-1h3a1 1 0 0 1 1 1v2"/>
-    <path d="M10 11v6M14 11v6"/>
-  </symbol>
-  <symbol id="ic-water" viewBox="0 0 24 24">
-    <path d="M12 3c4 5.2 6 8 6 10.8a6 6 0 0 1-12 0C6 11 8 8.2 12 3Z"/>
-  </symbol>
-  <symbol id="ic-publicland" viewBox="0 0 24 24">
-    <path d="M12 3 6.5 11H9l-4 6h14l-4-6h2.5L12 3Z"/><path d="M12 17v4"/>
-  </symbol>
-  <symbol id="ic-environment" viewBox="0 0 24 24">
-    <path d="M20 4C10 4 4 10 4 20c10 0 16-6 16-16Z"/><path d="M4.8 19.2 14 10"/>
-  </symbol>
-  <symbol id="ic-roads" viewBox="0 0 24 24">
-    <rect x="8" y="2" width="8" height="16" rx="4"/>
-    <path d="M12 5.6v.01M12 10v.01M12 14.4v.01"/><path d="M12 18v4"/>
-  </symbol>
-  <symbol id="ic-sewage" viewBox="0 0 24 24">
-    <path d="M3 7h5a3 3 0 0 1 3 3v4a3 3 0 0 0 3 3h5"/>
-    <path d="M18 14l3 3-3 3"/>
-  </symbol>
-  <symbol id="ic-ngoinit" viewBox="0 0 24 24">
-    <path d="M12 3a6 6 0 0 0-3 11.2V17h6v-2.8A6 6 0 0 0 12 3Z"/>
-    <path d="M10 20h4"/>
-  </symbol>
-</svg>
 
 <header class="topnav">
   <div class="logo" data-goto="home"><div class="mark">M</div>Manāra</div>
@@ -815,14 +778,14 @@
 
       <div class="net-group"><div class="net-role">Solves</div><h3 data-group="experts" style="cursor:pointer;">Expert organisations</h3><p>Matched to a request by field — the specific technical knowledge a problem needs, distinct from who implements or who pays.</p></div>
       <div class="field-grid" style="margin-bottom:14px;">
-        <div class="field-card" data-cat="electricity"><div class="field-icon"><svg aria-hidden="true"><use href="#ic-electricity"/></svg></div><h3>Electricity</h3><p>Grid repair, solar installation, and power system design.</p></div>
-        <div class="field-card" data-cat="waste"><div class="field-icon"><svg aria-hidden="true"><use href="#ic-waste"/></svg></div><h3>Waste Collection</h3><p>Routing, sorting, and recycling logistics.</p></div>
-        <div class="field-card" data-cat="water"><div class="field-icon"><svg aria-hidden="true"><use href="#ic-water"/></svg></div><h3>Water</h3><p>Supply networks, wells, and treatment systems.</p></div>
-        <div class="field-card" data-cat="publicland"><div class="field-icon"><svg aria-hidden="true"><use href="#ic-publicland"/></svg></div><h3>Public Land &amp; Pavements</h3><p>Parks, sidewalks, and shared public space.</p></div>
-        <div class="field-card" data-cat="environment"><div class="field-icon"><svg aria-hidden="true"><use href="#ic-environment"/></svg></div><h3>Environment</h3><p>Pollution control, reforestation, and site remediation.</p></div>
-        <div class="field-card" data-cat="roads"><div class="field-icon"><svg aria-hidden="true"><use href="#ic-roads"/></svg></div><h3>Roads &amp; Traffic</h3><p>Paving, signage, and safety engineering.</p></div>
-        <div class="field-card" data-cat="sewage"><div class="field-icon"><svg aria-hidden="true"><use href="#ic-sewage"/></svg></div><h3>Sewage</h3><p>Drainage, treatment, and wastewater systems.</p></div>
-        <div class="field-card" data-cat="ngoinit"><div class="field-icon"><svg aria-hidden="true"><use href="#ic-ngoinit"/></svg></div><h3>NGOs &amp; Initiatives</h3><p>Civic education, cultural preservation, and community programs that cut across a single technical category.</p></div>
+        <div class="field-card" data-cat="electricity"><div class="field-icon">⚡</div><h3>Electricity</h3><p>Grid repair, solar installation, and power system design.</p></div>
+        <div class="field-card" data-cat="waste"><div class="field-icon">♻️</div><h3>Waste Collection</h3><p>Routing, sorting, and recycling logistics.</p></div>
+        <div class="field-card" data-cat="water"><div class="field-icon">💧</div><h3>Water</h3><p>Supply networks, wells, and treatment systems.</p></div>
+        <div class="field-card" data-cat="publicland"><div class="field-icon">🌳</div><h3>Public Land &amp; Pavements</h3><p>Parks, sidewalks, and shared public space.</p></div>
+        <div class="field-card" data-cat="environment"><div class="field-icon">🍃</div><h3>Environment</h3><p>Pollution control, reforestation, and site remediation.</p></div>
+        <div class="field-card" data-cat="roads"><div class="field-icon">🚦</div><h3>Roads &amp; Traffic</h3><p>Paving, signage, and safety engineering.</p></div>
+        <div class="field-card" data-cat="sewage"><div class="field-icon">🚰</div><h3>Sewage</h3><p>Drainage, treatment, and wastewater systems.</p></div>
+        <div class="field-card" data-cat="ngoinit"><div class="field-icon">💡</div><h3>NGOs &amp; Initiatives</h3><p>Civic education, cultural preservation, and community programs that cut across a single technical category.</p></div>
       </div>
       <div style="font-size:12px;color:var(--text-faint);margin-bottom:34px;">Example on the ledger: <b style="color:var(--text-dim);">Cedar Engineers</b> — structural engineering — paired with Aley Union of Municipalities on the Wadi Faara retaining wall.</div>
 
@@ -2909,14 +2872,14 @@ function renderStats(){
 
 // ---------- Home: network preview, type tiles, featured, leaderboard ----------
 const EXPERT_FIELDS = [
-  {id:'electricity', name:'Electricity', desc:'Grid repair, solar installation, and power system design.'},
-  {id:'waste', name:'Waste Collection', desc:'Routing, sorting, and recycling logistics.'},
-  {id:'water', name:'Water', desc:'Supply networks, wells, and treatment systems.'},
-  {id:'publicland', name:'Public Land & Pavements', desc:'Parks, sidewalks, and shared public space.'},
-  {id:'environment', name:'Environment', desc:'Pollution control, reforestation, and site remediation.'},
-  {id:'roads', name:'Roads & Traffic', desc:'Paving, signage, and safety engineering.'},
-  {id:'sewage', name:'Sewage', desc:'Drainage, treatment, and wastewater systems.'},
-  {id:'ngoinit', name:'NGOs & Initiatives', desc:'Civic education, cultural preservation, and community programs that cut across a single technical category.'},
+  {id:'electricity', icon:'⚡', name:'Electricity', desc:'Grid repair, solar installation, and power system design.'},
+  {id:'waste', icon:'♻️', name:'Waste Collection', desc:'Routing, sorting, and recycling logistics.'},
+  {id:'water', icon:'💧', name:'Water', desc:'Supply networks, wells, and treatment systems.'},
+  {id:'publicland', icon:'🌳', name:'Public Land & Pavements', desc:'Parks, sidewalks, and shared public space.'},
+  {id:'environment', icon:'🍃', name:'Environment', desc:'Pollution control, reforestation, and site remediation.'},
+  {id:'roads', icon:'🚦', name:'Roads & Traffic', desc:'Paving, signage, and safety engineering.'},
+  {id:'sewage', icon:'🚰', name:'Sewage', desc:'Drainage, treatment, and wastewater systems.'},
+  {id:'ngoinit', icon:'💡', name:'NGOs & Initiatives', desc:'Civic education, cultural preservation, and community programs that cut across a single technical category.'},
 ];
 function renderHome(){
   document.getElementById('homeNetworkPreview').innerHTML = `
@@ -2928,7 +2891,7 @@ function renderHome(){
   document.querySelectorAll('#homeNetworkPreview .light-card').forEach(c=> c.addEventListener('click', ()=> switchView('network')));
 
   document.getElementById('typeTiles').innerHTML = EXPERT_FIELDS.map(f=>
-    `<div class="field-card" data-cat="${f.id}" style="cursor:pointer;"><div class="field-icon"><svg aria-hidden="true"><use href="#ic-${f.id}"/></svg></div><h3>${f.name}</h3><p>${f.desc}</p></div>`
+    `<div class="field-card" data-cat="${f.id}" style="cursor:pointer;"><div class="field-icon">${f.icon}</div><h3>${f.name}</h3><p>${f.desc}</p></div>`
   ).join('');
   document.querySelectorAll('#typeTiles .field-card').forEach(el=>{
     el.addEventListener('click', ()=> openCategoryPage(el.dataset.cat));
@@ -3235,7 +3198,7 @@ function ensureLeafletMap(){
   const expertsEl = document.getElementById('mapExpertsCarousel');
   if(expertsEl){
     expertsEl.innerHTML = EXPERT_FIELDS.map(f=>
-      `<div class="mini-card" data-cat="${f.id}"><div class="mini-card-icon"><svg aria-hidden="true"><use href="#ic-${f.id}"/></svg></div><b>${f.name}</b><p>${f.desc}</p></div>`
+      `<div class="mini-card" data-cat="${f.id}"><div class="mini-card-icon">${f.icon}</div><b>${f.name}</b><p>${f.desc}</p></div>`
     ).join('');
     expertsEl.querySelectorAll('.mini-card').forEach(el=>{
       el.addEventListener('click', ()=> openCategoryPage(el.dataset.cat));
