@@ -2622,6 +2622,7 @@ let openProjectId = null;
 let mapSelectedGov = '';
 
 function switchView(view){
+  if(view !== 'detail') setRoute(viewSlug(view));
   document.querySelectorAll('#mainNav button').forEach(b=> b.classList.toggle('active', b.dataset.view===view));
   if(view !== 'detail'){ document.getElementById('mobilePledgeBar')?.classList.remove('show'); }
   if(view === 'map'){ ensureLeafletMap(); }
@@ -3306,6 +3307,7 @@ function renderCorridorFeatureGrid(){
   });
 }
 function openCorridorFeaturePage(fid){
+  setRoute('corridor/' + fid);
   detailBackFn = ()=> switchView('corridors');
   renderCorridorFeaturePage(fid);
   switchView('detail');
@@ -3335,6 +3337,7 @@ function renderCorridorFeaturePage(fid){
 // ---------- Project detail (real page, not modal) ----------
 function stampSymbol(state){ return state==='verified' ? '✓' : (state==='submitted' ? '●' : ''); }
 function openDetail(id){
+  setRoute('project/' + projectSlug(id));
   openProjectId = id;
   renderDetail();
   switchView('detail');
@@ -3713,6 +3716,7 @@ const GROUP_META = {
 };
 
 function openGroupPage(groupId){
+  setRoute('group/' + groupId);
   detailBackFn = ()=> switchView('network');
   renderGroupPage(groupId);
   switchView('detail');
@@ -4049,6 +4053,7 @@ const COUNTRY_META = {
   },
 };
 function openCountryPage(country){
+  setRoute('country/' + routeSlug(country));
   detailBackFn = ()=> switchView('corridors');
   renderCountryPage(country);
   switchView('detail');
@@ -4093,6 +4098,7 @@ function renderCountryPage(country){
 }
 
 function openCategoryPage(catId){
+  setRoute('category/' + catId);
   detailBackFn = ()=> switchView('network');
   renderCategoryPage(catId);
   switchView('detail');
@@ -4170,6 +4176,7 @@ function renderCategoryPage(catId){
 }
 
 function openLeadPage(catId, lead, customBack, customLabel){
+  setRoute('org/' + routeSlug(lead && lead.name));
   detailBackFn = customBack || (()=> openCategoryPage(catId));
   renderLeadPage(catId, lead, customLabel);
   switchView('detail');
@@ -4915,6 +4922,110 @@ setTimeout(()=>{
     revealObserver.unobserve(el);
   });
 }, 1500);
+
+/* ================= Deep links (#/…) =================
+   Every view and sub-page gets its own URL, so a project can be sent to someone
+   and open directly on that project.
+
+   Hash routing, not history.pushState with real paths: the site is one static
+   file served with no rewrite rules, so a hash route needs no Netlify config
+   and can never 404 on a shared link.
+
+   NOTE ON `var`: these are deliberately `var`, not `const`. Everything below is
+   defined at the very bottom of the script, but setRoute() is called from
+   switchView() far above it. A `const` here would sit in the temporal dead zone
+   and throw "Cannot access before initialization" the first time anything
+   navigated — the exact class of bug documented in PROJECT_NOTES.md. `var`
+   hoists and cannot dead-zone. Keep it that way.
+   ==================================================== */
+var routeLock = 0;        // >0 while we are applying a route, so we don't write it back
+var currentPath = null;   // last path we set or read, to ignore our own hashchange
+
+function routeSlug(s){
+  // Fold accents to ASCII first, so "Zahle" and "Electricite" survive the slug
+  // instead of collapsing to "zahl" and "lectricit".
+  return String(s == null ? '' : s)
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .trim().toLowerCase()
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+}
+// view id  ->  url slug. Defined inside a function on purpose (see note above).
+function viewSlug(view){
+  return ({
+    home:'', network:'network', dashboard:'projects', map:'map', corridors:'diaspora',
+    scoreboard:'scoreboard', trust:'trust', join:'join', 'lead-list':'directory',
+    municipalities:'municipalities', 'workflow-demo':'walkthrough', 'account-demo':'account'
+  })[view] || '';
+}
+function slugToView(slug){
+  var out = null;
+  ['home','network','dashboard','map','corridors','scoreboard','trust','join',
+   'lead-list','municipalities','workflow-demo','account-demo'].forEach(function(v){
+    if(viewSlug(v) === slug) out = v;
+  });
+  return out;
+}
+function projectSlug(id){
+  var p = PROJECTS.find(function(x){ return x.id === id; });
+  return p ? routeSlug(p.title) : String(id);
+}
+
+function setRoute(path){
+  if(routeLock) return;                       // we're applying a route, not making one
+  currentPath = String(path || '');
+  var target = '#/' + currentPath;
+  if(location.hash !== target) location.hash = target;
+}
+
+function readPath(){
+  try { return decodeURIComponent(location.hash.replace(/^#\/?/, '')); }
+  catch(e){ return location.hash.replace(/^#\/?/, ''); }
+}
+
+// Turn a path into the view it names. Unknown paths fall back to home rather
+// than leaving the reader on a blank page.
+function routeToPath(path){
+  var parts = path.split('/').filter(Boolean);
+  var head = parts[0];
+  var arg  = parts.slice(1).join('/');
+  if(!head){ switchView('home'); return; }
+
+  if(head === 'project'){
+    var proj = PROJECTS.find(function(x){ return routeSlug(x.title) === arg || String(x.id) === arg; });
+    if(proj){ openDetail(proj.id); return; }
+  } else if(head === 'group'){
+    if(GROUP_META[arg]){ openGroupPage(arg); return; }
+  } else if(head === 'category'){
+    if(CATEGORY_META[arg]){ openCategoryPage(arg); return; }
+  } else if(head === 'country'){
+    var key = Object.keys(COUNTRY_META).find(function(c){ return routeSlug(c) === arg; });
+    if(key){ openCountryPage(key); return; }
+  } else if(head === 'corridor'){
+    var feat = CORRIDOR_FEATURES.find(function(f){ return f.id === arg || routeSlug(f.id) === arg; });
+    if(feat){ openCorridorFeaturePage(feat.id); return; }
+  } else if(head === 'org'){
+    var lead = ALL_LEADS.find(function(l){ return routeSlug(l.name) === arg; });
+    if(lead){ openLeadPage(lead.tags[0], lead); return; }
+  } else {
+    var view = slugToView(head);
+    if(view){ switchView(view); return; }
+  }
+  switchView('home');
+}
+
+function applyRoute(){
+  var path = readPath();
+  if(path === currentPath) return;            // this hashchange was our own doing
+  currentPath = path;
+  routeLock++;
+  try { routeToPath(path); }
+  finally { routeLock--; }
+}
+
+window.addEventListener('hashchange', applyRoute);
+
+// Restore whatever the URL asks for, now that every page has been rendered.
+if(location.hash.length > 1){ applyRoute(); }
 
 </script>
 
