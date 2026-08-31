@@ -77,7 +77,7 @@
      share, which is what puts the nav dead centre of the screen rather than
      centred in whatever space the left group happens to leave over. */
   .topnav{ display:grid; align-items:center;
-    grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+    grid-template-columns:minmax(max-content,1fr) minmax(0,auto) minmax(max-content,1fr);
     grid-template-areas:
       "brand   .   tools"
       "actions nav .";
@@ -87,7 +87,7 @@
     backdrop-filter:blur(6px); z-index:50; column-gap:24px; }
   .topnav-brand{ grid-area:brand; justify-self:start; display:flex; align-items:center; }
   .topnav-actions{ grid-area:actions; justify-self:start; display:flex; align-items:center; gap:10px; }
-  .topnav > nav{ grid-area:nav; justify-self:center; }
+  .topnav > nav{ grid-area:nav; justify-self:center; min-width:0; }
   .topnav-right{ grid-area:tools; justify-self:end; }
   .topnav .logo{ display:flex; align-items:center; gap:9px; font-weight:800; font-size:17px; cursor:pointer; flex-shrink:0; }
   .topnav .logo .mark{ width:28px; height:28px; border-radius:8px; background:var(--accent); color:var(--on-accent);
@@ -136,7 +136,7 @@
   .nav-more-menu.show{ display:block; }
   .nav-more-menu button{ all:unset; display:block; width:100%; box-sizing:border-box; cursor:pointer; font-size:13px; font-weight:600; color:var(--text); padding:9px 12px; border-radius:7px; }
   .nav-more-menu button:hover{ background:var(--bg-1); color:var(--accent); }
-  .cmd-palette-btn{ all:unset; cursor:pointer; display:flex; align-items:center; gap:8px; font-size:12.5px; font-weight:600; color:var(--text-faint); border:1px solid var(--border); border-radius:8px; padding:7px 12px; flex-shrink:0; }
+  .cmd-palette-btn{ all:unset; box-sizing:border-box; cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:10px; min-width:215px; font-size:12.5px; font-weight:600; color:var(--text-faint); border:1px solid var(--border); border-radius:8px; padding:7px 12px; flex-shrink:0; }
   .cmd-palette-btn:hover{ border-color:var(--accent); color:var(--accent); }
   .cmd-kbd{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; background:var(--bg-2); padding:1px 6px; border-radius:4px; }
   .cmd-palette-overlay{ display:none; position:fixed; inset:0; background:rgba(15,23,42,0.45); z-index:200; align-items:flex-start; justify-content:center; padding-top:12vh; }
@@ -180,7 +180,7 @@
   }
 
   /* ---------- Buttons ---------- */
-  .btn{ all:unset; cursor:pointer; font-weight:700; font-size:13.5px; padding:12px 20px; border-radius:8px; display:inline-block;
+  .btn{ all:unset; box-sizing:border-box; cursor:pointer; font-weight:700; font-size:13.5px; padding:12px 20px; border-radius:8px; display:inline-block;
     transition:transform .18s var(--ease-spring), box-shadow .18s var(--ease-fluid), background-color .15s var(--ease-fluid); }
   .btn:active{ transform:scale(.96); }
   .btn-primary{ background:var(--accent); color:var(--on-accent); }
