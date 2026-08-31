@@ -2671,21 +2671,33 @@ function switchView(view){
   if(window.Motion){
     // --- Motion path: real spring physics, interruptible mid-animation ---
     const M = window.Motion;
+    // Run `fn` when the animation settles, or on a timer if it never does.
+    // A throttled tab pauses requestAnimationFrame, so Motion's promise can
+    // simply never resolve — which matters because a shared deep link is very
+    // often opened in a background tab. Without this backstop the class swap
+    // below never runs and the reader lands on the previous view instead of
+    // the one the link named.
+    const settle = (anim, fn, ms)=>{
+      let ran = false;
+      const once = ()=>{ if(ran) return; ran = true; fn(); };
+      try{ anim.then(once); }catch(e){ /* not thenable — the timer covers it */ }
+      setTimeout(once, ms);
+    };
     const runSpringIn = ()=>{
       if(current){ current.classList.remove('active','page-visible','detail-enter'); }
       next.classList.add('active');
       next.classList.add('page-visible'); // safety net if the animate() call below ever throws
       window.scrollTo({top:0, behavior:'instant'});
       try{
-        M.animate(next, { opacity:[0,1], y:[isDrawer?22:10, 0] }, { type:'spring', stiffness:280, damping:28, mass:0.9 })
-          .then(()=>{ next.style.transform = ''; }); // a transform left on .page — even translateY(0) — breaks
+        settle(M.animate(next, { opacity:[0,1], y:[isDrawer?22:10, 0] }, { type:'spring', stiffness:280, damping:28, mass:0.9 }),
+          ()=>{ next.style.transform = ''; }, 900); // a transform left on .page — even translateY(0) — breaks
           // position:sticky for every element inside it, since it creates a new containing block.
           // Clearing it once the entrance finishes keeps the slide-in effect without leaving that behind.
       }catch(e){ /* next is already visible via page-visible above — nothing more to do */ }
     };
     if(current){
       try{
-        M.animate(current, { opacity:[1,0] }, { duration:0.15, ease:'easeIn' }).then(runSpringIn);
+        settle(M.animate(current, { opacity:[1,0] }, { duration:0.15, ease:'easeIn' }), runSpringIn, 260);
       }catch(e){ runSpringIn(); }
     } else {
       runSpringIn();
