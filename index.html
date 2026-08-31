@@ -73,20 +73,31 @@
   input, select, textarea{ font-size:16px !important; }
 
   /* ---------- Top nav ---------- */
-  .topnav{ display:flex; align-items:center; padding:16px 40px;
+  /* Two rows. Both side columns are minmax(0,1fr) so they always take an equal
+     share, which is what puts the nav dead centre of the screen rather than
+     centred in whatever space the left group happens to leave over. */
+  .topnav{ display:grid; align-items:center;
+    grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+    grid-template-areas:
+      "brand   .   tools"
+      "actions nav .";
+    row-gap:12px; padding:14px 40px;
     padding-top:max(16px, env(safe-area-inset-top)); padding-left:max(40px, env(safe-area-inset-left)); padding-right:max(40px, env(safe-area-inset-right));
     border-bottom:1px solid var(--border); position:sticky; top:0; background:var(--surface-blur);
-    backdrop-filter:blur(6px); z-index:50; gap:20px; }
+    backdrop-filter:blur(6px); z-index:50; column-gap:24px; }
+  .topnav-brand{ grid-area:brand; justify-self:start; display:flex; align-items:center; }
+  .topnav-actions{ grid-area:actions; justify-self:start; display:flex; align-items:center; gap:10px; }
+  .topnav > nav{ grid-area:nav; justify-self:center; }
+  .topnav-right{ grid-area:tools; justify-self:end; }
   .topnav .logo{ display:flex; align-items:center; gap:9px; font-weight:800; font-size:17px; cursor:pointer; flex-shrink:0; }
   .topnav .logo .mark{ width:28px; height:28px; border-radius:8px; background:var(--accent); color:var(--on-accent);
     display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; }
-  .topnav nav{ flex:1; display:flex; justify-content:center; gap:26px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+  .topnav nav{ display:flex; justify-content:center; gap:26px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; max-width:100%; }
   .topnav nav::-webkit-scrollbar{ display:none; }
   .topnav nav button{ all:unset; cursor:pointer; font-size:13.5px; font-weight:600; color:var(--text-dim);
     padding:11px 4px; border-bottom:2px solid transparent; white-space:nowrap; }
   .topnav nav button:hover{ color:var(--text); }
   .topnav nav button.active{ color:var(--accent); border-bottom-color:var(--accent); }
-  .topnav-left{ display:flex; align-items:center; gap:14px; flex-shrink:0; }
   .topnav-right{ display:flex; align-items:center; gap:8px; flex-shrink:0; }
   .icon-btn{ all:unset; cursor:pointer; width:34px; height:34px; border-radius:9px; display:flex;
     align-items:center; justify-content:center; color:var(--text-dim); border:1px solid var(--border); }
@@ -142,6 +153,16 @@
   @media (max-width:640px){ .cmd-palette-btn{ display:none; } }
   @media (max-width:900px){ .topnav{ padding:14px 18px; padding-top:max(14px, env(safe-area-inset-top)); padding-left:max(18px, env(safe-area-inset-left)); padding-right:max(18px, env(safe-area-inset-right)); } .topnav nav{ gap:14px; } }
   @media (max-width:640px){ .topnav .logo span, .topnav .logo{ font-size:15px; } .topnav .nav-cta{ display:none; } }
+  /* Below this the three columns get too tight to centre anything honestly,
+     so the rows stack and the nav spans the full width. */
+  @media (max-width:820px){
+    .topnav{ grid-template-columns:1fr auto;
+      grid-template-areas:
+        "brand   tools"
+        "actions actions"
+        "nav     nav"; }
+    .topnav > nav{ justify-self:stretch; justify-content:flex-start; }
+  }
 
   /* ---------- Sticky mobile pledge bar (project detail only) ---------- */
   .mobile-pledge-bar{ display:none; }
@@ -682,8 +703,10 @@
 <body>
 
 <header class="topnav">
-  <div class="topnav-left">
+  <div class="topnav-brand">
     <div class="logo" data-goto="home"><div class="mark">M</div>Manāra</div>
+  </div>
+  <div class="topnav-actions">
     <button class="btn btn-primary nav-cta" data-goto="dashboard" data-i18n>Browse Projects</button>
     <button id="cmdPaletteBtn" type="button" class="cmd-palette-btn">🔍 <span data-i18n>Search</span> <span class="cmd-kbd">⌘K</span></button>
   </div>
