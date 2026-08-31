@@ -146,10 +146,49 @@ git config core.hooksPath .githooks
 
 ## Deployment
 
-`netlify.toml` sets `publish = "."` with an empty build command, and marks
-`index.html` `must-revalidate` so a stale cache can never survive a deploy.
+**A push to `main` deploys automatically.** That is the whole workflow — do not
+deploy by drag-and-drop again, it silently desyncs the repo from production.
 
-History worth knowing: for a long time deploys were manual drag-and-drop onto
-the Netlify UI, bypassing git entirely, so the repo drifted ~3 days behind
-production. The `Baseline: sync repo with live production file.` commit fixed
-that. **Do not deploy by drag-and-drop again** — it silently desyncs the repo.
+`netlify.toml` sets `publish = "."` with an empty build command, and marks
+`index.html` `must-revalidate` so a stale cache cannot survive a deploy.
+
+### How the link is actually wired
+
+Continuous deployment was originally never configured at all: the site's
+`build_settings` were empty, which is why every deploy up to 2026-08-31 was a
+manual upload. It is now connected using Netlify's **deploy-key** method rather
+than the Netlify GitHub App, so `installation_id` is `null` and there is no
+OAuth grant involved. Two pieces make it work:
+
+1. A read-only **deploy key** on the GitHub repo (`Netlify — manara-civic-network`),
+   paired to the Netlify site via `deploy_key_id`, which is how Netlify clones.
+2. A **webhook** on the repo pointing at `https://api.netlify.com/hooks/github`
+   (events: `push`, `pull_request`, `delete`), which is what tells Netlify a
+   push happened.
+
+If auto-deploy ever stops, check those two first — a deleted webhook is the
+most likely cause, and it is silent. You can tell a git-triggered deploy from a
+manual upload at a glance: manual ones have no commit ref.
+
+```bash
+netlify api listSiteDeploys --data '{"site_id":"dba26b85-05c1-4f75-b5dd-75cafe230cfa"}'
+gh api repos/KMKM333/Baladisolve/hooks
+```
+
+### Manual deploy (fallback)
+
+The CLI is installed and authenticated, and this directory is linked to the
+site, so a manual deploy still works if you ever need to bypass git:
+
+```bash
+netlify deploy --prod
+```
+
+### After a fresh clone
+
+Two pieces of local state are not carried by the repo:
+
+```bash
+git config core.hooksPath .githooks   # re-arm the pre-commit check
+netlify link --id dba26b85-05c1-4f75-b5dd-75cafe230cfa
+```
