@@ -32,20 +32,43 @@
   input, select, textarea{ font-size:16px !important; }
 
   /* ---------- Top nav ---------- */
-  .topnav{ display:flex; justify-content:space-between; align-items:center; padding:16px 40px;
+  .topnav{ display:flex; align-items:center; padding:16px 40px;
     padding-top:max(16px, env(safe-area-inset-top)); padding-left:max(40px, env(safe-area-inset-left)); padding-right:max(40px, env(safe-area-inset-right));
     border-bottom:1px solid var(--border); position:sticky; top:0; background:rgba(255,255,255,0.94);
     backdrop-filter:blur(6px); z-index:50; gap:20px; }
   .topnav .logo{ display:flex; align-items:center; gap:9px; font-weight:800; font-size:17px; cursor:pointer; flex-shrink:0; }
   .topnav .logo .mark{ width:28px; height:28px; border-radius:8px; background:var(--accent); color:#fff;
     display:flex; align-items:center; justify-content:center; font-weight:800; font-size:14px; }
-  .topnav nav{ display:flex; gap:26px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
+  .topnav nav{ flex:1; display:flex; justify-content:center; gap:26px; overflow-x:auto; scrollbar-width:none; -webkit-overflow-scrolling:touch; }
   .topnav nav::-webkit-scrollbar{ display:none; }
   .topnav nav button{ all:unset; cursor:pointer; font-size:13.5px; font-weight:600; color:var(--text-dim);
     padding:11px 4px; border-bottom:2px solid transparent; white-space:nowrap; }
   .topnav nav button:hover{ color:var(--text); }
   .topnav nav button.active{ color:var(--accent); border-bottom-color:var(--accent); }
+  .topnav-right{ display:flex; align-items:center; gap:10px; flex-shrink:0; }
   .topnav .nav-cta{ flex-shrink:0; }
+  .nav-more-wrap{ position:relative; flex-shrink:0; }
+  .nav-more-wrap > button{ all:unset; cursor:pointer; font-size:13.5px; font-weight:600; color:var(--text-dim); padding:11px 4px; white-space:nowrap; }
+  .nav-more-wrap > button:hover{ color:var(--text); }
+  .nav-more-menu{ display:none; position:absolute; top:100%; left:0; background:#fff; border:1px solid var(--border); border-radius:10px; box-shadow:0 12px 28px rgba(15,23,42,0.12); padding:6px; min-width:190px; z-index:50; }
+  .nav-more-menu.show{ display:block; }
+  .nav-more-menu button{ all:unset; display:block; width:100%; box-sizing:border-box; cursor:pointer; font-size:13px; font-weight:600; color:var(--text); padding:9px 12px; border-radius:7px; }
+  .nav-more-menu button:hover{ background:var(--bg-1); color:var(--accent); }
+  .cmd-palette-btn{ all:unset; cursor:pointer; display:flex; align-items:center; gap:8px; font-size:12.5px; font-weight:600; color:var(--text-faint); border:1px solid var(--border); border-radius:8px; padding:7px 12px; flex-shrink:0; }
+  .cmd-palette-btn:hover{ border-color:var(--accent); color:var(--accent); }
+  .cmd-kbd{ font-family:'IBM Plex Mono',monospace; font-size:10.5px; background:var(--bg-2); padding:1px 6px; border-radius:4px; }
+  .cmd-palette-overlay{ display:none; position:fixed; inset:0; background:rgba(15,23,42,0.45); z-index:200; align-items:flex-start; justify-content:center; padding-top:12vh; }
+  .cmd-palette-overlay.show{ display:flex; }
+  .cmd-palette-box{ background:#fff; border-radius:14px; width:92%; max-width:560px; max-height:60vh; display:flex; flex-direction:column; box-shadow:0 24px 60px rgba(0,0,0,0.25); overflow:hidden; }
+  .cmd-palette-input{ all:unset; box-sizing:border-box; width:100%; font-size:16px; padding:18px 20px; border-bottom:1px solid var(--border); }
+  .cmd-palette-results{ overflow-y:auto; padding:8px; }
+  .cmd-result{ display:flex; align-items:center; gap:12px; padding:11px 12px; border-radius:9px; cursor:pointer; font-size:13.5px; }
+  .cmd-result:hover, .cmd-result.active{ background:var(--accent-soft); }
+  .cmd-result-tag{ font-size:10px; font-weight:700; text-transform:uppercase; color:var(--text-faint); background:var(--bg-2); padding:2px 7px; border-radius:6px; flex-shrink:0; }
+  .cmd-result-sub{ font-size:11.5px; color:var(--text-faint); }
+  .cmd-palette-empty{ padding:24px; text-align:center; font-size:13px; color:var(--text-faint); }
+  .cmd-palette-footer{ border-top:1px solid var(--border); padding:9px 16px; font-size:11px; color:var(--text-faint); }
+  @media (max-width:640px){ .cmd-palette-btn{ display:none; } }
   @media (max-width:900px){ .topnav{ padding:14px 18px; padding-top:max(14px, env(safe-area-inset-top)); padding-left:max(18px, env(safe-area-inset-left)); padding-right:max(18px, env(safe-area-inset-right)); } .topnav nav{ gap:14px; } }
   @media (max-width:640px){ .topnav .logo span, .topnav .logo{ font-size:15px; } .topnav .nav-cta{ display:none; } }
 
@@ -83,7 +106,7 @@
   /* When Motion (motion.dev) has loaded, it drives these same properties with real spring
      physics — so the CSS transition steps aside instead of fighting it for control. */
   html.motion-active .page{ transition:none; }
-  .wrap{ max-width:1120px; margin:0 auto; padding:0 40px; }
+  .wrap{ max-width:1492px; margin:0 auto; padding:0 40px; }
   /* Wider container used only for the Live Map section, so the map itself gets meaningfully
      more room without also stretching the Regional Overview section below it. Still max-width
      based (not viewport-breakout), so it degrades safely to the normal width on narrower screens
@@ -127,14 +150,16 @@
   .stat-strip{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:26px;
     padding:34px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
   .stat-strip .stat .num{ font-family:'IBM Plex Mono', monospace; font-size:30px; font-weight:600; color:var(--text); display:block; }
-  .stat-strip .stat .lbl{ font-size:13px; font-weight:700; color:var(--text); margin-top:4px; }
-  .stat-strip .stat .cap{ font-size:11.5px; color:var(--text-faint); margin-top:3px; line-height:1.4; max-width:220px; }
+  .stat-strip .stat .lbl{ font-size:13px; font-weight:700; color:var(--text); margin-top:4px; display:block; }
+  .stat-strip .stat .cap{ font-size:11.5px; color:var(--text-faint); margin-top:3px; line-height:1.4; max-width:220px; display:block; }
   .trustline{ text-align:center; font-size:12px; color:var(--text-faint); padding:16px 0; }
 
   /* ---------- Editorial simple grid (Baladi-style, no card chrome) ---------- */
   .simple-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:30px 34px; }
-  .field-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px; }
-  .field-card{ border:1px solid var(--border); border-radius:10px; padding:16px 18px; cursor:pointer;
+  .field-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  @media (max-width:900px){ .field-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:520px){ .field-grid{ grid-template-columns:1fr; } }
+  .field-card{ border:1px solid var(--border); border-radius:10px; padding:16px 18px; cursor:pointer; transform:translateZ(0);
     transition:transform .22s var(--ease-spring), box-shadow .22s var(--ease-fluid), border-color .2s var(--ease-fluid); }
   .field-card:hover{ border-color:var(--accent); transform:translateY(-3px); box-shadow:0 10px 24px rgba(15,23,42,0.08); }
   .field-card:active{ transform:translateY(-1px) scale(.99); }
@@ -146,10 +171,17 @@
   .simple-card .sc-count{ font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--accent); margin-top:6px; display:block; }
 
   /* ---------- Light bordered card (for grouped concepts, kept minimal) ---------- */
-  .light-card{ border:1px solid var(--border); border-radius:10px; padding:18px 20px; transition:transform .22s var(--ease-spring), box-shadow .22s var(--ease-fluid), border-color .2s var(--ease-fluid); }
+  .light-card{ border:1px solid var(--border); border-radius:10px; padding:18px 20px; min-height:140px; box-sizing:border-box; transition:transform .22s var(--ease-spring), box-shadow .22s var(--ease-fluid), border-color .2s var(--ease-fluid); transform:translateZ(0); }
+  .network-group-box{ border-radius:14px; padding:20px; }
+  .network-group-box.report{ background:rgba(37,99,235,0.05); border:1px solid rgba(37,99,235,0.22); }
+  .network-group-box.solve{ background:rgba(22,163,74,0.05); border:1px solid rgba(22,163,74,0.22); }
+  .network-group-label{ font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.04em; margin-bottom:12px; }
+  .network-group-label.report{ color:#2563EB; }
+  .network-group-label.solve{ color:#16A34A; }
   .light-card[data-cat]:hover, .light-card[style*="cursor:pointer"]:hover{ border-color:var(--accent); transform:translateY(-3px); box-shadow:0 10px 24px rgba(15,23,42,0.08); }
   .light-card[data-cat]:active, .light-card[style*="cursor:pointer"]:active{ transform:translateY(-1px) scale(.99); }
   .light-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; }
+  .network-motto{ font-size:20px; font-weight:800; text-align:center; padding:26px 20px; margin-top:28px; border-top:2px solid var(--text); letter-spacing:-0.01em; }
 
   /* ---------- Project cards ---------- */
   .filters-row{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:26px; }
@@ -161,11 +193,23 @@
   .proj-grid.reflowing{ opacity:0; transform:scale(.98); }
   /* Swipeable card row — used for Featured Projects and Similar Requests, where flicking
      through a handful of cards on a phone matters more than seeing them all in a grid. */
+  .mini-card{ border:1px solid var(--border); border-radius:10px; padding:18px; scroll-snap-align:start; flex:0 0 220px; cursor:pointer; transition:transform .22s var(--ease-spring), box-shadow .22s var(--ease-fluid), border-color .2s var(--ease-fluid); transform:translateZ(0); }
+  .mini-card:hover{ border-color:var(--accent); transform:translateY(-3px); box-shadow:0 10px 24px rgba(15,23,42,0.08); }
+  .mini-card-icon{ width:36px; height:36px; border-radius:9px; background:var(--accent-soft); display:flex; align-items:center; justify-content:center; font-size:16px; margin-bottom:10px; }
+  .mini-card b{ display:block; font-size:14px; margin-bottom:4px; }
+  .mini-card p{ font-size:12px; color:var(--text-dim); margin:0; line-height:1.5; }
+  @media (max-width:480px){ .mini-card{ flex-basis:78vw; } }
   .proj-carousel{ display:flex; gap:14px; overflow-x:auto; scroll-snap-type:x mandatory;
     -webkit-overflow-scrolling:touch; padding-bottom:6px; scrollbar-width:thin; margin:0 -2px; padding-left:2px; padding-right:2px; }
   .proj-carousel .proj-card{ scroll-snap-align:start; flex:0 0 240px; }
   @media (max-width:480px){ .proj-carousel .proj-card{ flex-basis:78vw; } }
-  .proj-card{ border:1px solid var(--border); border-radius:10px; overflow:hidden; cursor:pointer; transition:border-color .2s var(--ease-fluid), transform .22s var(--ease-spring), box-shadow .22s var(--ease-fluid); }
+  .carousel-arrow{ all:unset; position:absolute; top:50%; transform:translateY(-50%); z-index:20; width:38px; height:38px; border-radius:50%; background:#fff; border:1px solid var(--border); box-shadow:0 6px 16px rgba(15,23,42,0.12); display:flex; align-items:center; justify-content:center; font-size:20px; color:var(--text); cursor:pointer; line-height:1; }
+  .carousel-arrow:hover{ border-color:var(--accent); color:var(--accent); }
+  .carousel-arrow.left{ left:-16px; }
+  .carousel-arrow.right{ right:-16px; }
+  .carousel-arrow.hidden{ display:none; }
+  @media (max-width:700px){ .carousel-arrow{ display:none; } }
+  .proj-card{ border:1px solid var(--border); border-radius:10px; overflow:hidden; cursor:pointer; transition:border-color .2s var(--ease-fluid), transform .22s var(--ease-spring), box-shadow .22s var(--ease-fluid); transform:translateZ(0); }
   .proj-card:hover{ border-color:var(--accent); transform:translateY(-3px); box-shadow:0 10px 24px rgba(15,23,42,0.08); }
   .proj-card:active{ transform:translateY(-1px) scale(.99); }
   .pc-photo{ width:100%; aspect-ratio:16/9; background:var(--bg-2); overflow:hidden; }
@@ -185,7 +229,7 @@
   .proj-card .pc-meta b{ font-family:'IBM Plex Mono', monospace; color:var(--text); font-weight:600; }
 
   /* ---------- Stepper (How it works) ---------- */
-  .stepper-row{ display:flex; align-items:flex-start; gap:6px; flex-wrap:wrap; }
+  .stepper-row{ display:flex; align-items:flex-start; justify-content:center; gap:6px; flex-wrap:wrap; }
   .stepper-step{ flex:1; min-width:150px; max-width:210px; cursor:pointer;
     transition:transform .2s var(--ease-spring), opacity .25s var(--ease-fluid); }
   .stepper-icon{ width:46px; height:46px; border-radius:12px; background:var(--accent-soft); display:flex;
@@ -205,10 +249,138 @@
   .map-filter-btn:active, .map-search-filter-btn:active{ transform:scale(.96); }
   .map-filter-btn.inactive, .map-search-filter-btn.inactive{ opacity:.4; background:var(--bg-1) !important; border-color:var(--border) !important; color:var(--text-faint) !important; }
   .map-filter-btn.inactive span, .map-search-filter-btn.inactive span{ background:var(--text-faint) !important; }
+  .map-filter-btn.inactive .tri-icon, .map-search-filter-btn.inactive .tri-icon{ background:none !important; border-bottom-color:var(--text-faint) !important; }
   .gov-jump-chip{ all:unset; cursor:pointer; font-size:11.5px; font-weight:600; padding:5px 11px; border-radius:14px;
     border:1.3px solid var(--border); color:var(--text-dim); transition:all .15s var(--ease-fluid); }
   .gov-jump-chip:hover{ border-color:var(--accent); color:var(--accent); }
   .gov-jump-chip.sel{ border-color:var(--accent); background:var(--accent-soft); color:var(--accent); }
+  .light-card.sel{ border-color:var(--accent); background:var(--accent-soft); }
+  .join-cat-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:6px; }
+  @media (max-width:700px){ .join-cat-grid{ grid-template-columns:1fr; } }
+  .join-cat-card{ border:2px solid var(--border); border-radius:14px; padding:22px 18px; text-align:center; cursor:pointer; transform:translateZ(0);
+    transition:transform .22s var(--ease-spring), box-shadow .22s var(--ease-fluid), border-color .2s var(--ease-fluid); }
+  .join-cat-card:hover{ transform:translateY(-3px); box-shadow:0 10px 24px rgba(15,23,42,0.08); }
+  .join-cat-card .jc-icon{ font-size:26px; margin-bottom:9px; }
+  .join-cat-card .jc-title{ font-size:17px; font-weight:800; margin-bottom:5px; }
+  .join-cat-card .jc-desc{ font-size:12px; color:var(--text-dim); line-height:1.5; }
+  .join-cat-card.active{ border-color:var(--accent); background:var(--accent-soft); }
+  .join-sub-row{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 6px; }
+  .join-sub-chip{ all:unset; cursor:pointer; font-size:12.5px; font-weight:600; padding:7px 15px; border-radius:16px;
+    border:1.3px solid var(--border); color:var(--text-dim); transition:all .15s var(--ease-fluid); }
+  .join-sub-chip:hover{ border-color:var(--accent); color:var(--accent); }
+  .join-sub-chip.sel{ border-color:var(--accent); background:var(--accent-soft); color:var(--accent); }
+  .cta-panel{ border:1px solid var(--border); border-radius:20px; background:var(--bg-1); padding:36px 36px 40px; max-width:900px; margin:0 auto; }
+  .world-map-sidebar{ width:280px; flex-shrink:0; border:1px solid var(--border); border-radius:12px; overflow:hidden; max-height:600px; display:flex; flex-direction:column; }
+  .wms-header{ padding:12px 14px; border-bottom:1px solid var(--border); }
+  .wms-country-row{ display:flex; align-items:center; justify-content:space-between; gap:8px; padding:9px 14px; cursor:pointer; border-bottom:1px solid var(--bg-2); }
+  .wms-country-row:hover{ background:var(--accent-soft); }
+  .wms-country-name{ font-size:12.5px; font-weight:700; }
+  .wms-country-stat{ font-size:10.5px; color:var(--text-faint); font-family:'IBM Plex Mono',monospace; }
+  .wms-section-label{ font-size:10px; font-weight:800; text-transform:uppercase; letter-spacing:.03em; color:var(--text-faint); padding:10px 14px 6px; }
+  .wms-feature-row{ display:flex; align-items:center; gap:8px; padding:8px 14px; cursor:pointer; font-size:12px; }
+  .wms-feature-row:hover{ background:var(--accent-soft); color:var(--accent); }
+  @media (max-width:600px){ .cta-panel{ padding:26px 20px 30px; } }
+  .cta-step-label{ display:flex; align-items:center; gap:10px; font-size:13px; font-weight:800; color:var(--text); text-transform:uppercase; letter-spacing:.03em; margin:0 0 16px; }
+  .wf-step{ margin-bottom:6px; }
+  .wf-step-label{ display:flex; align-items:center; gap:12px; font-size:15px; font-weight:800; margin:0 0 16px; }
+  .wf-step-num{ display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:var(--accent); color:#fff; font-size:13px; font-weight:800; flex-shrink:0; }
+  .wf-arrow{ text-align:center; font-size:22px; color:var(--border); margin:18px 0; }
+  .wf-baladi-card{ border:1.5px dashed var(--border); border-radius:14px; padding:22px 24px; background:var(--bg-1); margin-bottom:8px; }
+  .wf-baladi-tag{ display:inline-flex; align-items:center; gap:6px; font-size:11px; font-weight:700; color:var(--accent); text-transform:uppercase; letter-spacing:.03em; margin-bottom:12px; }
+  .wf-baladi-photo{ width:100%; height:130px; border-radius:10px; background:linear-gradient(135deg,#dbeafe,#bfdbfe); display:flex; align-items:center; justify-content:center; font-size:34px; margin-bottom:14px; }
+  .wf-baladi-quote{ border-left:3px solid var(--accent); padding-left:12px; font-size:12.5px; font-style:italic; color:var(--text-dim); margin-top:12px; }
+  .avatar-stack{ display:inline-flex; align-items:center; vertical-align:middle; }
+  .avatar-circle{ width:22px; height:22px; border-radius:50%; border:2px solid #fff; display:flex; align-items:center; justify-content:center; font-size:9.5px; font-weight:700; color:#fff; margin-left:-7px; flex-shrink:0; }
+  .avatar-circle:first-child{ margin-left:0; }
+  .avatar-more{ background:var(--bg-2); color:var(--text-dim); }
+  .wf-classify-card{ border:1.5px solid var(--border); border-radius:14px; padding:22px 24px; background:var(--bg-1); }
+  .wf-field-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin-top:14px; }
+  .wf-field{ font-size:11px; font-weight:700; text-transform:uppercase; color:var(--text-faint); margin-bottom:4px; }
+  .wf-field-val{ font-size:14px; font-weight:700; color:var(--text); }
+  .wf-match-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; align-items:start; }
+  @media (max-width:800px){ .wf-match-grid{ grid-template-columns:1fr; } }
+  .wf-match-col-label{ font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.03em; margin-bottom:10px; }
+  .wf-match-card{ border:1.5px solid var(--border); border-radius:14px; padding:22px; margin-bottom:12px; }
+  .wf-match-name{ font-size:14.5px; font-weight:800; margin-bottom:2px; min-height:38px; display:flex; align-items:flex-start; }
+  .wf-match-sub{ font-size:11px; color:var(--text-faint); margin-bottom:12px; }
+  .wf-attr-row{ display:flex; align-items:center; justify-content:space-between; font-size:11.5px; padding:5px 0; border-bottom:1px solid var(--bg-2); }
+  .wf-attr-row:last-child{ border-bottom:none; }
+  .wf-attr-score{ font-family:'IBM Plex Mono',monospace; font-weight:700; }
+  .wf-gate-pass{ font-size:9.5px; font-weight:700; background:var(--ok-soft); color:var(--ok); padding:2px 7px; border-radius:8px; text-transform:uppercase; }
+  .wf-composite{ margin-top:12px; padding-top:12px; border-top:1.5px solid var(--text); display:flex; justify-content:space-between; align-items:center; font-size:13px; font-weight:800; }
+  .wf-teaser-box{ border:1px solid var(--border); border-radius:20px; background:var(--bg-1); padding:32px 34px; margin-top:22px; }
+  .wf-teaser-tag{ display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:800; color:#fff; background:var(--accent); padding:5px 12px; border-radius:20px; text-transform:uppercase; letter-spacing:.04em; margin-bottom:14px; }
+  .wf-teaser-box h3{ font-size:22px; font-weight:800; margin:0 0 8px; letter-spacing:-0.01em; }
+  .wf-teaser-box p{ font-size:13.5px; color:var(--text-dim); margin:0 0 22px; line-height:1.6; max-width:600px; }
+  .wf-teaser-steps{ display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; margin-bottom:24px; }
+  .wf-teaser-step{ display:flex; align-items:center; gap:9px; }
+  .wf-teaser-icon{ width:80px; height:80px; border-radius:18px; background:var(--accent-soft); display:flex; align-items:center; justify-content:center; font-size:34px; flex-shrink:0; }
+  .wf-teaser-label{ font-size:12.5px; font-weight:800; color:var(--text); white-space:nowrap; }
+  .wf-teaser-arrow{ color:var(--accent); font-size:16px; font-weight:700; flex-shrink:0; }
+  @media (max-width:560px){ .wf-teaser-label{ display:none; } }
+  .cta-step-label:not(:first-child){ margin-top:34px; padding-top:30px; border-top:1px solid var(--border); }
+  .cta-step-num{ display:inline-flex; align-items:center; justify-content:center; width:22px; height:22px; border-radius:50%; background:var(--accent); color:#fff; font-size:12px; font-weight:800; flex-shrink:0; }
+  .cta-submit-btn{ width:100%; text-align:center; padding:16px; font-size:15px; margin-top:22px; }
+  .lead-table-wrap{ border:1px solid var(--border); border-radius:12px; overflow-x:auto; }
+  .lead-table{ width:100%; border-collapse:collapse; font-size:12.5px; min-width:920px; table-layout:fixed; }
+  .lead-table th:nth-child(1), .lead-table td:nth-child(1){ width:17%; }
+  .lead-table th:nth-child(2), .lead-table td:nth-child(2){ width:11%; }
+  .lead-table th:nth-child(3), .lead-table td:nth-child(3){ width:15%; }
+  .lead-table th:nth-child(4), .lead-table td:nth-child(4){ width:21%; }
+  .lead-table th:nth-child(5), .lead-table td:nth-child(5){ width:26%; }
+  .lead-table th:nth-child(6), .lead-table td:nth-child(6){ width:10%; }
+  .lead-table th{ text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:.03em; color:var(--text-faint); font-weight:700; padding:12px 14px; border-bottom:1px solid var(--border); white-space:nowrap; background:var(--bg-1); position:sticky; top:0; }
+  .lead-sort-arrow{ color:var(--accent); font-weight:700; }
+  .empty-state{ text-align:center; padding:48px 20px; color:var(--text-faint); }
+  .empty-state .es-icon{ font-size:32px; margin-bottom:12px; }
+  .empty-state .es-msg{ font-size:13.5px; font-weight:600; color:var(--text-dim); margin-bottom:4px; }
+  .empty-state .es-sub{ font-size:12px; }
+  .wf-match-loading{ text-align:center; padding:50px 20px; }
+  .wf-scoring-pulse{ width:40px; height:40px; border-radius:50%; border:3px solid var(--accent-soft); border-top-color:var(--accent); margin:0 auto 18px; animation:wf-spin 0.8s linear infinite; }
+  @keyframes wf-spin{ to{ transform:rotate(360deg); } }
+  .wf-match-loading-text{ font-size:13px; color:var(--text-dim); max-width:360px; margin:0 auto; }
+  .lead-table tr{ transition:background-color .18s var(--ease-fluid); }
+  .lead-table tr:hover{ background:var(--accent-soft); }
+  .wf-match-card{ transition:transform .22s var(--ease-spring), box-shadow .22s var(--ease-fluid), border-color .2s var(--ease-fluid); transform:translateZ(0); }
+  .wf-match-card:hover{ transform:translateY(-3px); box-shadow:0 10px 24px rgba(15,23,42,0.08); border-color:var(--accent); }
+  .world-map-tooltip{ display:none; position:fixed; z-index:300; background:#fff; border:1px solid var(--border); border-radius:10px; box-shadow:0 12px 28px rgba(15,23,42,0.15); padding:14px 16px; max-width:280px; font-size:12px; pointer-events:none; }
+  .world-map-tooltip .wmt-title{ font-size:14px; font-weight:800; margin-bottom:8px; }
+  .world-map-tooltip .wmt-stat-row{ display:flex; justify-content:space-between; gap:12px; padding:4px 0; border-bottom:1px solid var(--bg-2); }
+  .world-map-tooltip .wmt-stat-row:last-of-type{ border-bottom:none; }
+  .world-map-tooltip .wmt-label{ color:var(--text-faint); }
+  .world-map-tooltip .wmt-value{ font-weight:700; color:var(--text); font-family:'IBM Plex Mono',monospace; white-space:nowrap; }
+  .world-map-tooltip .wmt-orgs{ margin-top:8px; padding-top:8px; border-top:1px solid var(--bg-2); font-size:11px; color:var(--text-dim); line-height:1.5; }
+  .world-map-tooltip .wmt-overview{ margin-top:8px; font-size:11px; color:var(--text-faint); line-height:1.5; }
+  .breadcrumb-bar{ border-bottom:1px solid var(--border); padding:10px 40px; font-size:12px; color:var(--text-faint); }
+  .breadcrumb-bar a{ all:unset; cursor:pointer; color:var(--text-faint); }
+  .breadcrumb-bar a:hover{ color:var(--accent); text-decoration:underline; }
+  .breadcrumb-bar .bc-current{ color:var(--text-dim); font-weight:600; }
+  @media (max-width:640px){ .breadcrumb-bar{ padding:8px 18px; } }
+  .lead-table td{ padding:12px 14px; border-bottom:1px solid var(--border); vertical-align:top; overflow-wrap:break-word; }
+  .lead-table tr:last-child td{ border-bottom:none; }
+  .lead-group-tag{ font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:10px; white-space:nowrap; }
+  .lead-group-tag.g-gov{ background:var(--accent-soft); color:var(--accent); }
+  .lead-group-tag.g-exp{ background:rgba(124,58,237,0.1); color:#7c3aed; }
+  .lead-group-tag.g-spo{ background:rgba(13,148,136,0.1); color:#0d9488; }
+  .lead-table .lt-name{ font-weight:700; color:var(--text); max-width:220px; }
+  .lead-table .lt-opts{ color:var(--text-dim); max-width:200px; }
+  .lead-table .lt-desc{ color:var(--text-dim); max-width:260px; line-height:1.5; }
+  .lead-table .lt-source{ color:var(--text-faint); font-style:italic; }
+  .lead-group-section{ padding:28px 30px; border-radius:16px; margin-bottom:28px; background:var(--bg-1); border:1px solid var(--border); }
+  .lead-group-section:last-child{ margin-bottom:0; }
+  .lead-section-heading{ display:flex; align-items:center; gap:14px; font-size:28px; font-weight:800; margin:0 0 22px; padding-bottom:18px; border-bottom:2.5px solid var(--text); }
+  .lead-section-heading .lsh-icon{ font-size:30px; flex-shrink:0; }
+  .lead-section-heading.lsh-gov{ color:var(--accent); border-bottom-color:var(--accent); }
+  .lead-section-heading.lsh-exp{ color:#7c3aed; border-bottom-color:#7c3aed; }
+  .lead-section-heading.lsh-spo{ color:#0d9488; border-bottom-color:#0d9488; }
+  .lead-section-subheading{ display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700; color:var(--text-dim); margin:20px 0 8px; }
+  .lead-section-count{ font-size:11px; font-weight:600; color:var(--text-faint); }
+  #view-map .section-head h2{ font-size:32px; }
+  #view-map .section-head p{ font-size:15.5px; }
+  #view-map .gov-jump-chip{ font-size:13px; padding:7px 14px; }
+  #view-map #govJumpRow > span:first-child{ font-size:13px !important; font-weight:700 !important; color:var(--text-dim) !important; }
+  #view-map #leafletLegend{ font-size:13px !important; color:var(--text-dim) !important; gap:18px !important; }
+  #view-map #leafletLegend > span:first-child{ font-weight:700; color:var(--text); }
 
   /* ---------- Score / rank cards ---------- */
   .score-list{ display:flex; flex-direction:column; gap:10px; }
@@ -235,7 +407,7 @@
   .net-group{ margin-bottom:8px; }
   .net-group h3{ font-size:18px; font-weight:800; margin:0 0 6px; transition:color .15s var(--ease-fluid); }
   .net-group h3[data-group]:hover{ color:var(--accent); }
-  .net-group .net-role{ font-size:11px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); margin-bottom:8px; }
+  .net-group .net-role{ font-size:15px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
   .net-group > p{ font-size:13.5px; color:var(--text-dim); line-height:1.6; max-width:640px; margin:0 0 20px; }
 
   /* ---------- Map ---------- */
@@ -256,7 +428,7 @@
   .gov-list button:hover, .gov-list button.sel{ background:var(--accent-soft); color:var(--accent); }
   @media (max-width:760px){
     #leafletMapRow{ flex-direction:column !important; }
-    #leafletMap{ width:100% !important; height:420px !important; }
+    #leafletMap{ width:100% !important; height:420px !important; flex:none !important; }
     #leafletSearchPanel{ width:100% !important; height:280px !important; }
   }
   .side-list-box{ margin-top:20px; padding-top:16px; border-top:1px solid var(--border); }
@@ -284,10 +456,14 @@
   @media (max-width:600px){ .values-grid{ grid-template-columns:1fr; } }
 
   /* ---------- Pillars ---------- */
-  .pillar-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; }
+  .pillar-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:14px; }
+  @media (max-width:1100px){ .pillar-grid{ grid-template-columns:repeat(3,1fr); } }
+  @media (max-width:700px){ .pillar-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:480px){ .pillar-grid{ grid-template-columns:1fr; } }
+  .pillar-card{ display:flex; flex-direction:column; }
   .pillar-card h4{ font-size:14.5px; font-weight:700; margin:0 0 6px; }
   .pillar-card p{ font-size:12px; color:var(--text-dim); line-height:1.55; margin:0 0 9px; }
-  .pillar-approved{ font-size:10.5px; color:var(--ok); border-top:1px solid var(--border); padding-top:8px; }
+  .pillar-approved{ font-size:10.5px; color:var(--ok); border-top:1px solid var(--border); padding-top:8px; margin-top:auto; }
 
   /* ---------- Project detail page ---------- */
   .detail-back{ all:unset; cursor:pointer; font-size:13px; font-weight:600; color:var(--accent); margin-bottom:22px; display:inline-block; }
@@ -300,6 +476,10 @@
   .detail-cols{ display:flex; gap:40px; flex-wrap:wrap; }
   .detail-main{ flex:2; min-width:320px; }
   .detail-side{ flex:1; min-width:260px; }
+  @media (max-width:820px){
+    .detail-cols{ flex-direction:column; gap:24px; }
+    .detail-main, .detail-side{ width:100%; min-width:0; flex:none; }
+  }
   .fund-block{ border:1px solid var(--border); border-radius:12px; padding:22px; margin-bottom:26px; max-width:420px; }
   .fund-block .fb-num{ font-family:'IBM Plex Mono', monospace; font-size:26px; font-weight:600; }
   @keyframes valuePulse{ 0%{ transform:scale(1); color:var(--ok); } 35%{ transform:scale(1.16); color:var(--ok); } 100%{ transform:scale(1); color:inherit; } }
@@ -354,6 +534,28 @@
   .audience-nav-row button.active{ background:var(--accent); color:#fff; border-color:var(--accent); }
   .audience-pane{ display:none; }
   .audience-pane.active{ display:block; }
+  .demo-banner{ display:flex; align-items:center; gap:8px; font-size:11.5px; color:var(--warn); background:var(--warn-soft); border:1px dashed var(--warn); border-radius:8px; padding:10px 14px; margin-bottom:24px; }
+  .dash-stats{ display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:20px; padding:20px 0; border-top:1px solid var(--border); border-bottom:1px solid var(--border); margin-bottom:28px; }
+  .dash-stats .stat .num{ font-family:'IBM Plex Mono', monospace; font-size:24px; font-weight:600; color:var(--text); display:block; }
+  .dash-stats .stat .lbl{ font-size:12px; font-weight:700; color:var(--text-dim); margin-top:3px; }
+  .dash-section-title{ font-size:14px; font-weight:700; margin:0 0 12px; }
+  .dash-table{ border:1px solid var(--border); border-radius:10px; overflow:hidden; margin-bottom:28px; }
+  .dash-row{ display:flex; align-items:center; gap:14px; padding:13px 16px; border-bottom:1px solid var(--border); font-size:12.5px; }
+  .dash-row:last-child{ border-bottom:none; }
+  .dash-row .dr-main{ flex:1; min-width:0; }
+  .dash-row .dr-name{ font-weight:700; color:var(--text); margin-bottom:2px; }
+  .dash-row .dr-sub{ font-size:11px; color:var(--text-faint); }
+  .dash-row .dr-value{ font-family:'IBM Plex Mono', monospace; font-size:12.5px; font-weight:600; color:var(--text); white-space:nowrap; }
+  .status-pill{ font-size:10.5px; font-weight:700; padding:4px 9px; border-radius:20px; white-space:nowrap; }
+  .status-pill.st-ok{ background:var(--ok-soft); color:var(--ok); }
+  .status-pill.st-warn{ background:var(--warn-soft); color:var(--warn); }
+  .status-pill.st-accent{ background:var(--accent-soft); color:var(--accent); }
+  .status-pill.st-faint{ background:var(--bg-2); color:var(--text-faint); }
+  .dash-actions{ border:1px solid var(--border); border-radius:10px; padding:6px 16px; }
+  .dash-action-row{ padding:12px 0; border-bottom:1px solid var(--border); font-size:12.5px; }
+  .dash-action-row:last-child{ border-bottom:none; }
+  .demo-proj-cell .proj-card{ margin-bottom:8px; }
+  .demo-proj-caption{ font-size:11.5px; color:var(--text-faint); padding:0 2px; }
   .ov-bullets{ list-style:none; padding:0; margin:0 0 30px; max-width:640px; display:grid; gap:10px; }
   .ov-bullets li{ font-size:13px; color:var(--text-dim); line-height:1.55; padding-left:20px; position:relative; }
   .ov-bullets li:before{ content:'→'; position:absolute; left:0; color:var(--accent); }
@@ -363,7 +565,7 @@
   .signup-success{ display:none; font-size:12.5px; color:var(--ok); background:var(--ok-soft); padding:10px 14px; border-radius:8px; max-width:640px; margin-bottom:10px; }
   .signup-success.show{ display:block; }
   .case-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; }
-  .case-card{ border:1px solid var(--border); border-radius:10px; padding:16px 18px; cursor:pointer; transition:transform .22s var(--ease-spring), box-shadow .22s var(--ease-fluid), border-color .2s var(--ease-fluid); }
+  .case-card{ border:1px solid var(--border); border-radius:10px; padding:16px 18px; cursor:pointer; transition:transform .22s var(--ease-spring), box-shadow .22s var(--ease-fluid), border-color .2s var(--ease-fluid); transform:translateZ(0); }
   .case-card:hover{ border-color:var(--accent); transform:translateY(-3px); box-shadow:0 10px 24px rgba(15,23,42,0.08); }
   .case-card:active{ transform:translateY(-1px) scale(.99); }
   .case-card .cc-org{ font-size:10px; text-transform:uppercase; letter-spacing:.03em; color:var(--accent); margin-bottom:6px; }
@@ -400,13 +602,33 @@
     <button data-view="network">Network</button>
     <button data-view="dashboard">Projects</button>
     <button data-view="map">Map</button>
-    <button data-view="corridors">Corridors</button>
+    <button data-view="corridors">Diaspora</button>
     <button data-view="scoreboard">Scoreboard</button>
     <button data-view="trust">Trust</button>
     <button data-view="join">Join</button>
+    <div class="nav-more-wrap">
+      <button id="navMoreBtn" type="button">More ▾</button>
+      <div id="navMoreMenu" class="nav-more-menu">
+        <button data-goto="lead-list">Full Lead List</button>
+        <button data-goto="workflow-demo">Workflow Demo</button>
+        <button onclick="openAccountDemo('overview')">Account Dashboards</button>
+      </div>
+    </div>
   </nav>
-  <button class="btn btn-primary nav-cta" data-goto="dashboard">Browse Projects</button>
+  <div class="topnav-right">
+    <button id="cmdPaletteBtn" type="button" class="cmd-palette-btn">🔍 Search <span class="cmd-kbd">⌘K</span></button>
+    <button class="btn btn-primary nav-cta" data-goto="dashboard">Browse Projects</button>
+  </div>
 </header>
+<div id="breadcrumbBar" class="breadcrumb-bar" style="display:none;"></div>
+
+<div id="cmdPaletteOverlay" class="cmd-palette-overlay">
+  <div class="cmd-palette-box">
+    <input type="text" id="cmdPaletteInput" class="cmd-palette-input" placeholder="Search projects, organisations, municipalities, pages…" autocomplete="off">
+    <div id="cmdPaletteResults" class="cmd-palette-results"></div>
+    <div class="cmd-palette-footer">↑↓ to navigate · Enter to select · Esc to close</div>
+  </div>
+</div>
 
 <!-- HOME -->
 <section class="page active" id="view-home">
@@ -419,8 +641,23 @@
         <button class="btn btn-secondary" data-goto="network">See the Network</button>
         <button class="btn btn-text" data-goto="trust">How it works →</button>
       </div>
-      <div class="microcopy"><b>Free to use</b> · Independent · Non-partisan</div>
     </div>
+    <div class="wf-teaser-box">
+      <div class="wf-teaser-tag">📥 New — Baladi Map integration</div>
+      <h3>See a citizen report become a funded project</h3>
+      <p>Watch a real report move end-to-end through the network — automatically classified, matched to the right partners, and ready to fund.</p>
+      <div class="wf-teaser-steps">
+        <div class="wf-teaser-step"><div class="wf-teaser-icon">📥</div><div class="wf-teaser-label">Reported</div></div>
+        <div class="wf-teaser-arrow">→</div>
+        <div class="wf-teaser-step"><div class="wf-teaser-icon">🏷️</div><div class="wf-teaser-label">Classified</div></div>
+        <div class="wf-teaser-arrow">→</div>
+        <div class="wf-teaser-step"><div class="wf-teaser-icon">🎯</div><div class="wf-teaser-label">Matched</div></div>
+        <div class="wf-teaser-arrow">→</div>
+        <div class="wf-teaser-step"><div class="wf-teaser-icon">✅</div><div class="wf-teaser-label">Funded</div></div>
+      </div>
+      <button class="btn btn-primary" data-goto="workflow-demo" style="display:block; margin:0 auto;">See the full demo walkthrough →</button>
+    </div>
+    <div class="microcopy" style="margin-top:16px;"><b>Free to use</b> · Independent · Non-partisan</div>
   </div>
 
   <div class="section reveal"><div class="wrap">
@@ -433,8 +670,28 @@
   </div></div>
 
   <div class="section reveal"><div class="wrap">
-    <div class="section-head"><h2>Problems you can help solve</h2><p>These are the categories requests fall into. Every open request, grouped by the kind of work it is.</p></div>
-    <div class="simple-grid" id="typeTiles"></div>
+    <div class="section-head"><h2>Government</h2><p>Certifies that a request is real, necessary, and meets code — the layer that has to sign off before anything else can happen.</p></div>
+    <div class="light-grid">
+      <div class="light-card" data-cat="ministry" style="cursor:pointer;"><b>Ministry</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Certifies technical &amp; regulatory compliance nationally — the specific ministry depends on the request's field.</p></div>
+      <div class="light-card" data-cat="districts" style="cursor:pointer;"><b>Governorates &amp; Districts</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Lebanon's nine governorates and the 26 districts within them. Coordinates across municipalities in its region — read-only on funds and certification.</p></div>
+      <div class="light-card" data-cat="municipality" style="cursor:pointer;"><b>Municipality</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Posts the request and delivers the work on the ground, once certified.</p></div>
+    </div>
+  </div></div>
+
+  <div class="section reveal"><div class="wrap">
+    <div class="section-head"><h2>Experts</h2><p>Matched to a request by field — the specific technical knowledge a problem needs, distinct from who implements or who pays.</p></div>
+    <div class="field-grid" id="typeTiles"></div>
+  </div></div>
+
+  <div class="section reveal"><div class="wrap">
+    <div class="section-head"><h2>Sponsors</h2><p>Funding, direct to the solution — every pledge tracked from commitment to release, named or anonymous.</p></div>
+    <div class="light-grid">
+      <div class="light-card" data-cat="orgbiz" style="cursor:pointer;"><b>Organisations &amp; Businesses</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Local companies and civic groups funding a specific request.</p></div>
+      <div class="light-card" data-cat="sponsorngo" style="cursor:pointer;"><b>NGOs</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Mission-driven nonprofits, often funding within their own focus area.</p></div>
+      <div class="light-card" data-cat="embassies" style="cursor:pointer;"><b>Embassies</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Government-to-government cultural or development funding.</p></div>
+      <div class="light-card" data-cat="diaspora" style="cursor:pointer;"><b>Diaspora</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Individuals and diaspora associations funding their hometowns.</p></div>
+      <div class="light-card" data-cat="locals" style="cursor:pointer;"><b>Locals</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Residents pooling small amounts toward a nearby request.</p></div>
+    </div>
   </div></div>
 
   <div class="section reveal"><div class="wrap">
@@ -457,7 +714,11 @@
       <div class="section-head"><h2>Featured projects</h2><p>A few requests currently open, in progress, or newly delivered.</p></div>
       <button class="btn-text" data-goto="dashboard" style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;font-size:13.5px;">View all projects →</button>
     </div>
-    <div class="proj-carousel" id="featuredGrid"></div>
+    <div id="featuredCarouselWrap" style="position:relative;">
+      <button class="carousel-arrow left" id="featuredArrowLeft" aria-label="Scroll left">‹</button>
+      <div class="proj-carousel" id="featuredGrid"></div>
+      <button class="carousel-arrow right" id="featuredArrowRight" aria-label="Scroll right">›</button>
+    </div>
   </div></div>
 
   <div class="section reveal"><div class="wrap">
@@ -483,11 +744,28 @@
 <!-- NETWORK -->
 <section class="page" id="view-network">
   <div class="wrap">
-    <div class="section" style="padding-top:50px;">
-      <div class="section-head" style="max-width:700px;">
-        <h2 style="font-size:30px;">The network is the platform — funding is just one thread in it</h2>
-        <p>A certified municipal problem needs two different things to become a finished, verified project: someone who knows how to solve it, and someone willing to pay for the solution. Manāra connects both, in the open, with every claim independently checked.</p>
+    <div class="section" style="padding-top:50px; padding-bottom:28px;">
+      <div class="section-head-row">
+        <div class="section-head" style="max-width:700px;margin-bottom:0;">
+          <h2 style="font-size:30px;">The network is the platform — funding is just one thread in it</h2>
+          <p>A certified municipal problem needs two different things to become a finished, verified project: someone who knows how to solve it, and someone willing to pay for the solution. Manāra connects both, in the open, with every claim independently checked.</p>
+        </div>
+        <button class="btn btn-secondary" data-goto="lead-list" style="flex-shrink:0;">Full lead list →</button>
       </div>
+    </div>
+
+    <div class="section" style="padding-top:28px;">
+      <div class="section-head"><h2>Four models, one network</h2><p>Every side of Manāra runs on a model people already trust and understand — working together as one system, not four separate apps.</p></div>
+      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:26px;">
+        <div class="network-group-label report" style="grid-column:1/3; padding:8px 14px; border-radius:8px; background:rgba(37,99,235,0.1); text-align:center;">Report</div>
+        <div class="network-group-label solve" style="grid-column:2/5; padding:8px 14px; border-radius:8px; background:rgba(22,163,74,0.1); text-align:center;">Solve</div>
+        <div class="light-card" style="grid-column:1/2; background:var(--bg-1);"><b>Consumer — report it, see it move</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;line-height:1.6;">Anyone can file a problem and immediately see how it's being handled — the experts matched to it, the funding behind it, every milestone as it clears. No black box, no waiting to hear back.</p></div>
+        <div class="light-card" style="grid-column:2/3; background:var(--bg-1);"><b>Government — oversight, automated</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;line-height:1.6;">A live, CRM-style view into requests and the expert network that doesn't exist anywhere today. Matching algorithms surface the right certifying body automatically, instead of relying on manual coordination between departments.</p></div>
+        <div class="light-card" style="grid-column:3/4; background:var(--bg-1);"><b>Experts — set your price, pick your work</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;line-height:1.6;">Organisations sign up once, then choose which requests fit their expertise and set their own price per project — no bidding wars, no waiting to be picked.</p></div>
+        <div class="light-card" style="grid-column:4/5; background:var(--bg-1);"><b>Sponsors — funding, fully verified</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;line-height:1.6;">Full visibility into where the money goes, government sign-off before it moves, and residents confirming real progress on the ground — while sponsors earn genuine recognition for the problems they helped solve.</p></div>
+      </div>
+      <p style="font-size:14.5px;color:var(--text-dim);line-height:1.75;max-width:760px;margin:26px 0 0;">Put together, this is a system built on track record, not political pull: direct communication with government for residents, automated matching for government, an open marketplace for experts, and a trusted, verified fund for sponsors.</p>
+      <div class="network-motto">One platform. Every issue resolved. Trust built in the open.</div>
     </div>
 
     <div class="section">
@@ -522,7 +800,7 @@
     </div>
 
     <div class="section">
-      <div class="section-head"><h2>The trust framework</h2><p>Nine tags, each independently approved. Every one of these is a claim someone else checks, not just a value we assert.</p></div>
+      <div class="section-head"><h2>The trust framework</h2><p>Ten tags, each independently approved. Every one of these is a claim someone else checks, not just a value we assert.</p></div>
       <div class="pillar-grid">
         <div class="pillar-card"><h4>Transparency</h4><p>Every pledge, escrow state, and milestone is on one public ledger — no private track.</p><div class="pillar-approved">✓ Approved by independent ledger audit</div></div>
         <div class="pillar-card"><h4>Visibility</h4><p>The Map, Corridors and Scoreboard make where money and expertise are flowing visible at a glance.</p><div class="pillar-approved">✓ Approved by open public data</div></div>
@@ -533,34 +811,29 @@
         <div class="pillar-card"><h4>Trust</h4><p>Earned cumulatively — a visible track record across projects, not a claim made once and taken on faith.</p><div class="pillar-approved">✓ Approved by public track record</div></div>
         <div class="pillar-card"><h4>Community</h4><p>Requests are grounded in resident-confirmed need — a citizen report, a petition, an "I'd benefit too."</p><div class="pillar-approved">✓ Approved by independent citizen-report review</div></div>
         <div class="pillar-card"><h4>Involvement</h4><p>Six account types, each with a specific, real way in — not just a donate button.</p><div class="pillar-approved">✓ Approved by one-time vetting per type</div></div>
+        <div class="pillar-card"><h4>Neutrality</h4><p>No political actor — sending or receiving — can unilaterally approve, block, or redirect a request. Board seats are split by design.</p><div class="pillar-approved">✓ Approved by cross-partisan board composition</div></div>
       </div>
     </div>
 
-    <div class="section">
-      <div class="section-head"><h2>The permissions layer</h2><p>What each account can actually see, claim, or move — and a quick way to try each one.</p></div>
+  </div>
+</section>
 
-      <div class="light-card" style="margin-bottom:16px;">
-        <h3 style="margin:0 0 8px;font-size:16px;">For partners — free to list, nothing to procure</h3>
-        <p style="font-size:12.5px;color:var(--text-dim);line-height:1.6;margin:0 0 14px;">Same pitch Baladi Map makes to municipalities, extended to funding: reading and responding costs nothing, and there's no software to install.</p>
-        <div class="light-grid" style="margin-bottom:12px;">
-          <div style="text-align:center;padding:10px;"><b style="font-size:13px;">No cost</b><p style="font-size:11px;color:var(--text-faint);margin:4px 0 0;">Free to register and stays free.</p></div>
-          <div style="text-align:center;padding:10px;"><b style="font-size:13px;">No procurement</b><p style="font-size:11px;color:var(--text-faint);margin:4px 0 0;">Nothing to tender or approve.</p></div>
-          <div style="text-align:center;padding:10px;"><b style="font-size:13px;">Nothing to install</b><p style="font-size:11px;color:var(--text-faint);margin:4px 0 0;">Runs in any browser.</p></div>
-          <div style="text-align:center;padding:10px;"><b style="font-size:13px;">A partner claims, Manāra verifies</b><p style="font-size:11px;color:var(--text-faint);margin:4px 0 0;">Marking work delivered stays independently checked.</p></div>
-        </div>
-        <button class="btn btn-secondary">Register your organisation</button>
+<!-- FULL LEAD LIST -->
+<section class="page" id="view-lead-list">
+  <div class="wrap-wide">
+    <div class="section" style="padding-top:44px;">
+      <div class="section-head-row">
+        <div class="section-head" style="margin-bottom:0;"><h2>Full lead list</h2><p>Every organisation in the network, one table — pulled live from the same data behind the Network page, so the two never drift apart.</p></div>
+        <button style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;font-size:12.5px;" data-goto="network">← Back to Network</button>
       </div>
-
-      <div class="light-card" style="margin-bottom:22px;">
-        <h3 style="margin:0 0 8px;font-size:16px;">A bridge, not a ministry</h3>
-        <p style="font-size:12.5px;color:var(--text-dim);line-height:1.6;margin:0 0 12px;">Manāra is chartered as an independent, semi-governmental body — overseen by a multi-stakeholder board so no single actor, including the state, can unilaterally control what gets certified or how money moves.</p>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;">
-          <span style="font-size:11px;border:1px solid var(--border);border-radius:12px;padding:5px 11px;color:var(--text-dim);">2 seats — diaspora associations</span>
-          <span style="font-size:11px;border:1px solid var(--border);border-radius:12px;padding:5px 11px;color:var(--text-dim);">2 seats — municipal union delegates</span>
-          <span style="font-size:11px;border:1px solid var(--border);border-radius:12px;padding:5px 11px;color:var(--text-dim);">2 seats — civil society / audit</span>
-          <span style="font-size:11px;border:1px dashed var(--border);border-radius:12px;padding:5px 11px;color:var(--text-faint);">1 non-voting — government liaison</span>
-        </div>
+      <div class="audience-nav-row" id="leadListFilter" style="margin-bottom:18px;">
+        <button class="active" data-lgroup="all">All</button>
+        <button data-lgroup="Government">Government</button>
+        <button data-lgroup="Expert organisations">Experts</button>
+        <button data-lgroup="Sponsors">Sponsors</button>
       </div>
+      <div id="leadListContainer"></div>
+      <div style="font-size:11.5px;color:var(--text-faint);margin-top:12px;" id="leadListCount"></div>
     </div>
   </div>
 </section>
@@ -609,36 +882,52 @@
   <div class="wrap-wide">
     <div class="section" style="padding-top:44px;">
       <div id="mapStickyHeader" style="padding-top:6px; padding-bottom:12px; margin-bottom:2px; border-bottom:1px solid var(--border);">
-        <div class="section-head" style="margin-bottom:14px;"><h2>Live map</h2><p>Real locations — toggle each layer on or off to see problems, expert organisations, and municipalities on their own or together.</p></div>
+        <div class="section-head-row" style="margin-bottom:14px;">
+          <div class="section-head" style="margin-bottom:0;"><h2>Live map</h2><p>Real locations — toggle each layer on or off to see problems, expert organisations, and municipalities on their own or together.</p></div>
+          <button class="btn btn-secondary" id="mapWorldToggleBtn" style="flex-shrink:0;">🌍 View diaspora map</button>
+        </div>
 
-        <div id="mapFilterRow" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
-          <button class="map-filter-btn active" data-layer="problems" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:20px;border:1.5px solid var(--accent);color:var(--accent);background:var(--accent-soft);">
-            <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--accent);"></span>Problems <span class="map-filter-count" data-count="problems" style="opacity:.7;"></span>
+        <div id="mapFilterRow" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
+          <button class="map-filter-btn active" data-layer="problems" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;padding:10px 18px;border-radius:22px;border:1.5px solid var(--accent);color:var(--accent);background:var(--accent-soft);">
+            <span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--accent);"></span>Problems <span class="map-filter-count" data-count="problems" style="opacity:.7;"></span>
           </button>
-          <button class="map-filter-btn active" data-layer="experts" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:20px;border:1.5px solid #7c3aed;color:#7c3aed;background:rgba(124,58,237,0.08);">
-            <span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:#7c3aed;"></span>Experts <span class="map-filter-count" data-count="experts" style="opacity:.7;"></span>
+          <button class="map-filter-btn active" data-layer="experts" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;padding:10px 18px;border-radius:22px;border:1.5px solid #7c3aed;color:#7c3aed;background:rgba(124,58,237,0.08);">
+            <span class="tri-icon" style="display:inline-block;width:0;height:0;border-left:5.5px solid transparent;border-right:5.5px solid transparent;border-bottom:10px solid #7c3aed;"></span>Experts <span class="map-filter-count" data-count="experts" style="opacity:.7;"></span>
           </button>
-          <button class="map-filter-btn active" data-layer="municipalities" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:20px;border:1.5px solid #0d9488;color:#0d9488;background:rgba(13,148,136,0.08);">
-            <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#0d9488;"></span>Municipalities <span class="map-filter-count" data-count="municipalities" style="opacity:.7;"></span>
+          <button class="map-filter-btn active" data-layer="municipalities" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;padding:10px 18px;border-radius:22px;border:1.5px solid #0d9488;color:#0d9488;background:rgba(13,148,136,0.08);">
+            <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#0d9488;"></span>Municipalities <span class="map-filter-count" data-count="municipalities" style="opacity:.7;"></span>
           </button>
         </div>
 
-        <div id="govJumpRow" style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px; align-items:center;">
-          <span style="font-size:11px;color:var(--text-faint);margin-right:2px;">Jump to:</span>
+        <div id="govJumpRow" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; align-items:center;">
+          <span style="font-size:13px;font-weight:700;color:var(--text-dim);margin-right:2px;">Search by governorate:</span>
         </div>
 
-        <div id="leafletLegend" style="display:flex; gap:14px; flex-wrap:wrap; font-size:11.5px; color:var(--text-faint);">
-          <span>Problem status:</span>
-          <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--bg-2);border:1px solid var(--text-faint);margin-right:4px;"></span>Proposed</span>
-          <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--accent);margin-right:4px;"></span>Funding</span>
-          <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--warn);margin-right:4px;"></span>In progress</span>
-          <span><span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--ok);margin-right:4px;"></span>Complete</span>
+        <div id="leafletLegend" style="display:flex; gap:18px; flex-wrap:wrap; font-size:13px; color:var(--text-dim);">
+          <span style="font-weight:700;color:var(--text);">Problem status:</span>
+          <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#DC2626;margin-right:5px;"></span>Proposed</span>
+          <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#EAB308;margin-right:5px;"></span>Funding</span>
+          <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#16A34A;margin-right:5px;"></span>In progress</span>
+          <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#2563EB;margin-right:5px;"></span>Complete</span>
+        </div>
+
+        <div id="worldFilterRow" style="display:none;">
+          <div id="continentJumpRow" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; align-items:center;">
+            <span style="font-size:13px;font-weight:700;color:var(--text-dim);margin-right:2px;">Search by continent:</span>
+          </div>
+          <div id="fundingTierLegend" style="display:flex; gap:18px; flex-wrap:wrap; font-size:13px; color:var(--text-dim);">
+            <span style="font-weight:700;color:var(--text);">Funding mobilized:</span>
+            <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#2563EB;margin-right:5px;"></span>Lebanon</span>
+            <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#92400e;margin-right:5px;"></span>High ($15k+)</span>
+            <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#f59e0b;margin-right:5px;"></span>Medium ($7k–15k)</span>
+            <span><span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#fde68a;margin-right:5px;"></span>Lower (&lt;$7k)</span>
+          </div>
         </div>
       </div>
 
       <div id="leafletMapRow" style="display:flex; gap:16px; align-items:flex-start;">
         <div id="leafletMap" style="flex:1; min-width:0; height:880px; border-radius:12px; border:1px solid var(--border); overflow:hidden; background:var(--bg-1);"></div>
-        <div id="leafletSearchPanel" style="width:280px; flex-shrink:0; height:880px; display:flex; flex-direction:column; border:1px solid var(--border); border-radius:12px; overflow:hidden;">
+        <div id="leafletSearchPanel" style="width:318px; flex-shrink:0; height:880px; display:flex; flex-direction:column; border:1px solid var(--border); border-radius:12px; overflow:hidden;">
           <div style="padding:14px;border-bottom:1px solid var(--border);">
             <b style="font-size:13px;display:block;margin-bottom:8px;">Find on map</b>
             <input type="text" id="mapSearchInput" placeholder="Search a project, expert, or town…" style="width:100%;padding:9px 11px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;box-sizing:border-box;margin-bottom:10px;">
@@ -647,18 +936,66 @@
                 <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);"></span>Problems
               </button>
               <button class="map-search-filter-btn active" data-search-layer="experts" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:5px 10px;border-radius:14px;border:1.3px solid #7c3aed;color:#7c3aed;background:rgba(124,58,237,0.08);">
-                <span style="display:inline-block;width:7px;height:7px;border-radius:2px;background:#7c3aed;"></span>Experts
+                <span class="tri-icon" style="display:inline-block;width:0;height:0;border-left:3.5px solid transparent;border-right:3.5px solid transparent;border-bottom:6.5px solid #7c3aed;"></span>Experts
               </button>
               <button class="map-search-filter-btn active" data-search-layer="municipalities" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:5px 10px;border-radius:14px;border:1.3px solid #0d9488;color:#0d9488;background:rgba(13,148,136,0.08);">
-                <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#0d9488;"></span>Towns
+                <span style="display:inline-block;width:7px;height:7px;border-radius:2px;background:#0d9488;"></span>Towns
               </button>
             </div>
           </div>
           <div id="mapSearchResults" style="flex:1; overflow-y:auto; padding:6px;"></div>
         </div>
       </div>
+      <div id="worldMapContainer" style="display:none;">
+        <div style="display:flex; gap:16px; align-items:flex-start;">
+          <div style="flex:1; min-width:0;">
+            <div id="worldMapSvgHolder" style="border:1px solid var(--border);border-radius:12px;overflow:hidden;padding:16px;background:var(--bg-1);"></div>
+            <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:14px;font-size:12px;color:var(--text-dim);">
+              <span><span style="display:inline-block;width:12px;height:12px;background:#2563EB;border-radius:3px;margin-right:6px;vertical-align:middle;"></span>Lebanon</span>
+              <span><span style="display:inline-block;width:12px;height:12px;background:#fbbf24;border-radius:3px;margin-right:6px;vertical-align:middle;"></span>Diaspora country — click to explore</span>
+              <span><span style="display:inline-block;width:12px;height:12px;background:#bfdbfe;border-radius:3px;margin-right:6px;vertical-align:middle;"></span>Hovering</span>
+            </div>
+          </div>
+          <div id="worldMapSidebar-map" class="world-map-sidebar"></div>
+        </div>
+      </div>
       <div style="font-size:11.5px;color:var(--text-faint);margin:10px 0 26px;" id="leafletCoverageNote"></div>
-      <div class="proj-grid" id="leafletProjectList"></div>
+    </div>
+
+    <div class="section" style="padding-top:0;">
+      <div class="section-head-row">
+        <div class="section-head" style="margin-bottom:0;"><h2>Projects</h2><p>Every certified request currently on the map, browsable as cards.</p></div>
+        <button class="btn-text" data-goto="dashboard" style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;font-size:13.5px;">View all projects →</button>
+      </div>
+      <div id="mapProjectsCarouselWrap" style="position:relative;">
+        <button class="carousel-arrow left" id="mapProjectsArrowLeft" aria-label="Scroll left">‹</button>
+        <div class="proj-carousel" id="mapProjectsCarousel"></div>
+        <button class="carousel-arrow right" id="mapProjectsArrowRight" aria-label="Scroll right">›</button>
+      </div>
+    </div>
+
+    <div class="section" style="padding-top:0;">
+      <div class="section-head-row">
+        <div class="section-head" style="margin-bottom:0;"><h2>Experts</h2><p>Matched to a request by field — the specific technical knowledge a problem needs.</p></div>
+        <button class="btn-text" data-goto="network" style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;font-size:13.5px;">See the full network →</button>
+      </div>
+      <div id="mapExpertsCarouselWrap" style="position:relative;">
+        <button class="carousel-arrow left" id="mapExpertsArrowLeft" aria-label="Scroll left">‹</button>
+        <div class="proj-carousel" id="mapExpertsCarousel"></div>
+        <button class="carousel-arrow right" id="mapExpertsArrowRight" aria-label="Scroll right">›</button>
+      </div>
+    </div>
+
+    <div class="section" style="padding-top:0;">
+      <div class="section-head-row">
+        <div class="section-head" style="margin-bottom:0;"><h2>Municipalities</h2><p>A sample of the towns on the map — squares, colored by governorate.</p></div>
+        <button class="btn-text" data-goto="lead-list" style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;font-size:13.5px;">Full lead list →</button>
+      </div>
+      <div id="mapMunisCarouselWrap" style="position:relative;">
+        <button class="carousel-arrow left" id="mapMunisArrowLeft" aria-label="Scroll left">‹</button>
+        <div class="proj-carousel" id="mapMunisCarousel"></div>
+        <button class="carousel-arrow right" id="mapMunisArrowRight" aria-label="Scroll right">›</button>
+      </div>
     </div>
   </div>
 </section>
@@ -667,7 +1004,19 @@
 <section class="page" id="view-corridors">
   <div class="wrap">
     <div class="section" style="padding-top:44px;">
-      <div class="section-head"><h2>Corridors</h2><p>Every corridor connects more than money. A sending city and a receiving Lebanese locality share funding, yes — but also people, goods, opportunities and relationships that never touch a pledge.</p></div>
+      <div class="section-head"><h2>Diaspora</h2><p>Every corridor connects more than money. A sending city and a receiving Lebanese locality share funding, yes — but also people, goods, opportunities and relationships that never touch a pledge.</p></div>
+
+      <div style="display:flex; gap:16px; align-items:flex-start;">
+        <div style="flex:1; min-width:0;">
+          <div id="diasporaWorldMapSvgHolder" style="border:1px solid var(--border);border-radius:12px;overflow:hidden;padding:16px;background:var(--bg-1);margin-bottom:10px;"></div>
+          <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:28px;font-size:12px;color:var(--text-dim);">
+            <span><span style="display:inline-block;width:12px;height:12px;background:#2563EB;border-radius:3px;margin-right:6px;vertical-align:middle;"></span>Lebanon</span>
+            <span><span style="display:inline-block;width:12px;height:12px;background:#fbbf24;border-radius:3px;margin-right:6px;vertical-align:middle;"></span>Diaspora country — click to explore</span>
+            <span><span style="display:inline-block;width:12px;height:12px;background:#bfdbfe;border-radius:3px;margin-right:6px;vertical-align:middle;"></span>Hovering</span>
+          </div>
+        </div>
+        <div id="worldMapSidebar-diaspora" class="world-map-sidebar" style="margin-bottom:28px;"></div>
+      </div>
 
       <h3 style="font-size:16px;margin-bottom:4px;">More than money</h3>
       <div class="section-head" style="margin-top:2px;"><p>The same corridor that funds a project can be a stepping stone to real connections and partnerships — most of them costing nothing but a conversation. Click one to see how it would actually work.</p></div>
@@ -731,6 +1080,33 @@
 <section class="page" id="view-join">
   <div class="wrap">
     <div class="section" style="padding-top:44px;">
+      <div class="section-head"><h2>Find your way in</h2><p>Every option below is a different way to join the network — pick where you fit, then register in under a minute.</p></div>
+
+      <div class="cta-panel">
+        <div class="cta-step-label"><span class="cta-step-num">1</span>Choose your category</div>
+        <div class="join-cat-grid" id="joinCategoryNav">
+          <div class="join-cat-card active" data-jcat="government"><div class="jc-icon">🏛️</div><div class="jc-title">Government</div><div class="jc-desc">Certifies compliance — ministries, governorates &amp; districts, municipalities.</div></div>
+          <div class="join-cat-card" data-jcat="experts"><div class="jc-icon">🛠️</div><div class="jc-title">Experts</div><div class="jc-desc">Matched to a request by field — the technical knowledge a problem needs.</div></div>
+          <div class="join-cat-card" data-jcat="sponsors"><div class="jc-icon">🤝</div><div class="jc-title">Sponsors</div><div class="jc-desc">Five kinds of funders, one ledger — named or anonymous.</div></div>
+        </div>
+
+        <div class="cta-step-label"><span class="cta-step-num">2</span>Choose your specific role</div>
+        <div class="join-sub-row" id="joinSubOptions"></div>
+
+        <div class="cta-step-label"><span class="cta-step-num">3</span>Your details</div>
+        <form class="signup-form" id="form-quickjoin" style="max-width:none;">
+          <input type="text" placeholder="Your name" required>
+          <input type="text" placeholder="Organisation / municipality (if any)">
+          <input type="email" placeholder="Email" required>
+          <label class="checkbox"><input type="checkbox" required> I confirm the details above are accurate.</label>
+        </form>
+        <button class="btn btn-primary cta-submit-btn" onclick="document.getElementById('form-quickjoin').requestSubmit()">Register — <span id="quickJoinSelLabel">Municipality</span></button>
+        <div class="signup-success" id="success-quickjoin" style="margin-top:14px;">Thanks — we'll follow up based on what you selected above.</div>
+      </div>
+    </div>
+
+    <div class="section" style="padding-top:0;">
+      <button class="btn btn-primary" style="margin-bottom:22px;" onclick="openAccountDemo('overview')">See the dashboard overview, all account types →</button>
       <div class="audience-nav-row" id="audienceNav">
         <button class="active" data-aud="municipalities">For Municipalities</button>
         <button data-aud="organisations">For Organisations</button>
@@ -749,6 +1125,7 @@
           <li>Works even where your council has limited capacity — pair with a vetted NGO.</li>
           <li>You never hold pledged funds — an independent custodian does.</li>
         </ul>
+        <button class="btn btn-secondary" style="margin-bottom:24px;" onclick="openAccountDemo('municipalities')">Preview the Municipality dashboard →</button>
         <h3 style="font-size:16px;">Join the movement</h3>
         <form class="signup-form" id="form-municipalities">
           <input type="text" placeholder="Municipality name" required>
@@ -771,6 +1148,7 @@
           <li>Build a public delivery record on the Scoreboard.</li>
           <li>Get paid against delivery proof — pickup logs, meter readings — not promises.</li>
         </ul>
+        <button class="btn btn-secondary" style="margin-bottom:24px;" onclick="openAccountDemo('organisations')">Preview the Organisation dashboard →</button>
         <h3 style="font-size:16px;">Join the movement</h3>
         <form class="signup-form" id="form-organisations">
           <input type="text" placeholder="Organisation name" required>
@@ -793,6 +1171,7 @@
           <li>Ask questions and flag concerns directly on any project.</li>
           <li>Volunteer as an independent milestone verifier.</li>
         </ul>
+        <button class="btn btn-secondary" style="margin-bottom:24px;" onclick="openAccountDemo('locals')">Preview the Local dashboard →</button>
         <h3 style="font-size:16px;">Join the movement</h3>
         <form class="signup-form" id="form-locals">
           <input type="text" placeholder="Name or pseudonym" required>
@@ -815,6 +1194,7 @@
           <li>Get invited back for the inauguration of anything you funded.</li>
           <li>Use the governorate liaison desk for ID or property paperwork on your next visit.</li>
         </ul>
+        <button class="btn btn-secondary" style="margin-bottom:24px;" onclick="openAccountDemo('diaspora')">Preview the Diaspora dashboard →</button>
         <h3 style="font-size:16px;">Join the movement</h3>
         <form class="signup-form" id="form-diaspora">
           <input type="text" placeholder="Name" required>
@@ -837,6 +1217,7 @@
           <li>Run the diaspora-welcome liaison desk: ID help, property paperwork, inauguration invitations.</li>
           <li>Hold one non-voting seat on the oversight board.</li>
         </ul>
+        <button class="btn btn-secondary" style="margin-bottom:24px;" onclick="openAccountDemo('government')">Preview the Government dashboard →</button>
         <h3 style="font-size:16px;">Join the movement</h3>
         <form class="signup-form" id="form-government">
           <input type="text" placeholder="Ministry or branch name" required>
@@ -858,6 +1239,7 @@
           <li>Coordinate, don't control — read-only on funds and certification.</li>
           <li>Spot patterns no single municipality can see alone.</li>
         </ul>
+        <button class="btn btn-secondary" style="margin-bottom:24px;" onclick="openAccountDemo('governorate')">Preview the Governorate dashboard →</button>
         <h3 style="font-size:16px;">Join the movement</h3>
         <form class="signup-form" id="form-governorate">
           <select required id="govorateSelect"><option value="">Governorate</option></select>
@@ -869,6 +1251,137 @@
         <h3 style="font-size:16px;margin-top:34px;">What each governorate shows</h3>
         <div class="case-grid" id="case-governorate" style="margin-top:14px;"></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKFLOW DEMO: Baladi Map demand-side -> Manara supply-side -->
+<section class="page" id="view-workflow-demo">
+  <div class="wrap">
+    <div class="section" style="padding-top:44px;">
+      <div class="section-head"><h2>From citizen report to funded fix</h2><p>A live walkthrough of how a Baladi Map report becomes a certified, matched, fundable Manāra request — the two platforms working as one system.</p></div>
+
+      <div class="wf-step">
+        <div class="wf-step-label"><span class="wf-step-num">1</span>A report arrives from Baladi Map</div>
+        <div class="wf-baladi-card">
+          <div class="wf-baladi-tag">📥 Incoming report · via Baladi Map</div>
+          <div class="wf-baladi-photo">💡</div>
+          <b style="font-size:16px;">Streetlights out along the main road</b>
+          <div style="font-size:12.5px;color:var(--text-dim);margin-top:4px;">Anjar, Bekaa · reported 3 weeks ago · 👥 34 neighbors confirmed</div>
+          <div class="wf-baladi-quote">"It's been dark for weeks — we've had two near-misses on the curve by the church." — local resident, via Baladi Map</div>
+        </div>
+      </div>
+
+      <div class="wf-arrow">↓</div>
+
+      <div class="wf-step">
+        <div class="wf-step-label"><span class="wf-step-num">2</span>Manāra classifies the request</div>
+        <div class="wf-classify-card">
+          <div style="font-size:12.5px;color:var(--text-dim);">Auto-matched against the same taxonomy used across the whole network — no manual re-entry.</div>
+          <div class="wf-field-grid">
+            <div><div class="wf-field">Type</div><div class="wf-field-val">Public Lighting</div></div>
+            <div><div class="wf-field">Governorate</div><div class="wf-field-val">Bekaa</div></div>
+            <div><div class="wf-field">Municipality</div><div class="wf-field-val">Anjar</div></div>
+            <div><div class="wf-field">Expert field needed</div><div class="wf-field-val">Electricity</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-arrow">↓</div>
+
+      <div class="wf-step">
+        <div class="wf-step-label"><span class="wf-step-num">3</span>The matching engine proposes partners, scored</div>
+        <div id="wfMatchLoading" class="wf-match-loading">
+          <div class="wf-scoring-pulse"></div>
+          <div class="wf-match-loading-text">Scoring candidates against the Government, Expert, and Sponsor attribute systems…</div>
+        </div>
+        <div class="wf-match-grid" id="wfMatchGrid" style="display:none;">
+          <div>
+            <div class="wf-match-col-label" style="color:var(--accent);">Certifies</div>
+            <div class="wf-match-card">
+              <div class="wf-match-name">Ministry of Energy &amp; Water</div>
+              <div class="wf-match-sub">Government · certifying body</div>
+              <div class="wf-attr-row"><span>Jurisdictional Match</span><span class="wf-attr-score">5/5</span></div>
+              <div class="wf-attr-row"><span>Certification Turnaround</span><span class="wf-attr-score">4/5</span></div>
+              <div class="wf-attr-row"><span>Process Transparency</span><span class="wf-gate-pass">Gate ✓ pass</span></div>
+              <div class="wf-attr-row"><span>Conflict of Interest Check</span><span class="wf-gate-pass">Gate ✓ pass</span></div>
+              <div class="wf-composite"><span>Composite</span><span style="color:var(--accent);">92%</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="wf-match-col-label" style="color:#7c3aed;">Solves</div>
+            <div class="wf-match-card">
+              <div class="wf-match-name">Lebanese Center for Energy Conservation (LCEC)</div>
+              <div class="wf-match-sub">Expert organisation · Electricity</div>
+              <div class="wf-attr-row"><span>Field Specificity</span><span class="wf-attr-score">5/5</span></div>
+              <div class="wf-attr-row"><span>Track Record</span><span class="wf-attr-score">5/5</span></div>
+              <div class="wf-attr-row"><span>Verification Confidence</span><span class="wf-gate-pass">Gate ✓ pass</span></div>
+              <div class="wf-attr-row"><span>Independence Check</span><span class="wf-gate-pass">Gate ✓ pass</span></div>
+              <div class="wf-composite"><span>Composite</span><span style="color:#7c3aed;">95%</span></div>
+            </div>
+          </div>
+          <div>
+            <div class="wf-match-col-label" style="color:#0d9488;">Funds</div>
+            <div class="wf-match-card">
+              <div class="wf-match-name">Evenements Libanais a Paris</div>
+              <div class="wf-match-sub">Sponsor · diaspora-adjacent</div>
+              <div class="wf-attr-row"><span>Geographic Affinity</span><span class="wf-attr-score">5/5</span></div>
+              <div class="wf-attr-row"><span>Cause Alignment</span><span class="wf-attr-score">4/5</span></div>
+              <div class="wf-attr-row"><span>Escrow Compliance</span><span class="wf-gate-pass">Gate ✓ pass</span></div>
+              <div class="wf-composite"><span>Composite</span><span style="color:#0d9488;">90%</span></div>
+            </div>
+            <div class="wf-match-card">
+              <div class="wf-match-name">Anera</div>
+              <div class="wf-match-sub">Sponsor · established NGO</div>
+              <div class="wf-attr-row"><span>Funding Capacity Fit</span><span class="wf-attr-score">5/5</span></div>
+              <div class="wf-attr-row"><span>Track Record</span><span class="wf-attr-score">5/5</span></div>
+              <div class="wf-attr-row"><span>Escrow Compliance</span><span class="wf-gate-pass">Gate ✓ pass</span></div>
+              <div class="wf-composite"><span>Composite</span><span style="color:#0d9488;">93%</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wf-arrow">↓</div>
+
+      <div class="wf-step">
+        <div class="wf-step-label"><span class="wf-step-num">4</span>Goes live as a real, fundable project</div>
+        <div class="wf-classify-card">
+          <div id="wfFinalCard" style="max-width:280px;"></div>
+          <div style="font-size:11.5px;color:var(--text-faint);margin-top:14px;">Sample only — not yet a real request on the ledger.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ACCOUNT DEMO -->
+<section class="page" id="view-account-demo">
+  <div class="wrap">
+    <div class="section" style="padding-top:44px;">
+      <button style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;font-size:12.5px;margin-bottom:20px;display:inline-block;" data-goto="join">← Back to Join</button>
+      <div class="demo-banner">◆ Sample data — this previews the account experience, it isn't a real login.</div>
+      <div class="audience-nav-row" id="demoNav">
+        <button data-demo="overview">Overview</button>
+        <button data-demo="municipalities">Municipality</button>
+        <button data-demo="organisations">Organisation</button>
+        <button data-demo="locals">Local</button>
+        <button data-demo="diaspora">Diaspora</button>
+        <button data-demo="government">Government</button>
+        <button data-demo="governorate">Governorate</button>
+      </div>
+      <h2 style="font-size:24px;margin:0 0 4px;" id="demoTitle">—</h2>
+      <p style="font-size:13px;color:var(--text-dim);margin:0 0 20px;" id="demoSubtitle">—</p>
+      <div class="dash-stats" id="demoStats"></div>
+      <div id="demoOverviewCTA" style="display:none;border:1px solid var(--border);border-radius:10px;padding:20px 22px;margin-bottom:28px;">
+        <p style="font-size:13px;color:var(--text-dim);line-height:1.65;margin:0 0 16px;max-width:640px;">Every account type above works off the same public ledger — the same requests, the same escrow, the same verification. Pick the one that's you and register in under a minute; nothing to install, nothing to procure.</p>
+        <button class="btn btn-primary" data-goto="join">Go to registration forms →</button>
+      </div>
+      <h3 class="dash-section-title" id="demoTableTitle">—</h3>
+      <div class="dash-table" id="demoTable"></div>
+      <h3 class="dash-section-title" id="demoActionsTitle">—</h3>
+      <div class="dash-actions" id="demoActions"></div>
     </div>
   </div>
 </section>
@@ -914,6 +1427,8 @@
      issue/expert location map. If this fails to load, the map section shows a plain message
      instead of a blank broken box. -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/d3@7/dist/d3.min.js"></script>
+<script src="https://unpkg.com/topojson-client@3/dist/topojson-client.min.js"></script>
 
 <!-- Motion (motion.dev) — loaded from CDN. If this fails for any reason (offline, blocked CDN,
      ad-blocker), every feature below falls back to the hand-built CSS/JS version that already
@@ -935,12 +1450,16 @@
 // addition can never corrupt data that's already tested and working.
 // These are reasonable estimates for each named town, not surveyed-precise addresses.
 const PROJECT_COORDS = {
-  1:[34.5490,36.0440], 2:[33.8047,35.5972], 3:[33.8463,35.9019], 4:[33.1167,35.3667],
-  5:[33.8908,35.5386], 6:[34.0059,36.2181], 7:[33.3789,35.4839], 8:[34.1232,35.6519],
-  9:[34.3167,35.7333], 10:[34.5375,36.0781], 11:[33.9808,35.6178], 12:[34.5500,36.0500],
-  13:[33.2704,35.2038], 14:[33.8500,35.6167], 15:[33.8959,35.4794], 16:[33.6667,35.7833],
-  17:[33.1214,35.4331], 18:[34.3500,35.7167], 19:[34.0167,36.1167], 20:[33.9833,35.8333],
-  21:[33.3600,35.5900], 22:[34.4500,36.0000],
+  // Offsets below (roughly 300-600m) push these 12 projects off their municipality's
+  // exact point, into a plausible nearby spot within the same town — coastal towns
+  // (Byblos, Jounieh, Tyre, Chekka) are biased east/inland so they don't land in the sea.
+  // These are deliberate, reasonable placements, not individually road-verified via mapping.
+  1:[34.5490,36.0440], 2:[33.8087,35.6002], 3:[33.8433,35.9059], 4:[33.1167,35.3667],
+  5:[33.8908,35.5386], 6:[34.0059,36.2181], 7:[33.3819,35.4799], 8:[34.1252,35.6579],
+  9:[34.3167,35.7333], 10:[34.5375,36.0781], 11:[33.9788,35.6228], 12:[34.5500,36.0500],
+  13:[33.2734,35.2088], 14:[33.8500,35.6167], 15:[33.8989,35.4824], 16:[33.6667,35.7833],
+  17:[33.1174,35.4361], 18:[34.3520,35.7217], 19:[34.0207,36.1137], 20:[33.9803,35.8373],
+  21:[33.3630,35.5860], 22:[34.4500,36.0000],
 };
 // Only experts with a confidently-known, real, single physical base get a point marker.
 // Coverage-area organisations (regional water establishments, coastline-wide initiatives)
@@ -2274,6 +2793,23 @@ function attachCardEvents(container){
     el.addEventListener('click', ()=> openDetail(parseInt(el.dataset.id)));
   });
 }
+function initCarouselControls(gridId, wrapId){
+  const grid = document.getElementById(gridId);
+  const wrap = document.getElementById(wrapId);
+  if(!grid || !wrap) return;
+  const leftBtn = wrap.querySelector('.carousel-arrow.left');
+  const rightBtn = wrap.querySelector('.carousel-arrow.right');
+  if(!leftBtn || !rightBtn) return;
+  function updateArrows(){
+    leftBtn.classList.toggle('hidden', grid.scrollLeft <= 4);
+    rightBtn.classList.toggle('hidden', grid.scrollLeft >= grid.scrollWidth - grid.clientWidth - 4);
+  }
+  leftBtn.addEventListener('click', ()=> grid.scrollBy({left: -280, behavior:'smooth'}));
+  rightBtn.addEventListener('click', ()=> grid.scrollBy({left: 280, behavior:'smooth'}));
+  grid.addEventListener('scroll', updateArrows);
+  window.addEventListener('resize', updateArrows);
+  updateArrows();
+}
 
 // ---------- filters (All Projects) ----------
 const fGov = document.getElementById('fGov'), fType = document.getElementById('fType'),
@@ -2295,7 +2831,7 @@ function renderGrid(skipAnim){
   const doRender = ()=>{
     const list = filtered();
     document.getElementById('resultCount').textContent = list.length + ' projects';
-    grid.innerHTML = list.map(p=>cardHTML(p, true)).join('') || '<div style="color:var(--text-faint);font-size:13px;">No projects match these filters yet.</div>';
+    grid.innerHTML = list.map(p=>cardHTML(p, true)).join('') || '<div class="empty-state" style="grid-column:1/-1;"><div class="es-icon">🔍</div><div class="es-msg">No projects match these filters</div><div class="es-sub">Try widening your governorate, type, or status filter.</div></div>';
     attachCardEvents(grid);
     grid.classList.remove('reflowing');
   };
@@ -2322,26 +2858,36 @@ function renderStats(){
 }
 
 // ---------- Home: network preview, type tiles, featured, leaderboard ----------
+const EXPERT_FIELDS = [
+  {id:'electricity', icon:'⚡', name:'Electricity', desc:'Grid repair, solar installation, and power system design.'},
+  {id:'waste', icon:'♻️', name:'Waste Collection', desc:'Routing, sorting, and recycling logistics.'},
+  {id:'water', icon:'💧', name:'Water', desc:'Supply networks, wells, and treatment systems.'},
+  {id:'publicland', icon:'🌳', name:'Public Land & Pavements', desc:'Parks, sidewalks, and shared public space.'},
+  {id:'environment', icon:'🍃', name:'Environment', desc:'Pollution control, reforestation, and site remediation.'},
+  {id:'roads', icon:'🚦', name:'Roads & Traffic', desc:'Paving, signage, and safety engineering.'},
+  {id:'sewage', icon:'🚰', name:'Sewage', desc:'Drainage, treatment, and wastewater systems.'},
+  {id:'ngoinit', icon:'💡', name:'NGOs & Initiatives', desc:'Civic education, cultural preservation, and community programs that cut across a single technical category.'},
+];
 function renderHome(){
   document.getElementById('homeNetworkPreview').innerHTML = `
-    <div class="light-card"><div style="font-size:10px;font-weight:700;color:var(--accent);margin-bottom:6px;">CERTIFIES</div><h4 style="margin:0 0 8px;font-size:15px;">Government</h4><div style="font-size:11.5px;color:var(--text-faint);">Ministry · Governorate · Municipality</div></div>
-    <div class="light-card"><div style="font-size:10px;font-weight:700;color:var(--accent);margin-bottom:6px;">SOLVES</div><h4 style="margin:0 0 8px;font-size:15px;">Expert organisations</h4><div style="font-size:11.5px;color:var(--text-faint);">Electricity · Water · Roads &amp; Traffic · +5 more</div></div>
-    <div class="light-card"><div style="font-size:10px;font-weight:700;color:var(--accent);margin-bottom:6px;">FUNDS</div><h4 style="margin:0 0 8px;font-size:15px;">Sponsors</h4><div style="font-size:11.5px;color:var(--text-faint);">Diaspora · NGOs · Locals · +2 more</div></div>
+    <div class="light-card"><div style="font-size:15px;font-weight:800;letter-spacing:.05em;color:var(--accent);margin-bottom:8px;">CERTIFIES</div><h4 style="margin:0 0 8px;font-size:15px;">Government</h4><div style="font-size:11.5px;color:var(--text-faint);">Ministry · Governorate · Municipality</div></div>
+    <div class="light-card"><div style="font-size:15px;font-weight:800;letter-spacing:.05em;color:var(--accent);margin-bottom:8px;">SOLVES</div><h4 style="margin:0 0 8px;font-size:15px;">Expert organisations</h4><div style="font-size:11.5px;color:var(--text-faint);">Electricity · Water · Roads &amp; Traffic · +5 more</div></div>
+    <div class="light-card"><div style="font-size:15px;font-weight:800;letter-spacing:.05em;color:var(--accent);margin-bottom:8px;">FUNDS</div><h4 style="margin:0 0 8px;font-size:15px;">Sponsors</h4><div style="font-size:11.5px;color:var(--text-faint);">Diaspora · NGOs · Locals · +2 more</div></div>
   `;
   document.querySelectorAll('#homeNetworkPreview .light-card').forEach(c=> c.style.cursor='pointer');
   document.querySelectorAll('#homeNetworkPreview .light-card').forEach(c=> c.addEventListener('click', ()=> switchView('network')));
 
-  document.getElementById('typeTiles').innerHTML = TYPES.map(t=>{
-    const count = PROJECTS.filter(p=>p.type===t).length;
-    return `<div class="simple-card" data-type="${t}" style="cursor:pointer;"><h3>${t}</h3><p>${count} open request${count===1?'':'s'} right now.</p><span class="sc-count">View →</span></div>`;
-  }).join('');
-  document.querySelectorAll('#typeTiles .simple-card').forEach(el=>{
-    el.addEventListener('click', ()=>{ switchView('dashboard'); fType.value = el.dataset.type; renderGrid(); });
+  document.getElementById('typeTiles').innerHTML = EXPERT_FIELDS.map(f=>
+    `<div class="field-card" data-cat="${f.id}" style="cursor:pointer;"><div class="field-icon">${f.icon}</div><h3>${f.name}</h3><p>${f.desc}</p></div>`
+  ).join('');
+  document.querySelectorAll('#typeTiles .field-card').forEach(el=>{
+    el.addEventListener('click', ()=> openCategoryPage(el.dataset.cat));
   });
 
-  const featured = PROJECTS.filter(p=>p.status!=='proposed').slice(0,3);
+  const featured = PROJECTS.filter(p=>p.status!=='proposed').slice(0,8);
   document.getElementById('featuredGrid').innerHTML = featured.map(cardHTML).join('');
   attachCardEvents(document.getElementById('featuredGrid'));
+  initCarouselControls('featuredGrid', 'featuredCarouselWrap');
 
   const byOrg = {};
   PROJECTS.forEach(p=>{
@@ -2427,7 +2973,9 @@ function ensureLeafletMap(){
   // bar collapsing, safe-area insets settling) happened right after we checked.
   setTimeout(()=> leafletMapInstance && leafletMapInstance.invalidateSize(), 300);
 
-  const statusColor = { proposed:'#8b95a3', funding:'#2563EB', progress:'#D97706', complete:'#16A34A' };
+  const statusColor = { proposed:'#DC2626', funding:'#EAB308', progress:'#16A34A', complete:'#2563EB' };
+  const statusBorder = { proposed:'#fff', funding:'#fff', progress:'#fff', complete:'#fff' };
+  const statusTextColor = { proposed:'#DC2626', funding:'#CA8A04', progress:'#16A34A', complete:'#2563EB' };
   mapLayers = { problems: L.layerGroup(), experts: L.layerGroup(), municipalities: L.layerGroup() };
   mapSearchIndex = []; // { name, sub, type, coords, marker }
 
@@ -2438,34 +2986,63 @@ function ensureLeafletMap(){
     if(!coords) return;
     problemCount++;
     const pct = Math.min(100, Math.round((p.raised/p.goal)*100));
-    const marker = L.circleMarker(coords, {
-      radius: 8, weight: 2, color:'#fff', fillColor: statusColor[p.status] || '#8b95a3', fillOpacity: 0.9
-    }).bindPopup(`
-      <div style="font-family:'Public Sans',sans-serif;min-width:180px;">
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:${statusColor[p.status]};margin-bottom:4px;">${statusLabel[p.status]}</div>
+    const mid = 'proj_'+p.id;
+    const stage1 = `
+      <div style="font-family:'Public Sans',sans-serif;min-width:180px;cursor:pointer;" onclick="event.stopPropagation(); window.__expandMapPopup('${mid}')">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:${statusTextColor[p.status]};margin-bottom:4px;">${statusLabel[p.status]}</div>
         <b style="font-size:13px;">${p.title}</b>
-        <div style="font-size:11px;color:#666;margin:4px 0 8px;">${p.locality}</div>
-        <div style="font-size:11.5px;margin-bottom:8px;">${money(p.raised)} of ${money(p.goal)} (${pct}%)</div>
-        <button onclick="window.__openProjectFromMap(${p.id})" style="all:unset;cursor:pointer;font-size:11.5px;font-weight:700;color:#2563EB;">View project →</button>
-      </div>
-    `).addTo(mapLayers.problems);
-    mapSearchIndex.push({ name: p.title, sub: p.locality, type:'problems', coords, marker });
+        <div style="font-size:11px;color:#666;margin:4px 0 2px;">${p.locality}</div>
+        <div style="font-size:10.5px;color:#2563EB;font-weight:600;margin-top:6px;">Tap for details →</div>
+      </div>`;
+    const stage2 = `
+      <div onclick="event.stopPropagation();" style="font-family:'Public Sans',sans-serif;min-width:220px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:${statusTextColor[p.status]};margin-bottom:5px;">${statusLabel[p.status]}</div>
+        <div onclick="event.stopPropagation(); window.__openProjectFromMap(${p.id})" style="cursor:pointer;color:#2563EB;text-decoration:underline;font-size:15px;font-weight:700;margin-bottom:6px;">${p.title}</div>
+        <div style="font-size:11.5px;color:#666;margin-bottom:8px;">${p.locality}</div>
+        <div style="font-size:12px;">${money(p.raised)} of ${money(p.goal)} (${pct}%)</div>
+        <div style="font-size:10.5px;color:#888;margin-top:8px;">Click the title above to view the full project →</div>
+      </div>`;
+    const marker = L.circleMarker(coords, {
+      radius: 5, weight: 1.5, color: statusBorder[p.status] || '#fff', fillColor: statusColor[p.status] || '#8b95a3', fillOpacity: 0.9
+    }).bindPopup(stage1).addTo(mapLayers.problems);
+    window.__mapMarkerRegistry[mid] = { marker, stage2 };
+    mapSearchIndex.push({ name: p.title, sub: p.locality, type:'problems', status: p.status, coords, marker });
   });
 
+  function expertIcon(strokeWidth){
+    return L.divIcon({
+      className: '',
+      html: `<svg width="16" height="15" viewBox="0 0 16 15" style="overflow:visible;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.35));"><polygon points="8,0 16,14 0,14" fill="#7c3aed" stroke="#fff" stroke-width="${strokeWidth}"/></svg>`,
+      iconSize: [16,15], iconAnchor:[8,11]
+    });
+  }
+  function municipalityIcon(borderWidth){
+    return L.divIcon({
+      className: '',
+      html: `<div style="width:9px;height:9px;background:#0d9488;border:${borderWidth}px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.3);"></div>`,
+      iconSize: [9,9], iconAnchor:[4.5,4.5]
+    });
+  }
   // ---- Experts (confirmed single-location only) ----
   Object.entries(EXPERT_COORDS).forEach(([name, coords])=>{
-    const icon = L.divIcon({
-      className: '',
-      html: `<div style="width:14px;height:14px;background:#7c3aed;border:2px solid #fff;border-radius:3px;box-shadow:0 1px 4px rgba(0,0,0,0.3);"></div>`,
-      iconSize: [14,14], iconAnchor:[7,7]
-    });
-    const marker = L.marker(coords, { icon }).bindPopup(`
-      <div style="font-family:'Public Sans',sans-serif;min-width:160px;">
+    const icon = expertIcon(0);
+    const iconHighlight = expertIcon(2.5);
+    const mid = 'exp_'+name.replace(/[^a-zA-Z0-9]/g,'_');
+    const stage1 = `
+      <div style="font-family:'Public Sans',sans-serif;min-width:160px;cursor:pointer;" onclick="event.stopPropagation(); window.__expandMapPopup('${mid}')">
         <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#7c3aed;margin-bottom:4px;">Expert organisation</div>
         <b style="font-size:13px;">${name}</b>
-      </div>
-    `).addTo(mapLayers.experts);
-    mapSearchIndex.push({ name, sub:'Expert organisation', type:'experts', coords, marker });
+        <div style="font-size:10.5px;color:#7c3aed;font-weight:600;margin-top:6px;">Tap for details →</div>
+      </div>`;
+    const stage2 = `
+      <div onclick="event.stopPropagation();" style="font-family:'Public Sans',sans-serif;min-width:200px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#7c3aed;margin-bottom:5px;">Expert organisation</div>
+        <div onclick="event.stopPropagation(); window.__openExpertFromMap('${mid}')" style="cursor:pointer;color:#7c3aed;text-decoration:underline;font-size:15px;font-weight:700;">${name}</div>
+        <div style="font-size:10.5px;color:#888;margin-top:8px;">Click the name above to view full details →</div>
+      </div>`;
+    const marker = L.marker(coords, { icon }).bindPopup(stage1).addTo(mapLayers.experts);
+    window.__mapMarkerRegistry[mid] = { marker, stage2, name };
+    mapSearchIndex.push({ name, sub:'Expert organisation', type:'experts', coords, marker, iconNormal: icon, iconHighlight });
   });
 
   // ---- Municipalities (real per-town coordinates — see coverage note for sourcing) ----
@@ -2477,16 +3054,26 @@ function ensureLeafletMap(){
       const coords = coordsForGov[name];
       if(!coords) return;
       muniCount++;
-      const marker = L.circleMarker(coords, {
-        radius: 5, weight: 1.5, color:'#fff', fillColor:'#0d9488', fillOpacity: 0.85
-      }).bindPopup(`
-        <div style="font-family:'Public Sans',sans-serif;min-width:150px;">
+      const icon = municipalityIcon(1.5);
+      const iconHighlight = municipalityIcon(3.5);
+      const mid = 'muni_'+g.id+'_'+name.replace(/[^a-zA-Z0-9]/g,'_');
+      const stage1 = `
+        <div style="font-family:'Public Sans',sans-serif;min-width:150px;cursor:pointer;" onclick="event.stopPropagation(); window.__expandMapPopup('${mid}')">
           <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#0d9488;margin-bottom:4px;">Municipality</div>
           <b style="font-size:13px;">${name}</b>
           <div style="font-size:11px;color:#666;margin-top:2px;">${g.name} governorate</div>
-        </div>
-      `).addTo(mapLayers.municipalities);
-      mapSearchIndex.push({ name, sub: g.name + ' governorate', type:'municipalities', coords, marker });
+          <div style="font-size:10.5px;color:#0d9488;font-weight:600;margin-top:6px;">Tap for details →</div>
+        </div>`;
+      const stage2 = `
+        <div onclick="event.stopPropagation();" style="font-family:'Public Sans',sans-serif;min-width:200px;">
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#0d9488;margin-bottom:5px;">Municipality</div>
+          <div onclick="event.stopPropagation(); window.__openMuniFromMap('${mid}')" style="cursor:pointer;color:#0d9488;text-decoration:underline;font-size:15px;font-weight:700;margin-bottom:6px;">${name}</div>
+          <div style="font-size:11.5px;color:#666;">${g.name} governorate</div>
+          <div style="font-size:10.5px;color:#888;margin-top:8px;">Click the name above to view full details →</div>
+        </div>`;
+      const marker = L.marker(coords, { icon }).bindPopup(stage1).addTo(mapLayers.municipalities);
+      window.__mapMarkerRegistry[mid] = { marker, stage2, name, govId: g.id };
+      mapSearchIndex.push({ name, sub: g.name + ' governorate', type:'municipalities', coords, marker, iconNormal: icon, iconHighlight });
     });
   });
 
@@ -2509,10 +3096,20 @@ function ensureLeafletMap(){
   });
 
   // ---- Search panel ----
+  function mapDotHTML(item){
+    if(item.type==='problems'){
+      const c = statusColor[item.status] || '#8b95a3';
+      return `<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${c};margin-top:4px;flex-shrink:0;"></span>`;
+    }
+    if(item.type==='experts'){
+      return `<span style="display:inline-block;width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:9px solid #7c3aed;margin-top:4px;flex-shrink:0;"></span>`;
+    }
+    return `<span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:#0d9488;margin-top:4px;flex-shrink:0;"></span>`;
+  }
   const typeMeta = {
-    problems: { label:'Problem', color: 'var(--accent)' },
-    experts: { label:'Expert', color:'#7c3aed' },
-    municipalities: { label:'Municipality', color:'#0d9488' },
+    problems: { label:'Problem' },
+    experts: { label:'Expert' },
+    municipalities: { label:'Municipality' },
   };
   function normalizeForSearch(s){
     return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -2528,12 +3125,14 @@ function ensureLeafletMap(){
       : scoped.slice(0, 40); // no query yet — show a browsable default list, still respecting scope
     if(!matches.length){
       const noneEnabled = !searchScope.problems && !searchScope.experts && !searchScope.municipalities;
-      resultsEl.innerHTML = `<div style="padding:16px;font-size:12px;color:var(--text-faint);text-align:center;">${noneEnabled ? 'Turn at least one filter back on above to search.' : 'No matches. Try a different name.'}</div>`;
+      resultsEl.innerHTML = noneEnabled
+        ? '<div class="empty-state"><div class="es-icon">🔇</div><div class="es-msg">All layers are off</div><div class="es-sub">Turn at least one filter back on above to search.</div></div>'
+        : '<div class="empty-state"><div class="es-icon">🔍</div><div class="es-msg">No matches</div><div class="es-sub">Try a different name or governorate.</div></div>';
       return;
     }
     resultsEl.innerHTML = matches.map((item, i)=>`
       <div class="map-search-result" data-idx="${mapSearchIndex.indexOf(item)}" style="padding:9px 10px;border-radius:8px;cursor:pointer;display:flex;align-items:flex-start;gap:8px;">
-        <span style="display:inline-block;width:8px;height:8px;border-radius:${item.type==='experts'?'2px':'50%'};background:${typeMeta[item.type].color};margin-top:4px;flex-shrink:0;"></span>
+        ${mapDotHTML(item)}
         <div style="min-width:0;">
           <div style="font-size:12.5px;font-weight:600;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${item.name}</div>
           <div style="font-size:10.5px;color:var(--text-faint);">${typeMeta[item.type].label} · ${item.sub}</div>
@@ -2576,15 +3175,63 @@ function ensureLeafletMap(){
     coverageNote.textContent = `${problemCount} of ${PROJECTS.length} projects mapped, ${Object.keys(EXPERT_COORDS).length} expert organisations with a confirmed physical base, and ${muniCount} municipalities. Project and municipality locations are individually researched — about a third of the municipalities are directly Wikipedia-sourced coordinates for that specific town, the rest are confident placements for well-documented Lebanese towns, not a single one is randomly scattered. Coverage-area organisations (regional water establishments, coastline-wide initiatives) aren't pinned as a single point, since that would misrepresent what they actually cover.`;
   }
 
-  const listEl = document.getElementById('leafletProjectList');
+  const listEl = document.getElementById('mapProjectsCarousel');
   if(listEl){
     listEl.innerHTML = PROJECTS.map(cardHTML).join('');
     attachCardEvents(listEl);
+    initCarouselControls('mapProjectsCarousel', 'mapProjectsCarouselWrap');
+  }
+
+  const expertsEl = document.getElementById('mapExpertsCarousel');
+  if(expertsEl){
+    expertsEl.innerHTML = EXPERT_FIELDS.map(f=>
+      `<div class="mini-card" data-cat="${f.id}"><div class="mini-card-icon">${f.icon}</div><b>${f.name}</b><p>${f.desc}</p></div>`
+    ).join('');
+    expertsEl.querySelectorAll('.mini-card').forEach(el=>{
+      el.addEventListener('click', ()=> openCategoryPage(el.dataset.cat));
+    });
+    initCarouselControls('mapExpertsCarousel', 'mapExpertsCarouselWrap');
+  }
+
+  const munisEl = document.getElementById('mapMunisCarousel');
+  if(munisEl){
+    const sample = [];
+    GOVS.forEach(g=>{
+      const towns = MUNICIPALITIES[g.id] || [];
+      if(towns.length) sample.push({ name: towns[0], gov: g });
+      if(towns.length>1) sample.push({ name: towns[1], gov: g });
+    });
+    munisEl.innerHTML = sample.map(s=>
+      `<div class="mini-card" data-muni="${s.name}" data-gov="${s.gov.id}"><div class="mini-card-icon">🏛️</div><b>${s.name}</b><p>${s.gov.name} governorate</p></div>`
+    ).join('');
+    munisEl.querySelectorAll('.mini-card').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        const govId = el.dataset.gov;
+        openLeadPage('municipality', {name:el.dataset.muni, govId, summary:`Municipality in ${govName(govId)}.`, typeLabel:'Municipality'}, ()=> switchView('map'), 'the map');
+      });
+    });
+    initCarouselControls('mapMunisCarousel', 'mapMunisCarouselWrap');
   }
 
   setTimeout(()=> leafletMapInstance.invalidateSize(), 100);
 }
 window.__openProjectFromMap = function(id){ openDetail(id); };
+window.__mapMarkerRegistry = {};
+window.__expandMapPopup = function(mid){
+  const entry = window.__mapMarkerRegistry[mid];
+  if(entry) entry.marker.setPopupContent(entry.stage2);
+};
+window.__openMuniFromMap = function(mid){
+  const entry = window.__mapMarkerRegistry[mid];
+  if(!entry) return;
+  openLeadPage('municipality', {name:entry.name, govId:entry.govId, summary:`Municipality in ${govName(entry.govId)}.`, typeLabel:'Municipality'}, ()=> switchView('map'), 'the map');
+};
+window.__openExpertFromMap = function(mid){
+  const entry = window.__mapMarkerRegistry[mid];
+  if(!entry) return;
+  const lead = ALL_LEADS.find(l=> l.name===entry.name);
+  if(lead){ openLeadPage(lead.tags[0], lead, ()=> switchView('map'), 'the map'); }
+};
 
 // ---------- Map (regional overview) ----------
 function renderMiniMap(containerId, highlightGovId){
@@ -2603,7 +3250,7 @@ function renderGovJumpChips(){
   const row = document.getElementById('govJumpRow');
   if(!row) return;
   const chips = GOVS.map(g=>`<button class="gov-jump-chip" data-gov="${g.id}">${g.name}</button>`).join('');
-  row.innerHTML = `<span style="font-size:11px;color:var(--text-faint);margin-right:2px;">Jump to:</span>${chips}<button class="gov-jump-chip" data-gov="">Clear</button>`;
+  row.innerHTML = `<span style="font-size:13px;font-weight:700;color:var(--text-dim);margin-right:2px;">Search by governorate:</span><button class="gov-jump-chip" data-gov="">Clear, view all</button>${chips}`;
   row.querySelectorAll('.gov-jump-chip').forEach(b=> b.addEventListener('click', ()=> selectGov(b.dataset.gov)));
 }
 function selectGov(id){
@@ -2666,8 +3313,8 @@ function openCorridorFeaturePage(fid){
 function renderCorridorFeaturePage(fid){
   const f = CORRIDOR_FEATURES.find(x=>x.id===fid);
   document.getElementById('detailContent').innerHTML = `
-    <button class="detail-back" id="detailBackBtn">← Back to Corridors</button>
-    <div class="detail-kicker">More than money · Corridors</div>
+    <button class="detail-back" id="detailBackBtn">← Back to Diaspora</button>
+    <div class="detail-kicker">More than money · Diaspora</div>
     <h1 class="detail-title">${f.icon} ${f.name}</h1>
     <div class="detail-loc" style="margin-bottom:20px;">${f.tagline}</div>
     <div class="detail-cols">
@@ -2712,6 +3359,19 @@ function renderDonutChart(donations){
     <div>${legend}</div>
   </div>`;
 }
+const AVATAR_COLORS = ['#f59e0b','#10b981','#6366f1','#ec4899','#0ea5e9'];
+function avatarStackHTML(count){
+  if(!count || count<1) return '';
+  const shown = Math.min(3, count);
+  const initials = ['R','M','S','A','K'];
+  let html = '<span class="avatar-stack">';
+  for(let i=0;i<shown;i++){
+    html += `<span class="avatar-circle" style="background:${AVATAR_COLORS[i%AVATAR_COLORS.length]};">${initials[i]}</span>`;
+  }
+  if(count>shown) html += `<span class="avatar-circle avatar-more">+${count-shown}</span>`;
+  html += '</span>';
+  return html;
+}
 function renderDetail(){
   const p = PROJECTS.find(x=>x.id===openProjectId);
   const pct = Math.min(100, Math.round((p.raised/p.goal)*100));
@@ -2725,7 +3385,11 @@ function renderDetail(){
       <div class="c-text">${c.text}</div>
     </div>`).join('') : `<div style="font-size:12.5px;color:var(--text-faint);">No comments yet.</div>`;
   const metricChips = p.metrics.map(m=>`<div class="m-item"><b>${m.value}</b><span>${m.label}</span></div>`).join('');
-  const originLine = p.originReport ? `<div style="font-size:11.5px;color:var(--text-faint);margin-bottom:16px;">Grounded in citizen report ${p.originReport.ref} — confirmed by ${p.originReport.confirmed} residents.</div>` : '';
+  const originLine = p.originReport ? `<div style="font-size:11.5px;color:var(--text-faint);margin-bottom:16px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+      <span>Grounded in citizen report ${p.originReport.ref} —</span>
+      ${avatarStackHTML(p.originReport.confirmed)}
+      <span>confirmed by ${p.originReport.confirmed} residents.</span>
+    </div>` : '';
   const expertLine = p.expertPartner ? `<div class="partner-line">Technical expert — <b>${p.expertPartner.name}</b> (${p.expertPartner.field})</div>` : '';
 
   const affectedCount = p.affectedCount ?? (p.originReport ? p.originReport.confirmed : Math.max(1, Math.round((p.beneficiaries||10)/30)));
@@ -2985,6 +3649,22 @@ const GROUP_META = {
     name:'Government', role:'Certifies',
     overview:"Government certifies that a request meets technical and regulatory standards before it can open for funding — and never touches the money itself. Certification and custody stay on two separate tracks, on purpose: the body that approves a request is never the body holding the funds for it.",
     subsections: ['ministry','districts','municipality'],
+    matchingSystem: {
+      intro: "Proposed framework, not a live algorithm yet — suggested for review, not finalized. Since a certifying body's job is procedural and regulatory rather than technical, these attributes score jurisdiction fit and process integrity rather than delivery skill. Each attribute scores 1–5; a composite score is a weighted sum, not a simple average, since two attributes here should gate a match rather than just nudge it.",
+      attributes: [
+        {name:'Jurisdictional Match', low:'Outside this body\'s authority for this request type', high:'Exact jurisdiction for this request type'},
+        {name:'Certification Turnaround', low:'No predictable review timeline', high:'Fast, published review timeline'},
+        {name:'Regulatory Currency', low:'Applying outdated or superseded standards', high:'Current codes and standards applied'},
+        {name:'Track Record', low:'No certifications completed on this ledger yet', high:'Multiple verified certifications completed'},
+        {name:'Queue Capacity', low:'Certification backlog, long delays', high:'Current queue, no backlog'},
+        {name:'Escalation Path Clarity', low:'No documented appeal route', high:'Clear, documented appeal process'},
+        {name:'Process Transparency', low:'No visibility into review criteria', high:'Published, consistent review criteria', gate:true},
+        {name:'Conflict of Interest Check', low:'Body has a financial or political stake in the outcome', high:'No stake in the outcome', gate:true},
+        {name:'Cross-Body Coordination', low:'Requires many uncoordinated sign-offs', high:'Single point of certification, well-coordinated with other bodies', isNew:true},
+        {name:'Independence from Politics', low:'Certification history tracks political cycles', high:'Certification history stable across administrations', isNew:true},
+      ],
+      note: "Process Transparency and Conflict of Interest are gates rather than ordinary scoring inputs: a certifying body with opaque criteria or a stake in the outcome shouldn't be auto-matched no matter how fast or convenient it otherwise scores — that's exactly the failure mode the certify/solve/fund separation exists to prevent."
+    },
   },
   experts: {
     name:'Expert organisations', role:'Solves',
@@ -3013,6 +3693,22 @@ const GROUP_META = {
     name:'Sponsors', role:'Funds',
     overview:"Five kinds of funders, one ledger. Every pledge is tracked the same way regardless of who it comes from — named or anonymous, held in escrow, released only against independently verified evidence. None of them can certify a request or implement it themselves; funding stays its own separate role.",
     subsections: ['orgbiz','sponsorngo','embassies','diaspora','locals'],
+    matchingSystem: {
+      intro: "Proposed framework, not a live algorithm yet — suggested for review, not finalized. Since a sponsor's role is funding, not technical or regulatory judgment, these attributes score funding fit and custody discipline rather than delivery skill. Each attribute scores 1–5; a composite score is a weighted sum, not a simple average, since two attributes here should gate a match rather than just nudge it.",
+      attributes: [
+        {name:'Funding Capacity Fit', low:'Amount wildly mismatched to request size', high:'Comfortably covers request size'},
+        {name:'Cause Alignment', low:'No stated interest in this sector', high:'Explicit focus-area match'},
+        {name:'Geographic Affinity', low:'No connection to this locality', high:'Direct hometown or diaspora tie'},
+        {name:'Track Record', low:'First-time funder, no history', high:'Multiple completed, verified pledges'},
+        {name:'Response Time', low:'Slow to commit once certified', high:'Rapid pledge turnaround'},
+        {name:'Disbursement Reliability', low:'History of delayed or partial pledges', high:'Consistent, full, on-time disbursement'},
+        {name:'Co-funding Flexibility', low:'All-or-nothing funder only', high:'Willing to co-fund partial tranches alongside others', isNew:true},
+        {name:'Beyond-Funding Engagement', low:'Funding only, no further engagement', high:'Also offers mentorship, jobs, or other non-monetary support', isNew:true},
+        {name:'Escrow Compliance', low:'Wants funds released without milestone gates', high:'Fully compliant with tranche/escrow model', gate:true},
+        {name:'Conflict of Interest Check', low:'Sponsor has a tie to the implementing partner or certifying body', high:'No tie to implementer or certifier', gate:true},
+      ],
+      note: "Escrow Compliance and Conflict of Interest are gates rather than ordinary scoring inputs: a sponsor unwilling to release funds against verified milestones, or one with a stake in who implements or certifies the work, shouldn't be auto-matched no matter how well-funded or responsive they otherwise score — that undermines the exact separation of roles this platform exists to enforce."
+    },
   },
 };
 
@@ -3025,8 +3721,11 @@ function renderGroupPage(groupId){
   document.getElementById('mobilePledgeBar')?.classList.remove('show');
   const g = GROUP_META[groupId];
   const ms = g.matchingSystem;
+  const msHeading = groupId==='government' ? 'How government bodies get matched to certifications'
+    : groupId==='sponsors' ? 'How sponsors get matched to requests'
+    : 'How experts get matched to problems';
   const matchingHTML = ms ? `
-    <h3 style="font-size:16px;margin:34px 0 6px;">🎯 How experts get matched to problems</h3>
+    <h3 style="font-size:16px;margin:110px 0 6px;">🎯 ${msHeading}</h3>
     <p style="font-size:12.5px;color:var(--text-dim);max-width:720px;margin:0 0 16px;line-height:1.6;">${ms.intro}</p>
     <div style="overflow-x:auto;margin-bottom:14px;">
       <table style="width:100%;border-collapse:collapse;font-size:12.5px;min-width:600px;">
@@ -3158,6 +3857,114 @@ function getLeadExamples(catId, lead){
   return ["Shown here for its real-world track record in this field — not a confirmed partner of this concept platform."];
 }
 
+// ---------- Full lead list — built from the exact same sources as the Network page ----------
+function getFullLeadRows(){
+  const rows = [];
+  MINISTRIES.forEach(([name, desc])=>{
+    rows.push({ name, group:'Government', options:['Ministry'], coverage:'Nationwide', whatTheyDo:desc, source:null });
+  });
+  GOVS.forEach(g=>{
+    rows.push({ name:g.name, group:'Government', options:['Governorates & Districts'], coverage:g.name, whatTheyDo:'Coordinates across municipalities in its region — read-only on funds and certification.', source:null });
+  });
+  DISTRICTS.forEach(d=>{
+    rows.push({ name:d, group:'Government', options:['Governorates & Districts'], coverage:d, whatTheyDo:"One of Lebanon's 26 administrative districts.", source:null });
+  });
+  GOVS.forEach(g=>{
+    (MUNICIPALITIES[g.id]||[]).forEach(m=>{
+      rows.push({ name:m, group:'Government', options:['Municipality'], coverage:g.name+' governorate', whatTheyDo:'Posts the request and delivers the work on the ground, once certified.', source:null });
+    });
+  });
+  Object.keys(COUNTRY_META).forEach(country=>{
+    const c = COUNTRY_META[country];
+    rows.push({ name:country, group:'Sponsors', options:['Diaspora'], coverage:country, whatTheyDo:c.overview, source:null });
+  });
+  const seen = {};
+  ALL_LEADS.forEach(l=>{
+    if(seen[l.name]) return;
+    seen[l.name] = true;
+    const group = CATEGORY_META[l.tags[0]] ? CATEGORY_META[l.tags[0]].group : 'Sponsors';
+    const options = l.tags.map(t=> CATEGORY_META[t] ? CATEGORY_META[t].name : t);
+    rows.push({ name:l.name, group, options, coverage:l.wherePrevalent, whatTheyDo:l.whatTheyDo, source:l.source||null });
+  });
+  return rows;
+}
+const LEAD_GROUP_CLASS = {'Government':'g-gov','Expert organisations':'g-exp','Sponsors':'g-spo'};
+const LEAD_GROUP_ORDER = ['Government','Expert organisations','Sponsors'];
+const LEAD_GROUP_DOT = {'Government':'#2563EB','Expert organisations':'#7c3aed','Sponsors':'#0d9488'};
+const leadTableData = {};
+function leadRowHTML(r){
+  return `<tr>
+      <td class="lt-name"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${LEAD_GROUP_DOT[r.group]||'#999'};margin-right:8px;"></span>${r.name}</td>
+      <td><span class="lead-group-tag ${LEAD_GROUP_CLASS[r.group]||''}">${r.group}</span></td>
+      <td class="lt-opts">${r.options.join(', ')}</td>
+      <td class="lt-desc">${r.coverage||'—'}</td>
+      <td class="lt-desc">${r.whatTheyDo||'—'}</td>
+      <td class="lt-source">${r.source ? `<a href="${r.source}" target="_blank" rel="noopener" style="color:var(--accent);font-style:normal;">Visit ↗</a>` : 'Add source'}</td>
+    </tr>`;
+}
+const LEAD_SORT_KEYS = {0:'name', 1:'group', 2:null, 3:'coverage', 4:'whatTheyDo', 5:null};
+function leadTableHeaderHTML(tableId){
+  const labels = ['Organisation','Group','Options','Coverage area','What they do','Source'];
+  return `<tr>` + labels.map((l,i)=> LEAD_SORT_KEYS[i]
+    ? `<th style="cursor:pointer;user-select:none;" data-table-id="${tableId}" data-sort-key="${LEAD_SORT_KEYS[i]}">${l} <span class="lead-sort-arrow" data-arrow="${tableId}:${LEAD_SORT_KEYS[i]}"></span></th>`
+    : `<th>${l}</th>`
+  ).join('') + `</tr>`;
+}
+function sortLeadTable(tableId, key){
+  const state = leadTableData[tableId];
+  const asc = state.sortKey===key ? !state.sortAsc : true;
+  state.rows.sort((a,b)=>{
+    const av = (a[key]||'').toString().toLowerCase(), bv = (b[key]||'').toString().toLowerCase();
+    return asc ? av.localeCompare(bv) : bv.localeCompare(av);
+  });
+  state.sortKey = key; state.sortAsc = asc;
+  document.getElementById('tbody-'+tableId).innerHTML = state.rows.map(leadRowHTML).join('');
+  document.querySelectorAll(`[data-arrow^="${tableId}:"]`).forEach(a=> a.textContent='');
+  const arrow = document.querySelector(`[data-arrow="${tableId}:${key}"]`);
+  if(arrow) arrow.textContent = asc ? '↑' : '↓';
+}
+document.addEventListener('click', e=>{
+  const th = e.target.closest('th[data-sort-key]');
+  if(th) sortLeadTable(th.dataset.tableId, th.dataset.sortKey);
+});
+function renderLeadList(group){
+  const rows = getFullLeadRows().filter(r=> group==='all' || r.group===group);
+  // Bucket by top-level group, then by each individual option within that group
+  // (a lead with multiple tags — e.g. Water + Sewage — appears under each relevant subheading,
+  // matching how Network's own category pages already treat multi-tagged leads).
+  const byGroup = {};
+  rows.forEach(r=>{
+    if(!byGroup[r.group]) byGroup[r.group] = {};
+    r.options.forEach(opt=>{
+      if(!byGroup[r.group][opt]) byGroup[r.group][opt] = [];
+      byGroup[r.group][opt].push(r);
+    });
+  });
+  const groupIcon = {'Government':'🏛️','Expert organisations':'🛠️','Sponsors':'🤝'};
+  const groupHeadingClass = {'Government':'lsh-gov','Expert organisations':'lsh-exp','Sponsors':'lsh-spo'};
+  let html = '';
+  LEAD_GROUP_ORDER.forEach(g=>{
+    if(!byGroup[g]) return;
+    html += `<div class="lead-group-section">`;
+    html += `<div class="lead-section-heading ${groupHeadingClass[g]}"><span class="lsh-icon">${groupIcon[g]}</span>${g}</div>`;
+    Object.keys(byGroup[g]).sort().forEach(opt=>{
+      const optRows = byGroup[g][opt];
+      const tableId = (g+'-'+opt).replace(/[^a-zA-Z0-9]/g,'_');
+      leadTableData[tableId] = { rows: optRows.slice(), sortKey:null, sortAsc:true };
+      html += `<div class="lead-section-subheading">${opt} <span class="lead-section-count">(${optRows.length})</span></div>`;
+      html += `<div class="lead-table-wrap"><table class="lead-table"><thead>${leadTableHeaderHTML(tableId)}</thead><tbody id="tbody-${tableId}">${optRows.map(leadRowHTML).join('')}</tbody></table></div>`;
+    });
+    html += `</div>`;
+  });
+  document.getElementById('leadListContainer').innerHTML = html || '<div class="empty-state"><div class="es-icon">📋</div><div class="es-msg">No organisations in this group yet</div></div>';
+  document.getElementById('leadListCount').textContent = `${rows.length} organisation${rows.length===1?'':'s'} shown${group!=='all' ? ' · '+group : ''}.`;
+  document.querySelectorAll('#leadListFilter button').forEach(b=> b.classList.toggle('active', b.dataset.lgroup===group));
+}
+document.querySelectorAll('#leadListFilter button').forEach(btn=>{
+  btn.addEventListener('click', ()=> renderLeadList(btn.dataset.lgroup));
+});
+
+
 let detailBackFn = ()=> switchView('dashboard');
 
 // Country pages for each sending corridor. Overviews use well-established historical/diaspora
@@ -3259,9 +4066,9 @@ function renderCountryPage(country){
     : '';
   document.getElementById('detailContent').innerHTML = `
     <div style="font-size:12px;color:var(--text-faint);margin-bottom:12px;">
-      <span style="cursor:pointer;" id="bcHomeCountry">Home</span> / <span style="cursor:pointer;" id="bcCorridorsCountry">Corridors</span> / <span style="color:var(--text-dim);">${country}</span>
+      <span style="cursor:pointer;" id="bcHomeCountry">Home</span> / <span style="cursor:pointer;" id="bcCorridorsCountry">Diaspora</span> / <span style="color:var(--text-dim);">${country}</span>
     </div>
-    <button class="detail-back" id="detailBackBtn">← Back to Corridors</button>
+    <button class="detail-back" id="detailBackBtn">← Back to Diaspora</button>
     <div style="margin-bottom:2px;">
       <span style="font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--bg-2);color:var(--text-faint);padding:3px 9px;border-radius:10px;">Sending country</span>
     </div>
@@ -3487,6 +4294,134 @@ document.querySelectorAll('#audienceNav button').forEach(btn=>{
 document.querySelector('#form-municipalities select').innerHTML = '<option value="">Governorate</option>' + GOVS.map(g=>`<option>${g.name}</option>`).join('');
 document.getElementById('govorateSelect').innerHTML = '<option value="">Governorate</option>' + GOVS.map(g=>`<option>${g.name}</option>`).join('');
 
+// ---------- Account demo dashboards ----------
+const ACCOUNT_DEMO_DATA = {
+  municipalities: {
+    title: 'Baalbek Municipality', subtitle: 'Sample dashboard — what a municipality account sees after posting requests.',
+    stats: [ {num:'3', lbl:'Active requests'}, {num:'$41,200', lbl:'Raised across requests'}, {num:'7', lbl:'Milestones verified'}, {num:'1', lbl:'Awaiting your action'} ],
+    tableTitle: 'Your posted requests', rowType: 'project',
+    rows: [
+      {projectId:6, caption:'Posted 14 Jun'},
+      {projectId:10, caption:'Posted 2 May'},
+      {projectId:5, caption:'Posted 28 Mar'}
+    ],
+    actionsTitle: 'Pending your action',
+    actions: [ {label:'Confirm delivery — Halba water network repair', sub:'Contractor reports pipes installed, awaiting your sign-off'} ]
+  },
+  organisations: {
+    title: 'Sanayeh Recycling Collective', subtitle: 'Sample dashboard — what an organisation sees for its assigned projects.',
+    stats: [ {num:'5', lbl:'Active assignments'}, {num:'$18,900', lbl:'Delivered this year'}, {num:'#3', lbl:'Scoreboard rank'}, {num:'2', lbl:'Proof submissions due'} ],
+    tableTitle: 'Your assigned projects', rowType: 'project',
+    rows: [
+      {projectId:9, caption:'Assigned 1 May'},
+      {projectId:11, caption:'Delivered 28 Feb'},
+      {projectId:3, caption:'Assigned 12 Feb'}
+    ],
+    actionsTitle: 'Delivery proof due',
+    actions: [ {label:'Submit pickup log — Weekly recycling, Anfeh', sub:'Due in 4 days to trigger next milestone release'} ]
+  },
+  locals: {
+    title: 'Rana K. · Zahlé', subtitle: 'Sample dashboard — what a local resident sees after reporting and following projects.',
+    stats: [ {num:'2', lbl:'Reports submitted'}, {num:'4', lbl:'Projects followed'}, {num:'1', lbl:'Verifications done'}, {num:'1', lbl:'Verification requested'} ],
+    tableTitle: "Problems you've reported", rowType: 'project',
+    rows: [
+      {projectId:3, caption:'Reported 12 Feb · 22 residents confirmed'},
+      {projectId:16, caption:'Reported 3 Jan · 8 residents confirmed'}
+    ],
+    actionsTitle: 'Verification requested',
+    actions: [ {label:'Confirm bins installed — Zahlé riverside cleanup', sub:'Independent verifier check, takes under 2 minutes'} ]
+  },
+  diaspora: {
+    title: 'Diaspora member · Toronto', subtitle: 'Sample dashboard — what a diaspora funder sees across their pledges.',
+    stats: [ {num:'$6,500', lbl:'Total pledged'}, {num:'3', lbl:'Active pledges'}, {num:'2', lbl:'Fully released'}, {num:'1', lbl:'Inauguration invite'} ],
+    tableTitle: 'Your pledges', rowType: 'project',
+    rows: [
+      {projectId:4, caption:'Pledged 18 May · $2,500 escrowed'},
+      {projectId:8, caption:'Pledged 2 Apr · $1,800 released'},
+      {projectId:6, caption:'Pledged 20 Mar · $2,200 released'}
+    ],
+    actionsTitle: 'Upcoming inaugurations',
+    actions: [ {label:'Byblos coastal path — ribbon-cutting', sub:"Sat 14 Jun · You funded the final lighting stretch"} ]
+  },
+  government: {
+    title: 'Ministry liaison desk', subtitle: 'Sample dashboard — what a certifying government branch sees.',
+    stats: [ {num:'6', lbl:'Awaiting certification'}, {num:'14', lbl:'Certified this month'}, {num:'9', lbl:'Governorates active'}, {num:'2', lbl:'Liaison requests open'} ],
+    tableTitle: 'Certification queue', rowType: 'project',
+    rows: [
+      {projectId:15, caption:'Submitted · Beirut · Awaiting technical review'},
+      {projectId:20, caption:'Submitted · Keserwan · Awaiting technical review'}
+    ],
+    actionsTitle: 'Recently certified',
+    actions: [ {label:'Baalbek school roof repair — certified', sub:'Meets structural and safety code, cleared 2 days ago'} ]
+  },
+  governorate: {
+    title: 'Beqaa Governorate desk', subtitle: 'Sample dashboard — an aggregate, read-only view across municipalities.',
+    stats: [ {num:'11', lbl:'Municipalities'}, {num:'$96,400', lbl:'Raised region-wide'}, {num:'17', lbl:'Active projects'}, {num:'1', lbl:'Liaison request pending'} ],
+    tableTitle: 'Municipalities', rowType: 'municipality',
+    rows: [
+      {name:'Zahlé', sub:'3 active projects', value:'$41,200 raised', pill:'On track', pillClass:'ok'},
+      {name:'Baalbek', sub:'2 active projects', value:'$18,900 raised', pill:'On track', pillClass:'ok'},
+      {name:'Rmeish', sub:'1 active project', value:'$2,500 escrowed', pill:'Funding', pillClass:'accent'}
+    ],
+    actionsTitle: 'Diaspora liaison requests',
+    actions: [ {label:'Property paperwork help — returning visitor, Zahlé', sub:'Requested ahead of visit on 22 Jun'} ]
+  }
+};
+function renderAccountDemo(type){
+  document.getElementById('demoOverviewCTA').style.display = type==='overview' ? 'block' : 'none';
+  document.getElementById('demoTableTitle').style.display = type==='overview' ? 'none' : '';
+  document.getElementById('demoActionsTitle').style.display = type==='overview' ? 'none' : '';
+  document.getElementById('demoActions').style.display = type==='overview' ? 'none' : '';
+
+  if(type==='overview'){
+    const totalRaised = PROJECTS.reduce((s,p)=>s+p.raised,0);
+    const govCount = new Set(PROJECTS.map(p=>p.gov)).size;
+    document.getElementById('demoTitle').textContent = 'All account types, one ledger';
+    document.getElementById('demoSubtitle').textContent = 'An aggregate view across every account type on Manāra — sample dashboard, real platform figures.';
+    document.getElementById('demoStats').innerHTML = [
+      {num:String(PROJECTS.length), lbl:'Open & delivered requests'},
+      {num:money(totalRaised), lbl:'Mobilized platform-wide'},
+      {num:String(govCount), lbl:'Governorates active'},
+      {num:'6', lbl:'Account types'}
+    ].map(s=>`<div class="stat"><span class="num">${s.num}</span><span class="lbl">${s.lbl}</span></div>`).join('');
+    document.getElementById('demoTable').innerHTML = '';
+    document.querySelectorAll('#demoNav button').forEach(b=> b.classList.toggle('active', b.dataset.demo===type));
+    return;
+  }
+
+  const d = ACCOUNT_DEMO_DATA[type];
+  if(!d) return;
+  document.getElementById('demoTitle').textContent = d.title;
+  document.getElementById('demoSubtitle').textContent = d.subtitle;
+  document.getElementById('demoStats').innerHTML = d.stats.map(s=>
+    `<div class="stat"><span class="num">${s.num}</span><span class="lbl">${s.lbl}</span></div>`).join('');
+  document.getElementById('demoTableTitle').textContent = d.tableTitle;
+
+  const tableEl = document.getElementById('demoTable');
+  if(d.rowType === 'project'){
+    tableEl.className = 'proj-grid';
+    tableEl.innerHTML = d.rows.map(r=>{
+      const p = PROJECTS.find(x=>x.id===r.projectId);
+      if(!p) return '';
+      return `<div class="demo-proj-cell">${cardHTML(p)}<div class="demo-proj-caption">${r.caption}</div></div>`;
+    }).join('');
+    attachCardEvents(tableEl);
+  } else {
+    tableEl.className = 'dash-table';
+    tableEl.innerHTML = d.rows.map(r=>
+      `<div class="dash-row"><div class="dr-main"><div class="dr-name">${r.name}</div><div class="dr-sub">${r.sub}</div></div><span class="status-pill st-${r.pillClass}">${r.pill}</span><span class="dr-value">${r.value}</span></div>`).join('');
+  }
+
+  document.getElementById('demoActionsTitle').textContent = d.actionsTitle;
+  document.getElementById('demoActions').innerHTML = d.actions.map(a=>
+    `<div class="dash-action-row"><div class="dr-name" style="font-size:12.5px;">${a.label}</div><div class="dr-sub">${a.sub}</div></div>`).join('');
+  document.querySelectorAll('#demoNav button').forEach(b=> b.classList.toggle('active', b.dataset.demo===type));
+}
+function openAccountDemo(type){ switchView('account-demo'); renderAccountDemo(type); }
+document.querySelectorAll('#demoNav button').forEach(btn=>{
+  btn.addEventListener('click', ()=> renderAccountDemo(btn.dataset.demo));
+});
+
 function caseHeadline(p, tag){
   if(tag==='diaspora') return money(p.raised) + ' mobilized · ' + corridorCountry(p.corridor);
   if(tag==='locals') return p.originReport ? p.originReport.confirmed + ' residents confirmed this mattered' : p.comments.length + ' resident comments on record';
@@ -3526,10 +4461,40 @@ function renderCaseStudies(){
     el.addEventListener('click', ()=> selectGov(el.dataset.gov));
   });
 }
-['municipalities','organisations','locals','diaspora','government','governorate'].forEach(page=>{
+['municipalities','organisations','locals','diaspora','government','governorate','quickjoin'].forEach(page=>{
   const form = document.getElementById('form-'+page);
   form.addEventListener('submit', e=>{ e.preventDefault(); document.getElementById('success-'+page).classList.add('show'); form.reset(); });
 });
+
+// ---------- Join page: quick category + sub-option picker ----------
+const JOIN_CATEGORIES = {
+  government: ['Ministry', 'Governorates & Districts', 'Municipality'],
+  experts: ['Electricity', 'Waste Collection', 'Water', 'Public Land & Pavements', 'Environment', 'Roads & Traffic', 'Sewage', 'NGOs & Initiatives'],
+  sponsors: ['Organisations & Businesses', 'NGOs', 'Embassies', 'Diaspora', 'Locals']
+};
+let joinSelectedCat = 'government';
+function renderJoinSubOptions(){
+  const opts = JOIN_CATEGORIES[joinSelectedCat];
+  const row = document.getElementById('joinSubOptions');
+  row.innerHTML = opts.map((o,i)=> `<button class="join-sub-chip${i===0?' sel':''}" data-sub="${o}">${o}</button>`).join('');
+  document.getElementById('quickJoinSelLabel').textContent = opts[0];
+  row.querySelectorAll('.join-sub-chip').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      row.querySelectorAll('.join-sub-chip').forEach(c=> c.classList.remove('sel'));
+      el.classList.add('sel');
+      document.getElementById('quickJoinSelLabel').textContent = el.dataset.sub;
+    });
+  });
+}
+document.querySelectorAll('#joinCategoryNav .join-cat-card').forEach(card=>{
+  card.addEventListener('click', ()=>{
+    document.querySelectorAll('#joinCategoryNav .join-cat-card').forEach(c=> c.classList.remove('active'));
+    card.classList.add('active');
+    joinSelectedCat = card.dataset.jcat;
+    renderJoinSubOptions();
+  });
+});
+renderJoinSubOptions();
 
 // ---------- Municipality directory wiring ----------
 document.getElementById('muniDirBack').addEventListener('click', ()=> switchView('network'));
@@ -3538,7 +4503,16 @@ document.getElementById('muniDirSearch').addEventListener('input', renderMuniDir
 
 // ---------- init ----------
 renderGrid(true); renderStats(); renderGovJumpChips(); renderCorridors();
-renderScoreboard(); renderCaseStudies(); renderHome(); renderMuniDirectory(); renderCorridorFeatureGrid();
+function renderWorkflowDemoCard(){
+  const demoProject = {
+    id:'demo-anjar', title:'Street lighting repair, Anjar main road', type:'Public Lighting',
+    gov:'bekaa', locality:'Anjar', status:'proposed', goal:14000, raised:0,
+    originReport:{ref:'BM-9231', confirmed:34}
+  };
+  const el = document.getElementById('wfFinalCard');
+  if(el) el.innerHTML = cardHTML(demoProject, false);
+}
+renderScoreboard(); renderCaseStudies(); renderHome(); renderMuniDirectory(); renderCorridorFeatureGrid(); renderWorkflowDemoCard(); renderLeadList('all');
 document.querySelector('.page.active')?.classList.add('page-visible');
 
 // "How it works" stepper — click any step to highlight it and dim the rest
@@ -3587,6 +4561,360 @@ const revealObserver = new IntersectionObserver((entries)=>{
   });
 }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 document.querySelectorAll('.section.reveal').forEach(el=> revealObserver.observe(el));
+
+// ---------- Breadcrumb bar ----------
+// ---------- World choropleth map (Lebanon + diaspora countries) ----------
+let worldMapTopology = null;
+const WORLD_MAP_NAME_ALIASES = { 'United States':'United States of America' };
+const COUNTRY_CONTINENT = {
+  'Brazil':'Americas', 'Argentina':'Americas', 'Mexico':'Americas', 'United States':'Americas', 'Canada':'Americas',
+  'United Kingdom':'Europe', 'France':'Europe',
+  'Nigeria':'Africa', 'Ghana':'Africa', 'Senegal':'Africa', "Côte d'Ivoire":'Africa',
+  'Qatar':'Middle East',
+  'Australia':'Oceania'
+};
+function fundingTier(total){
+  if(total >= 15000) return { level:'high', color:'#92400e' };
+  if(total >= 7000) return { level:'medium', color:'#f59e0b' };
+  return { level:'low', color:'#fde68a' };
+}
+// Illustrative only — not real registered-user data, this is a demo platform.
+// Numbers are loosely scaled to each community's actual diaspora size for plausibility.
+const COUNTRY_DEMO_USERS = {
+  'Brazil': 3200, 'Argentina': 1850, 'Mexico': 640, 'United States': 2400,
+  'Canada': 980, 'Australia': 870, 'United Kingdom': 540, 'France': 610,
+  'Nigeria': 210, 'Ghana': 95, 'Senegal': 130, 'Qatar': 340
+};
+async function renderWorldChoropleth(holderId){
+  const holder = document.getElementById(holderId);
+  if(!holder) return;
+  holder.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--text-faint);font-size:13px;">Loading world map…</div>';
+  if(!worldMapTopology){
+    try{
+      const res = await fetch('https://unpkg.com/world-atlas@2/countries-110m.json');
+      const topology = await res.json();
+      worldMapTopology = topojson.feature(topology, topology.objects.countries);
+    }catch(e){
+      holder.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--text-faint);font-size:13px;">World map data failed to load.</div>';
+      return;
+    }
+  }
+  holder.innerHTML = '';
+  let tooltip = document.getElementById('worldMapTooltip');
+  if(!tooltip){
+    tooltip = document.createElement('div');
+    tooltip.id = 'worldMapTooltip';
+    tooltip.className = 'world-map-tooltip';
+    document.body.appendChild(tooltip);
+  }
+  const width = holder.clientWidth || 800;
+  const height = Math.round(width * 0.5);
+  const svg = d3.select(holder).append('svg').attr('viewBox', `0 0 ${width} ${height}`).attr('width','100%').style('display','block');
+  const projection = d3.geoNaturalEarth1().fitSize([width, height], worldMapTopology);
+  const path = d3.geoPath(projection);
+  const diasporaAliasSet = new Set(Object.keys(COUNTRY_META).map(k=> WORLD_MAP_NAME_ALIASES[k] || k));
+  const originalKeyByAlias = {};
+  Object.keys(COUNTRY_META).forEach(k=>{ originalKeyByAlias[WORLD_MAP_NAME_ALIASES[k]||k] = k; });
+  const countryFundsByAlias = {};
+  Object.keys(COUNTRY_META).forEach(k=>{
+    const total = PROJECTS.filter(p=>corridorCountry(p.corridor)===k).reduce((a,p)=>a+p.raised,0);
+    countryFundsByAlias[WORLD_MAP_NAME_ALIASES[k]||k] = total;
+  });
+  const baseFill = d=>{
+    const name = d.properties.name;
+    if(name==='Lebanon') return '#2563EB';
+    if(diasporaAliasSet.has(name)) return fundingTier(countryFundsByAlias[name]||0).color;
+    return '#e5e7eb';
+  };
+  function buildTooltipHTML(country){
+    const c = COUNTRY_META[country] || { overview:'', initiatives:[] };
+    const projects = PROJECTS.filter(p=>corridorCountry(p.corridor)===country);
+    const total = projects.reduce((a,p)=>a+p.raised,0);
+    const orgsText = c.initiatives.length
+      ? c.initiatives.slice(0,2).map(i=> i.split(' — ')[0]).join('; ')
+      : 'None confirmed on the ledger yet';
+    const overviewText = c.overview ? (c.overview.length>150 ? c.overview.slice(0,150)+'…' : c.overview) : '';
+    return `
+      <div class="wmt-title">${country}</div>
+      <div class="wmt-stat-row"><span class="wmt-label">Funds mobilized</span><span class="wmt-value">${money(total)}</span></div>
+      <div class="wmt-stat-row"><span class="wmt-label">Projects funded</span><span class="wmt-value">${projects.length}</span></div>
+      <div class="wmt-stat-row"><span class="wmt-label">Diaspora users on Manāra</span><span class="wmt-value">${(COUNTRY_DEMO_USERS[country]||0).toLocaleString()}</span></div>
+      <div class="wmt-orgs"><b>Organisations helping:</b> ${orgsText}</div>
+      ${overviewText ? `<div class="wmt-overview">${overviewText}</div>` : ''}
+      <div style="margin-top:8px;font-size:10px;color:var(--accent);font-weight:700;">Click for full profile →</div>
+    `;
+  }
+  svg.selectAll('path')
+    .data(worldMapTopology.features)
+    .join('path')
+    .attr('data-country-name', d=> d.properties.name)
+    .attr('d', path)
+    .attr('fill', baseFill)
+    .attr('stroke', '#fff')
+    .attr('stroke-width', 0.5)
+    .style('cursor', d=> (d.properties.name==='Lebanon' || diasporaAliasSet.has(d.properties.name)) ? 'pointer' : 'default')
+    .on('mouseenter', function(e,d){
+      d3.select(this).attr('fill', '#bfdbfe');
+      const original = originalKeyByAlias[d.properties.name];
+      if(original){
+        tooltip.innerHTML = buildTooltipHTML(original);
+        tooltip.style.display = 'block';
+      }
+    })
+    .on('mousemove', function(e){
+      tooltip.style.left = (e.clientX + 16) + 'px';
+      tooltip.style.top = (e.clientY + 16) + 'px';
+    })
+    .on('mouseleave', function(e,d){
+      d3.select(this).attr('fill', baseFill(d));
+      tooltip.style.display = 'none';
+    })
+    .on('click', function(e,d){
+      const original = originalKeyByAlias[d.properties.name];
+      if(original) openCountryPage(original);
+    })
+    .append('title').text(d=> d.properties.name);
+}
+// Map page toggle between Leaflet Lebanon map and the world diaspora map
+function renderContinentChips(rowId, svgHolderId){
+  const row = document.getElementById(rowId);
+  if(!row) return;
+  const continents = [...new Set(Object.values(COUNTRY_CONTINENT))];
+  const chips = continents.map(c=> `<button class="gov-jump-chip" data-continent="${c}">${c}</button>`).join('');
+  row.innerHTML = `<span style="font-size:13px;font-weight:700;color:var(--text-dim);margin-right:2px;">Search by continent:</span><button class="gov-jump-chip" data-continent="">Clear, view all</button>${chips}`;
+  row.querySelectorAll('.gov-jump-chip').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      row.querySelectorAll('.gov-jump-chip').forEach(b=> b.classList.toggle('sel', b===btn && btn.dataset.continent!==''));
+      const selected = btn.dataset.continent;
+      document.querySelectorAll(`#${svgHolderId} path[data-country-name]`).forEach(pathEl=>{
+        const topoName = pathEl.getAttribute('data-country-name');
+        const original = Object.keys(COUNTRY_META).find(k=> (WORLD_MAP_NAME_ALIASES[k]||k) === topoName);
+        if(topoName==='Lebanon' || !original){ pathEl.style.opacity = '1'; return; }
+        pathEl.style.opacity = (!selected || COUNTRY_CONTINENT[original]===selected) ? '1' : '0.25';
+      });
+    });
+  });
+}
+function renderWorldMapSidebar(sidebarId, svgHolderId){
+  const el = document.getElementById(sidebarId);
+  if(!el) return;
+  const countries = Object.keys(COUNTRY_META).map(name=>{
+    const projects = PROJECTS.filter(p=>corridorCountry(p.corridor)===name);
+    const total = projects.reduce((a,p)=>a+p.raised,0);
+    return { name, total, count: projects.length };
+  }).sort((a,b)=> b.total - a.total);
+  el.innerHTML = `
+    <div class="wms-header"><b style="font-size:13px;">Diaspora countries</b></div>
+    <div style="overflow-y:auto; flex:1;">
+      ${countries.map(c=> `<div class="wms-country-row" data-country="${c.name}">
+          <span class="wms-country-name">${c.name}</span>
+          <span class="wms-country-stat">${money(c.total)}</span>
+        </div>`).join('')}
+      <div class="wms-section-label">More than money</div>
+      ${CORRIDOR_FEATURES.map(f=> `<div class="wms-feature-row" data-fid="${f.id}"><span>${f.icon}</span><span>${f.name}</span></div>`).join('')}
+    </div>
+  `;
+  el.querySelectorAll('.wms-country-row').forEach(row=>{
+    row.addEventListener('click', ()=> openCountryPage(row.dataset.country));
+    row.addEventListener('mouseenter', ()=>{
+      if(!svgHolderId) return;
+      const aliasedName = WORLD_MAP_NAME_ALIASES[row.dataset.country] || row.dataset.country;
+      const pathEl = document.querySelector(`#${svgHolderId} path[data-country-name="${aliasedName}"]`);
+      if(pathEl){ pathEl.setAttribute('fill', '#bfdbfe'); }
+    });
+    row.addEventListener('mouseleave', ()=>{
+      if(!svgHolderId) return;
+      const aliasedName = WORLD_MAP_NAME_ALIASES[row.dataset.country] || row.dataset.country;
+      const pathEl = document.querySelector(`#${svgHolderId} path[data-country-name="${aliasedName}"]`);
+      const countryRow = countries.find(c=>c.name===row.dataset.country);
+      if(pathEl && countryRow){ pathEl.setAttribute('fill', fundingTier(countryRow.total).color); }
+    });
+  });
+  el.querySelectorAll('.wms-feature-row').forEach(row=>{
+    row.addEventListener('click', ()=> openCorridorFeaturePage(row.dataset.fid));
+  });
+}
+const mapToggleBtn = document.getElementById('mapWorldToggleBtn');
+if(mapToggleBtn){
+  let showingWorld = false;
+  mapToggleBtn.addEventListener('click', ()=>{
+    showingWorld = !showingWorld;
+    document.getElementById('leafletMapRow').style.display = showingWorld ? 'none' : 'flex';
+    document.getElementById('worldMapContainer').style.display = showingWorld ? 'block' : 'none';
+    document.getElementById('mapFilterRow').style.display = showingWorld ? 'none' : 'flex';
+    document.getElementById('govJumpRow').style.display = showingWorld ? 'none' : 'flex';
+    document.getElementById('leafletLegend').style.display = showingWorld ? 'none' : 'flex';
+    document.getElementById('worldFilterRow').style.display = showingWorld ? 'block' : 'none';
+    mapToggleBtn.textContent = showingWorld ? '🇱🇧 View Lebanon map' : '🌍 View diaspora map';
+    if(showingWorld){
+      renderWorldChoropleth('worldMapSvgHolder');
+      renderWorldMapSidebar('worldMapSidebar-map', 'worldMapSvgHolder');
+      renderContinentChips('continentJumpRow', 'worldMapSvgHolder');
+    } else if(leafletMapInstance){
+      // The map's container was hidden (display:none) while the world map was shown,
+      // so Leaflet's internal size cache is stale — invalidateSize forces it to
+      // recheck its real dimensions before resetting to the default clear-all view.
+      setTimeout(()=>{
+        leafletMapInstance.invalidateSize();
+        leafletMapInstance.setView([33.95, 35.85], 9);
+        mapSelectedGov = '';
+        document.querySelectorAll('.gov-jump-chip').forEach(b=> b.classList.remove('sel'));
+      }, 50);
+    }
+  });
+}
+// Diaspora page: render the world map the first time that page becomes active
+const corridorsSection = document.getElementById('view-corridors');
+if(corridorsSection){
+  let diasporaMapRendered = false;
+  const corridorsMapObserver = new MutationObserver(()=>{
+    if(corridorsSection.classList.contains('active') && !diasporaMapRendered){
+      diasporaMapRendered = true;
+      renderWorldChoropleth('diasporaWorldMapSvgHolder');
+      renderWorldMapSidebar('worldMapSidebar-diaspora', 'diasporaWorldMapSvgHolder');
+    }
+  });
+  corridorsMapObserver.observe(corridorsSection, { attributes:true, attributeFilter:['class'] });
+}
+
+const BREADCRUMB_NAMES = {
+  home:'Home', network:'Network', dashboard:'All Projects', map:'Map', corridors:'Diaspora',
+  scoreboard:'Scoreboard', trust:'Trust', join:'Join', 'lead-list':'Full Lead List',
+  'workflow-demo':'Workflow Demo', 'account-demo':'Account Dashboards', detail:'Project Detail',
+  municipalities:'Municipality Directory'
+};
+function updateBreadcrumb(){
+  const active = document.querySelector('.page.active');
+  const bar = document.getElementById('breadcrumbBar');
+  if(!active || !bar) return;
+  const id = active.id.replace('view-','');
+  if(id==='home'){ bar.style.display = 'none'; return; }
+  const label = BREADCRUMB_NAMES[id] || id;
+  bar.innerHTML = `<a data-goto="home">Home</a> / <span class="bc-current">${label}</span>`;
+  bar.style.display = 'block';
+}
+document.getElementById('breadcrumbBar').addEventListener('click', e=>{
+  if(e.target.closest('[data-goto="home"]')) switchView('home');
+});
+const breadcrumbObserver = new MutationObserver(updateBreadcrumb);
+document.querySelectorAll('.page').forEach(el=> breadcrumbObserver.observe(el, { attributes:true, attributeFilter:['class'] }));
+updateBreadcrumb();
+
+// ---------- Workflow demo: "scoring" loading beat before match grid reveals ----------
+function runWorkflowMatchAnimation(){
+  const grid = document.getElementById('wfMatchGrid');
+  const loading = document.getElementById('wfMatchLoading');
+  if(!grid || !loading) return;
+  grid.style.display = 'none';
+  loading.style.display = 'block';
+  setTimeout(()=>{
+    loading.style.display = 'none';
+    grid.style.display = '';
+  }, 1100);
+}
+const wfDemoSection = document.getElementById('view-workflow-demo');
+if(wfDemoSection){
+  const wfMatchObserver = new MutationObserver(()=>{
+    if(wfDemoSection.classList.contains('active')) runWorkflowMatchAnimation();
+  });
+  wfMatchObserver.observe(wfDemoSection, { attributes:true, attributeFilter:['class'] });
+}
+
+// ---------- Command palette (⌘K / Ctrl+K) ----------
+const CMD_PAGES = [
+  {name:'Home', action:()=>switchView('home')},
+  {name:'Network', action:()=>switchView('network')},
+  {name:'Full Lead List', action:()=>switchView('lead-list')},
+  {name:'All Projects', action:()=>switchView('dashboard')},
+  {name:'Map', action:()=>switchView('map')},
+  {name:'Diaspora', action:()=>switchView('corridors')},
+  {name:'Scoreboard', action:()=>switchView('scoreboard')},
+  {name:'Trust', action:()=>switchView('trust')},
+  {name:'Join', action:()=>switchView('join')},
+  {name:'Workflow Demo', action:()=>switchView('workflow-demo')},
+  {name:'Account Dashboards', action:()=>openAccountDemo('overview')},
+];
+function buildCmdIndex(){
+  const items = [];
+  CMD_PAGES.forEach(p=> items.push({label:p.name, sub:'Page', tag:'Page', action:p.action}));
+  PROJECTS.forEach(p=> items.push({label:p.title, sub:p.locality, tag:'Project', action:()=> openDetail(p.id)}));
+  MINISTRIES.forEach(([name])=> items.push({label:name, sub:'Ministry', tag:'Government', action:()=> switchView('lead-list')}));
+  const seen = {};
+  ALL_LEADS.forEach(l=>{
+    if(seen[l.name]) return; seen[l.name]=true;
+    const group = CATEGORY_META[l.tags[0]] ? CATEGORY_META[l.tags[0]].group : '';
+    items.push({label:l.name, sub:group, tag: group==='Sponsors'?'Sponsor':'Expert', action:()=>{
+      openLeadPage(l.tags[0], l, ()=>switchView('network'), 'search');
+    }});
+  });
+  GOVS.forEach(g=>{
+    (MUNICIPALITIES[g.id]||[]).forEach(name=>{
+      items.push({label:name, sub:g.name+' governorate', tag:'Municipality', action:()=>{
+        openLeadPage('municipality', {name, govId:g.id, summary:`Municipality in ${govName(g.id)}.`, typeLabel:'Municipality'}, ()=>switchView('map'), 'search');
+      }});
+    });
+  });
+  return items;
+}
+let cmdIndex = null, cmdActiveIdx = -1, cmdFiltered = [];
+function openCmdPalette(){
+  if(!cmdIndex) cmdIndex = buildCmdIndex();
+  document.getElementById('cmdPaletteOverlay').classList.add('show');
+  const input = document.getElementById('cmdPaletteInput');
+  input.value = '';
+  input.focus();
+  renderCmdResults('');
+}
+function closeCmdPalette(){ document.getElementById('cmdPaletteOverlay').classList.remove('show'); }
+function renderCmdResults(query){
+  const q = query.trim().toLowerCase();
+  cmdFiltered = (q ? cmdIndex.filter(it=> it.label.toLowerCase().includes(q)) : cmdIndex).slice(0,8);
+  cmdActiveIdx = cmdFiltered.length ? 0 : -1;
+  const el = document.getElementById('cmdPaletteResults');
+  if(!cmdFiltered.length){ el.innerHTML = '<div class="empty-state"><div class="es-icon">🔍</div><div class="es-msg">No matches</div><div class="es-sub">Try a project, organisation, or town name.</div></div>'; return; }
+  el.innerHTML = cmdFiltered.map((it,i)=>
+    `<div class="cmd-result${i===0?' active':''}" data-idx="${i}"><span class="cmd-result-tag">${it.tag}</span><div><div>${it.label}</div><div class="cmd-result-sub">${it.sub||''}</div></div></div>`
+  ).join('');
+  el.querySelectorAll('.cmd-result').forEach(r=> r.addEventListener('click', ()=> selectCmdResult(parseInt(r.dataset.idx))));
+}
+function selectCmdResult(idx){
+  const item = cmdFiltered[idx];
+  if(!item) return;
+  closeCmdPalette();
+  item.action();
+}
+function updateCmdActive(){ document.querySelectorAll('.cmd-result').forEach((r,i)=> r.classList.toggle('active', i===cmdActiveIdx)); }
+document.getElementById('cmdPaletteBtn').addEventListener('click', openCmdPalette);
+document.getElementById('cmdPaletteInput').addEventListener('input', e=> renderCmdResults(e.target.value));
+document.getElementById('cmdPaletteOverlay').addEventListener('click', e=>{ if(e.target.id==='cmdPaletteOverlay') closeCmdPalette(); });
+document.addEventListener('keydown', e=>{
+  if((e.metaKey||e.ctrlKey) && e.key.toLowerCase()==='k'){ e.preventDefault(); openCmdPalette(); return; }
+  const overlay = document.getElementById('cmdPaletteOverlay');
+  if(overlay.classList.contains('show')){
+    if(e.key==='Escape'){ closeCmdPalette(); }
+    else if(e.key==='ArrowDown'){ e.preventDefault(); cmdActiveIdx = Math.min(cmdActiveIdx+1, cmdFiltered.length-1); updateCmdActive(); }
+    else if(e.key==='ArrowUp'){ e.preventDefault(); cmdActiveIdx = Math.max(cmdActiveIdx-1, 0); updateCmdActive(); }
+    else if(e.key==='Enter'){ e.preventDefault(); selectCmdResult(cmdActiveIdx); }
+  }
+});
+
+// ---------- "More" nav dropdown ----------
+document.getElementById('navMoreBtn').addEventListener('click', (e)=>{
+  e.stopPropagation();
+  document.getElementById('navMoreMenu').classList.toggle('show');
+});
+document.addEventListener('click', ()=> document.getElementById('navMoreMenu').classList.remove('show'));
+
+// Safety net: if a section is still stuck at opacity:0 after 1.5s (observer never fired,
+// Motion failed silently, or the element was added/repositioned after initial setup),
+// force it visible rather than let it stay permanently hidden. This is a fallback only —
+// it never fires for sections that revealed normally.
+setTimeout(()=>{
+  document.querySelectorAll('.section.reveal:not(.revealed)').forEach(el=>{
+    el.classList.add('revealed');
+    revealObserver.unobserve(el);
+  });
+}, 1500);
 
 </script>
 
