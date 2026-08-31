@@ -1,0 +1,20 @@
+# Manāra — Netlify configuration.
+#
+# This site is a single self-contained HTML file with no build step and no
+# dependencies beyond CDN <script> tags. There is deliberately nothing to
+# compile, so the build command is empty and the publish directory is the
+# repo root, which is where index.html lives.
+#
+# This file exists mainly so continuous deploys from GitHub don't try to infer
+# a build: without it Netlify may guess a framework and fail the deploy.
+
+[build]
+  publish = "."
+  command = ""
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    # The whole app is this one file, and it changes on every deploy, so a
+    # stale cached copy is the difference between shipping and not shipping.
+    Cache-Control = "public, max-age=0, must-revalidate"

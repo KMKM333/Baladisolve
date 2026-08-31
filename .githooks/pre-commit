@@ -1,0 +1,19 @@
+#!/bin/sh
+# Guards the single-file site against syntax and load-order breakage.
+# See scripts/check-html.mjs. Bypass with SKIP_HTML_CHECK=1.
+
+[ -n "$SKIP_HTML_CHECK" ] && exit 0
+
+# Only run when the site file is actually part of this commit.
+staged=$(git diff --cached --name-only --diff-filter=ACM | grep -x 'index.html')
+[ -z "$staged" ] && exit 0
+
+command -v node >/dev/null 2>&1 || { echo "pre-commit: node not found, skipping HTML checks" >&2; exit 0; }
+
+# Check the staged content, not the working tree — they can differ.
+tmp=$(mktemp -t manara-staged) || exit 1
+trap 'rm -f "$tmp"' EXIT
+git show :index.html > "$tmp" || exit 1
+
+echo "pre-commit: checking staged index.html" >&2
+CHECK_LABEL=index.html node "$(git rev-parse --show-toplevel)/scripts/check-html.mjs" "$tmp"
