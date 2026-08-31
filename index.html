@@ -5,7 +5,7 @@
 <title>Manāra — Fund what your town needs, and watch it get checked</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <style>
   :root{
@@ -93,6 +93,21 @@
   .icon-btn:hover{ color:var(--accent); border-color:var(--accent); background:var(--accent-soft); }
   .icon-btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
   .icon-btn svg{ width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+  .lang-wrap{ position:relative; flex-shrink:0; }
+  .lang-btn{ width:auto; min-width:34px; padding:0 9px; font-size:12px; font-weight:700; letter-spacing:.04em; }
+  .lang-menu{ inset-inline-end:0; inset-inline-start:auto; min-width:150px; }
+  .lang-menu button{ display:flex; justify-content:space-between; align-items:center; }
+
+  /* Arabic needs a face that actually has the script, more leading for the
+     diacritics, and medium weights — thin weights fall apart in Arabic. */
+  html[lang="ar"] body, html[lang="ar"] button, html[lang="ar"] input,
+  html[lang="ar"] select, html[lang="ar"] textarea{
+    font-family:'IBM Plex Sans Arabic','Public Sans',sans-serif;
+  }
+  html[lang="ar"] body{ line-height:1.85; }
+  html[lang="ar"] h1, html[lang="ar"] h2, html[lang="ar"] h3{ line-height:1.5; }
+  /* Latin fragments inside Arabic (emails, currency, ⌘K) keep their own run. */
+  html[lang="ar"] .cmd-kbd, html[lang="ar"] .mono{ direction:ltr; unicode-bidi:isolate; }
   /* Show the theme you would switch TO. Mirrors the three token states above. */
   .ico-sun{ display:none; }
   .ico-moon{ display:block; }
@@ -655,6 +670,11 @@
     try{
       var t = localStorage.getItem('manara-theme');
       if(t === 'dark' || t === 'light') document.documentElement.setAttribute('data-theme', t);
+      var l = localStorage.getItem('manara-lang');
+      if(l === 'ar' || l === 'fr'){
+        document.documentElement.setAttribute('lang', l);
+        document.documentElement.setAttribute('dir', l === 'ar' ? 'rtl' : 'ltr');
+      }
     }catch(e){}
   })();
 </script>
@@ -664,28 +684,36 @@
 <header class="topnav">
   <div class="topnav-left">
     <div class="logo" data-goto="home"><div class="mark">M</div>Manāra</div>
-    <button class="btn btn-primary nav-cta" data-goto="dashboard">Browse Projects</button>
-    <button id="cmdPaletteBtn" type="button" class="cmd-palette-btn">🔍 Search <span class="cmd-kbd">⌘K</span></button>
+    <button class="btn btn-primary nav-cta" data-goto="dashboard" data-i18n>Browse Projects</button>
+    <button id="cmdPaletteBtn" type="button" class="cmd-palette-btn">🔍 <span data-i18n>Search</span> <span class="cmd-kbd">⌘K</span></button>
   </div>
   <nav id="mainNav">
-    <button data-view="home">Home</button>
-    <button data-view="network">Network</button>
-    <button data-view="dashboard">Projects</button>
-    <button data-view="map">Map</button>
-    <button data-view="corridors">Diaspora</button>
-    <button data-view="scoreboard">Scoreboard</button>
-    <button data-view="trust">Trust</button>
-    <button data-view="join">Join</button>
+    <button data-view="home" data-i18n>Home</button>
+    <button data-view="network" data-i18n>Network</button>
+    <button data-view="dashboard" data-i18n>Projects</button>
+    <button data-view="map" data-i18n>Map</button>
+    <button data-view="corridors" data-i18n>Diaspora</button>
+    <button data-view="scoreboard" data-i18n>Scoreboard</button>
+    <button data-view="trust" data-i18n>Trust</button>
+    <button data-view="join" data-i18n>Join</button>
     <div class="nav-more-wrap">
-      <button id="navMoreBtn" type="button">More ▾</button>
+      <button id="navMoreBtn" type="button" data-i18n>More ▾</button>
       <div id="navMoreMenu" class="nav-more-menu">
-        <button data-goto="lead-list">Full Lead List</button>
-        <button data-goto="workflow-demo">Workflow Demo</button>
-        <button onclick="openAccountDemo('overview')">Account Dashboards</button>
+        <button data-goto="lead-list" data-i18n>Full Lead List</button>
+        <button data-goto="workflow-demo" data-i18n>Workflow Demo</button>
+        <button onclick="openAccountDemo('overview')" data-i18n>Account Dashboards</button>
       </div>
     </div>
   </nav>
   <div class="topnav-right">
+    <div class="lang-wrap">
+      <button id="langBtn" class="icon-btn lang-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Change language" title="Change language">EN</button>
+      <div id="langMenu" class="nav-more-menu lang-menu">
+        <button type="button" data-lang="en">English</button>
+        <button type="button" data-lang="ar" lang="ar" dir="rtl">العربية</button>
+        <button type="button" data-lang="fr" lang="fr">Français</button>
+      </div>
+    </div>
     <button id="themeToggle" class="icon-btn" type="button" aria-pressed="false" aria-label="Toggle dark theme" title="Switch to dark theme">
       <svg class="ico-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>
       <svg class="ico-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"/></svg>
@@ -706,12 +734,12 @@
 <section class="page active" id="view-home">
   <div class="wrap">
     <div class="hero">
-      <h1>See a project your hometown needs done? A network built to actually deliver it is already here.</h1>
-      <div class="sub">Certified municipal requests connect directly with the network that can solve them — government bodies, expert organisations, local businesses, and communities across Lebanon and beyond — every pledge, milestone and release checked and tracked on one public ledger.</div>
+      <h1 data-i18n>See a project your hometown needs done? A network built to actually deliver it is already here.</h1>
+      <div class="sub" data-i18n>Certified municipal requests connect directly with the network that can solve them — government bodies, expert organisations, local businesses, and communities across Lebanon and beyond — every pledge, milestone and release checked and tracked on one public ledger.</div>
       <div class="cta-group">
-        <button class="btn btn-primary" data-goto="dashboard">Browse Projects</button>
-        <button class="btn btn-secondary" data-goto="network">See the Network</button>
-        <button class="btn btn-text" data-goto="trust">How it works →</button>
+        <button class="btn btn-primary" data-goto="dashboard" data-i18n>Browse Projects</button>
+        <button class="btn btn-secondary" data-goto="network" data-i18n>See the Network</button>
+        <button class="btn btn-text" data-goto="trust" data-i18n>How it works →</button>
       </div>
     </div>
     <div class="wf-teaser-box">
@@ -1473,17 +1501,17 @@
         <div class="f-logo">Manāra</div>
         <p>A network connecting expert organisations and funders to certified municipal problems — with every step independently verified. Demo concept, not a live product.</p>
       </div>
-      <div class="footer-col"><h5>Explore</h5>
-        <button data-view="dashboard">Browse Projects</button>
-        <button data-view="map">Map</button>
-        <button data-view="scoreboard">Scoreboard</button>
-        <button data-view="network">Network</button>
+      <div class="footer-col"><h5 data-i18n>Explore</h5>
+        <button data-view="dashboard" data-i18n>Browse Projects</button>
+        <button data-view="map" data-i18n>Map</button>
+        <button data-view="scoreboard" data-i18n>Scoreboard</button>
+        <button data-view="network" data-i18n>Network</button>
       </div>
-      <div class="footer-col"><h5>Information</h5>
-        <button data-view="trust">Trust &amp; Values</button>
-        <button data-view="join">Join the Movement</button>
+      <div class="footer-col"><h5 data-i18n>Information</h5>
+        <button data-view="trust" data-i18n>Trust &amp; Values</button>
+        <button data-view="join" data-i18n>Join the Movement</button>
       </div>
-      <div class="footer-col"><h5>Contact</h5>
+      <div class="footer-col"><h5 data-i18n>Contact</h5>
         <p style="margin-bottom:6px;">admin@manara-civic.org</p>
         <p>Lebanon</p>
       </div>
@@ -5006,6 +5034,97 @@ setTimeout(()=>{
     revealObserver.unobserve(el);
   });
 }, 1500);
+
+/* ================= Language =================
+   English is the source of truth and stays in the markup. Translations are
+   keyed by the English string itself rather than by an abstract id, which is
+   what makes this survive ordinary editing: change an English string and its
+   old key simply stops matching, so that element falls back to English —
+   visible and correct — instead of silently showing a stale translation.
+
+   scripts/i18n-report.mjs lists every marked string that is missing a
+   translation, so after editing English you can see exactly what to top up.
+
+   Only the shell is covered so far (nav, header, hero, footer). Everything
+   else falls back to English by design, not by accident.
+   ============================================= */
+var I18N = {
+  ar: {
+    'Home':'الرئيسية', 'Network':'الشبكة', 'Projects':'المشاريع', 'Map':'الخريطة',
+    'Diaspora':'المغتربون', 'Scoreboard':'لوحة الإنجاز', 'Trust':'الثقة', 'Join':'انضم',
+    'More ▾':'المزيد ▾', 'Full Lead List':'قائمة الجهات الكاملة',
+    'Workflow Demo':'عرض سير العمل', 'Account Dashboards':'لوحات الحسابات',
+    'Browse Projects':'تصفّح المشاريع', 'Search':'بحث',
+    'See the Network':'شاهد الشبكة', 'How it works →':'كيف تعمل ←',
+    'See a project your hometown needs done? A network built to actually deliver it is already here.':
+      'مشروع تحتاجه بلدتك؟ الشبكة القادرة على تنفيذه موجودة بالفعل.',
+    'Certified municipal requests connect directly with the network that can solve them — government bodies, expert organisations, local businesses, and communities across Lebanon and beyond — every pledge, milestone and release checked and tracked on one public ledger.':
+      'تتصل الطلبات البلدية المعتمدة مباشرةً بالشبكة القادرة على حلّها — الجهات الحكومية والمنظمات المتخصصة والشركات المحلية والمجتمعات في لبنان وخارجه — مع تدقيق وتتبّع كل تعهّد ومرحلة وصرف على سجلّ عام واحد.',
+    'Explore':'استكشف', 'Information':'معلومات', 'Contact':'تواصل',
+    'Trust & Values':'الثقة والقيم', 'Join the Movement':'انضم إلى الحركة'
+  },
+  fr: {
+    'Home':'Accueil', 'Network':'Réseau', 'Projects':'Projets', 'Map':'Carte',
+    'Diaspora':'Diaspora', 'Scoreboard':'Classement', 'Trust':'Confiance', 'Join':'Rejoindre',
+    'More ▾':'Plus ▾', 'Full Lead List':'Liste complète des acteurs',
+    'Workflow Demo':'Démo du processus', 'Account Dashboards':'Tableaux de bord',
+    'Browse Projects':'Parcourir les projets', 'Search':'Rechercher',
+    'See the Network':'Voir le réseau', 'How it works →':'Comment ça marche →',
+    'See a project your hometown needs done? A network built to actually deliver it is already here.':
+      "Un projet dont votre ville a besoin ? Le réseau capable de le réaliser existe déjà.",
+    'Certified municipal requests connect directly with the network that can solve them — government bodies, expert organisations, local businesses, and communities across Lebanon and beyond — every pledge, milestone and release checked and tracked on one public ledger.':
+      "Les demandes municipales certifiées sont mises en relation directe avec le réseau capable d'y répondre — organismes publics, organisations expertes, entreprises locales et communautés au Liban et au-delà — chaque promesse, jalon et versement étant vérifié et suivi sur un registre public unique.",
+    'Explore':'Explorer', 'Information':'Informations', 'Contact':'Contact',
+    'Trust & Values':'Confiance et valeurs', 'Join the Movement':'Rejoindre le mouvement'
+  }
+};
+var LANG_LABEL = { en:'EN', ar:'AR', fr:'FR' };
+
+function currentLang(){
+  var l = document.documentElement.getAttribute('lang');
+  return (l === 'ar' || l === 'fr') ? l : 'en';
+}
+function applyLang(lang){
+  var root = document.documentElement;
+  root.setAttribute('lang', lang);
+  root.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  var dict = I18N[lang];
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    // Cache the English once, before anything overwrites it.
+    if(!el.getAttribute('data-en')) el.setAttribute('data-en', el.textContent.trim());
+    var src = el.getAttribute('data-en');
+    el.textContent = (dict && dict[src]) ? dict[src] : src;
+  });
+  var btn = document.getElementById('langBtn');
+  if(btn) btn.textContent = LANG_LABEL[lang] || 'EN';
+}
+function setLang(lang){
+  applyLang(lang);
+  try{ localStorage.setItem('manara-lang', lang); }catch(e){}
+}
+(function(){
+  applyLang(currentLang());
+  var btn = document.getElementById('langBtn');
+  var menu = document.getElementById('langMenu');
+  if(!btn || !menu) return;
+  btn.addEventListener('click', function(e){
+    e.stopPropagation();
+    var open = menu.classList.toggle('show');
+    btn.setAttribute('aria-expanded', String(open));
+  });
+  menu.querySelectorAll('button[data-lang]').forEach(function(b){
+    b.addEventListener('click', function(e){
+      e.stopPropagation();
+      setLang(b.getAttribute('data-lang'));
+      menu.classList.remove('show');
+      btn.setAttribute('aria-expanded','false');
+    });
+  });
+  document.addEventListener('click', function(){
+    menu.classList.remove('show');
+    btn.setAttribute('aria-expanded','false');
+  });
+})();
 
 /* ================= Theme toggle =================
    Three states, matching the CSS: "system" (no data-theme attribute, follows
