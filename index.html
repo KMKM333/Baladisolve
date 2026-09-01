@@ -849,9 +849,13 @@
   @supports (grid-template-rows: subgrid){
     .qa-opts{ grid-template-rows:repeat(4,auto); }
     .qa-opt{ display:grid; grid-template-rows:subgrid; grid-row:span 4; }
+    /* The chip row shares a track once subgrid is on, so pin it to the top of
+       that track: a pair that wraps to two lines and one that fits on one would
+       otherwise sit at different heights when bottom-aligned. */
+    .qa-opt-foot{ align-self:start; margin-top:0; }
   }
-  .qa-chip{ font-size:10px; font-weight:800; letter-spacing:.05em; text-transform:uppercase;
-    border-radius:20px; padding:3px 9px; border:1px solid var(--border); color:var(--text-faint); }
+  .qa-chip{ font-size:9.5px; font-weight:800; letter-spacing:.03em; text-transform:uppercase; white-space:nowrap;
+    border-radius:20px; padding:3px 8px; border:1px solid var(--border); color:var(--text-faint); }
   .qa-chip.rec{ border-color:var(--ok); color:var(--ok); background:var(--ok-soft); }
   .qa-chip.hold{ border-color:var(--warn); color:var(--warn); background:var(--warn-soft); }
   @media (max-width:980px){ .qa-opts{ grid-template-columns:repeat(2,1fr); } }
