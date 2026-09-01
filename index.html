@@ -708,7 +708,13 @@
   .role-btn.checks{ border-color:var(--accent); background:var(--accent-soft); }
   .role-btn-role{ font-size:10.5px; font-weight:800; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); }
   .role-btn-name{ font-size:20px; font-weight:800; color:var(--text); line-height:1.2; }
-  .role-btn-sub{ font-size:12px; color:var(--text-dim); line-height:1.6; flex:1; }
+  .role-btn-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .role-btn-step{ width:20px; height:20px; border-radius:50%; background:var(--accent); color:var(--on-accent);
+    font-size:10.5px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .role-btn-sub{ font-size:12px; color:var(--text-dim); line-height:1.6; }
+  /* The sequence beat, merged in from what used to be a second row of boxes. */
+  .role-btn-when{ font-size:12px; color:var(--text-dim); line-height:1.6; flex:1;
+    border-top:1px solid var(--border); padding-top:11px; margin-top:3px; }
   .role-btn-go{ font-size:12px; font-weight:700; color:var(--accent); margin-top:4px; }
   .role-flow{ display:grid; grid-template-columns:1fr 24px 1fr 24px 1fr 24px 1fr; margin-top:24px; }
   .role-flow-step{ border:1px solid var(--border); border-radius:12px; background:var(--bg);
@@ -1041,27 +1047,31 @@
 
     <div class="role-btn-grid">
       <button class="role-btn" type="button" data-group="government">
-        <span class="role-btn-role">Certifies</span>
+        <span class="role-btn-head"><span class="role-btn-role">Certifies</span><span class="role-btn-step">1</span></span>
         <span class="role-btn-name">Government</span>
         <span class="role-btn-sub">Ministry, governorate and district, municipality &mdash; confirms a request is real, lawful and in jurisdiction. Never holds the money it approves.</span>
+        <span class="role-btn-when">Happens first: nobody is asked to fund a request no authority has confirmed.</span>
         <span class="role-btn-go">See the 3 government options &rarr;</span>
       </button>
       <button class="role-btn" type="button" data-group="experts">
-        <span class="role-btn-role">Solves</span>
+        <span class="role-btn-head"><span class="role-btn-role">Solves</span><span class="role-btn-step">2</span></span>
         <span class="role-btn-name">Experts</span>
         <span class="role-btn-sub">Organisations matched by field &mdash; electricity, water, roads, waste and four more. They choose the work that fits them and set their own price.</span>
+        <span class="role-btn-when">Matched before a budget is fixed, so the price follows the technical need rather than the bid.</span>
         <span class="role-btn-go">See the 8 expert fields &rarr;</span>
       </button>
       <button class="role-btn" type="button" data-group="sponsors">
-        <span class="role-btn-role">Funds</span>
+        <span class="role-btn-head"><span class="role-btn-role">Funds</span><span class="role-btn-step">3</span></span>
         <span class="role-btn-name">Sponsors</span>
         <span class="role-btn-sub">Businesses, NGOs, embassies, diaspora and locals. Every pledge tracked the same way &mdash; named or anonymous, escrowed, released only against verified evidence.</span>
+        <span class="role-btn-when">Captured into escrow before day one, so no implementer ever starts on a promise.</span>
         <span class="role-btn-go">See the 5 sponsor types &rarr;</span>
       </button>
       <button class="role-btn checks" type="button" data-group="verifiers">
-        <span class="role-btn-role">Checks</span>
+        <span class="role-btn-head"><span class="role-btn-role">Checks</span><span class="role-btn-step">4</span></span>
         <span class="role-btn-name">Verifiers</span>
         <span class="role-btn-sub">The role that decides whether money moves &mdash; assigned before work starts, and never to a request they are attached to.</span>
+        <span class="role-btn-when">The implementer knows who will check them, and could not choose that person. Each tranche waits on their sign-off.</span>
         <span class="role-btn-go">See the 5 verifier types &rarr;</span>
       </button>
     </div>
@@ -1072,31 +1082,6 @@
       <p>That is precisely why the fourth exists. An independent verifier works on the <b>process</b> rather than the project: assigned before work begins, barred by construction from being the certifying body, the implementing organisation or any funder of that request, and the only party who can release a tranche of escrow. The first three make the project happen; the fourth is the reason anyone outside it should believe that it did.</p>
     </div>
 
-    <div class="role-flow">
-      <div class="role-flow-step">
-        <span class="role-flow-tag">1 &middot; Government</span>
-        <b>Certifies the request</b>
-        <span>Checked for code, jurisdiction and necessity before anyone is asked to fund it.</span>
-      </div>
-      <div class="role-flow-arrow" aria-hidden="true">&rarr;</div>
-      <div class="role-flow-step">
-        <span class="role-flow-tag">2 &middot; Experts</span>
-        <b>Scope it and price it</b>
-        <span>Matched by field first, so the budget follows the technical need rather than the bid.</span>
-      </div>
-      <div class="role-flow-arrow" aria-hidden="true">&rarr;</div>
-      <div class="role-flow-step">
-        <span class="role-flow-tag">3 &middot; Sponsors</span>
-        <b>Fund it into escrow</b>
-        <span>Money is secured with an independent custodian before day one &mdash; held, not yet spent.</span>
-      </div>
-      <div class="role-flow-arrow" aria-hidden="true">&rarr;</div>
-      <div class="role-flow-step checks">
-        <span class="role-flow-tag">4 &middot; Verifier</span>
-        <b>Assigned, then work starts</b>
-        <span>The implementer knows who will check them &mdash; and could not choose that person. Each tranche waits on their sign-off.</span>
-      </div>
-    </div>
     <p class="role-flow-note">Nothing here is released on a claim. A milestone stays &ldquo;submitted&rdquo; until someone with no stake in it confirms it happened.</p>
     <button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen" style="margin-bottom:0;">When each one steps in, and why it matters <span aria-hidden="true">&rarr;</span></button>
   </div></div>
