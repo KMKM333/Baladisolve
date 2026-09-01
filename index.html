@@ -804,6 +804,44 @@
     .rw-steps{ grid-template-columns:1fr; row-gap:24px; }
     .rw-step::before{ display:none; }
   }
+  /* ---------- Verifier register (Option A) ---------- */
+  .vr-strip{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:20px; }
+  .vr-stat{ border:1px solid var(--border); border-radius:12px; padding:16px 18px; background:var(--bg-1); }
+  .vr-stat .n{ display:block; font-family:'IBM Plex Mono',monospace; font-variant-numeric:tabular-nums;
+    font-size:25px; font-weight:600; color:var(--text); line-height:1.15; }
+  .vr-stat .l{ display:block; font-size:11.5px; color:var(--text-dim); margin-top:6px; line-height:1.55; }
+  @media (max-width:900px){ .vr-strip{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:520px){ .vr-strip{ grid-template-columns:1fr; } }
+  .vr-flag{ border:1px solid var(--warn); background:var(--warn-soft); border-radius:12px;
+    padding:17px 21px; margin-bottom:20px; font-size:13px; color:var(--text-dim); line-height:1.75; max-width:92ch; }
+  .vr-flag b{ color:var(--text); }
+  .vr-flag-tag{ font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--warn); display:block; margin-bottom:7px; }
+  .vr-scroll{ overflow-x:auto; border:1px solid var(--border); border-radius:12px; }
+  table.vr{ width:100%; border-collapse:collapse; font-size:12.5px; min-width:820px; }
+  table.vr th{ background:var(--bg-1); padding:0; border-bottom:1px solid var(--border); white-space:nowrap; }
+  table.vr th button{ all:unset; box-sizing:border-box; cursor:pointer; display:block; width:100%; padding:11px 14px;
+    font-size:10.5px; font-weight:800; letter-spacing:.07em; text-transform:uppercase; color:var(--text-faint); }
+  table.vr th.num button{ text-align:end; }
+  table.vr th button:hover{ color:var(--accent); }
+  table.vr th[aria-sort] button{ color:var(--accent); }
+  table.vr th button:focus-visible{ outline:2px solid var(--accent); outline-offset:-2px; }
+  table.vr td{ padding:12px 14px; border-bottom:1px solid var(--border); color:var(--text-dim); vertical-align:top; }
+  table.vr tbody tr:last-child td{ border-bottom:none; }
+  table.vr tbody tr:hover{ background:var(--bg-1); }
+  .vr-num{ font-family:'IBM Plex Mono',monospace; font-variant-numeric:tabular-nums; text-align:end; white-space:nowrap; }
+  .vr-who b{ color:var(--text); font-weight:700; display:block; }
+  .vr-who span{ display:block; font-size:11px; color:var(--text-faint); margin-top:2px; }
+  .vr-tag{ display:inline-block; font-size:9.5px; font-weight:800; text-transform:uppercase; letter-spacing:.04em;
+    border-radius:20px; padding:2px 8px; margin-inline-start:7px; white-space:nowrap; vertical-align:1px; }
+  .vr-tag.low{ background:var(--danger-soft); color:var(--danger); }
+  .vr-tag.high{ background:var(--accent-soft); color:var(--accent); }
+  .vr-tag.exp{ background:var(--warn-soft); color:var(--warn); }
+  .vr-legend{ display:flex; flex-wrap:wrap; gap:20px; margin-top:18px; }
+  .vr-legend div{ font-size:11.5px; color:var(--text-dim); line-height:1.6; max-width:34ch; }
+  .vr-legend b{ color:var(--text); display:block; font-size:11px; }
+  .vr-note{ font-size:12.5px; color:var(--text-dim); line-height:1.75; margin:22px 0 0; padding-top:18px;
+    border-top:1px solid var(--border); max-width:88ch; }
+  .vr-note b{ color:var(--text); }
   /* ---------- "Who checks the verifier" — the open question, and the four
      options for closing it. Sits under Who does the verifying on Trust. ---------- */
   .qa-open{ border:1px solid var(--warn); background:var(--warn-soft); border-radius:14px; padding:22px 26px; margin-top:34px; }
@@ -858,6 +896,7 @@
     border-radius:20px; padding:3px 8px; border:1px solid var(--border); color:var(--text-faint); }
   .qa-chip.rec{ border-color:var(--ok); color:var(--ok); background:var(--ok-soft); }
   .qa-chip.hold{ border-color:var(--warn); color:var(--warn); background:var(--warn-soft); }
+  .qa-chip.built{ border-color:var(--accent); color:var(--accent); background:var(--accent-soft); }
   @media (max-width:980px){ .qa-opts{ grid-template-columns:repeat(2,1fr); } }
   @media (max-width:560px){ .qa-opts{ grid-template-columns:1fr; } }
 
@@ -869,6 +908,10 @@
   .qa-dl{ display:block; font-size:10.5px; font-weight:800; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); margin-bottom:6px; }
   .qa-dgrid p{ font-size:12.5px; color:var(--text-dim); line-height:1.7; margin:0; }
   .qa-src{ font-size:11.5px; color:var(--text-faint); line-height:1.6; margin:20px 0 0; padding-top:14px; border-top:1px solid var(--border); }
+  .qa-src b{ color:var(--text); }
+  .qa-golink{ all:unset; box-sizing:border-box; cursor:pointer; color:var(--accent); font-weight:700; }
+  .qa-golink:hover{ text-decoration:underline; }
+  .qa-golink:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
   @media (max-width:760px){ .qa-dgrid{ grid-template-columns:1fr; } }
   .vf-when{ border:1px solid var(--border); border-radius:12px; padding:20px 22px; background:var(--bg-1); margin-top:18px; }
   .vf-when-head{ font-size:11px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
@@ -1370,7 +1413,7 @@
           <div class="light-card" data-cat="v-inspector"><b>Independent inspector</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Takes the assignments nobody else can: right field, right governorate, no tie to the partner, certifier or any funder.</p></div>
         </div>
         <button class="role-jump" type="button" data-demo-jump="v-district">See the verifier dashboard <span aria-hidden="true">&rarr;</span></button>
-        <button class="role-jump" type="button" data-goto="trust">When they are assigned, and why it matters <span aria-hidden="true">&rarr;</span></button>
+        <button class="role-jump" type="button" data-goto="trust">When they are assigned, and why it matters <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="verifiers">See every verifier&rsquo;s record <span aria-hidden="true">&rarr;</span></button>
       </div>
     </div>
 
@@ -1722,7 +1765,7 @@
             <span class="qa-letter">A</span>
             <span class="qa-opt-name">Publish every verifier&rsquo;s record</span>
             <span class="qa-opt-one">Put all their numbers on one page, side by side.</span>
-            <span class="qa-opt-foot"><span class="qa-chip">Low cost</span><span class="qa-chip rec">Recommended</span></span>
+            <span class="qa-opt-foot"><span class="qa-chip">Low cost</span><span class="qa-chip built">Built</span></span>
           </button>
           <button class="qa-opt" type="button" role="tab" data-qa="b" aria-selected="false">
             <span class="qa-letter">B</span>
@@ -2149,6 +2192,28 @@
         <p>The role strip stays. &ldquo;How it works&rdquo; is replaced by the one workflow the home page does not tell: <b>where the money is at each stage</b>. That content exists today, but it is buried in a table near the bottom of the Trust page.</p>
         <div class="role-flow"><div class="role-flow-step"><span class="role-flow-tag">1 &middot; Government</span><b>Certifies the request</b><span>Checked for code, jurisdiction and necessity before anyone is asked to fund it.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step"><span class="role-flow-tag">2 &middot; Experts</span><b>Scope it and price it</b><span>Matched by field first, so the budget follows the technical need rather than the bid.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step"><span class="role-flow-tag">3 &middot; Sponsors</span><b>Fund it into escrow</b><span>Money is secured with an independent custodian before day one &mdash; held, not yet spent.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step checks"><span class="role-flow-tag">4 &middot; Verifier</span><b>Assigned, then work starts</b><span>The implementer knows who will check them &mdash; and could not choose that person.</span></div></div><div class="tw-money"><div class="tw-money-cell"><span class="tw-money-state">Nothing pledged</span><span class="tw-money-note">A request exists, no money is attached to it.</span><span class="tw-money-exit">Can be refused &rarr; nothing to return</span></div><div class="tw-money-cell"><span class="tw-money-state">Pledged, not captured</span><span class="tw-money-note">Commitments made against a threshold that has not been reached.</span><span class="tw-money-exit">Lapses &rarr; refunded in full</span></div><div class="tw-money-cell"><span class="tw-money-state">Held in escrow</span><span class="tw-money-note">With an independent custodian &mdash; never a government or implementer account.</span><span class="tw-money-exit">Stalls &rarr; balance returned</span></div><div class="tw-money-cell"><span class="tw-money-state">Released per milestone</span><span class="tw-money-note">One tranche at a time, each against evidence a verifier signed off.</span><span class="tw-money-exit">Rejected &rarr; held for remediation</span></div></div><div class="test-verdict"><div class="test-gain"><b>Gain.</b> Two strips instead of three, and the second earns its place by answering a different question &mdash; the first one a serious donor asks. Strongest trust argument of the three.</div><div class="test-cost"><b>Cost.</b> Puts &ldquo;what happens when it fails&rdquo; high on the home page. Honest, but a downbeat note above the fold.</div></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- VERIFIER REGISTER -->
+<section class="page" id="view-verifiers">
+  <div class="wrap-wide">
+    <div class="section" style="padding-top:44px;">
+      <div class="section-head-row">
+        <div class="section-head" style="margin-bottom:0;"><h2>Verifier register</h2><p>Every accredited verifier on the platform, their record side by side. Sort any column &mdash; the numbers are the same ones shown on each request, gathered in one place so they can be compared.</p></div>
+        <button style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;font-size:12.5px;flex-shrink:0;" data-goto="trust">&larr; Back to Trust</button>
+      </div>
+      <div class="vr-strip" id="vrStrip"></div>
+      <div class="vr-flag" id="vrFlag"></div>
+      <div class="vr-scroll"><table class="vr" id="vrTable"></table></div>
+      <div class="vr-legend">
+        <div><b>Rejection rate</b>Share of milestones sent back rather than passed. Neither a high nor a low number is automatically good &mdash; but a number far from everyone else&rsquo;s is worth asking about.</div>
+        <div><b>Overturned</b>Decisions later found to be wrong and reversed. A zero is only meaningful if something was actually looking.</div>
+        <div><b>Median days</b>Evidence submitted to decision made. Fast is not free: somebody has to go and look.</div>
+        <div><b>Licence</b>Accreditation number and the date it lapses. Past that date a verifier cannot be assigned.</div>
+      </div>
+      <p class="vr-note"><b>What this page does not do.</b> It publishes the record; it does not check it. Nothing on the platform currently re-examines a verifier&rsquo;s decisions, so an outlier here has no consequence attached to it &mdash; which is the gap described on the <button style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;" data-goto="trust">Trust page</button>, and the reason this register is the first of four steps rather than the whole answer.</p>
     </div>
   </div>
 </section>
@@ -5301,7 +5366,13 @@ function renderQaDetail(key){
       '<div><span class="qa-dl">What it would cost</span><p>' + d.costs + '</p></div>' +
       '<div><span class="qa-dl">Where the idea comes from</span><p>' + d.src + '</p></div>' +
     '</div>' +
-    '<p class="qa-src">None of these is live yet. This section exists so the gap is stated in public while it is still open &mdash; a platform that only publishes the checks it has already passed is not being transparent, it is advertising.</p>';
+    (key === 'a'
+      ? '<p class="qa-src"><b>This one is built.</b> <button type="button" class="qa-golink" data-goto="verifiers">Open the verifier register &rarr;</button> &mdash; all seven side by side, sortable. It publishes the record; it still does not check it, which is what B, C and D are for.</p>'
+      : '<p class="qa-src">Not live yet. This section exists so the gap is stated in public while it is still open &mdash; a platform that only publishes the checks it has already passed is not being transparent, it is advertising.</p>');
+  // This panel is rebuilt on every click, so it misses the parse-time [data-goto]
+  // wiring and has to hook up its own link each time.
+  var go = el.querySelector('.qa-golink');
+  if(go) go.addEventListener('click', function(){ switchView(go.dataset.goto); });
 }
 (function(){
   var row = document.getElementById('qaOptions');
@@ -6343,6 +6414,103 @@ function verifierFor(p){
   return pool[p.id % pool.length];
 }
 
+
+// ---------- Verifier register: every verifier's record, side by side ----------
+// Sits below VERIFIERS on purpose. Rates are derived, never stored, so the page
+// can never disagree with the numbers shown on an individual request.
+function verifierRate(v){
+  var t = v.record.verified + v.record.rejected;
+  return t ? v.record.rejected / t : 0;
+}
+function vrExpiringSoon(v){
+  // Within four months of lapsing, counted from the first of the current month.
+  var parts = String(v.licenceExpiry).split('-');
+  var exp = new Date(+parts[0], (+parts[1]) - 1, 1);
+  var now = new Date();
+  return (exp - new Date(now.getFullYear(), now.getMonth(), 1)) / 86400000 < 124;
+}
+var VR_SORT = { key:'rate', dir:1 };
+var VR_COLS = [
+  {k:'name',       label:'Verifier',       num:false},
+  {k:'rate',       label:'Rejection rate', num:true},
+  {k:'verified',   label:'Passed',         num:true},
+  {k:'rejected',   label:'Rejected',       num:true},
+  {k:'overturned', label:'Overturned',     num:true},
+  {k:'medianDays', label:'Median days',    num:true},
+  {k:'expiry',     label:'Licence',        num:false}
+];
+function vrValue(v, k){
+  if(k === 'name')   return v.name.toLowerCase();
+  if(k === 'rate')   return verifierRate(v);
+  if(k === 'expiry') return v.licenceExpiry;
+  return v.record[k];
+}
+function renderVerifierRegister(){
+  var table = document.getElementById('vrTable');
+  if(!table) return;
+  var list = VERIFIERS.slice().sort(function(a, b){
+    var x = vrValue(a, VR_SORT.key), y = vrValue(b, VR_SORT.key);
+    return (x < y ? -1 : x > y ? 1 : 0) * VR_SORT.dir;
+  });
+  var rates = VERIFIERS.map(verifierRate).sort(function(a, b){ return a - b; });
+  var median = rates[Math.floor(rates.length / 2)];
+  var pct = function(x){ return (x * 100).toFixed(1) + '%'; };
+
+  var head = VR_COLS.map(function(c){
+    var on = VR_SORT.key === c.k;
+    return '<th class="' + (c.num ? 'num' : '') + '"' +
+      (on ? ' aria-sort="' + (VR_SORT.dir === 1 ? 'ascending' : 'descending') + '"' : '') + '>' +
+      '<button type="button" data-vr="' + c.k + '">' + c.label + (on ? (VR_SORT.dir === 1 ? ' ↑' : ' ↓') : '') + '</button></th>';
+  }).join('');
+
+  var body = list.map(function(v){
+    var r = verifierRate(v);
+    // Flag only distance from the pack, never a verdict — a strict reviewer and a
+    // lax one both stand out, and only one of them is a problem.
+    var tag = r < median * 0.5 ? '<span class="vr-tag low">Well below median</span>'
+            : r > median * 1.6 ? '<span class="vr-tag high">Well above median</span>' : '';
+    return '<tr>' +
+      '<td class="vr-who"><b>' + v.name + tag + '</b><span>' + v.org + '</span></td>' +
+      '<td class="vr-num">' + pct(r) + '</td>' +
+      '<td class="vr-num">' + v.record.verified + '</td>' +
+      '<td class="vr-num">' + v.record.rejected + '</td>' +
+      '<td class="vr-num">' + v.record.overturned + '</td>' +
+      '<td class="vr-num">' + v.record.medianDays + '</td>' +
+      '<td>' + v.licence + '<span style="display:block;font-size:11px;color:var(--text-faint);margin-top:2px;">to ' +
+        v.licenceExpiry + (vrExpiringSoon(v) ? '<span class="vr-tag exp">Lapsing soon</span>' : '') + '</span></td>' +
+      '</tr>';
+  }).join('');
+  table.innerHTML = '<thead><tr>' + head + '</tr></thead><tbody>' + body + '</tbody>';
+  table.querySelectorAll('th button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var k = btn.dataset.vr;
+      // Numbers open descending, names ascending — whichever reads as "most first".
+      if(VR_SORT.key === k) VR_SORT.dir *= -1;
+      else { VR_SORT.key = k; VR_SORT.dir = (k === 'name' || k === 'expiry') ? 1 : -1; }
+      renderVerifierRegister();
+    });
+  });
+
+  var decisions = VERIFIERS.reduce(function(a, v){ return a + v.record.verified + v.record.rejected; }, 0);
+  var overturned = VERIFIERS.reduce(function(a, v){ return a + v.record.overturned; }, 0);
+  document.getElementById('vrStrip').innerHTML =
+    '<div class="vr-stat"><span class="n">' + VERIFIERS.length + '</span><span class="l">Accredited verifiers on the register</span></div>' +
+    '<div class="vr-stat"><span class="n">' + decisions + '</span><span class="l">Milestone decisions between them</span></div>' +
+    '<div class="vr-stat"><span class="n">' + pct(rates[0]) + ' – ' + pct(rates[rates.length - 1]) +
+      '</span><span class="l">Range of rejection rates, lowest to highest</span></div>' +
+    '<div class="vr-stat"><span class="n">' + overturned + '</span><span class="l">Decisions later overturned, across every verifier</span></div>';
+
+  var odd = VERIFIERS.slice().sort(function(a, b){ return verifierRate(a) - verifierRate(b); })[0];
+  document.getElementById('vrFlag').innerHTML =
+    '<span class="vr-flag-tag">What this table is for</span>' +
+    'Sorted by rejection rate, one record sits apart from the rest. <b>' + odd.name + '</b> passes ' +
+    pct(1 - verifierRate(odd)) + ' of what they see, turns work around in a median of ' + odd.record.medianDays +
+    ' days, and carries ' + odd.record.overturned + ' of the ' + overturned +
+    ' overturned decisions on this page. None of that proves anything on its own &mdash; a fast, agreeable reviewer may simply be assigned easy work. ' +
+    'It is the kind of thing somebody should look at, and <b>today nobody does</b>.';
+}
+renderVerifierRegister();
+
 // Shown on every request: who checks this one, and why they are allowed to.
 // The independence tests are printed with their results rather than summarised
 // as "independent", because a reader can only take a claim seriously if they can
@@ -6952,14 +7120,14 @@ function viewSlug(view){
   return ({
     home:'', network:'network', dashboard:'projects', map:'map', corridors:'diaspora',
     scoreboard:'scoreboard', trust:'trust', join:'join', 'lead-list':'directory',
-    municipalities:'municipalities', 'workflow-demo':'walkthrough', 'account-demo':'account',
+    municipalities:'municipalities', 'workflow-demo':'walkthrough', 'account-demo':'account', verifiers:'verifiers',
     test:'test'  /* TEMPORARY — remove with the TEST page */
   })[view] || '';
 }
 function slugToView(slug){
   var out = null;
   ['home','network','dashboard','map','corridors','scoreboard','trust','join',
-   'lead-list','municipalities','workflow-demo','account-demo','test'].forEach(function(v){
+   'lead-list','municipalities','workflow-demo','account-demo','test','verifiers'].forEach(function(v){
     if(viewSlug(v) === slug) out = v;
   });
   return out;
