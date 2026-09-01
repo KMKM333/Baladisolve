@@ -1062,14 +1062,15 @@
 
       <div class="net-group" id="verifierGroup" style="margin-top:34px;">
         <div class="net-role">Checks</div>
-        <h3>Independent verifiers</h3>
+        <h3 data-group="verifiers" style="cursor:pointer;">Independent verifiers</h3>
         <p>The fourth role, and the reason the other three can be believed. A verifier confirms that a milestone actually happened before any money moves — and is structurally barred from being the body that certified the request, the organisation doing the work, or anyone funding it.</p>
 
         <div class="light-grid" style="margin-bottom:14px;">
-          <div class="light-card"><b>Who they are</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Accredited engineers, district inspectors and programme auditors, licensed for specific fields and specific governorates.</p></div>
-          <div class="light-card"><b>What independence means here</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Not a box someone ticks. Five tests run against the request's own records, and the result is stored with the decision.</p></div>
-          <div class="light-card"><b>What they cannot be</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">The implementer, the certifying body, a funder of that request, or based in the same locality as the work.</p></div>
-          <div class="light-card"><b>Refusals are published</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Every verifier's rejection count sits next to their approvals. A reviewer who has never rejected anything is an unexamined one.</p></div>
+          <div class="light-card" data-cat="v-district"><b>District engineer</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">A municipal or union engineer working outside their own locality — the expertise is already public, just not local to the work.</p></div>
+          <div class="light-card" data-cat="v-oea"><b>Order of Engineers &amp; Architects</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Inspection desks at Lebanon's professional body, already independent of both municipalities and contractors.</p></div>
+          <div class="light-card" data-cat="v-envofficer"><b>Environmental compliance officer</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">For work where a photograph of a finished site doesn't tell you whether it was done properly.</p></div>
+          <div class="light-card" data-cat="v-auditor"><b>Programme auditor</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">For services run over months rather than structures photographed once — attendance, delivery records, spend against promise.</p></div>
+          <div class="light-card" data-cat="v-inspector"><b>Independent inspector</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Takes the assignments nobody else can: right field, right governorate, no tie to the partner, certifier or any funder.</p></div>
         </div>
         <button class="role-jump" type="button" data-demo-jump="v-district">See the verifier dashboard <span aria-hidden="true">&rarr;</span></button>
         <button class="role-jump" type="button" data-goto="trust">When they are assigned, and why it matters <span aria-hidden="true">&rarr;</span></button>
@@ -4072,6 +4073,11 @@ function renderDetail(){
 // ===================== Category & Lead pages =====================
 // ===================== Network group pages (Government / Experts / Sponsors) =====================
 const GROUP_META = {
+  verifiers: {
+    name:'Independent verifiers', role:'Checks',
+    overview:"The fourth role, and the reason the other three can be believed. A verifier confirms that a milestone actually happened before any money moves, and is structurally barred from being the body that certified the request, the organisation doing the work, or anyone funding it. Independence here is not a box someone ticks: five tests run against the request's own records — not the implementer, not the certifying body, no funding stake, not based in the same locality, accredited for the field — and the result is stored with the decision, so the claim on the page can be checked rather than taken on trust. Verifiers are accredited engineers, district inspectors and programme auditors, licensed for specific fields and specific governorates. Every verifier's rejection count is published next to their approvals, because a reviewer who has never rejected anything is an unexamined one.",
+    subsections: ['v-district','v-oea','v-envofficer','v-auditor','v-inspector']
+  },
   government: {
     name:'Government', role:'Certifies',
     overview:"Government certifies that a request meets technical and regulatory standards before it can open for funding — and never touches the money itself. Certification and custody stay on two separate tracks, on purpose: the body that approves a request is never the body holding the funds for it.",
@@ -4254,6 +4260,25 @@ function getCategoryLeads(catId){
   if(catId==='governorate') return GOVS.map(g=>({name:g.name, summary:`One of Lebanon's nine governorates — ${PROJECTS.filter(p=>p.gov===g.id).length} request(s) on this ledger.`, typeLabel:'Governorate', govId:g.id}));
   if(catId==='districts') return DISTRICTS.map(c=>({name:c, summary:DISTRICT_FACTS[c], typeLabel:'District', govId:DISTRICT_GOV[c]}));
   if(catId==='municipality') return GOVS.slice(0,6).map(g=>({name:MUNICIPALITIES[g.id][0], summary:`Municipality in ${g.name}.`, typeLabel:'Municipality', govId:g.id}));
+  // The verifier register stands in for ALL_LEADS here, shaped the same way so
+  // the existing category and lead pages render it without special-casing.
+  if(catId.indexOf('v-') === 0){
+    return VERIFIERS.filter(v=> v.kind === catId).map(v=>({
+      name: v.name,
+      typeLabel: (CATEGORY_META[catId] || {}).name || 'Verifier',
+      summary: v.org + ' · licensed ' + v.licence + ', valid to ' + v.licenceExpiry + '.',
+      whatTheyDo: 'Checks milestone evidence in ' + v.fields.map(f=>{
+          var m = EXPERT_FIELDS.find(function(x){ return x.id === f; }); return m ? m.name.toLowerCase() : f;
+        }).join(', ') + ' — and cannot be assigned to a request they are attached to.',
+      wherePrevalent: v.govs.map(function(g){ return govName(g); }).join(', ') + '. Based in ' + v.locality + ', so never assigned there.',
+      examples: [
+        v.record.verified + ' milestones verified and ' + v.record.rejected + ' rejected to date.',
+        v.record.overturned + ' decision' + (v.record.overturned === 1 ? '' : 's') + ' later overturned on appeal.',
+        'Median ' + v.record.medianDays + ' days from evidence submitted to decision.'
+      ],
+      additional: 'Standing: ' + v.standing + '. Refusals are published alongside approvals, because a reviewer who has never rejected anything is an unexamined one.'
+    }));
+  }
   const ORG_CATS = ['electricity','waste','water','publicland','environment','roads','sewage','ngoinit'];
   const SPONSOR_CATS = ['orgbiz','sponsorngo','embassies'];
   if(ORG_CATS.includes(catId)) return ALL_LEADS.filter(l=>l.tags.includes(catId)).map(l=>({...l, typeLabel:CATEGORY_META[catId].name}));
