@@ -498,6 +498,36 @@
   .wf-attr-score{ font-family:'IBM Plex Mono',monospace; font-weight:700; }
   .wf-gate-pass{ font-size:9.5px; font-weight:700; background:var(--ok-soft); color:var(--ok); padding:2px 7px; border-radius:8px; text-transform:uppercase; }
   .wf-composite{ margin-top:12px; padding-top:12px; border-top:1.5px solid var(--text); display:flex; justify-content:space-between; align-items:center; font-size:13px; font-weight:800; }
+  /* The home page's main call to action: four roles, four ways to register. */
+  .join-cta{ border:1px solid var(--border); border-radius:20px; background:var(--bg-1); padding:30px 32px 32px; margin-top:22px; }
+  .join-cta-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:24px; margin-bottom:24px; }
+  .join-cta-tag{ font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:9px; }
+  .join-cta h3{ font-size:22px; font-weight:800; margin:0 0 8px; letter-spacing:-0.01em; }
+  .join-cta-head p{ font-size:13.5px; color:var(--text-dim); line-height:1.7; margin:0; max-width:66ch; }
+  .join-cta-demo{ flex-shrink:0; font-size:12.5px; }
+  .join-cta-grid{ display:grid; grid-template-columns:repeat(4,1fr); column-gap:14px; row-gap:8px; }
+  .join-cta-card{ all:unset; box-sizing:border-box; cursor:pointer; display:flex; flex-direction:column; gap:7px;
+    border:1px solid var(--border); border-radius:13px; padding:18px 18px 16px; background:var(--bg);
+    transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+  .join-cta-card:hover{ border-color:var(--accent); transform:translateY(-3px); box-shadow:0 10px 24px rgba(15,23,42,0.08); }
+  .join-cta-card:active{ transform:translateY(-1px) scale(.99); }
+  .join-cta-card:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .join-cta-card.checks{ border-color:var(--accent); background:var(--accent-soft); }
+  .jc-role{ font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); }
+  .jc-name{ font-size:18px; font-weight:800; color:var(--text); line-height:1.2; }
+  .jc-line{ font-size:12px; color:var(--text-dim); line-height:1.6; }
+  .jc-go{ font-size:12px; font-weight:700; color:var(--accent); }
+  @supports (grid-template-rows: subgrid){
+    .join-cta-grid{ grid-template-rows:repeat(4,auto); }
+    .join-cta-card{ display:grid; grid-template-rows:subgrid; grid-row:span 4; }
+    .jc-go{ align-self:end; }
+  }
+  @media (max-width:1000px){ .join-cta-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:720px){
+    .join-cta-head{ flex-direction:column; gap:16px; }
+    .join-cta-demo{ align-self:stretch; text-align:center; }
+  }
+  @media (max-width:560px){ .join-cta-grid{ grid-template-columns:1fr; } .join-cta{ padding:24px 20px 26px; } }
   .wf-teaser-box{ border:1px solid var(--border); border-radius:20px; background:var(--bg-1); padding:32px 34px; margin-top:22px; }
   .wf-teaser-tag{ display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:800; color:var(--on-accent); background:var(--accent); padding:5px 12px; border-radius:20px; text-transform:uppercase; letter-spacing:.04em; margin-bottom:14px; }
   .wf-teaser-box h3{ font-size:22px; font-weight:800; margin:0 0 8px; letter-spacing:-0.01em; }
@@ -1219,11 +1249,41 @@
         <button class="btn btn-text" data-goto="trust" data-i18n>How it works →</button>
       </div>
     </div>
-    <div class="wf-teaser-box">
-      <div class="wf-teaser-tag">📥 New — Baladi Map integration</div>
-      <h3>See a citizen report become a funded project</h3>
-      <p>Watch a real report move end-to-end through the network — automatically classified, matched to the right partners, and ready to fund.</p>
-      <button class="btn btn-primary" data-goto="workflow-demo" style="display:block; margin:0 auto;">See the full demo walkthrough →</button>
+    <div class="join-cta">
+      <div class="join-cta-head">
+        <div>
+          <div class="join-cta-tag">Free to join · vetted once</div>
+          <h3>Whoever you are, there is a specific way in</h3>
+          <p>Four roles run this network, and every one of them is open. Pick yours and register &mdash; it takes about a minute, and nothing you post goes live until it has been checked.</p>
+        </div>
+        <button class="btn btn-secondary join-cta-demo" data-goto="workflow-demo">📥 See a citizen report become a funded project &rarr;</button>
+      </div>
+      <div class="join-cta-grid">
+        <button class="join-cta-card" type="button" data-join="government">
+          <span class="jc-role">Certifies</span>
+          <span class="jc-name">Government</span>
+          <span class="jc-line">Ministry, governorate or municipality. Certify what meets code, post requests &mdash; and never touch the money.</span>
+          <span class="jc-go">Register your branch &rarr;</span>
+        </button>
+        <button class="join-cta-card" type="button" data-join="experts">
+          <span class="jc-role">Solves</span>
+          <span class="jc-name">Experts</span>
+          <span class="jc-line">NGOs and vetted businesses that do the work. Choose what fits you, set your own price, get paid on proof.</span>
+          <span class="jc-go">Register your organisation &rarr;</span>
+        </button>
+        <button class="join-cta-card" type="button" data-join="sponsors">
+          <span class="jc-role">Funds</span>
+          <span class="jc-name">Sponsors</span>
+          <span class="jc-line">Diaspora, residents, businesses, NGOs, embassies. Fund a named request and follow every lira to the milestone.</span>
+          <span class="jc-go">Start funding &rarr;</span>
+        </button>
+        <button class="join-cta-card checks" type="button" data-join="verifiers">
+          <span class="jc-role">Checks</span>
+          <span class="jc-name">Verifiers</span>
+          <span class="jc-line">Accredited reviewers who decide whether a tranche is released &mdash; never on a request you are attached to.</span>
+          <span class="jc-go">Apply for accreditation &rarr;</span>
+        </button>
+      </div>
     </div>
     <div class="microcopy" style="margin-top:16px;"><b>Free to use</b> · Independent · Non-partisan</div>
   </div>
@@ -5919,6 +5979,18 @@ function renderJoinSubOptions(){
     });
   });
 }
+// The home page CTA sends people straight to their own category on Join, so the
+// first thing they see is their form rather than the choice they already made.
+function openJoinAs(cat){
+  switchView('join');
+  var card = document.querySelector('#joinCategoryNav .join-cat-card[data-jcat="' + cat + '"]');
+  if(card) card.click();
+  var role = document.querySelector('#audienceNav .role-btn[data-aud-role="' + cat + '"]');
+  if(role && !role.classList.contains('picked')) role.click();
+}
+document.querySelectorAll('[data-join]').forEach(function(btn){
+  btn.addEventListener('click', function(){ openJoinAs(btn.dataset.join); });
+});
 document.querySelectorAll('#joinCategoryNav .join-cat-card').forEach(card=>{
   card.addEventListener('click', ()=>{
     document.querySelectorAll('#joinCategoryNav .join-cat-card').forEach(c=> c.classList.remove('active'));
