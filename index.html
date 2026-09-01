@@ -1051,18 +1051,18 @@
     </div>
 
     <div class="section">
-      <div class="net-group"><div class="net-role">Certifies</div><h3 data-group="government" style="cursor:pointer;">Government</h3><p>Certifies compliance and runs the diaspora-welcome liaison desk. Never holds pledged funds.</p><button class="role-jump" type="button" data-demo-jump="ministry">See the government options <span aria-hidden="true">&rarr;</span></button></div>
+      <div class="net-group"><div class="net-role">Certifies</div><h3 data-group="government" style="cursor:pointer;">Government</h3><p>Certifies compliance and runs the diaspora-welcome liaison desk. Never holds pledged funds.</p><button class="role-jump" type="button" data-demo-jump="ministry">See the government options <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button></div>
       <div class="light-grid" style="margin-bottom:34px;">
         <div class="light-card" data-cat="ministry"><b>Ministry</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Certifies technical &amp; regulatory compliance nationally — the specific ministry depends on the request's field.</p></div>
         <div class="light-card" data-cat="districts"><b>Governorates &amp; Districts</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Lebanon's nine governorates and the 26 districts within them. Coordinates across municipalities in its region — read-only on funds and certification.</p></div>
         <div class="light-card" data-cat="municipality"><b>Municipality</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Posts the request and delivers the work on the ground, once certified.</p></div>
       </div>
 
-      <div class="net-group"><div class="net-role">Solves</div><h3 data-group="experts" style="cursor:pointer;">Expert organisations</h3><p>Matched to a request by field — the specific technical knowledge a problem needs, distinct from who implements or who pays.</p><button class="role-jump" type="button" data-demo-jump="electricity">See the expert options <span aria-hidden="true">&rarr;</span></button></div>
+      <div class="net-group"><div class="net-role">Solves</div><h3 data-group="experts" style="cursor:pointer;">Expert organisations</h3><p>Matched to a request by field — the specific technical knowledge a problem needs, distinct from who implements or who pays.</p><button class="role-jump" type="button" data-demo-jump="electricity">See the expert options <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button></div>
       <div class="field-grid" id="networkFieldGrid" style="margin-bottom:14px;"></div>
       <div style="font-size:12px;color:var(--text-faint);margin-bottom:34px;">Example on the ledger: <b style="color:var(--text-dim);">Cedar Engineers</b> — structural engineering — paired with Aley Union of Municipalities on the Wadi Faara retaining wall.</div>
 
-      <div class="net-group"><div class="net-role">Funds</div><h3 data-group="sponsors" style="cursor:pointer;">Sponsors</h3><p>Five kinds of funders, one ledger. Every pledge is tracked the same way — named or anonymous, escrowed, released only against verified evidence.</p><button class="role-jump" type="button" data-demo-jump="orgbiz">See the sponsor options <span aria-hidden="true">&rarr;</span></button></div>
+      <div class="net-group"><div class="net-role">Funds</div><h3 data-group="sponsors" style="cursor:pointer;">Sponsors</h3><p>Five kinds of funders, one ledger. Every pledge is tracked the same way — named or anonymous, escrowed, released only against verified evidence.</p><button class="role-jump" type="button" data-demo-jump="orgbiz">See the sponsor options <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button></div>
       <div class="light-grid">
         <div class="light-card" data-cat="orgbiz"><b>Organisations &amp; Businesses</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Local companies and civic groups funding a specific request.</p></div>
         <div class="light-card" data-cat="sponsorngo"><b>NGOs</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Mission-driven nonprofits, often funding within their own focus area.</p></div>
@@ -1130,7 +1130,22 @@
 <!-- ALL PROJECTS -->
 <section class="page" id="view-dashboard">
   <div class="wrap">
-    <div class="section" style="padding-top:44px;">
+    <div class="section" style="padding-top:44px; padding-bottom:8px;" id="roleWhen">
+      <div class="section-head"><h2>Who steps in, and when</h2><p>Every request below passes through the same four hands in the same order &mdash; and the order is the safeguard, not a formality.</p></div>
+      <div class="vf-when">
+        <div class="vf-when-head">When each role is brought in &mdash; and why the timing matters</div>
+        <p class="vf-when-lead">Three roles work directly on the project. The fourth works on the <b>process</b>, and is brought in before the first of them can start.</p>
+        <div class="vf-when-steps">
+          <div class="vf-when-step"><span class="vf-when-n">1</span><div><b>Government &mdash; certified before the request is public</b><span>Jurisdiction, code compliance and necessity are checked before a request can open for pledges. Certifying first is what stops this becoming a wishlist: nobody is asked to fund something no authority has confirmed is real and lawful. The body that certifies never holds the money.</span></div></div>
+          <div class="vf-when-step"><span class="vf-when-n">2</span><div><b>Experts &mdash; matched before a budget is fixed</b><span>The field a problem actually needs is settled before anyone prices it, so scope is argued on technical grounds rather than on who happened to bid. Organisations choose the requests that fit their expertise and set their own price.</span></div></div>
+          <div class="vf-when-step"><span class="vf-when-n">3</span><div><b>Sponsors &mdash; captured into escrow before work starts</b><span>Pledges are secured with an independent custodian before the first day of work, so no implementer ever starts on a promise. Nothing is released at this point &mdash; the money is held, not spent.</span></div></div>
+          <div class="vf-when-step"><span class="vf-when-n">4</span><div><b>Verifier &mdash; assigned at escrow confirmation, before work begins</b><span>The moment escrow is confirmed, an accredited reviewer with no tie to the certifier, the implementer or any funder is assigned from the rotation. Only then does work start &mdash; so the implementer already knows who will check them, and could not choose that person.</span></div></div>
+        </div>
+        <p class="vf-when-warn">Change the order and each safeguard quietly stops working. Certify after the pledges and funders are backing an unapproved request. Fix the budget before the field is known and the price is a negotiation rather than an estimate. Assign the verifier after the work is done and the party being checked is picking their own examiner. Each of these steps only does its job because of where it sits in the sequence &mdash; which is why the sequence is published rather than assumed.</p>
+      </div>
+    </div>
+
+    <div class="section" style="padding-top:28px;">
       <div class="section-head"><h2>All projects</h2><p>Every open request, filterable by region, type, size and status.</p></div>
       <div class="filters-row">
         <select id="fGov"><option value="">All governorates</option></select>
@@ -3020,7 +3035,16 @@ document.querySelectorAll('#mainNav button').forEach(btn=>{
   btn.addEventListener('click', ()=> switchView(btn.dataset.view));
 });
 document.querySelectorAll('[data-goto]').forEach(el=>{
-  el.addEventListener('click', ()=> switchView(el.dataset.goto));
+  el.addEventListener('click', ()=>{
+    switchView(el.dataset.goto);
+    // A jump can also name a block on the destination page. The view swap is
+    // animated, so wait a frame before measuring where that block ended up.
+    var target = el.dataset.scroll;
+    if(target) requestAnimationFrame(()=>{
+      var node = document.getElementById(target);
+      if(node) node.scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
 });
 document.querySelectorAll('.footer-col button[data-view]').forEach(btn=>{
   btn.addEventListener('click', ()=> switchView(btn.dataset.view));
