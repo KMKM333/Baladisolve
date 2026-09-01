@@ -332,6 +332,27 @@
     padding:8px 13px; margin:0 0 20px; }
   .role-jump:hover{ border-color:var(--accent); background:var(--accent-soft); }
   .role-jump:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .branch-title{ font-size:26px; margin:6px 0 8px; }
+  .branch-overview{ font-size:13.5px; color:var(--text-dim); line-height:1.7; margin:0 0 18px; max-width:70ch; }
+  .branch-cta{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:26px; }
+  .branch-optionlead{ font-size:11px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--text-faint); margin-bottom:10px; }
+  .opt-panel{ border:1px solid var(--border); border-radius:12px; padding:22px 24px; margin-bottom:30px; background:var(--bg-1); }
+  .opt-title{ font-size:19px; margin:0 0 8px; }
+  .opt-overview{ font-size:13px; color:var(--text-dim); line-height:1.7; margin:0 0 14px; max-width:70ch; }
+  .opt-fit{ display:flex; flex-direction:column; gap:3px; border-inline-start:3px solid var(--accent); padding-inline-start:12px; margin-bottom:20px; }
+  .opt-fit b{ font-size:10.5px; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); }
+  .opt-fit span{ font-size:12.5px; color:var(--text-dim); line-height:1.6; }
+  .opt-block{ margin-top:20px; }
+  .opt-block h4{ font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--text-faint); margin:0 0 10px; }
+  .opt-note{ font-size:12.5px; color:var(--text-dim); margin:0 0 12px; line-height:1.6; }
+  .opt-examples{ display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:10px; }
+  .opt-example{ all:unset; box-sizing:border-box; cursor:pointer; display:flex; flex-direction:column; gap:4px;
+    border:1px solid var(--border); border-radius:9px; padding:12px 14px; background:var(--bg); }
+  .opt-example-static{ cursor:default; }
+  .opt-example:not(.opt-example-static):hover{ border-color:var(--accent); background:var(--accent-soft); }
+  .opt-example:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .oe-name{ font-weight:700; font-size:12.5px; }
+  .oe-sub{ font-size:11.5px; color:var(--text-faint); line-height:1.5; }
   .demo-sub-nav{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 22px; }
   .demo-sub-nav button{ all:unset; box-sizing:border-box; cursor:pointer; font-size:12.5px; font-weight:600;
     color:var(--text-dim); border:1px solid var(--border); border-radius:20px; padding:6px 13px; }
@@ -962,14 +983,14 @@
     </div>
 
     <div class="section">
-      <div class="net-group"><div class="net-role">Certifies</div><h3 data-group="government" style="cursor:pointer;">Government</h3><p>Certifies compliance and runs the diaspora-welcome liaison desk. Never holds pledged funds.</p><button class="role-jump" type="button" data-demo-jump="government">See the government dashboard <span aria-hidden="true">&rarr;</span></button></div>
+      <div class="net-group"><div class="net-role">Certifies</div><h3 data-group="government" style="cursor:pointer;">Government</h3><p>Certifies compliance and runs the diaspora-welcome liaison desk. Never holds pledged funds.</p><button class="role-jump" type="button" data-demo-jump="ministry">See the government options <span aria-hidden="true">&rarr;</span></button></div>
       <div class="light-grid" style="margin-bottom:34px;">
         <div class="light-card" data-cat="ministry"><b>Ministry</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Certifies technical &amp; regulatory compliance nationally — the specific ministry depends on the request's field.</p></div>
         <div class="light-card" data-cat="districts"><b>Governorates &amp; Districts</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Lebanon's nine governorates and the 26 districts within them. Coordinates across municipalities in its region — read-only on funds and certification.</p></div>
         <div class="light-card" data-cat="municipality"><b>Municipality</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Posts the request and delivers the work on the ground, once certified.</p></div>
       </div>
 
-      <div class="net-group"><div class="net-role">Solves</div><h3 data-group="experts" style="cursor:pointer;">Expert organisations</h3><p>Matched to a request by field — the specific technical knowledge a problem needs, distinct from who implements or who pays.</p><button class="role-jump" type="button" data-demo-jump="organisations">See the expert dashboard <span aria-hidden="true">&rarr;</span></button></div>
+      <div class="net-group"><div class="net-role">Solves</div><h3 data-group="experts" style="cursor:pointer;">Expert organisations</h3><p>Matched to a request by field — the specific technical knowledge a problem needs, distinct from who implements or who pays.</p><button class="role-jump" type="button" data-demo-jump="electricity">See the expert options <span aria-hidden="true">&rarr;</span></button></div>
       <div class="field-grid" style="margin-bottom:14px;">
         <div class="field-card" data-cat="electricity"><div class="field-icon">⚡</div><h3>Electricity</h3><p>Grid repair, solar installation, and power system design.</p></div>
         <div class="field-card" data-cat="waste"><div class="field-icon">♻️</div><h3>Waste Collection</h3><p>Routing, sorting, and recycling logistics.</p></div>
@@ -982,7 +1003,7 @@
       </div>
       <div style="font-size:12px;color:var(--text-faint);margin-bottom:34px;">Example on the ledger: <b style="color:var(--text-dim);">Cedar Engineers</b> — structural engineering — paired with Aley Union of Municipalities on the Wadi Faara retaining wall.</div>
 
-      <div class="net-group"><div class="net-role">Funds</div><h3 data-group="sponsors" style="cursor:pointer;">Sponsors</h3><p>Five kinds of funders, one ledger. Every pledge is tracked the same way — named or anonymous, escrowed, released only against verified evidence.</p><button class="role-jump" type="button" data-demo-jump="diaspora">See the sponsor dashboard <span aria-hidden="true">&rarr;</span></button></div>
+      <div class="net-group"><div class="net-role">Funds</div><h3 data-group="sponsors" style="cursor:pointer;">Sponsors</h3><p>Five kinds of funders, one ledger. Every pledge is tracked the same way — named or anonymous, escrowed, released only against verified evidence.</p><button class="role-jump" type="button" data-demo-jump="orgbiz">See the sponsor options <span aria-hidden="true">&rarr;</span></button></div>
       <div class="light-grid">
         <div class="light-card" data-cat="orgbiz"><b>Organisations &amp; Businesses</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Local companies and civic groups funding a specific request.</p></div>
         <div class="light-card" data-cat="sponsorngo"><b>NGOs</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Mission-driven nonprofits, often funding within their own focus area.</p></div>
@@ -1560,7 +1581,9 @@
         <button data-branch="experts">For experts</button>
         <button data-branch="sponsors">For sponsors</button>
       </div>
+      <div id="demoBranchHeader"></div>
       <div class="demo-sub-nav" id="demoNav"></div>
+      <div id="demoOptionPanel"></div>
       <h2 style="font-size:24px;margin:0 0 4px;" id="demoTitle">—</h2>
       <p style="font-size:13px;color:var(--text-dim);margin:0 0 20px;" id="demoSubtitle">—</p>
       <div class="dash-stats" id="demoStats"></div>
@@ -4643,58 +4666,204 @@ const ACCOUNT_DEMO_DATA = {
     actions: [ {label:'Property paperwork help — returning visitor, Zahlé', sub:'Requested ahead of visit on 22 Jun'} ]
   }
 };
-function renderAccountDemo(type){
-  document.getElementById('demoOverviewCTA').style.display = type==='overview' ? 'block' : 'none';
-  document.getElementById('demoTableTitle').style.display = type==='overview' ? 'none' : '';
-  document.getElementById('demoActionsTitle').style.display = type==='overview' ? 'none' : '';
-  document.getElementById('demoActions').style.display = type==='overview' ? 'none' : '';
+// A branch page: what this role is, the options underneath it, and then the
+// selected option in full — described, evidenced with organisations already on
+// the ledger, and matched to open requests. The dashboard appears for the
+// options that have one; the rest hand off to their role's dashboard rather
+// than showing the same one over and over.
+function renderAccountDemo(optionKey){
+  var isOverview = optionKey === 'overview';
+  var branch = branchForDemo(optionKey);
+  var demoKey = isOverview ? 'overview' : demoKeyForOption(optionKey);
+  var d = ACCOUNT_DEMO_DATA[demoKey];
 
-  if(type==='overview'){
-    const totalRaised = PROJECTS.reduce((s,p)=>s+p.raised,0);
-    const govCount = new Set(PROJECTS.map(p=>p.gov)).size;
+  ['demoOverviewCTA'].forEach(function(id){
+    document.getElementById(id).style.display = isOverview ? 'block' : 'none';
+  });
+  var hasDash = !!d;
+  ['demoTitle','demoSubtitle','demoTableTitle','demoActionsTitle','demoActions'].forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) el.style.display = (hasDash && !isOverview) || (isOverview && (id==='demoTitle'||id==='demoSubtitle'||id==='demoStats')) ? '' : 'none';
+  });
+  document.getElementById('demoTableTitle').style.display = isOverview ? 'none' : (hasDash ? '' : 'none');
+  document.getElementById('demoActionsTitle').style.display = isOverview ? 'none' : (hasDash ? '' : 'none');
+  document.getElementById('demoActions').style.display = isOverview ? 'none' : (hasDash ? '' : 'none');
+
+  renderBranchHeader(branch, isOverview);
+  renderDemoNav(optionKey);
+  document.getElementById('demoOptionPanel').innerHTML = isOverview ? '' : optionPanelHTML(optionKey, branch);
+  wireOptionPanel();
+
+  if(isOverview){
+    var totalRaised = PROJECTS.reduce(function(a,p){ return a + p.raised; }, 0);
+    var govCount = new Set(PROJECTS.map(function(p){ return p.gov; })).size;
     document.getElementById('demoTitle').textContent = 'All account types, one ledger';
-    document.getElementById('demoSubtitle').textContent = 'An aggregate view across every account type on Manāra — sample dashboard, real platform figures.';
+    document.getElementById('demoSubtitle').textContent = 'An aggregate view across every account type on Manara — sample dashboard, real platform figures.';
     document.getElementById('demoStats').innerHTML = [
       {num:String(PROJECTS.length), lbl:'Open & delivered requests'},
       {num:money(totalRaised), lbl:'Mobilized platform-wide'},
       {num:String(govCount), lbl:'Governorates active'},
       {num:'6', lbl:'Account types'}
-    ].map(s=>`<div class="stat"><span class="num">${s.num}</span><span class="lbl">${s.lbl}</span></div>`).join('');
+    ].map(function(x){ return '<div class="stat"><span class="num">'+x.num+'</span><span class="lbl">'+x.lbl+'</span></div>'; }).join('');
     document.getElementById('demoTable').innerHTML = '';
     document.getElementById('demoRoleMatch').innerHTML = '';
-    renderDemoNav(type);
     return;
   }
 
-  const d = ACCOUNT_DEMO_DATA[type];
-  if(!d) return;
+  if(!hasDash){
+    // No dashboard of its own — the option panel above already carries it.
+    document.getElementById('demoStats').innerHTML = '';
+    document.getElementById('demoTable').innerHTML = '';
+    document.getElementById('demoRoleMatch').innerHTML = '';
+    return;
+  }
+
   document.getElementById('demoTitle').textContent = d.title;
   document.getElementById('demoSubtitle').textContent = d.subtitle;
-  document.getElementById('demoStats').innerHTML = d.stats.map(s=>
-    `<div class="stat"><span class="num">${s.num}</span><span class="lbl">${s.lbl}</span></div>`).join('');
+  document.getElementById('demoStats').innerHTML = d.stats.map(function(x){
+    return '<div class="stat"><span class="num">'+x.num+'</span><span class="lbl">'+x.lbl+'</span></div>'; }).join('');
   document.getElementById('demoTableTitle').textContent = d.tableTitle;
 
-  const tableEl = document.getElementById('demoTable');
+  var tableEl = document.getElementById('demoTable');
   if(d.rowType === 'project'){
     tableEl.className = 'proj-grid';
-    tableEl.innerHTML = d.rows.map(r=>{
-      const p = PROJECTS.find(x=>x.id===r.projectId);
-      if(!p) return '';
-      return `<div class="demo-proj-cell">${cardHTML(p)}<div class="demo-proj-caption">${r.caption}</div></div>`;
+    tableEl.innerHTML = d.rows.map(function(r){
+      var pr = PROJECTS.find(function(x){ return x.id === r.projectId; });
+      if(!pr) return '';
+      return '<div class="demo-proj-cell">' + cardHTML(pr) + '<div class="demo-proj-caption">' + r.caption + '</div></div>';
     }).join('');
     attachCardEvents(tableEl);
   } else {
     tableEl.className = 'dash-table';
-    tableEl.innerHTML = d.rows.map(r=>
-      `<div class="dash-row"><div class="dr-main"><div class="dr-name">${r.name}</div><div class="dr-sub">${r.sub}</div></div><span class="status-pill st-${r.pillClass}">${r.pill}</span><span class="dr-value">${r.value}</span></div>`).join('');
+    tableEl.innerHTML = d.rows.map(function(r){
+      return '<div class="dash-row"><div class="dr-main"><div class="dr-name">'+r.name+'</div><div class="dr-sub">'+r.sub+'</div></div><span class="status-pill st-'+r.pillClass+'">'+r.pill+'</span></div>';
+    }).join('');
   }
-
-  document.getElementById('demoRoleMatch').innerHTML = roleMatchHTML(type);
+  document.getElementById('demoRoleMatch').innerHTML = roleMatchHTML(demoKey);
   wireRoleMatch();
   document.getElementById('demoActionsTitle').textContent = d.actionsTitle;
-  document.getElementById('demoActions').innerHTML = d.actions.map(a=>
-    `<div class="dash-action-row"><div class="dr-name" style="font-size:12.5px;">${a.label}</div><div class="dr-sub">${a.sub}</div></div>`).join('');
-  renderDemoNav(type);
+  document.getElementById('demoActions').innerHTML = d.actions.map(function(a){
+    return '<div class="dash-action-row"><div class="dr-name" style="font-size:12.5px;">'+a.label+'</div><div class="dr-sub">'+a.sub+'</div></div>'; }).join('');
+}
+
+function renderBranchHeader(branch, isOverview){
+  var el = document.getElementById('demoBranchHeader');
+  if(!el) return;
+  if(!branch || isOverview){ el.innerHTML = ''; return; }
+  el.innerHTML =
+    '<h2 class="branch-title">' + branch.label + '</h2>' +
+    '<p class="branch-overview">' + branch.overview + '</p>' +
+    '<div class="branch-cta">' +
+      '<button class="btn btn-primary" data-branch-cta="join">Register as ' + branchArticle(branch.id) + ' &rarr;</button>' +
+      '<button class="btn btn-secondary" data-branch-cta="network">See how the three roles fit together</button>' +
+    '</div>' +
+    '<div class="branch-optionlead">' + branch.subs.length + ' ways to take part &mdash; pick one:</div>';
+}
+function branchArticle(id){
+  return { government:'a government body', experts:'an expert organisation', sponsors:'a sponsor' }[id] || 'a member';
+}
+
+function optionPanelHTML(key, branch){
+  var c = CATEGORY_META[key];
+  if(!c || !branch) return '';
+  var leads = ALL_LEADS.filter(function(l){ return (l.tags || []).indexOf(key) !== -1; });
+  // Government bodies aren't in ALL_LEADS — they live in their own reference
+  // lists — so those three options draw their examples from there instead of
+  // showing an empty block.
+  var govExamples = null;
+  if(key === 'ministry'){
+    govExamples = MINISTRIES.slice(0, 3).map(function(m){ return { name:m[0], sub:m[1] }; });
+  } else if(key === 'districts'){
+    govExamples = GOVS.slice(0, 3).map(function(g){
+      var towns = (MUNICIPALITIES[g.id] || []).length;
+      return { name:g.name + ' governorate', sub: towns ? towns + ' municipalities listed' : 'Coordinates across its municipalities' };
+    });
+  } else if(key === 'diaspora'){
+    govExamples = Object.keys(COUNTRY_META).slice(0, 3).map(function(c){
+      var n = PROJECTS.filter(function(pr){ return (pr.corridor || '').indexOf(c) !== -1; }).length;
+      return { name:c, sub: n ? n + ' corridor project' + (n === 1 ? '' : 's') : 'Diaspora community funding hometowns' };
+    });
+  } else if(key === 'locals'){
+    govExamples = PROJECTS.filter(function(pr){ return (pr.audienceTags || []).indexOf('locals') !== -1; })
+      .slice(0, 3).map(function(pr){
+        return { name:pr.locality, sub:'Residents pooled toward ' + pr.type.toLowerCase() };
+      });
+  } else if(key === 'municipality'){
+    govExamples = ['akkar','north','baalbek'].map(function(gid){
+      var list = MUNICIPALITIES[gid] || [];
+      return { name:(list[0] || gid), sub:'Municipality in ' + govName(gid) };
+    });
+  }
+  var exampleCount = govExamples ? govExamples.length : leads.length;
+  var examples = govExamples
+    ? govExamples.map(function(g){
+        return '<div class="opt-example opt-example-static">' +
+          '<span class="oe-name">' + g.name + '</span>' +
+          '<span class="oe-sub">' + g.sub + '</span></div>';
+      }).join('')
+    : leads.slice(0, 3).map(function(l){
+        return '<button class="opt-example" type="button" data-lead="' + escAttr(l.name) + '" data-cat="' + key + '">' +
+          '<span class="oe-name">' + l.name + '</span>' +
+          '<span class="oe-sub">' + (l.whatTheyDo || l.summary || '') + '</span></button>';
+      }).join('');
+  var types = typesForField(key);
+  var open = PROJECTS.filter(function(p){
+    return types.indexOf(p.type) !== -1 && (p.status === 'funding' || p.status === 'proposed');
+  }).slice(0, 3);
+  var openHTML = types.length
+    ? (open.length
+        ? '<div class="opt-block"><h4>Open requests needing this</h4><div class="role-list">' +
+            open.map(function(p){
+              return '<button class="role-row" data-pid="' + p.id + '" type="button">' +
+                '<span class="rr-main"><span class="rr-name">' + p.title + '</span>' +
+                '<span class="rr-sub">' + p.type + ' · ' + p.locality + '</span></span>' +
+                '<span class="rr-go">View &rarr;</span></button>'; }).join('') +
+          '</div></div>'
+        : '<div class="opt-block"><h4>Open requests needing this</h4><div class="role-empty">Nothing open in this field right now.</div></div>')
+    : '';
+  var dash = demoKeyForOption(key);
+  var handoff = dash ? '' :
+    '<div class="opt-block"><h4>Your dashboard</h4>' +
+    '<p class="opt-note">This account type shares the ' + branch.label.replace('For ', '') +
+    ' dashboard &mdash; the same requests, escrow and verification.</p>' +
+    '<button class="btn btn-secondary" data-open-dash="' + roleDashboardFor(branch.id) + '">Open the ' +
+    branch.label.replace('For ', '') + ' dashboard &rarr;</button></div>';
+
+  return '<section class="opt-panel">' +
+    '<h3 class="opt-title">' + (c.name || key) + '</h3>' +
+    (c.overview ? '<p class="opt-overview">' + c.overview + '</p>' : '') +
+    (c.fit ? '<div class="opt-fit"><b>How you fit</b><span>' + c.fit + '</span></div>' : '') +
+    (examples
+      ? '<div class="opt-block"><h4>' + (govExamples ? 'Examples' : 'Already on the ledger (' + exampleCount + ')') + '</h4><div class="opt-examples">' + examples + '</div></div>'
+      : '') +
+    openHTML + handoff +
+    '</section>';
+}
+function escAttr(v){ return String(v == null ? '' : v).replace(/"/g, '&quot;'); }
+function wireOptionPanel(){
+  document.querySelectorAll('#demoOptionPanel .opt-example').forEach(function(b){
+    b.addEventListener('click', function(){
+      var name = b.getAttribute('data-lead');
+      var lead = ALL_LEADS.find(function(l){ return l.name === name; });
+      if(lead) openLeadPage(b.getAttribute('data-cat'), lead);
+    });
+  });
+  document.querySelectorAll('#demoOptionPanel .role-row').forEach(function(b){
+    b.addEventListener('click', function(){ openDetail(parseInt(b.getAttribute('data-pid'), 10)); });
+  });
+  document.querySelectorAll('#demoOptionPanel [data-open-dash]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var k = b.getAttribute('data-open-dash');
+      var opt = null;
+      demoBranches().forEach(function(br){ br.subs.forEach(function(sub){ if(demoKeyForOption(sub.key) === k) opt = opt || sub.key; }); });
+      if(opt) renderAccountDemo(opt);
+    });
+  });
+  document.querySelectorAll('#demoBranchHeader [data-branch-cta]').forEach(function(b){
+    b.addEventListener('click', function(){
+      switchView(b.getAttribute('data-branch-cta') === 'join' ? 'join' : 'network');
+    });
+  });
 }
 function openAccountDemo(type){
   // switchView writes its own route for the view it opens, so the role route has
@@ -5211,23 +5380,51 @@ setTimeout(()=>{
 
    Every dashboard that existed is still here; only the way in changed.
    ======================================================= */
+// Built from the site's own taxonomy rather than a second hand-written list, so
+// the branch pages always carry exactly the options the Network page advertises:
+// 3 for government, 8 expert fields, 5 kinds of sponsor.
 function demoBranches(){
-  return [
-    { id:'government', label:'For government',
-      subs:[ {key:'government',    label:'Ministry'},
-             {key:'governorate',   label:'Governorate'},
-             {key:'municipalities',label:'Municipality'} ] },
-    { id:'experts', label:'For experts',
-      subs:[ {key:'organisations', label:'Expert organisation'} ] },
-    { id:'sponsors', label:'For sponsors',
-      subs:[ {key:'diaspora', label:'Diaspora'},
-             {key:'locals',   label:'Locals'} ] }
-  ];
+  var labels = { government:'For government', experts:'For experts', sponsors:'For sponsors' };
+  return ['government','experts','sponsors'].map(function(id){
+    var g = GROUP_META[id] || {};
+    return {
+      id: id,
+      label: labels[id],
+      overview: g.overview || '',
+      subs: (g.subsections || []).map(function(key){
+        var c = CATEGORY_META[key] || {};
+        return { key:key, label:c.name || key };
+      })
+    };
+  });
 }
-function branchForDemo(type){
+// Only some options have a dashboard of their own; the rest are described and
+// then hand off to their role's dashboard rather than repeating it.
+function demoKeyForOption(key){
+  return { ministry:'government', districts:'governorate', municipality:'municipalities',
+           diaspora:'diaspora', locals:'locals' }[key] || null;
+}
+function roleDashboardFor(branchId){
+  return { government:'government', experts:'organisations', sponsors:'diaspora' }[branchId] || null;
+}
+// Which project types each expert field actually covers, so "open requests" is
+// real rather than a guess.
+function typesForField(key){
+  return ({
+    electricity:['Public Lighting'],
+    waste:['Environment & Waste'],
+    water:['Water & Sanitation'],
+    publicland:['Public Space & Land Use'],
+    environment:['Environment & Waste'],
+    roads:['Public Roads'],
+    sewage:['Water & Sanitation'],
+    ngoinit:['Education','Health']
+  })[key] || [];
+}
+function branchForDemo(optionKey){
   var found = null;
   demoBranches().forEach(function(b){
-    b.subs.forEach(function(sub){ if(sub.key === type) found = b; });
+    b.subs.forEach(function(sub){ if(sub.key === optionKey) found = b; });
   });
   return found;
 }
@@ -5256,7 +5453,7 @@ function renderDemoNav(type){
 function openDemoBranch(branchId){
   var b = null;
   demoBranches().forEach(function(x){ if(x.id === branchId) b = x; });
-  if(!b) return;
+  if(!b || !b.subs.length) return;
   openAccountDemo(b.subs[0].key);
 }
 document.querySelectorAll('#demoBranchNav button').forEach(function(b){
@@ -5292,6 +5489,18 @@ function roleMatchConfig(type){
     note:'Matched on the technical expertise each problem needs — separate from who certifies it or who pays.',
     pick:function(p){ return p.status === 'funding' || p.status === 'proposed'; },
     line:function(p){ return p.type + ' · ' + p.locality + ', ' + govName(p.gov); }
+  };
+  if(type === 'municipalities') return {
+    title:'Your municipality\'s requests',
+    note:'Everything filed for this locality, whatever stage it has reached.',
+    pick:function(p){ return p.status !== 'complete'; },
+    line:function(p){ return p.type + ' · ' + statusLabel[p.status] + ' · ' + p.locality; }
+  };
+  if(type === 'governorate') return {
+    title:'Active across your governorate',
+    note:'Read-only: a governorate coordinates, it does not certify or hold funds.',
+    pick:function(p){ return p.status === 'funding' || p.status === 'progress'; },
+    line:function(p){ return p.locality + ' · ' + money(p.raised) + ' of ' + money(p.goal); }
   };
   if(type === 'diaspora' || type === 'locals') return {
     title:'Still short of goal',
@@ -5332,10 +5541,11 @@ function wireRoleMatch(){
 // The three roles the platform is built around, mapped onto the dashboards
 // that already model them.
 function roleToDemo(role){
-  return { government:'government', expert:'organisations', donor:'diaspora' }[role] || null;
+  // the first option under each branch
+  return { government:'ministry', expert:'electricity', donor:'orgbiz' }[role] || null;
 }
-function demoToRole(type){
-  var b = branchForDemo(type);
+function demoToRole(optionKey){
+  var b = branchForDemo(optionKey);
   return b ? ({ government:'government', experts:'expert', sponsors:'donor' })[b.id] : null;
 }
 
