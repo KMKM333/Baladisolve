@@ -13,6 +13,8 @@
     --text:#0b0f19; --text-dim:#4b5566; --text-faint:#8b95a3;
     --border:#e2e6ec;
     --accent:#2563EB; --accent-dim:#1D4ED8; --accent-soft:rgba(37,99,235,0.08);
+    --map-exp:#ffffff; --map-exp-ink:#0b0f19;   /* expert organisations */
+    --map-gov:#0b0f19; --map-gov-ink:#ffffff;   /* government / municipalities */
     --warn:#D97706; --warn-soft:rgba(217,119,6,0.08);
     --danger:#DC2626; --danger-soft:rgba(220,38,38,0.07);
     --ok:#16A34A; --ok-soft:rgba(22,163,74,0.08);
@@ -37,6 +39,8 @@
       --text:#e7edf5; --text-dim:#9aa8ba; --text-faint:#6c7a8c;
       --border:#242e3b;
       --accent:#6AA5FF; --accent-dim:#8FBEFF; --accent-soft:rgba(106,165,255,0.14);
+      --map-exp:#ffffff; --map-exp-ink:#0b0f19;
+      --map-gov:#0b0f19; --map-gov-ink:#ffffff;
       --on-accent:#0a1020;
       --warn:#EBA23C; --warn-soft:rgba(235,162,60,0.14);
       --danger:#F0776A; --danger-soft:rgba(240,119,106,0.13);
@@ -50,6 +54,8 @@
     --text:#e7edf5; --text-dim:#9aa8ba; --text-faint:#6c7a8c;
     --border:#242e3b;
     --accent:#6AA5FF; --accent-dim:#8FBEFF; --accent-soft:rgba(106,165,255,0.14);
+    --map-exp:#ffffff; --map-exp-ink:#0b0f19;
+    --map-gov:#0b0f19; --map-gov-ink:#ffffff;
     --on-accent:#0a1020;
     --warn:#EBA23C; --warn-soft:rgba(235,162,60,0.14);
     --danger:#F0776A; --danger-soft:rgba(240,119,106,0.13);
@@ -542,6 +548,14 @@
   @media (max-width:640px){ .breadcrumb-bar{ padding:8px 18px; } }
   .lead-table td{ padding:12px 14px; border-bottom:1px solid var(--border); vertical-align:top; overflow-wrap:break-word; }
   .lead-table tr:last-child td{ border-bottom:none; }
+  /* Map layer keys. A white marker needs a dark ring and a black one a light
+     ring, or each disappears against half the surfaces it sits on. */
+  .map-key{ display:inline-block; flex-shrink:0; }
+  .map-key.tri{ width:0; height:0; border-inline-start:5.5px solid transparent; border-inline-end:5.5px solid transparent;
+    border-bottom:10px solid var(--map-exp); filter:drop-shadow(0 0 1px var(--map-exp-ink)); }
+  .map-key.tri.sm{ border-inline-start-width:3.5px; border-inline-end-width:3.5px; border-bottom-width:6.5px; }
+  .map-key.sq{ width:10px; height:10px; border-radius:2px; background:var(--map-gov); box-shadow:0 0 0 1px var(--map-gov-ink), 0 0 0 2px var(--border); }
+  .map-key.sq.sm{ width:7px; height:7px; }
   .lead-group-tag{ font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:10px; white-space:nowrap; }
   .lead-group-tag.g-gov{ background:var(--accent-soft); color:var(--accent); }
   .lead-group-tag.g-exp{ background:rgba(124,58,237,0.1); color:#7c3aed; }
@@ -1545,11 +1559,11 @@
           <button class="map-filter-btn active" data-layer="problems" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;padding:10px 18px;border-radius:22px;border:1.5px solid var(--accent);color:var(--accent);background:var(--accent-soft);">
             <span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--accent);"></span>Problems <span class="map-filter-count" data-count="problems" style="opacity:.7;"></span>
           </button>
-          <button class="map-filter-btn active" data-layer="experts" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;padding:10px 18px;border-radius:22px;border:1.5px solid #7c3aed;color:#7c3aed;background:rgba(124,58,237,0.08);">
-            <span class="tri-icon" style="display:inline-block;width:0;height:0;border-inline-start:5.5px solid transparent;border-inline-end:5.5px solid transparent;border-bottom:10px solid #7c3aed;"></span>Experts <span class="map-filter-count" data-count="experts" style="opacity:.7;"></span>
+          <button class="map-filter-btn active" data-layer="experts" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;padding:10px 18px;border-radius:22px;border:1.5px solid var(--border);color:var(--text);background:var(--bg-1);">
+            <span class="map-key tri"></span>Experts <span class="map-filter-count" data-count="experts" style="opacity:.7;"></span>
           </button>
-          <button class="map-filter-btn active" data-layer="municipalities" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;padding:10px 18px;border-radius:22px;border:1.5px solid #0d9488;color:#0d9488;background:rgba(13,148,136,0.08);">
-            <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:#0d9488;"></span>Municipalities <span class="map-filter-count" data-count="municipalities" style="opacity:.7;"></span>
+          <button class="map-filter-btn active" data-layer="municipalities" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;padding:10px 18px;border-radius:22px;border:1.5px solid var(--border);color:var(--text);background:var(--bg-1);">
+            <span class="map-key sq"></span>Municipalities <span class="map-filter-count" data-count="municipalities" style="opacity:.7;"></span>
           </button>
         </div>
 
@@ -1589,11 +1603,11 @@
               <button class="map-search-filter-btn active" data-search-layer="problems" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:5px 10px;border-radius:14px;border:1.3px solid var(--accent);color:var(--accent);background:var(--accent-soft);">
                 <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);"></span>Problems
               </button>
-              <button class="map-search-filter-btn active" data-search-layer="experts" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:5px 10px;border-radius:14px;border:1.3px solid #7c3aed;color:#7c3aed;background:rgba(124,58,237,0.08);">
-                <span class="tri-icon" style="display:inline-block;width:0;height:0;border-inline-start:3.5px solid transparent;border-inline-end:3.5px solid transparent;border-bottom:6.5px solid #7c3aed;"></span>Experts
+              <button class="map-search-filter-btn active" data-search-layer="experts" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:5px 10px;border-radius:14px;border:1.3px solid var(--border);color:var(--text);background:var(--bg-1);">
+                <span class="map-key tri sm"></span>Experts
               </button>
-              <button class="map-search-filter-btn active" data-search-layer="municipalities" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:5px 10px;border-radius:14px;border:1.3px solid #0d9488;color:#0d9488;background:rgba(13,148,136,0.08);">
-                <span style="display:inline-block;width:7px;height:7px;border-radius:2px;background:#0d9488;"></span>Towns
+              <button class="map-search-filter-btn active" data-search-layer="municipalities" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:5px 10px;border-radius:14px;border:1.3px solid var(--border);color:var(--text);background:var(--bg-1);">
+                <span class="map-key sq sm"></span>Towns
               </button>
             </div>
           </div>
@@ -3954,17 +3968,20 @@ function ensureLeafletMap(){
     mapSearchIndex.push({ name: p.title, sub: p.locality, type:'problems', status: p.status, coords, marker });
   });
 
+  // Absolute, not themed: these sit on map tiles rather than on the page.
+  const MAP_EXP = '#ffffff', MAP_EXP_INK = '#0b0f19';
+  const MAP_GOV = '#0b0f19', MAP_GOV_INK = '#ffffff';
   function expertIcon(strokeWidth){
     return L.divIcon({
       className: '',
-      html: `<svg width="16" height="15" viewBox="0 0 16 15" style="overflow:visible;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.35));"><polygon points="8,0 16,14 0,14" fill="#7c3aed" stroke="#fff" stroke-width="${strokeWidth}"/></svg>`,
+      html: `<svg width="16" height="15" viewBox="0 0 16 15" style="overflow:visible;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.45));"><polygon points="8,0 16,14 0,14" fill="${MAP_EXP}" stroke="${strokeWidth ? MAP_EXP : MAP_EXP_INK}" stroke-width="${strokeWidth || 1.4}"/></svg>`,
       iconSize: [16,15], iconAnchor:[8,11]
     });
   }
   function municipalityIcon(borderWidth){
     return L.divIcon({
       className: '',
-      html: `<div style="width:9px;height:9px;background:#0d9488;border:${borderWidth}px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.3);"></div>`,
+      html: `<div style="width:9px;height:9px;background:${MAP_GOV};border:${borderWidth}px solid ${MAP_GOV_INK};box-shadow:0 1px 3px rgba(0,0,0,0.45);"></div>`,
       iconSize: [9,9], iconAnchor:[4.5,4.5]
     });
   }
@@ -3975,14 +3992,14 @@ function ensureLeafletMap(){
     const mid = 'exp_'+name.replace(/[^a-zA-Z0-9]/g,'_');
     const stage1 = `
       <div style="font-family:'Public Sans',sans-serif;min-width:160px;cursor:pointer;" onclick="event.stopPropagation(); window.__expandMapPopup('${mid}')">
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#7c3aed;margin-bottom:4px;">Expert organisation</div>
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#0b0f19;margin-bottom:4px;">Expert organisation</div>
         <b style="font-size:13px;">${name}</b>
-        <div style="font-size:10.5px;color:#7c3aed;font-weight:600;margin-top:6px;">Tap for details →</div>
+        <div style="font-size:10.5px;color:#0b0f19;font-weight:600;margin-top:6px;">Tap for details →</div>
       </div>`;
     const stage2 = `
       <div onclick="event.stopPropagation();" style="font-family:'Public Sans',sans-serif;min-width:200px;">
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#7c3aed;margin-bottom:5px;">Expert organisation</div>
-        <div onclick="event.stopPropagation(); window.__openExpertFromMap('${mid}')" style="cursor:pointer;color:#7c3aed;text-decoration:underline;font-size:15px;font-weight:700;">${name}</div>
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#0b0f19;margin-bottom:5px;">Expert organisation</div>
+        <div onclick="event.stopPropagation(); window.__openExpertFromMap('${mid}')" style="cursor:pointer;color:#0b0f19;text-decoration:underline;font-size:15px;font-weight:700;">${name}</div>
         <div style="font-size:10.5px;color:#888;margin-top:8px;">Click the name above to view full details →</div>
       </div>`;
     const marker = L.marker(coords, { icon }).bindPopup(stage1).addTo(mapLayers.experts);
@@ -4004,15 +4021,15 @@ function ensureLeafletMap(){
       const mid = 'muni_'+g.id+'_'+name.replace(/[^a-zA-Z0-9]/g,'_');
       const stage1 = `
         <div style="font-family:'Public Sans',sans-serif;min-width:150px;cursor:pointer;" onclick="event.stopPropagation(); window.__expandMapPopup('${mid}')">
-          <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#0d9488;margin-bottom:4px;">Municipality</div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#0b0f19;margin-bottom:4px;">Municipality</div>
           <b style="font-size:13px;">${name}</b>
           <div style="font-size:11px;color:#666;margin-top:2px;">${g.name} governorate</div>
-          <div style="font-size:10.5px;color:#0d9488;font-weight:600;margin-top:6px;">Tap for details →</div>
+          <div style="font-size:10.5px;color:#0b0f19;font-weight:600;margin-top:6px;">Tap for details →</div>
         </div>`;
       const stage2 = `
         <div onclick="event.stopPropagation();" style="font-family:'Public Sans',sans-serif;min-width:200px;">
-          <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#0d9488;margin-bottom:5px;">Municipality</div>
-          <div onclick="event.stopPropagation(); window.__openMuniFromMap('${mid}')" style="cursor:pointer;color:#0d9488;text-decoration:underline;font-size:15px;font-weight:700;margin-bottom:6px;">${name}</div>
+          <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#0b0f19;margin-bottom:5px;">Municipality</div>
+          <div onclick="event.stopPropagation(); window.__openMuniFromMap('${mid}')" style="cursor:pointer;color:#0b0f19;text-decoration:underline;font-size:15px;font-weight:700;margin-bottom:6px;">${name}</div>
           <div style="font-size:11.5px;color:#666;">${g.name} governorate</div>
           <div style="font-size:10.5px;color:#888;margin-top:8px;">Click the name above to view full details →</div>
         </div>`;
@@ -4047,9 +4064,9 @@ function ensureLeafletMap(){
       return `<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${c};margin-top:4px;flex-shrink:0;"></span>`;
     }
     if(item.type==='experts'){
-      return `<span style="display:inline-block;width:0;height:0;border-inline-start:5px solid transparent;border-inline-end:5px solid transparent;border-bottom:9px solid #7c3aed;margin-top:4px;flex-shrink:0;"></span>`;
+      return `<span style="display:inline-block;width:0;height:0;border-inline-start:5px solid transparent;border-inline-end:5px solid transparent;border-bottom:9px solid var(--map-exp);filter:drop-shadow(0 0 1px var(--map-exp-ink));margin-top:4px;flex-shrink:0;"></span>`;
     }
-    return `<span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:#0d9488;margin-top:4px;flex-shrink:0;"></span>`;
+    return `<span style="display:inline-block;width:9px;height:9px;border-radius:2px;background:var(--map-gov);box-shadow:0 0 0 1px var(--map-gov-ink),0 0 0 2px var(--border);margin-top:4px;flex-shrink:0;"></span>`;
   }
   const typeMeta = {
     problems: { label:'Problem' },
