@@ -590,13 +590,26 @@
   .sched-early{ background:var(--accent-soft); color:var(--accent); }
 
   .trail-list{ list-style:none; padding:0; margin:0 0 24px; }
-  .trail-list li{ display:flex; gap:12px; padding:0 0 16px; border-inline-start:2px solid var(--border); margin-inline-start:6px; padding-inline-start:20px; position:relative; }
+  .trail-list li{ display:flex; flex-wrap:wrap; gap:12px; padding:0 0 16px; border-inline-start:2px solid var(--border); margin-inline-start:6px; padding-inline-start:20px; position:relative; }
   .trail-list li:last-child{ padding-bottom:0; }
   .trail-list .t-dot{ position:absolute; left:-7px; top:0; width:12px; height:12px; border-radius:50%; background:var(--surface); border:2px solid var(--border); }
   .trail-list .t-dot.verified{ border-color:var(--ok); background:var(--ok); }
   .trail-list .t-dot.submitted{ border-color:var(--warn); background:var(--warn); }
   .trail-list .t-title{ font-weight:700; font-size:13px; }
   .trail-list .t-meta{ font-size:11.5px; color:var(--text-faint); margin-top:2px; }
+  /* Evidence record attached to a milestone. */
+  .ev{ flex-basis:100%; margin-top:8px; border:1px solid var(--border); border-radius:8px; padding:10px 12px; background:var(--bg-1); }
+  .ev-head{ font-size:10px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--text-faint); display:flex; align-items:center; gap:8px; }
+  .ev-ref{ font-family:'IBM Plex Mono',monospace; font-weight:500; letter-spacing:0; text-transform:none; color:var(--text-dim); }
+  .ev-chips{ display:flex; flex-wrap:wrap; gap:6px; margin:8px 0 0; }
+  .ev-chip{ font-size:11px; color:var(--text-dim); background:var(--bg-2); border-radius:5px; padding:3px 8px; }
+  .ev-chip-none{ color:var(--text-faint); font-style:italic; background:none; padding-inline:0; }
+  .ev-by{ margin-top:8px; font-size:11.5px; }
+  .ev-ok{ color:var(--ok); }
+  .ev-warn{ color:var(--warn); }
+  .ev-empty{ flex-basis:100%; margin-top:8px; border:1px dashed var(--border); border-radius:8px; padding:10px 12px; display:flex; gap:8px; align-items:baseline; }
+  .ev-empty b{ font-size:11.5px; color:var(--text-dim); }
+  .ev-empty span{ font-size:11.5px; color:var(--text-faint); }
 
   .donation-list{ display:flex; flex-direction:column; gap:0; }
   .donation-row{ display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid var(--border); font-size:12.5px; }
@@ -3510,10 +3523,63 @@ function avatarStackHTML(count){
   html += '</span>';
   return html;
 }
+// Step 4 of the workflow promises that "an unaffiliated reviewer checks each
+// milestone's evidence". The ledger already records what was submitted and, on
+// many rows, who checked it — but only as prose nobody reads. These two
+// functions surface it as an evidence record on the milestone itself.
+//
+// Nothing here is invented. Artefacts and verifier are read out of the row's own
+// meta text. Rows that name no independent verifier say exactly that, and a row
+// signed off only by the contractor — the party doing the work — is called out
+// rather than presented as verified. Those gaps are the honest state, and
+// showing them is the point: an empty evidence slot builds more trust than a
+// hidden one.
+function ledgerEvidence(l){
+  const meta = l.meta || '';
+  let by = null;
+  let m = meta.match(/verified by ([^,.;]+)/i);
+  if(m){ by = m[1].trim(); }
+  if(!by){
+    m = meta.match(/([A-Za-z][A-Za-z ]*?)\s+sign-off/i);
+    if(m){ by = m[1].trim(); }
+  }
+  // The contractor is the party doing the work, so their own sign-off is not
+  // an independent check — the separation of roles this platform argues for.
+  const independent = by ? !/contractor/i.test(by) : false;
+  const artefactSrc = meta.split(/,?\s*verified by/i)[0];
+  const items = artefactSrc.split(/\s*[+,]\s*/)
+    .map(x=>x.trim())
+    .filter(x=> x && /photo|video|receipt|report|sign-off|order|map|invoice|ledger|rota|record|test/i.test(x));
+  return { by:by, independent:independent, items:items };
+}
+function evidenceHTML(l){
+  // Only work milestones carry evidence; a pledge opening does not.
+  if(!/Milestone|Closed/.test(l.t)) return '';
+  if(l.state !== 'verified' && l.state !== 'submitted'){
+    return '<div class="ev ev-empty"><b>Evidence pending</b><span>Nothing released against this milestone.</span></div>';
+  }
+  const e = ledgerEvidence(l);
+  const chips = e.items.length
+    ? e.items.map(function(i){ return '<span class="ev-chip">' + i + '</span>'; }).join('')
+    : '<span class="ev-chip ev-chip-none">No artefacts listed</span>';
+  let who;
+  if(l.state === 'submitted'){
+    who = '<span class="ev-warn">Submitted — awaiting independent check. Nothing released yet.</span>';
+  } else if(e.by && e.independent){
+    who = '<span class="ev-ok">Checked by ' + e.by + '</span>';
+  } else if(e.by){
+    who = '<span class="ev-warn">' + e.by + ' sign-off only — not independently verified</span>';
+  } else {
+    who = '<span class="ev-warn">No independent verifier named on this record</span>';
+  }
+  return '<div class="ev"><div class="ev-head">Evidence' +
+    (l.ref ? ' <span class="ev-ref">' + l.ref + '</span>' : '') +
+    '</div><div class="ev-chips">' + chips + '</div><div class="ev-by">' + who + '</div></div>';
+}
 function renderDetail(){
   const p = PROJECTS.find(x=>x.id===openProjectId);
   const pct = Math.min(100, Math.round((p.raised/p.goal)*100));
-  const trail = p.ledger.map(l=>`<li><span class="t-dot ${l.state}"></span><div class="t-title">${l.t}</div><div class="t-meta">${l.d} — ${l.meta}</div></li>`).join('');
+  const trail = p.ledger.map(l=>`<li><span class="t-dot ${l.state}"></span><div class="t-title">${l.t}</div><div class="t-meta">${l.d} — ${l.meta}</div>${evidenceHTML(l)}</li>`).join('');
   const donations = p.donations.length ? p.donations.map((d,i)=>`<div class="donation-row">
       <div class="d-left"><span class="d-type">${d.type}</span><span class="d-name">${d.name}</span></div>
       <div class="d-right"><span class="d-amt">${money(d.amount)}</span><br><span class="d-hash">${donationHash(p.id,i,d)}</span></div>
