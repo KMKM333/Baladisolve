@@ -711,11 +711,20 @@
   .role-btn-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
   .role-btn-step{ width:20px; height:20px; border-radius:50%; background:var(--accent); color:var(--on-accent);
     font-size:10.5px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
-  .role-btn-sub{ font-size:12px; color:var(--text-dim); line-height:1.6; }
+  .role-btn-sub{ font-size:12px; color:var(--text-dim); line-height:1.6; flex:1; }
   /* The sequence beat, merged in from what used to be a second row of boxes. */
-  .role-btn-when{ font-size:12px; color:var(--text-dim); line-height:1.6; flex:1;
+  .role-btn-when{ font-size:12px; color:var(--text-dim); line-height:1.6;
     border-top:1px solid var(--border); padding-top:11px; margin-top:3px; }
   .role-btn-go{ font-size:12px; font-weight:700; color:var(--accent); margin-top:4px; }
+  @supports (grid-template-rows: subgrid){
+    .role-btn-grid{ column-gap:14px; row-gap:7px; }
+    .role-btn{ display:grid; }
+    #view-home .role-btn-grid{ grid-template-rows:repeat(5,auto); }
+    #view-home .role-btn{ grid-template-rows:subgrid; grid-row:span 5; }
+    #audienceNav.role-btn-grid{ grid-template-rows:repeat(4,auto); }
+    #audienceNav .role-btn{ grid-template-rows:subgrid; grid-row:span 4; }
+    .role-btn-go{ align-self:end; }
+  }
   .role-flow{ display:grid; grid-template-columns:1fr 24px 1fr 24px 1fr 24px 1fr; margin-top:24px; }
   .role-flow-step{ border:1px solid var(--border); border-radius:12px; background:var(--bg);
     padding:15px 17px; display:flex; flex-direction:column; gap:5px; }
