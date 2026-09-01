@@ -320,6 +320,8 @@
   .st-funding{ background:var(--accent-soft); color:var(--accent); }
   .st-progress{ background:var(--warn-soft); color:var(--warn); }
   .st-complete{ background:var(--ok-soft); color:var(--ok); }
+  .st-returned{ background:var(--warn-soft); color:var(--warn); }
+  .st-refused{ background:var(--danger-soft); color:var(--danger); }
   .proj-card h4{ font-size:15.5px; font-weight:700; margin:0 0 4px; line-height:1.3; }
   .proj-card .pc-loc{ font-size:12px; color:var(--text-faint); margin-bottom:14px; }
   .proj-card .pc-meta{ display:flex; justify-content:space-between; align-items:baseline; font-size:12px; color:var(--text-dim); }
@@ -705,6 +707,18 @@
   .vf-when-step span{ display:block; font-size:12.5px; color:var(--text-dim); line-height:1.55; margin-top:2px; }
   .vf-when-warn{ font-size:12.5px; color:var(--text-dim); line-height:1.65; margin:0; padding-top:14px;
     border-top:1px solid var(--border); max-width:74ch; }
+  .stage-table{ border:1px solid var(--border); border-radius:10px; overflow:hidden; }
+  .stage-row{ display:grid; grid-template-columns:1.1fr 1.4fr 1.6fr; gap:14px; padding:11px 16px;
+    border-bottom:1px solid var(--border); font-size:12.5px; color:var(--text-dim); }
+  .stage-row:last-child{ border-bottom:none; }
+  .stage-row span:first-child{ color:var(--text); font-weight:600; }
+  .stage-row b{ color:var(--warn); font-weight:700; }
+  .stage-head{ background:var(--bg-1); font-size:10.5px; letter-spacing:.09em; text-transform:uppercase; color:var(--text-faint); }
+  .stage-head span:first-child{ color:var(--text-faint); font-weight:700; }
+  @media (max-width:700px){ .stage-row{ grid-template-columns:1fr; gap:4px; } .stage-head{ display:none; } }
+  .refund-body{ font-size:12.5px; color:var(--text-dim); line-height:1.6; margin:0 0 10px; }
+  .refund-body.warn{ border-inline-start:2px solid var(--warn); padding-inline-start:10px; }
+  .refund-note{ font-size:11px; color:var(--text-faint); line-height:1.5; margin:0; padding-top:8px; border-top:1px solid var(--border); }
   .vf-name{ font-weight:700; font-size:13px; }
   .vf-org{ font-size:11.5px; color:var(--text-faint); margin-top:2px; }
   .vf-assigned{ font-size:11.5px; color:var(--text-dim); margin:10px 0 12px; line-height:1.5;
@@ -1356,6 +1370,21 @@
       <div style="margin-top:24px; background:var(--danger-soft); border-radius:10px; padding:16px 20px; font-size:12.5px; color:#7f1d1d; line-height:1.6;">
         <b>Design constraint worth stating out loud:</b> this platform should never claim that one specific dollar funded one specific brick. Pooled milestone funding is more honest, and more auditable, than manufacturing a person-to-person link that isn't really there.
       </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>When a request doesn&rsquo;t finish</h2><p>The stages nobody puts on a homepage &mdash; and where the money sits at each one.</p></div>
+      <p style="font-size:13.5px;color:var(--text-dim);line-height:1.7;margin:0 0 18px;max-width:74ch;">Escrow is not a holding pen. It exists so that money which has not bought anything can go back. A request can end without finishing at four different points, and each one has a defined answer for the funds &mdash; because &ldquo;what happens if it fails&rdquo; is the first question a serious donor asks, and the first question a regulator asks.</p>
+      <div class="stage-table">
+        <div class="stage-row stage-head"><span>Stage</span><span>Where the money is</span><span>Can exit to</span></div>
+        <div class="stage-row"><span>Submitted</span><span>Nothing pledged</span><span>Certified, or <b>refused</b></span></div>
+        <div class="stage-row"><span>Open for pledges</span><span>Pledged, not captured</span><span>Threshold met, or <b>lapsed &rarr; refunded in full</b></span></div>
+        <div class="stage-row"><span>Escrow funded</span><span>Held, not releasable</span><span>Verifier assigned, work starts</span></div>
+        <div class="stage-row"><span>In progress</span><span>Held, released per verified milestone</span><span>Next milestone, or <b>stalled &rarr; balance returned</b></span></div>
+        <div class="stage-row"><span>Milestone rejected</span><span>Held &mdash; nothing released</span><span><b>Remediation</b>, then resubmission</span></div>
+        <div class="stage-row"><span>Closed</span><span>Fully released</span><span>Final report published</span></div>
+      </div>
+      <p style="font-size:12.5px;color:var(--text-faint);line-height:1.65;margin:14px 0 0;max-width:74ch;">A rejected milestone is not a dead request. It returns to the implementer for remediation and resubmission &mdash; because if rejection meant the project died, no verifier would ever reject anything, and the check would quietly become a formality.</p>
     </div>
   </div>
 </section>
@@ -2999,8 +3028,13 @@ function simpleHash(str){
 }
 function donationHash(projectId, idx, d){ return 'DN-' + simpleHash(projectId+'|'+idx+'|'+d.name+'|'+d.amount+'|'+d.date); }
 
-const statusLabel = {proposed:'Proposed', funding:'Funding', progress:'In progress', complete:'Verified complete'};
-const statusClass = {proposed:'st-proposed', funding:'st-funding', progress:'st-progress', complete:'st-complete'};
+// The four happy-path statuses plus the three ways a request can end without
+// finishing. A model that cannot express failure cannot answer the first
+// question a donor asks: what happens to my money if this doesn't work.
+const statusLabel = {proposed:'Proposed', funding:'Funding', progress:'In progress', complete:'Verified complete',
+  lapsed:'Funding lapsed — refunded', stalled:'Stalled — balance returned', refused:'Certification refused'};
+const statusClass = {proposed:'st-proposed', funding:'st-funding', progress:'st-progress', complete:'st-complete',
+  lapsed:'st-returned', stalled:'st-returned', refused:'st-refused'};
 const schedClass = {ontrack:'sched-ontrack', atrisk:'sched-atrisk', early:'sched-early'};
 
 function govName(id){ return GOVS.find(g=>g.id===id)?.name || id; }
@@ -3935,6 +3969,8 @@ function renderDetail(){
         </div>
 
         ${verifierCardHTML(p)}
+
+        ${refundPolicyHTML(p)}
 
         <div class="light-card" style="margin-bottom:16px;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:6px;">
@@ -5648,6 +5684,35 @@ function verifierCardHTML(p){
     '<div class="vf-record">' + rec.verified + ' verified · <b>' + rec.rejected + ' rejected</b> · ' +
       rec.overturned + ' later overturned · median ' + rec.medianDays + ' days</div>' +
     '<div class="vf-note">A reviewer who has never rejected anything is an unexamined one, so refusals are published alongside approvals.</div>' +
+    '</div>';
+}
+
+// Every request says what becomes of the money if it does not finish. Without
+// this the ledger only describes success, and "what happens if it fails" is the
+// first question a serious donor and the first question a regulator both ask.
+function refundPolicyHTML(p){
+  var body, tone = 'ok';
+  if(p.status === 'proposed'){
+    body = 'Nothing has been pledged yet. No money is at stake until the request opens for funding.';
+    tone = 'neutral';
+  } else if(p.status === 'funding'){
+    body = 'Nothing is released before the goal is met. If this request does not reach ' + money(p.goal) +
+           ', every pledge is returned in full — ' + money(p.raised) + ' is currently held, not spent.';
+    tone = 'warn';
+  } else if(p.status === 'progress'){
+    body = 'Funds are released one verified milestone at a time. If work stops, the unreleased balance is ' +
+           'returned to sponsors rather than held — and a rejected milestone releases nothing at all.';
+    tone = 'warn';
+  } else if(p.status === 'complete'){
+    body = 'Fully released against verified milestones. Nothing is outstanding and nothing is owed back.';
+  } else {
+    body = 'This request ended without finishing. The unreleased balance has been returned to the sponsors who pledged it.';
+    tone = 'warn';
+  }
+  return '<div class="light-card" style="margin-bottom:16px;">' +
+    '<b style="font-size:13px;display:block;margin-bottom:8px;">If this doesn\'t finish</b>' +
+    '<p class="refund-body ' + tone + '">' + body + '</p>' +
+    '<p class="refund-note">Escrow exists so that unspent money can go back. A pledge is a commitment to a verified outcome, not a donation to a bank balance.</p>' +
     '</div>';
 }
 
