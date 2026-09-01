@@ -322,6 +322,32 @@
 
   /* ---------- Stepper (How it works) ---------- */
   .stepper-row{ display:flex; align-items:flex-start; justify-content:center; gap:6px; flex-wrap:wrap; }
+  /* ---------- Project story (scroll-driven) ---------- */
+  .story{ margin:34px 0 30px; padding-top:26px; border-top:1px solid var(--border); }
+  .story-lede{ font-size:12.5px; color:var(--text-faint); margin:0 0 18px; }
+  .story-grid{ display:grid; grid-template-columns:200px minmax(0,1fr); gap:26px; align-items:start; }
+  .story-mapwrap{ position:sticky; top:130px; text-align:center; }
+  .story-mapwrap svg{ width:100%; height:210px; }
+  /* Presentation attributes can't read custom properties, so the fills are set
+     in CSS instead — which also lets the map follow the dark theme. */
+  .story-mapwrap .sm-bg{ fill:var(--bg-2); stroke:var(--border); stroke-width:0.6; }
+  .story-mapwrap .sm-hi{ fill:var(--accent); stroke:var(--accent-dim); stroke-width:1.2; }
+  .story-place{ font-size:11.5px; font-weight:700; color:var(--text-dim); margin-top:6px; }
+  .story-steps{ list-style:none; margin:0; padding:0; display:grid; gap:14px; }
+  .story-step{ border:1px solid var(--border); border-radius:10px; padding:14px 16px; opacity:.42;
+    transform:translateY(6px); transition:opacity .35s var(--ease-fluid), transform .35s var(--ease-fluid), border-color .35s var(--ease-fluid); }
+  .story-step.on{ opacity:1; transform:none; border-color:var(--accent); }
+  .story-k{ font-size:10px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); }
+  .story-h{ font-weight:700; font-size:14px; margin-top:4px; }
+  .story-d{ font-size:12.5px; color:var(--text-dim); line-height:1.55; margin-top:4px; }
+  @media (max-width:760px){
+    .story-grid{ grid-template-columns:1fr; }
+    .story-mapwrap{ position:static; }
+    .story-mapwrap svg{ height:150px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .story-step{ opacity:1; transform:none; transition:none; }
+  }
   .stepper-progress{ height:2px; background:var(--border); border-radius:2px; margin:0 0 22px; overflow:hidden; }
   .stepper-progress span{ display:block; height:100%; width:0; background:var(--accent); }
   @media (prefers-reduced-motion: reduce){ .stepper-progress{ display:none; } }
@@ -3583,6 +3609,7 @@ function evidenceHTML(l){
 function renderDetail(){
   const p = PROJECTS.find(x=>x.id===openProjectId);
   const pct = Math.min(100, Math.round((p.raised/p.goal)*100));
+  const storyHTML = projectStoryHTML(p);
   const trail = p.ledger.map(l=>`<li><span class="t-dot ${l.state}"></span><div class="t-title">${l.t}</div><div class="t-meta">${l.d} — ${l.meta}</div>${evidenceHTML(l)}</li>`).join('');
   const donations = p.donations.length ? p.donations.map((d,i)=>`<div class="donation-row">
       <div class="d-left"><span class="d-type">${d.type}</span><span class="d-name">${d.name}</span></div>
@@ -3723,6 +3750,7 @@ function renderDetail(){
             </div>
           </div>
         </div>
+        ${storyHTML}
         ${similarHTML}
       </div>
       <div class="detail-side">
@@ -3777,6 +3805,7 @@ function renderDetail(){
   document.getElementById('bcProjects').addEventListener('click', ()=> switchView('dashboard'));
   document.getElementById('backToProjects').addEventListener('click', ()=> switchView('dashboard'));
   renderMiniMap('projectMiniMap', p.gov);
+  initProjectStory(p);
   if(similar.length){
     document.getElementById('similarGrid').innerHTML = similar.map(cardHTML).join('');
     attachCardEvents(document.getElementById('similarGrid'));
@@ -5127,6 +5156,117 @@ setTimeout(()=>{
     revealObserver.unobserve(el);
   });
 }, 1500);
+
+/* ================= Project story =================
+   The homepage teases "see a citizen report become a funded project" as four
+   icons. On a project's own page that journey is real data — its report
+   reference, who certified it, who was matched to it, what it has raised — so
+   this walks that specific project's path as the section scrolls, with the map
+   zooming from the whole country down to the town it happened in.
+
+   Falls back to showing every stage at once, un-zoomed, when the reader has
+   asked for reduced motion or when the project has no origin report.
+   ================================================= */
+var storyScrollHandler = null;   // var, not const: see the router note below
+
+function projectStoryHTML(p){
+  var rep = p.originReport;
+  var pct = Math.min(100, Math.round((p.raised / p.goal) * 100));
+  var stages = [
+    { k:'Reported',  h: rep ? rep.ref : 'Citizen report',
+      d: rep ? (rep.confirmed + ' resident' + (rep.confirmed === 1 ? '' : 's') + ' confirmed the same problem') : 'Filed from the ground in ' + p.locality + '.' },
+    { k:'Certified', h: p.certifyingBody || 'Government certification',
+      d: p.certStatus === 'certified'
+          ? 'Checked against technical and regulatory standards before it could open for pledges.'
+          : 'Awaiting certification — it cannot open for pledges until this clears.' },
+    { k:'Matched',   h: p.partner || p.org || 'Implementing partner',
+      d: 'Matched on ' + p.type + ', the specific expertise this problem needs.' },
+    { k:'Funded',    h: money(p.raised) + ' of ' + money(p.goal),
+      d: pct >= 100 ? 'Fully funded. Released only against verified milestones.'
+                    : pct + '% raised so far. Held in escrow until a milestone is verified.' }
+  ];
+  var steps = stages.map(function(s, i){
+    return '<li class="story-step" data-stage="' + i + '">' +
+      '<div class="story-k">' + s.k + '</div>' +
+      '<div class="story-h">' + s.h + '</div>' +
+      '<div class="story-d">' + s.d + '</div></li>';
+  }).join('');
+  var shapes = GOVS.map(function(g){
+    var sh = GOV_SHAPES[g.id];
+    if(!sh) return '';
+    var hi = g.id === p.gov;
+    return '<path d="' + sh.d + '" class="' + (hi ? 'sm-hi' : 'sm-bg') + '"></path>';
+  }).join('');
+  return '<section class="story" id="projStory">' +
+    '<h3 style="font-size:16px;margin:0 0 4px;">How this reached funding</h3>' +
+    '<p class="story-lede">One citizen report, followed to the money.</p>' +
+    '<div class="story-grid">' +
+      '<div class="story-mapwrap"><svg id="storyMap" viewBox="0 0 ' + MAP_VB_W + ' ' + MAP_VB_H + '" preserveAspectRatio="xMidYMid meet">' + shapes + '</svg>' +
+      '<div class="story-place" id="storyPlace">Lebanon</div></div>' +
+      '<ol class="story-steps" id="storySteps">' + steps + '</ol>' +
+    '</div></section>';
+}
+
+function initProjectStory(p){
+  // Detail pages are rebuilt with innerHTML on every open, so drop the previous
+  // page's listener before binding a new one or they accumulate.
+  if(storyScrollHandler){
+    window.removeEventListener('scroll', storyScrollHandler);
+    window.removeEventListener('resize', storyScrollHandler);
+    storyScrollHandler = null;
+  }
+  var sec = document.getElementById('projStory');
+  var svg = document.getElementById('storyMap');
+  var place = document.getElementById('storyPlace');
+  if(!sec || !svg) return;
+  var steps = Array.prototype.slice.call(sec.querySelectorAll('.story-step'));
+  var shape = GOV_SHAPES[p.gov];
+
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduced || !shape){
+    steps.forEach(function(s){ s.classList.add('on'); });
+    if(place) place.textContent = p.locality + ', ' + govName(p.gov);
+    return;
+  }
+
+  var names = ['Lebanon', govName(p.gov) + ' governorate', govName(p.gov) + ' governorate', p.locality];
+  var lastStage = -1;
+  var ticking = false;
+
+  function apply(t){
+    t = t < 0 ? 0 : (t > 1 ? 1 : t);
+    // Ease the zoom so it settles rather than tracking the scrollbar exactly.
+    var e = t * t * (3 - 2 * t);
+    var w = MAP_VB_W - (MAP_VB_W - MAP_VB_W * 0.34) * e;
+    var h = MAP_VB_H - (MAP_VB_H - MAP_VB_H * 0.34) * e;
+    var cx = (MAP_VB_W / 2) + (shape.lx - MAP_VB_W / 2) * e;
+    var cy = (MAP_VB_H / 2) + (shape.ly - MAP_VB_H / 2) * e;
+    svg.setAttribute('viewBox', (cx - w / 2).toFixed(1) + ' ' + (cy - h / 2).toFixed(1) + ' ' + w.toFixed(1) + ' ' + h.toFixed(1));
+    var stage = Math.floor(t * steps.length);
+    if(stage > steps.length - 1) stage = steps.length - 1;
+    if(stage === lastStage) return;
+    lastStage = stage;
+    steps.forEach(function(s, i){ s.classList.toggle('on', i <= stage); });
+    if(place) place.textContent = names[stage] || names[names.length - 1];
+  }
+
+  storyScrollHandler = function(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){
+      ticking = false;
+      var r = sec.getBoundingClientRect();
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var start = vh * 0.8;
+      var end = vh * 0.35;
+      var span = r.height + (start - end);
+      apply(span > 0 ? (start - r.top) / span : 0);
+    });
+  };
+  window.addEventListener('scroll', storyScrollHandler, { passive:true });
+  window.addEventListener('resize', storyScrollHandler, { passive:true });
+  storyScrollHandler();
+}
 
 /* ================= Scroll-driven "How it works" =================
    The five steps are the trust argument, and as a static row that only
