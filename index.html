@@ -2223,10 +2223,14 @@
       <div class="section-head"><h2>Three ways to fix the repeated workflow</h2><p>The home page currently tells the same story three times. The role backbone stays in all three options below &mdash; what changes is what sits next to it.</p></div>
 
       <div class="test-opt">
-        <div class="test-opt-tag">Today</div>
-        <h3>What is on the home page right now</h3>
-        <p>Three horizontal strips in the first half of the page. <b style="color:#b91c1c;">Red</b> marks a beat that is already told by another strip; <b style="color:var(--accent);">blue</b> marks the only content unique to that strip. No strip holds all the unique beats, which is why none of them can simply be deleted.</p>
-        <div class="tw-today"><div class="tw-today-row"><span class="tw-today-name">Baladi teaser</span><span class="tw-pill uniq">Reported</span><span class="tw-pill uniq">Classified</span><span class="tw-pill dupe">Matched</span><span class="tw-pill dupe">Funded</span></div><div class="tw-today-row"><span class="tw-today-name">Network role-flow</span><span class="tw-pill dupe">Government</span><span class="tw-pill uniq">Experts &mdash; scope &amp; price</span><span class="tw-pill dupe">Sponsors</span><span class="tw-pill dupe">Verifier</span></div><div class="tw-today-row"><span class="tw-today-name">How it works</span><span class="tw-pill dupe">Filed</span><span class="tw-pill dupe">Certified</span><span class="tw-pill dupe">Pledged</span><span class="tw-pill dupe">Verifier assigned</span><span class="tw-pill uniq">Verified</span><span class="tw-pill uniq">Released &amp; tracked</span></div></div>
+        <div class="test-opt-tag">Where it landed</div>
+        <h3>What the home page carries now</h3>
+        <p>The three overlapping strips are down to one. Option A took the &ldquo;How it works&rdquo; slot, the six-step stepper and the Baladi entry strip both moved onto this page, and the space the Baladi strip left became a sign-up call to action. <b style="color:#b91c1c;">Red</b> marks a beat that used to be told twice; <b style="color:var(--accent);">blue</b> marks what only one strip ever said.</p>
+        <div class="tw-today">
+          <div class="tw-today-row"><span class="tw-today-name">On the home page</span><span class="tw-pill uniq">Government &middot; 1&ndash;2</span><span class="tw-pill uniq">Experts &middot; 3&ndash;4</span><span class="tw-pill uniq">Sponsors &middot; 5&ndash;6</span><span class="tw-pill uniq">Verifier &middot; 7&ndash;9</span></div>
+          <div class="tw-today-row"><span class="tw-today-name">Moved here &mdash; A</span><span class="tw-pill dupe">Filed</span><span class="tw-pill dupe">Certified</span><span class="tw-pill dupe">Pledged</span><span class="tw-pill dupe">Verifier assigned</span><span class="tw-pill dupe">Verified</span><span class="tw-pill dupe">Released</span></div>
+          <div class="tw-today-row"><span class="tw-today-name">Moved here &mdash; D</span><span class="tw-pill uniq">Reported</span><span class="tw-pill uniq">Classified</span><span class="tw-pill dupe">Matched</span><span class="tw-pill dupe">Funded</span></div>
+        </div>
       </div>
 
       <div class="test-opt">
@@ -2253,22 +2257,6 @@
         <div class="test-verdict"><div class="test-gain"><b>What it did well.</b> Click any step to focus it and dim the rest &mdash; a real interaction the replacement does not have. Six steps also fit on one line at any width.</div><div class="test-cost"><b>Why it was replaced.</b> Not one of the six says <i>who</i> performs it, and the two steps experts actually do &mdash; being matched by field, then pricing the scope &mdash; had nowhere to go.</div></div>
       </div>
 
-
-      <div class="test-opt">
-        <div class="test-opt-tag">Option D</div>
-        <h3>The Baladi entry strip</h3>
-        <p>Four icons showing how a citizen report enters the system, previously sitting near the top of the home page. It is the only strip that told a story none of the others did &mdash; <b>Reported</b> and <b>Classified</b> happen on Baladi Map, before Man&#257;ra has a request at all &mdash; but the last two beats repeat the workflow below it.</p>
-        <div class="wf-teaser-steps" style="justify-content:flex-start;">
-          <div class="wf-teaser-step"><div class="wf-teaser-icon">📥</div><div class="wf-teaser-label">Reported</div></div>
-          <div class="wf-teaser-arrow">→</div>
-          <div class="wf-teaser-step"><div class="wf-teaser-icon">🏷️</div><div class="wf-teaser-label">Classified</div></div>
-          <div class="wf-teaser-arrow">→</div>
-          <div class="wf-teaser-step"><div class="wf-teaser-icon">🎯</div><div class="wf-teaser-label">Matched</div></div>
-          <div class="wf-teaser-arrow">→</div>
-          <div class="wf-teaser-step"><div class="wf-teaser-icon">✅</div><div class="wf-teaser-label">Funded</div></div>
-        </div>
-        <div class="test-verdict"><div class="test-gain"><b>Worth keeping.</b> The first two icons are the only place on the site that shows where a request comes from before it exists &mdash; a resident reporting a problem, and that report being classified.</div><div class="test-cost"><b>Worth cutting.</b> <i>Matched</i> and <i>Funded</i> restate the workflow strip directly beneath it, and four large icons above the fold outshouted the actual process.</div></div>
-      </div>
 
       <div class="test-opt">
         <div class="test-opt-tag">Option B</div>
@@ -2310,6 +2298,21 @@
         <div><b>Licence</b>Accreditation number and the date it lapses. Past that date a verifier cannot be assigned.</div>
       </div>
       <p class="vr-note"><b>What this page does not do.</b> It publishes the record; it does not check it. Nothing on the platform currently re-examines a verifier&rsquo;s decisions, so an outlier here has no consequence attached to it &mdash; which is the gap described on the <button style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;" data-goto="trust">Trust page</button>, and the reason this register is the first of four steps rather than the whole answer.</p>
+      <div class="test-opt">
+        <div class="test-opt-tag">Option D</div>
+        <h3>The Baladi entry strip</h3>
+        <p>Four icons showing how a citizen report enters the system, previously sitting near the top of the home page. It is the only strip that told a story none of the others did &mdash; <b>Reported</b> and <b>Classified</b> happen on Baladi Map, before Man&#257;ra has a request at all &mdash; but the last two beats repeat the workflow below it.</p>
+        <div class="wf-teaser-steps" style="justify-content:flex-start;">
+          <div class="wf-teaser-step"><div class="wf-teaser-icon">📥</div><div class="wf-teaser-label">Reported</div></div>
+          <div class="wf-teaser-arrow">→</div>
+          <div class="wf-teaser-step"><div class="wf-teaser-icon">🏷️</div><div class="wf-teaser-label">Classified</div></div>
+          <div class="wf-teaser-arrow">→</div>
+          <div class="wf-teaser-step"><div class="wf-teaser-icon">🎯</div><div class="wf-teaser-label">Matched</div></div>
+          <div class="wf-teaser-arrow">→</div>
+          <div class="wf-teaser-step"><div class="wf-teaser-icon">✅</div><div class="wf-teaser-label">Funded</div></div>
+        </div>
+        <div class="test-verdict"><div class="test-gain"><b>Worth keeping.</b> The first two icons are the only place on the site that shows where a request comes from before it exists &mdash; a resident reporting a problem, and that report being classified.</div><div class="test-cost"><b>Worth cutting.</b> <i>Matched</i> and <i>Funded</i> restate the workflow strip directly beneath it, and four large icons above the fold outshouted the actual process.</div></div>
+      </div>
     </div>
   </div>
 </section>
