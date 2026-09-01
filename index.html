@@ -782,14 +782,14 @@
   .rw-lead{ font-size:14.5px; color:var(--text); line-height:1.65; margin:0 0 30px; max-width:68ch; }
   .rw-steps{ display:grid; grid-template-columns:repeat(4,1fr); column-gap:26px; row-gap:30px; align-items:start; }
   .rw-step{ position:relative; padding-top:38px; }
-  .rw-step::before{ content:''; position:absolute; top:12px; left:13px; right:-26px; height:2px; background:var(--border); }
+  .rw-step::before{ content:''; position:absolute; top:12px; left:50%; right:calc(-50% - 26px); height:2px; background:var(--border); }
   .rw-step:last-child::before{ display:none; }
-  .rw-n{ position:absolute; top:0; left:0; z-index:1; width:26px; height:26px; border-radius:50%;
+  .rw-n{ position:absolute; top:0; left:50%; transform:translateX(-50%); z-index:1; width:26px; height:26px; border-radius:50%;
     background:var(--accent); color:var(--on-accent); font-size:12px; font-weight:800;
     display:flex; align-items:center; justify-content:center; }
   .rw-step.checks .rw-n{ box-shadow:0 0 0 4px var(--accent-soft); }
   .rw-role{ display:block; font-size:10.5px; font-weight:800; letter-spacing:.085em; text-transform:uppercase; color:var(--accent); }
-  .rw-title{ display:block; font-size:14.5px; font-weight:800; color:var(--text); line-height:1.35; margin:4px 0 8px; }
+  .rw-title{ display:block; font-size:14.5px; font-weight:800; color:var(--text); line-height:1.35; margin:4px 0 8px; min-height:2.7em; }
   .rw-body{ font-size:12.5px; color:var(--text-dim); line-height:1.7; margin:0; }
   .rw-warn{ font-size:13px; color:var(--text-dim); line-height:1.75; margin:30px 0 0;
     padding-top:20px; border-top:1px solid var(--border); max-width:96ch; }
@@ -1469,25 +1469,25 @@
             <span class="rw-n">1</span>
             <span class="rw-role">Government</span>
             <span class="rw-title">Certified before the request is public</span>
-            <p class="rw-body">Jurisdiction, code compliance and necessity are checked before a request can open for pledges. Certifying first is what stops this becoming a wishlist: nobody is asked to fund something no authority has confirmed is real and lawful. The body that certifies never holds the money.</p>
+            <p class="rw-body">Checked for jurisdiction, code and necessity before a request can open for pledges &mdash; so nobody is asked to fund what no authority has confirmed.</p>
           </div>
           <div class="rw-step">
             <span class="rw-n">2</span>
             <span class="rw-role">Experts</span>
             <span class="rw-title">Matched before a budget is fixed</span>
-            <p class="rw-body">The field a problem actually needs is settled before anyone prices it, so scope is argued on technical grounds rather than on who happened to bid. Organisations choose the requests that fit their expertise and set their own price.</p>
+            <p class="rw-body">The field a problem needs is settled before anyone prices it, so scope is argued on technical grounds rather than on who happened to bid.</p>
           </div>
           <div class="rw-step">
             <span class="rw-n">3</span>
             <span class="rw-role">Sponsors</span>
             <span class="rw-title">Captured into escrow before work starts</span>
-            <p class="rw-body">Pledges are secured with an independent custodian before the first day of work, so no implementer ever starts on a promise. Nothing is released at this point &mdash; the money is held, not spent.</p>
+            <p class="rw-body">Pledges are secured with an independent custodian before day one, so no implementer starts on a promise. Held, not spent.</p>
           </div>
           <div class="rw-step checks">
             <span class="rw-n">4</span>
             <span class="rw-role">Verifier</span>
-            <span class="rw-title">Assigned at escrow confirmation, before work begins</span>
-            <p class="rw-body">The moment escrow is confirmed, an accredited reviewer with no tie to the certifier, the implementer or any funder is assigned from the rotation. Only then does work start &mdash; so the implementer already knows who will check them, and could not choose that person.</p>
+            <span class="rw-title">Assigned before any work begins</span>
+            <p class="rw-body">The moment escrow is confirmed, a reviewer with no tie to the certifier, implementer or funders is assigned. Only then does work start.</p>
           </div>
         </div>
         <p class="rw-warn"><b>Change the order and each safeguard quietly stops working.</b> Certify after the pledges and funders are backing an unapproved request. Fix the budget before the field is known and the price is a negotiation rather than an estimate. Assign the verifier after the work is done and the party being checked is picking their own examiner. Each of these steps only does its job because of where it sits in the sequence &mdash; which is why the sequence is published rather than assumed.</p>
