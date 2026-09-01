@@ -174,6 +174,67 @@ console.error('\nJS load order (sandboxed dry run)');
   }
 }
 
+// ------------------------------------------------- 4. HTML nesting --------
+// Checks 1-3 cover CSS braces and JS. Nothing covered the markup, and moving a
+// block of HTML by hand is exactly where that gap bites: an edit that drops one
+// </div> parses fine, passes every other check, and collapses the page layout.
+//
+// Content inside <script> and <style> is removed first, because JS template
+// strings are full of angle brackets that are not markup. Elements whose end tag
+// is optional in HTML (p, li, td...) are closed implicitly rather than reported,
+// so this flags real structural breaks instead of legal shorthand.
+console.error('\nHTML nesting');
+{
+  const VOID = new Set(['area','base','br','col','embed','hr','img','input','link',
+    'meta','param','source','track','wbr','path','circle','rect','line','polygon',
+    'polyline','ellipse','stop','use']);
+  const OPTIONAL = new Set(['p','li','td','th','tr','tbody','thead','tfoot','option','dt','dd']);
+
+  // Blank out script/style bodies, preserving newlines so line numbers hold.
+  const blanked = src.replace(/(<(script|style)\b[^>]*>)([\s\S]*?)(<\/\2>)/gi,
+    (_m, open, _tag, body, close) => open + body.replace(/[^\n]/g, ' ') + close);
+
+  const stack = [];
+  const problems = [];
+  const re = /<(\/?)([a-zA-Z][a-zA-Z0-9-]*)\b([^>]*)>/g;
+  let m;
+  while ((m = re.exec(blanked))) {
+    const closing = m[1] === '/';
+    const name = m[2].toLowerCase();
+    const attrs = m[3] || '';
+    if (VOID.has(name)) continue;
+    if (!closing && attrs.trimEnd().endsWith('/')) continue;   // self-closed
+    const line = blanked.slice(0, m.index).split('\n').length;
+
+    if (!closing) { stack.push({ name, line }); continue; }
+
+    // Let optional-end-tag elements close implicitly.
+    while (stack.length && stack[stack.length - 1].name !== name
+           && OPTIONAL.has(stack[stack.length - 1].name)) stack.pop();
+
+    if (!stack.length) {
+      problems.push(`line ${line}: </${name}> with nothing open`);
+    } else if (stack[stack.length - 1].name === name) {
+      stack.pop();
+    } else {
+      const top = stack[stack.length - 1];
+      problems.push(`line ${line}: </${name}> closes while <${top.name}> from line ${top.line} is still open`);
+      // Recover if this close matches something further down, so one mistake
+      // doesn't cascade into dozens of bogus follow-on errors.
+      const at = [...stack].reverse().findIndex((e) => e.name === name);
+      if (at !== -1) stack.length = stack.length - at - 1;
+    }
+  }
+  for (const left of stack) problems.push(`line ${left.line}: <${left.name}> is never closed`);
+
+  if (problems.length) {
+    for (const pr of problems.slice(0, 8)) fail(pr);
+    if (problems.length > 8) fail(`…and ${problems.length - 8} more nesting problem(s)`);
+  } else {
+    pass('every element closes in the right order');
+  }
+}
+
 // ------------------------------------------------------------- summary -----
 console.error('');
 if (failures) {

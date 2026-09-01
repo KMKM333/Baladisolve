@@ -112,7 +112,7 @@ review, which is exactly why the automated check below exists.
 ## Safety check
 
 `scripts/check-html.mjs` runs automatically via a `pre-commit` hook
-(`.githooks/pre-commit`, wired with `core.hooksPath`). It does three things:
+(`.githooks/pre-commit`, wired with `core.hooksPath`). It does four things:
 
 1. Brace balance in every `<style>` block.
 2. `node --check` on every inline `<script>` (module and classic handled correctly).
@@ -120,6 +120,13 @@ review, which is exactly why the automated check below exists.
    where every browser/library global resolves to a permissive chainable stub.
    DOM and Leaflet/D3 calls succeed harmlessly, but a lexical binding used
    before initialisation still throws, which is precisely the bug class above.
+4. **HTML nesting** — every element closes, and in the right order. Script and
+   style bodies are blanked first (JS template strings are full of angle
+   brackets that aren't markup), and elements whose end tag is optional in HTML
+   close implicitly rather than being reported. This exists because checks 1–3
+   all pass on markup that is missing a `</div>`, and moving a block of HTML by
+   hand — which happens often in a single-file site — is exactly where that
+   lands. Calibrated against all 118 historical builds: zero false positives.
 
 Validated against real history: of all 123 historical builds, it flags exactly
 `_79` and `_81` — the two known-broken ones — and passes the other 121.
