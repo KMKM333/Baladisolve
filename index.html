@@ -322,6 +322,11 @@
 
   /* ---------- Stepper (How it works) ---------- */
   .stepper-row{ display:flex; align-items:flex-start; justify-content:center; gap:6px; flex-wrap:wrap; }
+  .role-jump{ all:unset; box-sizing:border-box; cursor:pointer; display:inline-flex; align-items:center; gap:6px;
+    font-size:12.5px; font-weight:700; color:var(--accent); border:1px solid var(--border); border-radius:8px;
+    padding:8px 13px; margin:0 0 20px; }
+  .role-jump:hover{ border-color:var(--accent); background:var(--accent-soft); }
+  .role-jump:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
   .role-note{ font-size:12.5px; color:var(--text-faint); margin:-6px 0 12px; }
   .role-list{ display:grid; gap:8px; margin-bottom:26px; }
   .role-row{ all:unset; box-sizing:border-box; cursor:pointer; display:flex; align-items:center; justify-content:space-between;
@@ -336,14 +341,8 @@
   /* ---------- Project story (scroll-driven) ---------- */
   .story{ margin:34px 0 30px; padding-top:26px; border-top:1px solid var(--border); }
   .story-lede{ font-size:12.5px; color:var(--text-faint); margin:0 0 18px; }
-  .story-grid{ display:grid; grid-template-columns:200px minmax(0,1fr); gap:26px; align-items:start; }
-  .story-mapwrap{ position:sticky; top:130px; text-align:center; }
-  .story-mapwrap svg{ width:100%; height:210px; }
   /* Presentation attributes can't read custom properties, so the fills are set
      in CSS instead — which also lets the map follow the dark theme. */
-  .story-mapwrap .sm-bg{ fill:var(--bg-2); stroke:var(--border); stroke-width:0.6; }
-  .story-mapwrap .sm-hi{ fill:var(--accent); stroke:var(--accent-dim); stroke-width:1.2; }
-  .story-place{ font-size:11.5px; font-weight:700; color:var(--text-dim); margin-top:6px; }
   .story-steps{ list-style:none; margin:0; padding:0; display:grid; gap:14px; }
   .story-step{ border:1px solid var(--border); border-radius:10px; padding:14px 16px; opacity:.42;
     transform:translateY(6px); transition:opacity .35s var(--ease-fluid), transform .35s var(--ease-fluid), border-color .35s var(--ease-fluid); }
@@ -352,10 +351,7 @@
   .story-h{ font-weight:700; font-size:14px; margin-top:4px; }
   .story-d{ font-size:12.5px; color:var(--text-dim); line-height:1.55; margin-top:4px; }
   @media (max-width:760px){
-    .story-grid{ grid-template-columns:1fr; }
-    .story-mapwrap{ position:static; }
-    .story-mapwrap svg{ height:150px; }
-  }
+        }
   @media (prefers-reduced-motion: reduce){
     .story-step{ opacity:1; transform:none; transition:none; }
   }
@@ -955,14 +951,14 @@
     </div>
 
     <div class="section">
-      <div class="net-group"><div class="net-role">Certifies</div><h3 data-group="government" style="cursor:pointer;">Government</h3><p>Certifies compliance and runs the diaspora-welcome liaison desk. Never holds pledged funds.</p></div>
+      <div class="net-group"><div class="net-role">Certifies</div><h3 data-group="government" style="cursor:pointer;">Government</h3><p>Certifies compliance and runs the diaspora-welcome liaison desk. Never holds pledged funds.</p><button class="role-jump" type="button" data-demo-jump="government">See the government dashboard <span aria-hidden="true">&rarr;</span></button></div>
       <div class="light-grid" style="margin-bottom:34px;">
         <div class="light-card" data-cat="ministry"><b>Ministry</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Certifies technical &amp; regulatory compliance nationally — the specific ministry depends on the request's field.</p></div>
         <div class="light-card" data-cat="districts"><b>Governorates &amp; Districts</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Lebanon's nine governorates and the 26 districts within them. Coordinates across municipalities in its region — read-only on funds and certification.</p></div>
         <div class="light-card" data-cat="municipality"><b>Municipality</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Posts the request and delivers the work on the ground, once certified.</p></div>
       </div>
 
-      <div class="net-group"><div class="net-role">Solves</div><h3 data-group="experts" style="cursor:pointer;">Expert organisations</h3><p>Matched to a request by field — the specific technical knowledge a problem needs, distinct from who implements or who pays.</p></div>
+      <div class="net-group"><div class="net-role">Solves</div><h3 data-group="experts" style="cursor:pointer;">Expert organisations</h3><p>Matched to a request by field — the specific technical knowledge a problem needs, distinct from who implements or who pays.</p><button class="role-jump" type="button" data-demo-jump="organisations">See the expert dashboard <span aria-hidden="true">&rarr;</span></button></div>
       <div class="field-grid" style="margin-bottom:14px;">
         <div class="field-card" data-cat="electricity"><div class="field-icon">⚡</div><h3>Electricity</h3><p>Grid repair, solar installation, and power system design.</p></div>
         <div class="field-card" data-cat="waste"><div class="field-icon">♻️</div><h3>Waste Collection</h3><p>Routing, sorting, and recycling logistics.</p></div>
@@ -975,7 +971,7 @@
       </div>
       <div style="font-size:12px;color:var(--text-faint);margin-bottom:34px;">Example on the ledger: <b style="color:var(--text-dim);">Cedar Engineers</b> — structural engineering — paired with Aley Union of Municipalities on the Wadi Faara retaining wall.</div>
 
-      <div class="net-group"><div class="net-role">Funds</div><h3 data-group="sponsors" style="cursor:pointer;">Sponsors</h3><p>Five kinds of funders, one ledger. Every pledge is tracked the same way — named or anonymous, escrowed, released only against verified evidence.</p></div>
+      <div class="net-group"><div class="net-role">Funds</div><h3 data-group="sponsors" style="cursor:pointer;">Sponsors</h3><p>Five kinds of funders, one ledger. Every pledge is tracked the same way — named or anonymous, escrowed, released only against verified evidence.</p><button class="role-jump" type="button" data-demo-jump="diaspora">See the sponsor dashboard <span aria-hidden="true">&rarr;</span></button></div>
       <div class="light-grid">
         <div class="light-card" data-cat="orgbiz"><b>Organisations &amp; Businesses</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Local companies and civic groups funding a specific request.</p></div>
         <div class="light-card" data-cat="sponsorngo"><b>NGOs</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Mission-driven nonprofits, often funding within their own focus area.</p></div>
@@ -5255,6 +5251,11 @@ function roleMatchHTML(type){
     '<p class="role-note">' + cfg.note + '</p>' +
     '<div class="role-list">' + rows + '</div>';
 }
+// The three group headings on the Network page are where people work out which
+// one they are; that is where the way into their dashboard belongs.
+document.querySelectorAll('[data-demo-jump]').forEach(function(b){
+  b.addEventListener('click', function(){ openAccountDemo(b.getAttribute('data-demo-jump')); });
+});
 function wireRoleMatch(){
   document.querySelectorAll('#demoRoleMatch .role-row').forEach(function(b){
     b.addEventListener('click', function(){ openDetail(parseInt(b.getAttribute('data-pid'), 10)); });
@@ -5300,20 +5301,13 @@ function projectStoryHTML(p){
       '<div class="story-h">' + s.h + '</div>' +
       '<div class="story-d">' + s.d + '</div></li>';
   }).join('');
-  var shapes = GOVS.map(function(g){
-    var sh = GOV_SHAPES[g.id];
-    if(!sh) return '';
-    var hi = g.id === p.gov;
-    return '<path d="' + sh.d + '" class="' + (hi ? 'sm-hi' : 'sm-bg') + '"></path>';
-  }).join('');
+  // No map here on purpose: the sidebar already carries "Reported location",
+  // and two maps on one page compete rather than reinforce.
   return '<section class="story" id="projStory">' +
     '<h3 style="font-size:16px;margin:0 0 4px;">How this reached funding</h3>' +
     '<p class="story-lede">One citizen report, followed to the money.</p>' +
-    '<div class="story-grid">' +
-      '<div class="story-mapwrap"><svg id="storyMap" viewBox="0 0 ' + MAP_VB_W + ' ' + MAP_VB_H + '" preserveAspectRatio="xMidYMid meet">' + shapes + '</svg>' +
-      '<div class="story-place" id="storyPlace">Lebanon</div></div>' +
-      '<ol class="story-steps" id="storySteps">' + steps + '</ol>' +
-    '</div></section>';
+    '<ol class="story-steps" id="storySteps">' + steps + '</ol>' +
+    '</section>';
 }
 
 function initProjectStory(p){
@@ -5325,38 +5319,26 @@ function initProjectStory(p){
     storyScrollHandler = null;
   }
   var sec = document.getElementById('projStory');
-  var svg = document.getElementById('storyMap');
-  var place = document.getElementById('storyPlace');
-  if(!sec || !svg) return;
+  if(!sec) return;
   var steps = Array.prototype.slice.call(sec.querySelectorAll('.story-step'));
-  var shape = GOV_SHAPES[p.gov];
+  if(!steps.length) return;
 
   var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(reduced || !shape){
+  if(reduced){
     steps.forEach(function(s){ s.classList.add('on'); });
-    if(place) place.textContent = p.locality + ', ' + govName(p.gov);
     return;
   }
 
-  var names = ['Lebanon', govName(p.gov) + ' governorate', govName(p.gov) + ' governorate', p.locality];
   var lastStage = -1;
   var ticking = false;
 
   function apply(t){
     t = t < 0 ? 0 : (t > 1 ? 1 : t);
-    // Ease the zoom so it settles rather than tracking the scrollbar exactly.
-    var e = t * t * (3 - 2 * t);
-    var w = MAP_VB_W - (MAP_VB_W - MAP_VB_W * 0.34) * e;
-    var h = MAP_VB_H - (MAP_VB_H - MAP_VB_H * 0.34) * e;
-    var cx = (MAP_VB_W / 2) + (shape.lx - MAP_VB_W / 2) * e;
-    var cy = (MAP_VB_H / 2) + (shape.ly - MAP_VB_H / 2) * e;
-    svg.setAttribute('viewBox', (cx - w / 2).toFixed(1) + ' ' + (cy - h / 2).toFixed(1) + ' ' + w.toFixed(1) + ' ' + h.toFixed(1));
     var stage = Math.floor(t * steps.length);
     if(stage > steps.length - 1) stage = steps.length - 1;
     if(stage === lastStage) return;
     lastStage = stage;
     steps.forEach(function(s, i){ s.classList.toggle('on', i <= stage); });
-    if(place) place.textContent = names[stage] || names[names.length - 1];
   }
 
   storyScrollHandler = function(){
