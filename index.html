@@ -696,6 +696,34 @@
   .ev-sub{ display:block; margin-top:4px; font-size:11px; color:var(--text-faint); line-height:1.5; }
   .ev-ok{ color:var(--ok); }
   .ev-warn{ color:var(--warn); }
+  /* Home: the four roles as one choice, rather than four scroll-past sections. */
+  .role-btn-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  .role-btn{ all:unset; box-sizing:border-box; cursor:pointer; display:flex; flex-direction:column; gap:7px;
+    border:1px solid var(--border); border-radius:14px; padding:22px 20px; background:var(--bg-1);
+    transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+  .role-btn:hover{ border-color:var(--accent); transform:translateY(-3px); box-shadow:0 10px 24px rgba(15,23,42,0.08); }
+  .role-btn:active{ transform:translateY(-1px) scale(.99); }
+  .role-btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .role-btn.checks{ border-color:var(--accent); background:var(--accent-soft); }
+  .role-btn-role{ font-size:10.5px; font-weight:800; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); }
+  .role-btn-name{ font-size:20px; font-weight:800; color:var(--text); line-height:1.2; }
+  .role-btn-sub{ font-size:12px; color:var(--text-dim); line-height:1.6; flex:1; }
+  .role-btn-go{ font-size:12px; font-weight:700; color:var(--accent); margin-top:4px; }
+  .role-flow{ display:grid; grid-template-columns:1fr 24px 1fr 24px 1fr 24px 1fr; margin-top:24px; }
+  .role-flow-step{ border:1px solid var(--border); border-radius:12px; background:var(--bg);
+    padding:15px 17px; display:flex; flex-direction:column; gap:5px; }
+  .role-flow-step.checks{ border-color:var(--accent); background:var(--accent-soft); }
+  .role-flow-tag{ font-size:10.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
+  .role-flow-step b{ font-size:13.5px; color:var(--text); }
+  .role-flow-step > span:last-child{ font-size:12px; color:var(--text-dim); line-height:1.55; }
+  .role-flow-arrow{ display:flex; align-items:center; justify-content:center; color:var(--text-faint); font-size:15px; }
+  .role-flow-note{ font-size:12.5px; color:var(--text-dim); line-height:1.65; margin:16px 0 14px; max-width:74ch; }
+  @media (max-width:1000px){ .role-btn-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:900px){
+    .role-flow{ grid-template-columns:1fr; gap:8px; }
+    .role-flow-arrow{ transform:rotate(90deg); height:18px; }
+  }
+  @media (max-width:560px){ .role-btn-grid{ grid-template-columns:1fr; } }
   /* The one paragraph that says how all four roles line up, before the page
      starts describing them one at a time. */
   .net-overview{ border:1px solid var(--border); border-inline-start:3px solid var(--accent);
@@ -938,47 +966,70 @@
 
   <div class="section reveal"><div class="wrap">
     <div class="section-head-row">
-      <div class="section-head"><h2>The network</h2><p>Four roles, each with a defined job. Certification, expertise, funding and verification never sit in the same hands — the fourth exists precisely so the first three can be checked by someone with no stake in them.</p></div>
-      <button class="btn-text" data-goto="network" style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;font-size:13.5px;">See the full network →</button>
+      <div class="section-head"><h2>The network</h2><p>Four roles, each with a defined job. Certification, expertise, funding and verification never sit in the same hands &mdash; the fourth exists precisely so the first three can be checked by someone with no stake in them.</p></div>
+      <button class="btn-text" data-goto="network" style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;font-size:13.5px;">See the full network &rarr;</button>
     </div>
-    <div class="light-grid" id="homeNetworkPreview"></div>
-    <div style="margin-top:18px; font-size:13px; color:var(--text-dim);"><b>Get involved.</b> Whoever you are, there's a specific way in.</div>
-  </div></div>
 
-  <div class="section reveal"><div class="wrap">
-    <div class="section-head"><h2>Government</h2><p>Certifies that a request is real, necessary, and meets code — the layer that has to sign off before anything else can happen.</p></div>
-    <div class="light-grid">
-      <div class="light-card" data-cat="ministry" style="cursor:pointer;"><b>Ministry</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Certifies technical &amp; regulatory compliance nationally — the specific ministry depends on the request's field.</p></div>
-      <div class="light-card" data-cat="districts" style="cursor:pointer;"><b>Governorates &amp; Districts</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Lebanon's nine governorates and the 26 districts within them. Coordinates across municipalities in its region — read-only on funds and certification.</p></div>
-      <div class="light-card" data-cat="municipality" style="cursor:pointer;"><b>Municipality</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Posts the request and delivers the work on the ground, once certified.</p></div>
+    <div class="role-btn-grid">
+      <button class="role-btn" type="button" data-group="government">
+        <span class="role-btn-role">Certifies</span>
+        <span class="role-btn-name">Government</span>
+        <span class="role-btn-sub">Ministry, governorate and district, municipality &mdash; confirms a request is real, lawful and in jurisdiction. Never holds the money it approves.</span>
+        <span class="role-btn-go">See the 3 government options &rarr;</span>
+      </button>
+      <button class="role-btn" type="button" data-group="experts">
+        <span class="role-btn-role">Solves</span>
+        <span class="role-btn-name">Experts</span>
+        <span class="role-btn-sub">Organisations matched by field &mdash; electricity, water, roads, waste and four more. They choose the work that fits them and set their own price.</span>
+        <span class="role-btn-go">See the 8 expert fields &rarr;</span>
+      </button>
+      <button class="role-btn" type="button" data-group="sponsors">
+        <span class="role-btn-role">Funds</span>
+        <span class="role-btn-name">Sponsors</span>
+        <span class="role-btn-sub">Businesses, NGOs, embassies, diaspora and locals. Every pledge tracked the same way &mdash; named or anonymous, escrowed, released only against verified evidence.</span>
+        <span class="role-btn-go">See the 5 sponsor types &rarr;</span>
+      </button>
+      <button class="role-btn checks" type="button" data-group="verifiers">
+        <span class="role-btn-role">Checks</span>
+        <span class="role-btn-name">Verifiers</span>
+        <span class="role-btn-sub">The role that decides whether money moves &mdash; assigned before work starts, and never to a request they are attached to.</span>
+        <span class="role-btn-go">See the 5 verifier types &rarr;</span>
+      </button>
     </div>
-  </div></div>
 
-  <div class="section reveal"><div class="wrap">
-    <div class="section-head"><h2>Experts</h2><p>Matched to a request by field — the specific technical knowledge a problem needs, distinct from who implements or who pays.</p></div>
-    <div class="field-grid" id="typeTiles"></div>
-  </div></div>
-
-  <div class="section reveal"><div class="wrap">
-    <div class="section-head"><h2>Sponsors</h2><p>Funding, direct to the solution — every pledge tracked from commitment to release, named or anonymous.</p></div>
-    <div class="light-grid">
-      <div class="light-card" data-cat="orgbiz" style="cursor:pointer;"><b>Organisations &amp; Businesses</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Local companies and civic groups funding a specific request.</p></div>
-      <div class="light-card" data-cat="sponsorngo" style="cursor:pointer;"><b>NGOs</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Mission-driven nonprofits, often funding within their own focus area.</p></div>
-      <div class="light-card" data-cat="embassies" style="cursor:pointer;"><b>Embassies</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Government-to-government cultural or development funding.</p></div>
-      <div class="light-card" data-cat="diaspora" style="cursor:pointer;"><b>Diaspora</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Individuals and diaspora associations funding their hometowns.</p></div>
-      <div class="light-card" data-cat="locals" style="cursor:pointer;"><b>Locals</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Residents pooling small amounts toward a nearby request.</p></div>
+    <div class="net-overview" style="margin-top:26px;">
+      <h3>How they operate together</h3>
+      <p>A municipal problem needs four different things to become a finished, believable project, and no two of them can safely sit in the same hands. Government certifies it, experts solve it, sponsors fund it &mdash; and all three of those work <b>directly on the project</b>. They propose it, build it and pay for it, and every one of them has something riding on it being called a success.</p>
+      <p>That is precisely why the fourth exists. An independent verifier works on the <b>process</b> rather than the project: assigned before work begins, barred by construction from being the certifying body, the implementing organisation or any funder of that request, and the only party who can release a tranche of escrow. The first three make the project happen; the fourth is the reason anyone outside it should believe that it did.</p>
     </div>
-  </div></div>
 
-  <div class="section reveal"><div class="wrap">
-    <div class="section-head"><h2>Verifiers</h2><p>The role that decides whether money moves — assigned before work starts, and never to a request they are attached to.</p></div>
-    <div class="light-grid">
-      <div class="light-card" data-cat="v-district" style="cursor:pointer;"><b>District engineer</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">A municipal or union engineer working outside their own locality &mdash; the expertise is already public, just not local to the work.</p></div>
-      <div class="light-card" data-cat="v-oea" style="cursor:pointer;"><b>Order of Engineers &amp; Architects</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Inspection desks at Lebanon's professional body, already independent of both municipalities and contractors.</p></div>
-      <div class="light-card" data-cat="v-envofficer" style="cursor:pointer;"><b>Environmental compliance officer</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">For work where a photograph of a finished site doesn't tell you whether it was done properly.</p></div>
-      <div class="light-card" data-cat="v-auditor" style="cursor:pointer;"><b>Programme auditor</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">For services run over months rather than structures photographed once &mdash; attendance, delivery records, spend against promise.</p></div>
-      <div class="light-card" data-cat="v-inspector" style="cursor:pointer;"><b>Independent inspector</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Takes the assignments nobody else can: right field, right governorate, no tie to the partner, certifier or any funder.</p></div>
+    <div class="role-flow">
+      <div class="role-flow-step">
+        <span class="role-flow-tag">1 &middot; Government</span>
+        <b>Certifies the request</b>
+        <span>Checked for code, jurisdiction and necessity before anyone is asked to fund it.</span>
+      </div>
+      <div class="role-flow-arrow" aria-hidden="true">&rarr;</div>
+      <div class="role-flow-step">
+        <span class="role-flow-tag">2 &middot; Experts</span>
+        <b>Scope it and price it</b>
+        <span>Matched by field first, so the budget follows the technical need rather than the bid.</span>
+      </div>
+      <div class="role-flow-arrow" aria-hidden="true">&rarr;</div>
+      <div class="role-flow-step">
+        <span class="role-flow-tag">3 &middot; Sponsors</span>
+        <b>Fund it into escrow</b>
+        <span>Money is secured with an independent custodian before day one &mdash; held, not yet spent.</span>
+      </div>
+      <div class="role-flow-arrow" aria-hidden="true">&rarr;</div>
+      <div class="role-flow-step checks">
+        <span class="role-flow-tag">4 &middot; Verifier</span>
+        <b>Assigned, then work starts</b>
+        <span>The implementer knows who will check them &mdash; and could not choose that person. Each tranche waits on their sign-off.</span>
+      </div>
     </div>
+    <p class="role-flow-note">Nothing here is released on a claim. A milestone stays &ldquo;submitted&rdquo; until someone with no stake in it confirms it happened.</p>
+    <button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen" style="margin-bottom:0;">When each one steps in, and why it matters <span aria-hidden="true">&rarr;</span></button>
   </div></div>
 
   <div class="section reveal"><div class="wrap">
@@ -3267,16 +3318,6 @@ const EXPERT_FIELDS = [
   {id:'ngoinit', icon:'💡', name:'NGOs & Initiatives', desc:'Civic education, cultural preservation, and community programs that cut across a single technical category.'},
 ];
 function renderHome(){
-  document.getElementById('homeNetworkPreview').innerHTML = `
-    <div class="light-card"><div style="font-size:15px;font-weight:800;letter-spacing:.05em;color:var(--accent);margin-bottom:8px;">CERTIFIES</div><h4 style="margin:0 0 8px;font-size:15px;">Government</h4><div style="font-size:11.5px;color:var(--text-faint);">Ministry · Governorate · Municipality</div></div>
-    <div class="light-card"><div style="font-size:15px;font-weight:800;letter-spacing:.05em;color:var(--accent);margin-bottom:8px;">SOLVES</div><h4 style="margin:0 0 8px;font-size:15px;">Expert organisations</h4><div style="font-size:11.5px;color:var(--text-faint);">Electricity · Water · Roads &amp; Traffic · +5 more</div></div>
-    <div class="light-card"><div style="font-size:15px;font-weight:800;letter-spacing:.05em;color:var(--accent);margin-bottom:8px;">FUNDS</div><h4 style="margin:0 0 8px;font-size:15px;">Sponsors</h4><div style="font-size:11.5px;color:var(--text-faint);">Diaspora · NGOs · Locals · +2 more</div></div>
-    <div class="light-card"><div style="font-size:15px;font-weight:800;letter-spacing:.05em;color:var(--accent);margin-bottom:8px;">CHECKS</div><h4 style="margin:0 0 8px;font-size:15px;">Independent verifiers</h4><div style="font-size:11.5px;color:var(--text-faint);">Assigned before work starts · never the implementer</div></div>
-  `;
-  document.querySelectorAll('#homeNetworkPreview .light-card').forEach(c=> c.style.cursor='pointer');
-  document.querySelectorAll('#homeNetworkPreview .light-card').forEach(c=> c.addEventListener('click', ()=> switchView('network')));
-
-  renderFieldGrid('typeTiles');
   renderFieldGrid('networkFieldGrid');
 
   const featured = PROJECTS.filter(p=>p.status!=='proposed').slice(0,8);
