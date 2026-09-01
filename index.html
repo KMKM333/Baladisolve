@@ -1026,8 +1026,18 @@
   .tw-name{ font-size:17px; font-weight:800; color:var(--text); display:block; margin-top:2px; }
   .tw-steps{ padding:12px 14px 15px; display:flex; flex-direction:column; gap:11px; }
   .tw-step{ display:grid; grid-template-columns:22px 1fr; gap:10px; align-items:start; }
-  .tw-dot{ width:21px; height:21px; border-radius:50%; background:var(--accent); color:var(--on-accent);
-    font-size:10.5px; font-weight:800; display:flex; align-items:center; justify-content:center; }
+  .tw-dot{ width:21px; height:21px; border-radius:7px; background:var(--bg-1); border:1px solid var(--border);
+    color:var(--text-faint); font-size:10.5px; font-weight:800; display:flex; align-items:center; justify-content:center; }
+  .tw-col.checks .tw-dot{ border-color:var(--accent); background:var(--accent-soft); color:var(--accent); }
+  /* Hairline down the column so the numbers read as a sequence, not as bullets. */
+  .tw-step{ position:relative; }
+  .tw-step:not(:last-child)::before{ content:''; position:absolute; left:10px; top:23px; bottom:-11px;
+    width:1px; background:var(--border); }
+  .tw-foot{ font-size:12.5px; color:var(--text-dim); line-height:1.7; margin:18px 0 0; max-width:80ch; }
+  .tw-foot-link{ all:unset; box-sizing:border-box; cursor:pointer; color:var(--accent); font-weight:700; }
+  .tw-foot-link:hover{ text-decoration:underline; }
+  .tw-foot-link:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .stepper-holder{ margin-top:4px; }
   .tw-step b{ font-size:12.5px; color:var(--text); display:block; }
   .tw-step span{ font-size:11.5px; color:var(--text-dim); line-height:1.5; display:block; margin-top:1px; }
   .tw-arrow{ display:flex; align-items:flex-start; justify-content:center; padding-top:26px; color:var(--text-faint); font-size:15px; }
@@ -1308,21 +1318,8 @@
   </div></div>
 
   <div class="section reveal"><div class="wrap">
-    <div class="section-head"><h2>How it works</h2><p>From a filed request to money released, in six steps. Click any step for a closer look.</p></div>
-    <div class="stepper-progress" id="stepperProgress" aria-hidden="true"><span></span></div>
-    <div class="stepper-row" id="howItWorksStepper">
-      <div class="stepper-step" data-step="1"><div class="stepper-icon">📋</div><div class="stepper-label">Step 1</div><div class="stepper-title">Request filed</div><div class="stepper-desc">A municipality, NGO or business submits scope, budget and timeline.</div></div>
-      <div class="stepper-arrow">→</div>
-      <div class="stepper-step" data-step="2"><div class="stepper-icon">🛡️</div><div class="stepper-label">Step 2</div><div class="stepper-title">Certified</div><div class="stepper-desc">A government branch checks technical and regulatory compliance.</div></div>
-      <div class="stepper-arrow">→</div>
-      <div class="stepper-step" data-step="3"><div class="stepper-icon">🤝</div><div class="stepper-label">Step 3</div><div class="stepper-title">Pledged</div><div class="stepper-desc">Sponsors commit funds, named or anonymous, held in independent escrow.</div></div>
-      <div class="stepper-arrow">→</div>
-      <div class="stepper-step" data-step="4"><div class="stepper-icon">🛠️</div><div class="stepper-label">Step 4</div><div class="stepper-title">Verifier assigned</div><div class="stepper-desc">An accredited reviewer with no stake in the request is assigned at escrow confirmation — before any work begins.</div></div>
-      <div class="stepper-arrow">→</div>
-      <div class="stepper-step" data-step="5"><div class="stepper-icon">🔍</div><div class="stepper-label">Step 5</div><div class="stepper-title">Verified</div><div class="stepper-desc">An unaffiliated reviewer checks each milestone's evidence before it counts.</div></div>
-      <div class="stepper-arrow">→</div>
-      <div class="stepper-step" data-step="6"><div class="stepper-icon">✅</div><div class="stepper-label">Step 6</div><div class="stepper-title">Released &amp; tracked</div><div class="stepper-desc">Escrow releases the tranche. Every step stays on the public ledger.</div></div>
-    </div>
+    <div class="section-head"><h2>How it works</h2><p>Nine steps from a filed request to money released &mdash; each one under the role that performs it.</p></div>
+    <div class="tw-lane"><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Certifies</span><span class="tw-name">Government</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">1</span><div><b>Request filed</b><span>A municipality, NGO or business submits scope, budget and timeline.</span></div></div><div class="tw-step"><span class="tw-dot">2</span><div><b>Certified</b><span>A government branch checks technical and regulatory compliance.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Solves</span><span class="tw-name">Experts</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">3</span><div><b>Matched by field</b><span>The technical knowledge the problem actually needs is identified first.</span></div></div><div class="tw-step"><span class="tw-dot">4</span><div><b>Scoped &amp; priced</b><span>The organisation sets its own price against that scope.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Funds</span><span class="tw-name">Sponsors</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">5</span><div><b>Pledged</b><span>Sponsors commit funds, named or anonymous.</span></div></div><div class="tw-step"><span class="tw-dot">6</span><div><b>Escrow funded</b><span>Captured by an independent custodian. Held, not spent.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col checks"><div class="tw-col-head"><span class="tw-role">Checks</span><span class="tw-name">Verifier</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">7</span><div><b>Assigned</b><span>At escrow confirmation &mdash; before any work begins.</span></div></div><div class="tw-step"><span class="tw-dot">8</span><div><b>Verified</b><span>Each milestone&rsquo;s evidence checked before it counts.</span></div></div><div class="tw-step"><span class="tw-dot">9</span><div><b>Released &amp; tracked</b><span>Escrow releases the tranche. Every step stays on the ledger.</span></div></div></div></div></div>    <p class="tw-foot">Three roles work on the project; the fourth works on the process, and is brought in before any of them can start. <button type="button" class="tw-foot-link" data-goto="dashboard" data-scroll="roleWhen">Why the order matters &rarr;</button></p>
   </div></div>
 
   <div class="section reveal"><div class="wrap">
@@ -2182,10 +2179,27 @@
       </div>
 
       <div class="test-opt">
-        <div class="test-opt-tag">Option A</div>
-        <h3>One strip, two lanes</h3>
-        <p>Role on top, its lifecycle steps underneath. The separate &ldquo;How it works&rdquo; section disappears and its six steps become the second lane, each attached to whoever performs it &mdash; plus the two Experts steps the six never had.</p>
-        <div class="tw-lane"><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Certifies</span><span class="tw-name">Government</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">1</span><div><b>Request filed</b><span>A municipality, NGO or business submits scope, budget and timeline.</span></div></div><div class="tw-step"><span class="tw-dot">2</span><div><b>Certified</b><span>A government branch checks technical and regulatory compliance.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Solves</span><span class="tw-name">Experts</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">3</span><div><b>Matched by field</b><span>The technical knowledge the problem actually needs is identified first.</span></div></div><div class="tw-step"><span class="tw-dot">4</span><div><b>Scoped &amp; priced</b><span>The organisation sets its own price against that scope.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Funds</span><span class="tw-name">Sponsors</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">5</span><div><b>Pledged</b><span>Sponsors commit funds, named or anonymous.</span></div></div><div class="tw-step"><span class="tw-dot">6</span><div><b>Escrow funded</b><span>Captured by an independent custodian. Held, not spent.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col checks"><div class="tw-col-head"><span class="tw-role">Checks</span><span class="tw-name">Verifier</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">7</span><div><b>Assigned</b><span>At escrow confirmation &mdash; before any work begins.</span></div></div><div class="tw-step"><span class="tw-dot">8</span><div><b>Verified</b><span>Each milestone&rsquo;s evidence checked before it counts.</span></div></div><div class="tw-step"><span class="tw-dot">9</span><div><b>Released &amp; tracked</b><span>Escrow releases the tranche. Every step stays on the ledger.</span></div></div></div></div></div><div class="test-verdict"><div class="test-gain"><b>Gain.</b> Three strips become one, and every lifecycle step finally says <b>who does it</b> &mdash; nothing on the site does that today. Nine steps instead of six, so granularity goes up rather than down.</div><div class="test-cost"><b>Cost.</b> The click-to-focus behaviour on the six steps needs rebuilding for the new markup, and the &ldquo;How it works&rdquo; heading leaves the home page. Highest effort of the three.</div></div>
+        <div class="test-opt-tag">Option A &mdash; replaced</div>
+        <h3>The six-step stepper</h3>
+        <p>What the home page carried until the two-lane version took its place. Kept here for comparison: six steps, none of which says who performs it, and no place for the two things experts actually do.</p>
+        <div class="stepper-holder">
+    <div class="section-head"><h2>How it works</h2><p>From a filed request to money released, in six steps. Click any step for a closer look.</p></div>
+    <div class="stepper-progress" id="stepperProgress" aria-hidden="true"><span></span></div>
+    <div class="stepper-row" id="howItWorksStepper">
+      <div class="stepper-step" data-step="1"><div class="stepper-icon">📋</div><div class="stepper-label">Step 1</div><div class="stepper-title">Request filed</div><div class="stepper-desc">A municipality, NGO or business submits scope, budget and timeline.</div></div>
+      <div class="stepper-arrow">→</div>
+      <div class="stepper-step" data-step="2"><div class="stepper-icon">🛡️</div><div class="stepper-label">Step 2</div><div class="stepper-title">Certified</div><div class="stepper-desc">A government branch checks technical and regulatory compliance.</div></div>
+      <div class="stepper-arrow">→</div>
+      <div class="stepper-step" data-step="3"><div class="stepper-icon">🤝</div><div class="stepper-label">Step 3</div><div class="stepper-title">Pledged</div><div class="stepper-desc">Sponsors commit funds, named or anonymous, held in independent escrow.</div></div>
+      <div class="stepper-arrow">→</div>
+      <div class="stepper-step" data-step="4"><div class="stepper-icon">🛠️</div><div class="stepper-label">Step 4</div><div class="stepper-title">Verifier assigned</div><div class="stepper-desc">An accredited reviewer with no stake in the request is assigned at escrow confirmation — before any work begins.</div></div>
+      <div class="stepper-arrow">→</div>
+      <div class="stepper-step" data-step="5"><div class="stepper-icon">🔍</div><div class="stepper-label">Step 5</div><div class="stepper-title">Verified</div><div class="stepper-desc">An unaffiliated reviewer checks each milestone's evidence before it counts.</div></div>
+      <div class="stepper-arrow">→</div>
+      <div class="stepper-step" data-step="6"><div class="stepper-icon">✅</div><div class="stepper-label">Step 6</div><div class="stepper-title">Released &amp; tracked</div><div class="stepper-desc">Escrow releases the tranche. Every step stays on the public ledger.</div></div>
+    </div>
+        </div>
+        <div class="test-verdict"><div class="test-gain"><b>What it did well.</b> Click any step to focus it and dim the rest &mdash; a real interaction the replacement does not have. Six steps also fit on one line at any width.</div><div class="test-cost"><b>Why it was replaced.</b> Not one of the six says <i>who</i> performs it, and the two steps experts actually do &mdash; being matched by field, then pricing the scope &mdash; had nowhere to go.</div></div>
       </div>
 
       <div class="test-opt">
