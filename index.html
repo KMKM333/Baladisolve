@@ -3108,10 +3108,18 @@ document.querySelectorAll('[data-goto]').forEach(el=>{
     // A jump can also name a block on the destination page. The view swap is
     // animated, so wait a frame before measuring where that block ended up.
     var target = el.dataset.scroll;
-    if(target) requestAnimationFrame(()=>{
-      var node = document.getElementById(target);
-      if(node) node.scrollIntoView({behavior:'smooth', block:'start'});
-    });
+    if(target){
+      // rAF never ticks in a background tab, so back it with a timer the same
+      // way switchView does — whichever fires first wins.
+      var ran = false;
+      var go = ()=>{
+        if(ran) return; ran = true;
+        var node = document.getElementById(target);
+        if(node) node.scrollIntoView({behavior:'smooth', block:'start'});
+      };
+      requestAnimationFrame(go);
+      setTimeout(go, 120);
+    }
   });
 });
 document.querySelectorAll('.footer-col button[data-view]').forEach(btn=>{
