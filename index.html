@@ -767,7 +767,8 @@
   .rw-warn{ font-size:13px; color:var(--text-dim); line-height:1.75; margin:30px 0 0;
     padding-top:20px; border-top:1px solid var(--border); max-width:96ch; }
   .rw-warn b{ color:var(--text); }
-  @media (max-width:1000px){
+  /* Below this the four columns drop under ~30 characters a line. */
+  @media (max-width:1180px){
     .rw-steps{ grid-template-columns:1fr 1fr; }
     .rw-step:nth-child(2)::before{ display:none; }
   }
