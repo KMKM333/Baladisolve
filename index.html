@@ -1049,11 +1049,15 @@
   .tw-name{ font-size:17px; font-weight:800; color:var(--text); display:block; margin-top:2px; }
   .tw-steps{ padding:12px 14px 15px; display:flex; flex-direction:column; gap:11px; }
   .tw-step{ display:grid; grid-template-columns:22px 1fr; gap:10px; align-items:start; }
-  .tw-dot{ width:21px; height:21px; border-radius:7px; background:var(--bg-1); border:1px solid var(--border);
-    color:var(--text-faint); font-size:10.5px; font-weight:800; display:flex; align-items:center; justify-content:center; }
+  /* box-sizing so the 1px border does not push the glyph off centre, line-height:1
+     so the font's own leading does not either, and tabular figures so 1 and 9 sit
+     in the same place. */
+  .tw-dot{ box-sizing:border-box; width:22px; height:22px; border-radius:7px; background:var(--bg-1);
+    border:1px solid var(--border); color:var(--text-faint); font-size:10.5px; font-weight:800; line-height:1;
+    font-variant-numeric:tabular-nums; display:flex; align-items:center; justify-content:center; }
   /* Hairline down the column so the numbers read as a sequence, not as bullets. */
   .tw-step{ position:relative; }
-  .tw-step:not(:last-child)::before{ content:''; position:absolute; left:10px; top:23px; bottom:-11px;
+  .tw-step:not(:last-child)::before{ content:''; position:absolute; left:10.5px; top:24px; bottom:-11px;
     width:1px; background:var(--border); }
   .tw-foot{ font-size:12.5px; color:var(--text-dim); line-height:1.7; margin:18px 0 0; max-width:80ch; }
   .tw-foot-link{ all:unset; box-sizing:border-box; cursor:pointer; color:var(--accent); font-weight:700; }
