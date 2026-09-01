@@ -802,6 +802,66 @@
   .comment-form{ margin-top:18px; display:flex; flex-direction:column; gap:10px; max-width:520px; }
   .comment-form textarea{ font-family:inherit; font-size:13px; padding:10px 12px; border:1px solid var(--border); border-radius:8px; resize:none; min-height:60px; }
 
+
+  /* ===== TEMPORARY — workflow option mockups, /#/test. Delete with the page. ===== */
+  .test-btn{ all:unset; box-sizing:border-box; cursor:pointer; font-size:11.5px; font-weight:800; letter-spacing:.06em;
+    background:#dc2626; color:#fff; border-radius:8px; padding:7px 12px; margin-inline-end:8px; }
+  .test-btn:hover{ background:#b91c1c; }
+  .test-btn:focus-visible{ outline:2px solid #dc2626; outline-offset:2px; }
+  .test-warn{ border:1px dashed #dc2626; background:rgba(220,38,38,0.07); color:#b91c1c;
+    border-radius:10px; padding:14px 18px; font-size:12.5px; line-height:1.6; margin-bottom:30px; }
+  .test-opt{ border:1px solid var(--border); border-radius:16px; padding:26px 26px 28px; margin-bottom:26px; background:var(--bg); }
+  .test-opt-tag{ display:inline-block; font-size:10.5px; font-weight:800; letter-spacing:.09em; text-transform:uppercase;
+    color:var(--on-accent); background:var(--accent); border-radius:20px; padding:4px 11px; margin-bottom:12px; }
+  .test-opt h3{ font-size:19px; margin:0 0 8px; }
+  .test-opt > p{ font-size:13px; color:var(--text-dim); line-height:1.7; margin:0 0 20px; max-width:80ch; }
+  .test-verdict{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:20px; font-size:12.5px; line-height:1.6; }
+  .test-verdict div{ border-radius:10px; padding:12px 15px; }
+  .test-gain{ background:var(--accent-soft); color:var(--text-dim); }
+  .test-cost{ background:var(--bg-1); color:var(--text-dim); }
+  .test-verdict b{ color:var(--text); }
+  @media (max-width:700px){ .test-verdict{ grid-template-columns:1fr; } }
+
+  /* the two-lane strip: role on top, its lifecycle steps beneath */
+  .tw-lane{ display:grid; grid-template-columns:1fr 22px 1fr 22px 1fr 22px 1fr; }
+  .tw-col{ border:1px solid var(--border); border-radius:12px; overflow:hidden; background:var(--bg); display:flex; flex-direction:column; }
+  .tw-col.checks{ border-color:var(--accent); }
+  .tw-col-head{ padding:13px 15px; background:var(--bg-1); border-bottom:1px solid var(--border); }
+  .tw-col.checks .tw-col-head{ background:var(--accent-soft); }
+  .tw-role{ font-size:10px; font-weight:800; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); display:block; }
+  .tw-name{ font-size:17px; font-weight:800; color:var(--text); display:block; margin-top:2px; }
+  .tw-steps{ padding:12px 14px 15px; display:flex; flex-direction:column; gap:11px; }
+  .tw-step{ display:grid; grid-template-columns:22px 1fr; gap:10px; align-items:start; }
+  .tw-dot{ width:21px; height:21px; border-radius:50%; background:var(--accent); color:var(--on-accent);
+    font-size:10.5px; font-weight:800; display:flex; align-items:center; justify-content:center; }
+  .tw-step b{ font-size:12.5px; color:var(--text); display:block; }
+  .tw-step span{ font-size:11.5px; color:var(--text-dim); line-height:1.5; display:block; margin-top:1px; }
+  .tw-arrow{ display:flex; align-items:flex-start; justify-content:center; padding-top:26px; color:var(--text-faint); font-size:15px; }
+  @media (max-width:900px){
+    .tw-lane{ grid-template-columns:1fr; gap:8px; }
+    .tw-arrow{ transform:rotate(90deg); padding-top:0; height:18px; align-items:center; }
+  }
+
+  /* the money lane (option C) */
+  .tw-money{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:14px; }
+  .tw-money-cell{ border:1px solid var(--border); border-radius:10px; padding:12px 14px; background:var(--bg-1); }
+  .tw-money-state{ font-size:12.5px; font-weight:700; color:var(--text); display:block; }
+  .tw-money-note{ font-size:11.5px; color:var(--text-dim); line-height:1.5; display:block; margin-top:3px; }
+  .tw-money-exit{ font-size:11px; color:var(--warn); font-weight:700; display:block; margin-top:7px; }
+  @media (max-width:900px){ .tw-money{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:560px){ .tw-money{ grid-template-columns:1fr; } }
+
+  /* the "three strips today" reference */
+  .tw-today{ display:flex; flex-direction:column; gap:10px; }
+  .tw-today-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    border:1px solid var(--border); border-radius:10px; padding:11px 14px; background:var(--bg-1); }
+  .tw-today-name{ font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--text-faint); width:140px; flex-shrink:0; }
+  .tw-pill{ font-size:11.5px; font-weight:600; color:var(--text-dim); border:1px solid var(--border);
+    background:var(--bg); border-radius:14px; padding:4px 10px; }
+  .tw-pill.dupe{ border-color:#dc2626; color:#b91c1c; background:rgba(220,38,38,0.06); }
+  .tw-pill.uniq{ border-color:var(--accent); color:var(--accent); background:var(--accent-soft); }
+
   /* ---------- Join / audience ---------- */
   /* The lower half used to be six flat chips; it is four roles now, matching
      the rest of the site, with the account types nested inside the one picked. */
@@ -918,6 +978,7 @@
     </div>
   </nav>
   <div class="topnav-right">
+    <button class="test-btn" type="button" data-goto="test" title="Temporary workflow mockups">TEST</button>
     <div class="lang-wrap">
       <button id="langBtn" class="icon-btn lang-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-label="Change language" title="Change language">EN</button>
       <div id="langMenu" class="nav-more-menu lang-menu">
@@ -1822,6 +1883,51 @@
 </section>
 
 <!-- ACCOUNT DEMO -->
+<!-- ===== TEMPORARY TEST PAGE — workflow option mockups. Delete with .test-* CSS,
+     the header button, and 'test' in slugToView. ===== -->
+<section class="page" id="view-test">
+  <div class="wrap">
+    <div class="section" style="padding-top:44px;">
+      <div class="test-warn"><b>Temporary page.</b> Not linked from the footer, not translated, not in the main nav &mdash; only the red TEST button. It exists so the three workflow options can be looked at side by side, and should be reverted once one is chosen.</div>
+
+      <div class="section-head"><h2>Three ways to fix the repeated workflow</h2><p>The home page currently tells the same story three times. The role backbone stays in all three options below &mdash; what changes is what sits next to it.</p></div>
+
+      <div class="test-opt">
+        <div class="test-opt-tag">Today</div>
+        <h3>What is on the home page right now</h3>
+        <p>Three horizontal strips in the first half of the page. <b style="color:#b91c1c;">Red</b> marks a beat that is already told by another strip; <b style="color:var(--accent);">blue</b> marks the only content unique to that strip. No strip holds all the unique beats, which is why none of them can simply be deleted.</p>
+        <div class="tw-today"><div class="tw-today-row"><span class="tw-today-name">Baladi teaser</span><span class="tw-pill uniq">Reported</span><span class="tw-pill uniq">Classified</span><span class="tw-pill dupe">Matched</span><span class="tw-pill dupe">Funded</span></div><div class="tw-today-row"><span class="tw-today-name">Network role-flow</span><span class="tw-pill dupe">Government</span><span class="tw-pill uniq">Experts &mdash; scope &amp; price</span><span class="tw-pill dupe">Sponsors</span><span class="tw-pill dupe">Verifier</span></div><div class="tw-today-row"><span class="tw-today-name">How it works</span><span class="tw-pill dupe">Filed</span><span class="tw-pill dupe">Certified</span><span class="tw-pill dupe">Pledged</span><span class="tw-pill dupe">Verifier assigned</span><span class="tw-pill uniq">Verified</span><span class="tw-pill uniq">Released &amp; tracked</span></div></div>
+      </div>
+
+      <div class="test-opt">
+        <div class="test-opt-tag">Option A</div>
+        <h3>One strip, two lanes</h3>
+        <p>Role on top, its lifecycle steps underneath. The separate &ldquo;How it works&rdquo; section disappears and its six steps become the second lane, each attached to whoever performs it &mdash; plus the two Experts steps the six never had.</p>
+        <div class="tw-lane"><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Certifies</span><span class="tw-name">Government</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">1</span><div><b>Request filed</b><span>A municipality, NGO or business submits scope, budget and timeline.</span></div></div><div class="tw-step"><span class="tw-dot">2</span><div><b>Certified</b><span>A government branch checks technical and regulatory compliance.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Solves</span><span class="tw-name">Experts</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">3</span><div><b>Matched by field</b><span>The technical knowledge the problem actually needs is identified first.</span></div></div><div class="tw-step"><span class="tw-dot">4</span><div><b>Scoped &amp; priced</b><span>The organisation sets its own price against that scope.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Funds</span><span class="tw-name">Sponsors</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">5</span><div><b>Pledged</b><span>Sponsors commit funds, named or anonymous.</span></div></div><div class="tw-step"><span class="tw-dot">6</span><div><b>Escrow funded</b><span>Captured by an independent custodian. Held, not spent.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col checks"><div class="tw-col-head"><span class="tw-role">Checks</span><span class="tw-name">Verifier</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">7</span><div><b>Assigned</b><span>At escrow confirmation &mdash; before any work begins.</span></div></div><div class="tw-step"><span class="tw-dot">8</span><div><b>Verified</b><span>Each milestone&rsquo;s evidence checked before it counts.</span></div></div><div class="tw-step"><span class="tw-dot">9</span><div><b>Released &amp; tracked</b><span>Escrow releases the tranche. Every step stays on the ledger.</span></div></div></div></div></div><div class="test-verdict"><div class="test-gain"><b>Gain.</b> Three strips become one, and every lifecycle step finally says <b>who does it</b> &mdash; nothing on the site does that today. Nine steps instead of six, so granularity goes up rather than down.</div><div class="test-cost"><b>Cost.</b> The click-to-focus behaviour on the six steps needs rebuilding for the new markup, and the &ldquo;How it works&rdquo; heading leaves the home page. Highest effort of the three.</div></div>
+      </div>
+
+      <div class="test-opt">
+        <div class="test-opt-tag">Option B</div>
+        <h3>Backbone here, detail one click away</h3>
+        <p>The home page keeps the role strip alone. The six lifecycle steps move to the Projects page and merge into &ldquo;Who steps in, and when&rdquo;, which already covers the same four beats in prose &mdash; so that page becomes the single workflow reference instead of a second partial copy.</p>
+        <div class="role-flow"><div class="role-flow-step"><span class="role-flow-tag">1 &middot; Government</span><b>Certifies the request</b><span>Checked for code, jurisdiction and necessity before anyone is asked to fund it.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step"><span class="role-flow-tag">2 &middot; Experts</span><b>Scope it and price it</b><span>Matched by field first, so the budget follows the technical need rather than the bid.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step"><span class="role-flow-tag">3 &middot; Sponsors</span><b>Fund it into escrow</b><span>Money is secured with an independent custodian before day one &mdash; held, not yet spent.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step checks"><span class="role-flow-tag">4 &middot; Verifier</span><b>Assigned, then work starts</b><span>The implementer knows who will check them &mdash; and could not choose that person.</span></div></div>
+        <p style="font-size:12.5px;color:var(--text-faint);margin:16px 0 0;">&darr; and on the Projects page, one section instead of two overlapping ones:</p>
+        <div style="border:1px dashed var(--border); border-radius:12px; padding:16px 18px; margin-top:10px; background:var(--bg-1);">
+          <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--text-faint);margin-bottom:10px;">Projects page &middot; Who steps in, and when</div>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;"><span class="tw-pill">Request filed</span><span class="tw-pill">Certified</span><span class="tw-pill">Matched &amp; priced</span><span class="tw-pill">Pledged</span><span class="tw-pill">Escrow funded</span><span class="tw-pill">Verifier assigned</span><span class="tw-pill">Verified</span><span class="tw-pill">Released &amp; tracked</span></div>
+        </div><div class="test-verdict"><div class="test-gain"><b>Gain.</b> Shortest home page, zero repetition, and the detail lands where someone has already chosen to go deeper. Cheapest to build and cleanest to revert.</div><div class="test-cost"><b>Cost.</b> A first-time visitor never sees the lifecycle steps without clicking. You would be betting the four role cards carry it alone.</div></div>
+      </div>
+
+      <div class="test-opt">
+        <div class="test-opt-tag">Option C</div>
+        <h3>Add the lane nobody has</h3>
+        <p>The role strip stays. &ldquo;How it works&rdquo; is replaced by the one workflow the home page does not tell: <b>where the money is at each stage</b>. That content exists today, but it is buried in a table near the bottom of the Trust page.</p>
+        <div class="role-flow"><div class="role-flow-step"><span class="role-flow-tag">1 &middot; Government</span><b>Certifies the request</b><span>Checked for code, jurisdiction and necessity before anyone is asked to fund it.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step"><span class="role-flow-tag">2 &middot; Experts</span><b>Scope it and price it</b><span>Matched by field first, so the budget follows the technical need rather than the bid.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step"><span class="role-flow-tag">3 &middot; Sponsors</span><b>Fund it into escrow</b><span>Money is secured with an independent custodian before day one &mdash; held, not yet spent.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step checks"><span class="role-flow-tag">4 &middot; Verifier</span><b>Assigned, then work starts</b><span>The implementer knows who will check them &mdash; and could not choose that person.</span></div></div><div class="tw-money"><div class="tw-money-cell"><span class="tw-money-state">Nothing pledged</span><span class="tw-money-note">A request exists, no money is attached to it.</span><span class="tw-money-exit">Can be refused &rarr; nothing to return</span></div><div class="tw-money-cell"><span class="tw-money-state">Pledged, not captured</span><span class="tw-money-note">Commitments made against a threshold that has not been reached.</span><span class="tw-money-exit">Lapses &rarr; refunded in full</span></div><div class="tw-money-cell"><span class="tw-money-state">Held in escrow</span><span class="tw-money-note">With an independent custodian &mdash; never a government or implementer account.</span><span class="tw-money-exit">Stalls &rarr; balance returned</span></div><div class="tw-money-cell"><span class="tw-money-state">Released per milestone</span><span class="tw-money-note">One tranche at a time, each against evidence a verifier signed off.</span><span class="tw-money-exit">Rejected &rarr; held for remediation</span></div></div><div class="test-verdict"><div class="test-gain"><b>Gain.</b> Two strips instead of three, and the second earns its place by answering a different question &mdash; the first one a serious donor asks. Strongest trust argument of the three.</div><div class="test-cost"><b>Cost.</b> Puts &ldquo;what happens when it fails&rdquo; high on the home page. Honest, but a downbeat note above the fold.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section class="page" id="view-account-demo">
   <div class="wrap">
     <div class="section" style="padding-top:44px;">
@@ -6504,7 +6610,7 @@ function viewSlug(view){
 function slugToView(slug){
   var out = null;
   ['home','network','dashboard','map','corridors','scoreboard','trust','join',
-   'lead-list','municipalities','workflow-demo','account-demo'].forEach(function(v){
+   'lead-list','municipalities','workflow-demo','account-demo','test'].forEach(function(v){
     if(viewSlug(v) === slug) out = v;
   });
   return out;
