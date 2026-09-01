@@ -748,6 +748,34 @@
   .net-overview p{ font-size:13.5px; color:var(--text-dim); line-height:1.75; margin:0 0 12px; max-width:78ch; }
   .net-overview p:last-child{ margin-bottom:0; }
   .net-overview b{ color:var(--text); }
+  /* The role-timing panel on the Projects page. Its four steps read across the
+     page as a timeline; stacked, each line ran the full 1400px and was unreadable. */
+  .rw{ border:1px solid var(--border); border-radius:14px; background:var(--bg-1); padding:28px 30px 30px; }
+  .rw-head{ font-size:11px; font-weight:800; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); margin-bottom:11px; }
+  .rw-lead{ font-size:14.5px; color:var(--text); line-height:1.65; margin:0 0 30px; max-width:68ch; }
+  .rw-steps{ display:grid; grid-template-columns:repeat(4,1fr); column-gap:26px; row-gap:30px; align-items:start; }
+  .rw-step{ position:relative; padding-top:38px; }
+  .rw-step::before{ content:''; position:absolute; top:12px; left:13px; right:-26px; height:2px; background:var(--border); }
+  .rw-step:last-child::before{ display:none; }
+  .rw-n{ position:absolute; top:0; left:0; z-index:1; width:26px; height:26px; border-radius:50%;
+    background:var(--accent); color:var(--on-accent); font-size:12px; font-weight:800;
+    display:flex; align-items:center; justify-content:center; }
+  .rw-step.checks .rw-n{ box-shadow:0 0 0 4px var(--accent-soft); }
+  .rw-role{ display:block; font-size:10.5px; font-weight:800; letter-spacing:.085em; text-transform:uppercase; color:var(--accent); }
+  .rw-title{ display:block; font-size:14.5px; font-weight:800; color:var(--text); line-height:1.35; margin:4px 0 8px; }
+  .rw-body{ font-size:12.5px; color:var(--text-dim); line-height:1.7; margin:0; }
+  .rw-warn{ font-size:13px; color:var(--text-dim); line-height:1.75; margin:30px 0 0;
+    padding-top:20px; border-top:1px solid var(--border); max-width:96ch; }
+  .rw-warn b{ color:var(--text); }
+  @media (max-width:1000px){
+    .rw-steps{ grid-template-columns:1fr 1fr; }
+    .rw-step:nth-child(2)::before{ display:none; }
+  }
+  @media (max-width:620px){
+    .rw{ padding:22px 20px 24px; }
+    .rw-steps{ grid-template-columns:1fr; row-gap:24px; }
+    .rw-step::before{ display:none; }
+  }
   .vf-when{ border:1px solid var(--border); border-radius:12px; padding:20px 22px; background:var(--bg-1); margin-top:18px; }
   .vf-when-head{ font-size:11px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
   .vf-when-lead{ font-size:13.5px; color:var(--text); margin:0 0 16px; line-height:1.6; max-width:70ch; }
@@ -1263,16 +1291,36 @@
   <div class="wrap">
     <div class="section" style="padding-top:44px; padding-bottom:8px;" id="roleWhen">
       <div class="section-head"><h2>Who steps in, and when</h2><p>Every request below passes through the same four hands in the same order &mdash; and the order is the safeguard, not a formality.</p></div>
-      <div class="vf-when">
-        <div class="vf-when-head">When each role is brought in &mdash; and why the timing matters</div>
-        <p class="vf-when-lead">Three roles work directly on the project. The fourth works on the <b>process</b>, and is brought in before the first of them can start.</p>
-        <div class="vf-when-steps">
-          <div class="vf-when-step"><span class="vf-when-n">1</span><div><b>Government &mdash; certified before the request is public</b><span>Jurisdiction, code compliance and necessity are checked before a request can open for pledges. Certifying first is what stops this becoming a wishlist: nobody is asked to fund something no authority has confirmed is real and lawful. The body that certifies never holds the money.</span></div></div>
-          <div class="vf-when-step"><span class="vf-when-n">2</span><div><b>Experts &mdash; matched before a budget is fixed</b><span>The field a problem actually needs is settled before anyone prices it, so scope is argued on technical grounds rather than on who happened to bid. Organisations choose the requests that fit their expertise and set their own price.</span></div></div>
-          <div class="vf-when-step"><span class="vf-when-n">3</span><div><b>Sponsors &mdash; captured into escrow before work starts</b><span>Pledges are secured with an independent custodian before the first day of work, so no implementer ever starts on a promise. Nothing is released at this point &mdash; the money is held, not spent.</span></div></div>
-          <div class="vf-when-step"><span class="vf-when-n">4</span><div><b>Verifier &mdash; assigned at escrow confirmation, before work begins</b><span>The moment escrow is confirmed, an accredited reviewer with no tie to the certifier, the implementer or any funder is assigned from the rotation. Only then does work start &mdash; so the implementer already knows who will check them, and could not choose that person.</span></div></div>
+      <div class="rw">
+        <div class="rw-head">When each role is brought in &mdash; and why the timing matters</div>
+        <p class="rw-lead">Three roles work directly on the project. The fourth works on the <b>process</b>, and is brought in before the first of them can start.</p>
+        <div class="rw-steps">
+          <div class="rw-step">
+            <span class="rw-n">1</span>
+            <span class="rw-role">Government</span>
+            <span class="rw-title">Certified before the request is public</span>
+            <p class="rw-body">Jurisdiction, code compliance and necessity are checked before a request can open for pledges. Certifying first is what stops this becoming a wishlist: nobody is asked to fund something no authority has confirmed is real and lawful. The body that certifies never holds the money.</p>
+          </div>
+          <div class="rw-step">
+            <span class="rw-n">2</span>
+            <span class="rw-role">Experts</span>
+            <span class="rw-title">Matched before a budget is fixed</span>
+            <p class="rw-body">The field a problem actually needs is settled before anyone prices it, so scope is argued on technical grounds rather than on who happened to bid. Organisations choose the requests that fit their expertise and set their own price.</p>
+          </div>
+          <div class="rw-step">
+            <span class="rw-n">3</span>
+            <span class="rw-role">Sponsors</span>
+            <span class="rw-title">Captured into escrow before work starts</span>
+            <p class="rw-body">Pledges are secured with an independent custodian before the first day of work, so no implementer ever starts on a promise. Nothing is released at this point &mdash; the money is held, not spent.</p>
+          </div>
+          <div class="rw-step checks">
+            <span class="rw-n">4</span>
+            <span class="rw-role">Verifier</span>
+            <span class="rw-title">Assigned at escrow confirmation, before work begins</span>
+            <p class="rw-body">The moment escrow is confirmed, an accredited reviewer with no tie to the certifier, the implementer or any funder is assigned from the rotation. Only then does work start &mdash; so the implementer already knows who will check them, and could not choose that person.</p>
+          </div>
         </div>
-        <p class="vf-when-warn">Change the order and each safeguard quietly stops working. Certify after the pledges and funders are backing an unapproved request. Fix the budget before the field is known and the price is a negotiation rather than an estimate. Assign the verifier after the work is done and the party being checked is picking their own examiner. Each of these steps only does its job because of where it sits in the sequence &mdash; which is why the sequence is published rather than assumed.</p>
+        <p class="rw-warn"><b>Change the order and each safeguard quietly stops working.</b> Certify after the pledges and funders are backing an unapproved request. Fix the budget before the field is known and the price is a negotiation rather than an estimate. Assign the verifier after the work is done and the party being checked is picking their own examiner. Each of these steps only does its job because of where it sits in the sequence &mdash; which is why the sequence is published rather than assumed.</p>
       </div>
     </div>
 
