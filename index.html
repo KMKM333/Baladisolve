@@ -422,8 +422,9 @@
   .gov-jump-chip:hover{ border-color:var(--accent); color:var(--accent); }
   .gov-jump-chip.sel{ border-color:var(--accent); background:var(--accent-soft); color:var(--accent); }
   .light-card.sel{ border-color:var(--accent); background:var(--accent-soft); }
-  .join-cat-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:6px; }
-  @media (max-width:700px){ .join-cat-grid{ grid-template-columns:1fr; } }
+  .join-cat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:6px; }
+  @media (max-width:900px){ .join-cat-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:560px){ .join-cat-grid{ grid-template-columns:1fr; } }
   .join-cat-card{ border:2px solid var(--border); border-radius:14px; padding:22px 18px; text-align:center; cursor:pointer; transform:translateZ(0);
     transition:transform .22s var(--ease-spring), box-shadow .22s var(--ease-fluid), border-color .2s var(--ease-fluid); }
   .join-cat-card:hover{ transform:translateY(-3px); box-shadow:0 10px 24px rgba(15,23,42,0.08); }
@@ -436,7 +437,7 @@
     border:1.3px solid var(--border); color:var(--text-dim); transition:all .15s var(--ease-fluid); }
   .join-sub-chip:hover{ border-color:var(--accent); color:var(--accent); }
   .join-sub-chip.sel{ border-color:var(--accent); background:var(--accent-soft); color:var(--accent); }
-  .cta-panel{ border:1px solid var(--border); border-radius:20px; background:var(--bg-1); padding:36px 36px 40px; max-width:900px; margin:0 auto; }
+  .cta-panel{ border:1px solid var(--border); border-radius:20px; background:var(--bg-1); padding:36px 36px 40px; }
   /* The map and its country list. Without wrapping, the fixed 280px sidebar
      left the map roughly 7px wide on a phone — and because that is not zero,
      the width fallback in renderWorldChoropleth never fired and the map was
@@ -802,6 +803,13 @@
   .comment-form textarea{ font-family:inherit; font-size:13px; padding:10px 12px; border:1px solid var(--border); border-radius:8px; resize:none; min-height:60px; }
 
   /* ---------- Join / audience ---------- */
+  /* The lower half used to be six flat chips; it is four roles now, matching
+     the rest of the site, with the account types nested inside the one picked. */
+  .role-btn.picked{ border-color:var(--accent); background:var(--accent-soft); box-shadow:0 6px 18px rgba(37,99,235,0.12); }
+  .aud-role-panel{ border-top:1px solid var(--border); margin-top:30px; padding-top:26px; }
+  .aud-role-panel[hidden]{ display:none; }
+  .aud-role-sub{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px; }
+  .aud-role-hint{ font-size:12.5px; color:var(--text-faint); margin:18px 0 0; }
   .audience-nav-row{ display:flex; gap:8px; flex-wrap:wrap; margin-bottom:30px; }
   .audience-nav-row button{ all:unset; cursor:pointer; font-size:12.5px; font-weight:600; padding:9px 15px; border-radius:8px; border:1px solid var(--border); color:var(--text-dim); }
   .audience-nav-row button.active{ background:var(--accent); color:var(--on-accent); border-color:var(--accent); }
@@ -1516,16 +1524,38 @@
 
     <div class="section" style="padding-top:0;">
       <button class="btn btn-primary" style="margin-bottom:22px;" onclick="openAccountDemo('overview')">See the dashboard overview, all account types →</button>
-      <div class="audience-nav-row" id="audienceNav">
-        <button class="active" data-aud="municipalities">For Municipalities</button>
-        <button data-aud="organisations">For Organisations</button>
-        <button data-aud="locals">For Locals</button>
-        <button data-aud="diaspora">For Diaspora</button>
-        <button data-aud="government">For Government</button>
-        <button data-aud="governorate">For Governorates</button>
+      <div class="section-head" style="margin-top:34px;"><h2>Join us</h2><p>Four roles, four ways in. Pick the one you belong to and the account types underneath it open up.</p></div>
+      <div class="role-btn-grid" id="audienceNav">
+        <button class="role-btn" type="button" data-aud-role="government">
+          <span class="role-btn-role">Certifies</span>
+          <span class="role-btn-name">Government</span>
+          <span class="role-btn-sub">Ministries, governorate coordination desks and municipalities. Certify what meets code, post requests &mdash; and never touch the money.</span>
+          <span class="role-btn-go">3 account types &rarr;</span>
+        </button>
+        <button class="role-btn" type="button" data-aud-role="experts">
+          <span class="role-btn-role">Solves</span>
+          <span class="role-btn-name">Experts</span>
+          <span class="role-btn-sub">NGOs and vetted local businesses that do the work. Set your own price, get paid against delivery proof rather than promises.</span>
+          <span class="role-btn-go">1 account type &rarr;</span>
+        </button>
+        <button class="role-btn" type="button" data-aud-role="sponsors">
+          <span class="role-btn-role">Funds</span>
+          <span class="role-btn-name">Sponsors</span>
+          <span class="role-btn-sub">Diaspora, residents, businesses and NGOs funding a named request &mdash; named or anonymous, and released only against verified evidence.</span>
+          <span class="role-btn-go">2 account types &rarr;</span>
+        </button>
+        <button class="role-btn checks" type="button" data-aud-role="verifiers">
+          <span class="role-btn-role">Checks</span>
+          <span class="role-btn-name">Verifiers</span>
+          <span class="role-btn-sub">Accredited reviewers who decide whether a tranche is released. Assigned in rotation, never to a request you are attached to.</span>
+          <span class="role-btn-go">1 account type &rarr;</span>
+        </button>
       </div>
 
-      <div class="audience-pane active" id="aud-municipalities">
+      <div class="aud-role-panel" id="audienceRolePanel" hidden>
+        <div class="aud-role-sub" id="audienceSubRow"></div>
+
+      <div class="audience-pane" id="aud-municipalities" data-aud-role="government">
         <h2 style="font-size:24px;">For Municipalities</h2>
         <p style="font-size:14px;color:var(--text-dim);max-width:600px;line-height:1.6;margin-bottom:20px;">Post a costed, timelined request and let diaspora and local businesses fund it directly — outside your general budget, with public credit for every verified step.</p>
         <ul class="ov-bullets">
@@ -1548,7 +1578,7 @@
         <div class="case-grid" id="case-municipalities" style="margin-top:14px;"></div>
       </div>
 
-      <div class="audience-pane" id="aud-organisations">
+      <div class="audience-pane" id="aud-organisations" data-aud-role="experts">
         <h2 style="font-size:24px;">For Organisations</h2>
         <p style="font-size:14px;color:var(--text-dim);max-width:600px;line-height:1.6;margin-bottom:20px;">NGOs and vetted local businesses — step in where councils can't, and turn a one-off repair into a standing, funded service.</p>
         <ul class="ov-bullets">
@@ -1571,7 +1601,7 @@
         <div class="case-grid" id="case-organisations" style="margin-top:14px;"></div>
       </div>
 
-      <div class="audience-pane" id="aud-locals">
+      <div class="audience-pane" id="aud-locals" data-aud-role="sponsors">
         <h2 style="font-size:24px;">For Locals</h2>
         <p style="font-size:14px;color:var(--text-dim);max-width:600px;line-height:1.6;margin-bottom:20px;">You're the ground truth this whole system runs on — from the first report to the final check.</p>
         <ul class="ov-bullets">
@@ -1594,7 +1624,7 @@
         <div class="case-grid" id="case-locals" style="margin-top:14px;"></div>
       </div>
 
-      <div class="audience-pane" id="aud-diaspora">
+      <div class="audience-pane" id="aud-diaspora" data-aud-role="sponsors">
         <h2 style="font-size:24px;">For Diaspora</h2>
         <p style="font-size:14px;color:var(--text-dim);max-width:600px;line-height:1.6;margin-bottom:20px;">Fund a specific, timelined project in your hometown — and see exactly where it went, down to the milestone.</p>
         <ul class="ov-bullets">
@@ -1617,7 +1647,7 @@
         <div class="case-grid" id="case-diaspora" style="margin-top:14px;"></div>
       </div>
 
-      <div class="audience-pane" id="aud-government">
+      <div class="audience-pane" id="aud-government" data-aud-role="government">
         <h2 style="font-size:24px;">For Government</h2>
         <p style="font-size:14px;color:var(--text-dim);max-width:600px;line-height:1.6;margin-bottom:20px;">Certify what meets code. Welcome diaspora back. Never touch the money.</p>
         <ul class="ov-bullets">
@@ -1639,7 +1669,7 @@
         <div class="case-grid" id="case-government" style="margin-top:14px;"></div>
       </div>
 
-      <div class="audience-pane" id="aud-governorate">
+      <div class="audience-pane" id="aud-governorate" data-aud-role="government">
         <h2 style="font-size:24px;">For Governorates</h2>
         <p style="font-size:14px;color:var(--text-dim);max-width:600px;line-height:1.6;margin-bottom:20px;">Coordinate across your municipalities. Don't control any single one of them.</p>
         <ul class="ov-bullets">
@@ -1659,6 +1689,32 @@
         <div class="signup-success" id="success-governorate" style="margin-top:14px;">Thanks — we'll set up your regional coordination view.</div>
         <h3 style="font-size:16px;margin-top:34px;">What each governorate shows</h3>
         <div class="case-grid" id="case-governorate" style="margin-top:14px;"></div>
+      </div>
+
+      <div class="audience-pane" id="aud-verifiers" data-aud-role="verifiers">
+        <h2 style="font-size:24px;">For Verifiers</h2>
+        <p style="font-size:14px;color:var(--text-dim);max-width:600px;line-height:1.6;margin-bottom:20px;">Check what everyone else claims. Yours is the only signature that moves money &mdash; and the only role the other three cannot fill.</p>
+        <ul class="ov-bullets">
+          <li>Get accredited once for your fields and governorates, then take assignments in rotation.</li>
+          <li>You are never offered a request you certified, implemented, or funded &mdash; five independence tests run before it reaches you.</li>
+          <li>You are assigned at escrow confirmation, before work starts, so nobody being checked ever chose you.</li>
+          <li>Your rejections are published next to your approvals. A reviewer who has never rejected anything is an unexamined one.</li>
+        </ul>
+        <button class="btn btn-secondary" style="margin-bottom:24px;" onclick="openAccountDemo('verifiers')">Preview the Verifier dashboard &rarr;</button>
+        <h3 style="font-size:16px;">Join the movement</h3>
+        <form class="signup-form" id="form-verifiers">
+          <input type="text" placeholder="Name or inspection desk" required>
+          <select required><option value="">Verifier type</option><option>District engineer</option><option>Order of Engineers &amp; Architects</option><option>Environmental compliance officer</option><option>Programme auditor</option><option>Independent inspector</option></select>
+          <input type="text" placeholder="Licence or accreditation number" required>
+          <input type="email" placeholder="Contact email" required>
+        </form>
+        <button class="btn btn-primary" onclick="document.getElementById('form-verifiers').requestSubmit()">Apply for accreditation</button>
+        <div class="signup-success" id="success-verifiers" style="margin-top:14px;">Thanks &mdash; we&rsquo;ll check your accreditation and the fields you can be assigned to.</div>
+        <h3 style="font-size:16px;margin-top:34px;">Checked by independent verifiers</h3>
+        <div class="case-grid" id="case-verifiers" style="margin-top:14px;"></div>
+      </div>
+
+      <p class="aud-role-hint">Not sure which you are? The quick form at the top of this page takes every role.</p>
       </div>
     </div>
   </div>
@@ -4855,12 +4911,62 @@ document.querySelectorAll('.rc-preview').forEach(btn=>{
 });
 
 // ---------- Join / audience pages ----------
-document.querySelectorAll('#audienceNav button').forEach(btn=>{
+// Four roles on top, the account types for the chosen one underneath. The pane
+// titles are the source of the chip labels, so the two can never drift apart.
+// Deliberately lazy: VERIFIERS is declared further down the file, so reading it
+// from the parse-time init sequence throws and takes the whole page with it.
+function renderVerifierCases(){
+  var grid = document.getElementById('case-verifiers');
+  if(!grid || grid.dataset.filled) return;
+  grid.dataset.filled = '1';
+  var rows = PROJECTS.map(function(p){ return {p:p, v:verifierFor(p)}; })
+    .filter(function(x){ return x.v && x.p.status !== 'proposed'; }).slice(0,3);
+  grid.innerHTML = rows.map(function(x){
+    return '<div class="case-card" data-id="' + x.p.id + '">' +
+      '<div class="cc-org">' + x.v.org + '</div><h4>' + x.p.title + '</h4>' +
+      '<div class="cc-headline">' + x.v.name + ' — assigned before work began</div>' +
+      '<div class="cc-blurb">' + x.p.desc.slice(0,120) + (x.p.desc.length>120?'…':'') + '</div></div>';
+  }).join('') || '<div style="color:var(--text-faint);font-size:12px;">No assigned verifications yet.</div>';
+  grid.querySelectorAll('.case-card').forEach(function(el){
+    el.addEventListener('click', function(){ openDetail(parseInt(el.dataset.id)); });
+  });
+}
+function showAudiencePane(id){
+  document.querySelectorAll('.audience-pane').forEach(p=> p.classList.remove('active'));
+  const pane = document.getElementById(id);
+  if(pane) pane.classList.add('active');
+  document.querySelectorAll('#audienceSubRow .join-sub-chip').forEach(c=>
+    c.classList.toggle('sel', c.dataset.pane === id));
+}
+function openAudienceRole(role){
+  document.querySelectorAll('#audienceNav .role-btn').forEach(b=>
+    b.classList.toggle('picked', b.dataset.audRole === role));
+  const panes = Array.prototype.slice.call(
+    document.querySelectorAll('.audience-pane[data-aud-role="' + role + '"]'));
+  const row = document.getElementById('audienceSubRow');
+  row.innerHTML = panes.map(p=>
+    '<button class="join-sub-chip" type="button" data-pane="' + p.id + '">' +
+    p.querySelector('h2').textContent + '</button>').join('');
+  // A single account type has nothing to choose between, so don't show a chooser.
+  row.style.display = panes.length > 1 ? '' : 'none';
+  row.querySelectorAll('.join-sub-chip').forEach(c=>
+    c.addEventListener('click', ()=> showAudiencePane(c.dataset.pane)));
+  document.getElementById('audienceRolePanel').hidden = false;
+  if(role === 'verifiers') renderVerifierCases();
+  if(panes.length) showAudiencePane(panes[0].id);
+}
+document.querySelectorAll('#audienceNav .role-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
-    document.querySelectorAll('#audienceNav button').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.audience-pane').forEach(p=>p.classList.remove('active'));
-    document.getElementById('aud-'+btn.dataset.aud).classList.add('active');
+    const role = btn.dataset.audRole;
+    // Clicking the open role again closes it.
+    if(btn.classList.contains('picked')){
+      btn.classList.remove('picked');
+      document.getElementById('audienceRolePanel').hidden = true;
+      document.querySelectorAll('.audience-pane').forEach(p=> p.classList.remove('active'));
+      return;
+    }
+    openAudienceRole(role);
+    document.getElementById('audienceRolePanel').scrollIntoView({behavior:'smooth', block:'nearest'});
   });
 });
 document.querySelector('#form-municipalities select').innerHTML = '<option value="">Governorate</option>' + GOVS.map(g=>`<option>${g.name}</option>`).join('');
