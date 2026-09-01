@@ -492,6 +492,50 @@
   .wf-attr-score{ font-family:'IBM Plex Mono',monospace; font-weight:700; }
   .wf-gate-pass{ font-size:9.5px; font-weight:700; background:var(--ok-soft); color:var(--ok); padding:2px 7px; border-radius:8px; text-transform:uppercase; }
   .wf-composite{ margin-top:12px; padding-top:12px; border-top:1.5px solid var(--text); display:flex; justify-content:space-between; align-items:center; font-size:13px; font-weight:800; }
+  /* The home page's main call to action: four roles, four ways to register. */
+  .join-cta{ border:1px solid var(--border); border-radius:20px; background:var(--bg-1); padding:30px 32px 32px; margin-top:22px; }
+  .join-cta-cols{ display:grid; grid-template-columns:1fr 1.05fr; gap:34px; align-items:start; }
+  .join-cta-points{ list-style:none; padding:0; margin:16px 0 20px; display:flex; flex-direction:column; gap:11px; }
+  .join-cta-points li{ position:relative; padding-inline-start:20px; font-size:12.5px; color:var(--text-dim); line-height:1.65; }
+  .join-cta-points li::before{ content:'\2713'; position:absolute; inset-inline-start:0; top:0; color:var(--accent); font-weight:800; font-size:12px; }
+  .join-cta-points b{ color:var(--text); }
+  .join-cta-form{ border:1px solid var(--border); border-radius:16px; background:var(--bg); padding:22px 24px 24px; }
+  .jcf-step{ font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:11px; }
+  .jcf-fields{ display:flex; flex-direction:column; gap:9px; margin-bottom:18px; }
+  .jcf-fields input{ font-family:inherit; font-size:13px; padding:11px 13px; border:1px solid var(--border);
+    border-radius:9px; background:var(--bg-1); color:var(--text); width:100%; box-sizing:border-box; }
+  .jcf-fields input::placeholder{ color:var(--text-faint); }
+  .jcf-fields input:focus-visible{ outline:2px solid var(--accent); outline-offset:-1px; border-color:var(--accent); }
+  .jcf-submit{ width:100%; box-sizing:border-box; }
+  .jcf-submit[disabled]{ opacity:.5; cursor:not-allowed; }
+  .jcf-note{ font-size:11.5px; color:var(--text-faint); line-height:1.6; margin:11px 0 0; text-align:center; }
+  .join-cta-demo{ all:unset; box-sizing:border-box; cursor:pointer; display:inline-flex; align-items:center; gap:7px;
+    font-size:12.5px; font-weight:700; color:var(--accent); border:1px solid var(--border); border-radius:9px; padding:9px 14px; }
+  .join-cta-demo:hover{ border-color:var(--accent); background:var(--accent-soft); }
+  .join-cta-demo:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .join-cta-card[aria-checked="true"]{ border-color:var(--accent); background:var(--accent-soft); box-shadow:0 4px 14px rgba(37,99,235,0.12); }
+  @media (max-width:940px){ .join-cta-cols{ grid-template-columns:1fr; gap:26px; } }
+  .join-cta-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:24px; margin-bottom:24px; }
+  .join-cta-tag{ font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:9px; }
+  .join-cta h3{ font-size:22px; font-weight:800; margin:0 0 8px; letter-spacing:-0.01em; }
+  .join-cta-head p{ font-size:13.5px; color:var(--text-dim); line-height:1.7; margin:0; max-width:66ch; }
+  .join-cta-demo{ flex-shrink:0; font-size:12.5px; }
+  .join-cta-grid{ display:grid; grid-template-columns:repeat(2,1fr); column-gap:10px; row-gap:10px; margin-bottom:20px; }
+  .join-cta-card{ all:unset; box-sizing:border-box; cursor:pointer; display:flex; flex-direction:column; gap:4px;
+    border:1px solid var(--border); border-radius:11px; padding:13px 14px; background:var(--bg-1);
+    transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+  .join-cta-card:hover{ border-color:var(--accent); transform:translateY(-3px); box-shadow:0 10px 24px rgba(15,23,42,0.08); }
+  .join-cta-card:active{ transform:translateY(-1px) scale(.99); }
+  .join-cta-card:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .jc-role{ font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); }
+  .jc-name{ font-size:15px; font-weight:800; color:var(--text); line-height:1.2; }
+  .jc-line{ font-size:12px; color:var(--text-dim); line-height:1.6; }
+  .jc-go{ font-size:12px; font-weight:700; color:var(--accent); }
+  @supports (grid-template-rows: subgrid){
+    .join-cta-grid{ grid-template-rows:repeat(3,auto); }
+    .join-cta-card{ display:grid; grid-template-rows:subgrid; grid-row:span 3; }
+  }
+  @media (max-width:560px){ .join-cta-grid{ grid-template-columns:1fr; } .join-cta{ padding:24px 20px 26px; } }
   .wf-teaser-box{ border:1px solid var(--border); border-radius:20px; background:var(--bg-1); padding:32px 34px; margin-top:22px; }
   .wf-teaser-tag{ display:inline-flex; align-items:center; gap:6px; font-size:11.5px; font-weight:800; color:var(--on-accent); background:var(--accent); padding:5px 12px; border-radius:20px; text-transform:uppercase; letter-spacing:.04em; margin-bottom:14px; }
   .wf-teaser-box h3{ font-size:22px; font-weight:800; margin:0 0 8px; letter-spacing:-0.01em; }
@@ -710,7 +754,6 @@
   .rn-wrap{ margin-top:26px; border:1px solid var(--border); border-radius:14px; background:var(--bg-1); padding:24px 26px 20px; }
   .rn-svg{ display:block; width:100%; height:auto; font-family:inherit; }
   .rn-node{ fill:var(--bg); stroke:var(--border); stroke-width:1.5; }
-  .rn-node.checks{ fill:var(--accent-soft); stroke:var(--accent); }
   .rn-name{ fill:var(--text); font-size:16px; font-weight:800; }
   .rn-role{ fill:var(--accent); font-size:10px; font-weight:800; letter-spacing:.1em; }
   .rn-sub{ fill:var(--text-dim); font-size:11.5px; }
@@ -732,7 +775,6 @@
   .role-btn:hover{ border-color:var(--accent); transform:translateY(-3px); box-shadow:0 10px 24px rgba(15,23,42,0.08); }
   .role-btn:active{ transform:translateY(-1px) scale(.99); }
   .role-btn:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
-  .role-btn.checks{ border-color:var(--accent); background:var(--accent-soft); }
   .role-btn-role{ font-size:10.5px; font-weight:800; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); }
   .role-btn-name{ font-size:20px; font-weight:800; color:var(--text); line-height:1.2; }
   .role-btn-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
@@ -755,7 +797,6 @@
   .role-flow{ display:grid; grid-template-columns:1fr 24px 1fr 24px 1fr 24px 1fr; margin-top:24px; }
   .role-flow-step{ border:1px solid var(--border); border-radius:12px; background:var(--bg);
     padding:15px 17px; display:flex; flex-direction:column; gap:5px; }
-  .role-flow-step.checks{ border-color:var(--accent); background:var(--accent-soft); }
   .role-flow-tag{ font-size:10.5px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); }
   .role-flow-step b{ font-size:13.5px; color:var(--text); }
   .role-flow-step > span:last-child{ font-size:12px; color:var(--text-dim); line-height:1.55; }
@@ -775,6 +816,18 @@
   .net-overview p{ font-size:13.5px; color:var(--text-dim); line-height:1.75; margin:0 0 12px; max-width:78ch; }
   .net-overview p:last-child{ margin-bottom:0; }
   .net-overview b{ color:var(--text); }
+  /* One line per role rather than three roles buried in a sentence. */
+  .nov-list{ list-style:none; padding:0; margin:15px 0 18px; display:grid; gap:11px; }
+  .nov-list li{ display:grid; grid-template-columns:minmax(0,180px) 1fr; gap:18px; align-items:baseline;
+    padding-inline-start:16px; position:relative; }
+  .nov-list li::before{ content:''; position:absolute; inset-inline-start:0; top:7px;
+    width:6px; height:6px; border-radius:50%; background:var(--accent); }
+  .nov-list b{ color:var(--text); font-size:13.5px; line-height:1.6; }
+  .nov-list span{ font-size:13.5px; color:var(--text-dim); line-height:1.7; }
+  @media (max-width:680px){
+    .nov-list li{ grid-template-columns:1fr; gap:1px; }
+    .nov-list{ gap:14px; }
+  }
   /* The role-timing panel on the Projects page. Its four steps read across the
      page as a timeline; stacked, each line ran the full 1400px and was unreadable. */
   .rw{ border:1px solid var(--border); border-radius:14px; background:var(--bg-1); padding:28px 30px 30px; }
@@ -787,7 +840,6 @@
   .rw-n{ position:absolute; top:0; left:50%; transform:translateX(-50%); z-index:1; width:26px; height:26px; border-radius:50%;
     background:var(--accent); color:var(--on-accent); font-size:12px; font-weight:800;
     display:flex; align-items:center; justify-content:center; }
-  .rw-step.checks .rw-n{ box-shadow:0 0 0 4px var(--accent-soft); }
   .rw-role{ display:block; font-size:10.5px; font-weight:800; letter-spacing:.085em; text-transform:uppercase; color:var(--accent); }
   .rw-title{ display:block; font-size:14.5px; font-weight:800; color:var(--text); line-height:1.35; margin:4px 0 8px; min-height:2.7em; }
   .rw-body{ font-size:12.5px; color:var(--text-dim); line-height:1.7; margin:0; }
@@ -1005,17 +1057,31 @@
   /* the two-lane strip: role on top, its lifecycle steps beneath */
   .tw-lane{ display:grid; grid-template-columns:1fr 22px 1fr 22px 1fr 22px 1fr; }
   .tw-col{ border:1px solid var(--border); border-radius:12px; overflow:hidden; background:var(--bg); display:flex; flex-direction:column; }
-  .tw-col.checks{ border-color:var(--accent); }
   .tw-col-head{ padding:13px 15px; background:var(--bg-1); border-bottom:1px solid var(--border); }
-  .tw-col.checks .tw-col-head{ background:var(--accent-soft); }
   .tw-role{ font-size:10px; font-weight:800; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); display:block; }
   .tw-name{ font-size:17px; font-weight:800; color:var(--text); display:block; margin-top:2px; }
   .tw-steps{ padding:12px 14px 15px; display:flex; flex-direction:column; gap:11px; }
   .tw-step{ display:grid; grid-template-columns:22px 1fr; gap:10px; align-items:start; }
-  .tw-dot{ width:21px; height:21px; border-radius:50%; background:var(--accent); color:var(--on-accent);
-    font-size:10.5px; font-weight:800; display:flex; align-items:center; justify-content:center; }
+  /* box-sizing so the 1px border does not push the glyph off centre, line-height:1
+     so the font's own leading does not either, and tabular figures so 1 and 9 sit
+     in the same place. */
+  .tw-dot{ box-sizing:border-box; width:22px; height:22px; border-radius:7px; background:var(--bg-1);
+    border:1px solid var(--border); color:var(--text-faint); font-size:10.5px; font-weight:800; line-height:1;
+    font-variant-numeric:tabular-nums; display:flex; align-items:center; justify-content:center; }
+  /* Hairline down the column so the numbers read as a sequence, not as bullets. */
+  .tw-step{ position:relative; }
+  .tw-step:not(:last-child)::before{ content:''; position:absolute; left:10.5px; top:24px; bottom:-11px;
+    width:1px; background:var(--border); }
+  .tw-foot{ font-size:12.5px; color:var(--text-dim); line-height:1.7; margin:18px 0 0; max-width:80ch; }
+  .tw-foot-link{ all:unset; box-sizing:border-box; cursor:pointer; color:var(--accent); font-weight:700; }
+  .tw-foot-link:hover{ text-decoration:underline; }
+  .tw-foot-link:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .stepper-holder{ margin-top:4px; }
   .tw-step b{ font-size:12.5px; color:var(--text); display:block; }
-  .tw-step span{ font-size:11.5px; color:var(--text-dim); line-height:1.5; display:block; margin-top:1px; }
+  /* Only the description span. Unscoped, this also matched .tw-dot — which is a
+     span inside .tw-step and loses to it on specificity — and its display:block
+     was cancelling the dot's own centring. */
+  .tw-step > div > span{ font-size:11.5px; color:var(--text-dim); line-height:1.5; display:block; margin-top:1px; }
   .tw-arrow{ display:flex; align-items:flex-start; justify-content:center; padding-top:26px; color:var(--text-faint); font-size:15px; }
   @media (max-width:900px){
     .tw-lane{ grid-template-columns:1fr; gap:8px; }
@@ -1195,20 +1261,51 @@
         <button class="btn btn-text" data-goto="trust" data-i18n>How it works →</button>
       </div>
     </div>
-    <div class="wf-teaser-box">
-      <div class="wf-teaser-tag">📥 New — Baladi Map integration</div>
-      <h3>See a citizen report become a funded project</h3>
-      <p>Watch a real report move end-to-end through the network — automatically classified, matched to the right partners, and ready to fund.</p>
-      <div class="wf-teaser-steps">
-        <div class="wf-teaser-step"><div class="wf-teaser-icon">📥</div><div class="wf-teaser-label">Reported</div></div>
-        <div class="wf-teaser-arrow">→</div>
-        <div class="wf-teaser-step"><div class="wf-teaser-icon">🏷️</div><div class="wf-teaser-label">Classified</div></div>
-        <div class="wf-teaser-arrow">→</div>
-        <div class="wf-teaser-step"><div class="wf-teaser-icon">🎯</div><div class="wf-teaser-label">Matched</div></div>
-        <div class="wf-teaser-arrow">→</div>
-        <div class="wf-teaser-step"><div class="wf-teaser-icon">✅</div><div class="wf-teaser-label">Funded</div></div>
+    <div class="join-cta">
+      <div class="join-cta-cols">
+        <div class="join-cta-say">
+          <div class="join-cta-tag">Free to join &middot; vetted once</div>
+          <h3>Whoever you are, there is a specific way in</h3>
+          <p>Four roles run this network and every one of them is open. Register once, get vetted once, and you can act on any request after that.</p>
+          <ul class="join-cta-points">
+            <li><b>Nothing goes live unchecked.</b> Every request is certified before it can take a single pledge.</li>
+            <li><b>You never hold anyone else&rsquo;s money.</b> Pledges sit with an independent custodian, not with us and not with the implementer.</li>
+            <li><b>Your record is public from day one.</b> What you deliver, what you fund, what you reject &mdash; all of it on one ledger.</li>
+          </ul>
+          <button class="join-cta-demo" type="button" data-goto="workflow-demo">&#128229; See a citizen report become a funded project &rarr;</button>
+        </div>
+
+        <form class="join-cta-form" id="homeJoinForm" novalidate>
+          <div class="jcf-step">1 &nbsp;Which are you?</div>
+          <div class="join-cta-grid" id="homeJoinRoles" role="radiogroup" aria-label="Profile type">
+            <button class="join-cta-card" type="button" role="radio" aria-checked="false" data-join="government">
+              <span class="jc-role">Certifies</span><span class="jc-name">Government</span>
+              <span class="jc-line">Ministry, governorate or municipality</span>
+            </button>
+            <button class="join-cta-card" type="button" role="radio" aria-checked="false" data-join="experts">
+              <span class="jc-role">Solves</span><span class="jc-name">Experts</span>
+              <span class="jc-line">NGOs and vetted businesses</span>
+            </button>
+            <button class="join-cta-card" type="button" role="radio" aria-checked="false" data-join="sponsors">
+              <span class="jc-role">Funds</span><span class="jc-name">Sponsors</span>
+              <span class="jc-line">Diaspora, residents, businesses</span>
+            </button>
+            <button class="join-cta-card" type="button" role="radio" aria-checked="false" data-join="verifiers">
+              <span class="jc-role">Checks</span><span class="jc-name">Verifiers</span>
+              <span class="jc-line">Accredited reviewers</span>
+            </button>
+          </div>
+
+          <div class="jcf-step">2 &nbsp;Your details</div>
+          <div class="jcf-fields">
+            <input type="text" id="homeJoinName" placeholder="Your name" autocomplete="name">
+            <input type="text" id="homeJoinOrg" placeholder="Organisation or municipality (if any)" autocomplete="organization">
+            <input type="email" id="homeJoinEmail" placeholder="Email" autocomplete="email">
+          </div>
+          <button class="btn btn-primary jcf-submit" type="submit" id="homeJoinSubmit">Pick a profile type to continue</button>
+          <p class="jcf-note">Takes about a minute. Nothing is published until it has been checked.</p>
+        </form>
       </div>
-      <button class="btn btn-primary" data-goto="workflow-demo" style="display:block; margin:0 auto;">See the full demo walkthrough →</button>
     </div>
     <div class="microcopy" style="margin-top:16px;"><b>Free to use</b> · Independent · Non-partisan</div>
   </div>
@@ -1241,7 +1338,7 @@
         <span class="role-btn-when">Captured into escrow before day one, so no implementer ever starts on a promise.</span>
         <span class="role-btn-go">See the sponsor types &rarr;</span>
       </button>
-      <button class="role-btn checks" type="button" data-group="verifiers">
+      <button class="role-btn" type="button" data-group="verifiers">
         <span class="role-btn-head"><span class="role-btn-role">Checks</span><span class="role-btn-step">4</span></span>
         <span class="role-btn-name">Verifiers</span>
         <span class="role-btn-sub">The role that decides whether money moves &mdash; assigned before work starts, and never to a request they are attached to.</span>
@@ -1251,9 +1348,15 @@
     </div>
 
     <div class="net-overview" style="margin-top:26px;">
-      <h3>How they operate together</h3>
-      <p>A municipal problem needs four different things to become a finished, believable project, and no two of them can safely sit in the same hands. Government certifies it, experts solve it, sponsors fund it &mdash; and all three of those work <b>directly on the project</b>. They propose it, build it and pay for it, and every one of them has something riding on it being called a success.</p>
-      <p>That is precisely why the fourth exists. An independent verifier works on the <b>process</b> rather than the project: assigned before work begins, barred by construction from being the certifying body, the implementing organisation or any funder of that request, and the only party who can release a tranche of escrow. The first three make the project happen; the fourth is the reason anyone outside it should believe that it did.</p>
+      <h3>How the four fit together</h3>
+      <p>A municipal problem needs four different things to become a finished, believable project &mdash; and no two of them can safely sit in the same hands.</p>
+      <ul class="nov-list">
+        <li><b>Government</b><span>Certifies that the request is real, lawful and within its jurisdiction &mdash; and never touches the money it approves.</span></li>
+        <li><b>Expert organisations</b><span>Supply the technical knowledge the problem actually needs, set their own price, and do the work.</span></li>
+        <li><b>Sponsors</b><span>Fund it, into independent escrow, before anything begins.</span></li>
+        <li><b>Independent verifiers</b><span>Assigned at escrow confirmation, before work starts. Barred by construction from being the certifying body, the implementing organisation or any funder &mdash; and the only party who can release a tranche.</span></li>
+      </ul>
+      <p>The first three all work <b>directly on the project</b>. They propose it, build it and pay for it, and every one of them has something riding on it being called a success. That is precisely why the fourth exists: it works on the <b>process</b> instead. The first three make the project happen; the fourth is the reason anyone outside it should believe that it did.</p>
     </div>
 
       <div class="rn-wrap">
@@ -1276,7 +1379,7 @@
           <rect class="rn-node" x="10" y="20" width="190" height="56" rx="11"/><text class="rn-role" x="26" y="44">CERTIFIES</text><text class="rn-name" x="26" y="66">Government</text>
           <rect class="rn-node" x="10" y="112" width="190" height="56" rx="11"/><text class="rn-role" x="26" y="136">SOLVES</text><text class="rn-name" x="26" y="158">Experts</text>
           <rect class="rn-node" x="10" y="204" width="190" height="56" rx="11"/><text class="rn-role" x="26" y="228">FUNDS</text><text class="rn-name" x="26" y="250">Sponsors</text>
-          <rect class="rn-node checks" x="575" y="12" width="180" height="56" rx="11"/><text class="rn-role" x="591" y="36">CHECKS</text><text class="rn-name" x="591" y="58">Verifier</text>
+          <rect class="rn-node" x="575" y="12" width="180" height="56" rx="11"/><text class="rn-role" x="591" y="36">CHECKS</text><text class="rn-name" x="591" y="58">Verifier</text>
 
           <rect class="rn-node" x="380" y="104" width="172" height="72" rx="11"/>
           <text class="rn-name" x="466" y="138" text-anchor="middle">The request</text>
@@ -1294,21 +1397,8 @@
   </div></div>
 
   <div class="section reveal"><div class="wrap">
-    <div class="section-head"><h2>How it works</h2><p>From a filed request to money released, in six steps. Click any step for a closer look.</p></div>
-    <div class="stepper-progress" id="stepperProgress" aria-hidden="true"><span></span></div>
-    <div class="stepper-row" id="howItWorksStepper">
-      <div class="stepper-step" data-step="1"><div class="stepper-icon">📋</div><div class="stepper-label">Step 1</div><div class="stepper-title">Request filed</div><div class="stepper-desc">A municipality, NGO or business submits scope, budget and timeline.</div></div>
-      <div class="stepper-arrow">→</div>
-      <div class="stepper-step" data-step="2"><div class="stepper-icon">🛡️</div><div class="stepper-label">Step 2</div><div class="stepper-title">Certified</div><div class="stepper-desc">A government branch checks technical and regulatory compliance.</div></div>
-      <div class="stepper-arrow">→</div>
-      <div class="stepper-step" data-step="3"><div class="stepper-icon">🤝</div><div class="stepper-label">Step 3</div><div class="stepper-title">Pledged</div><div class="stepper-desc">Sponsors commit funds, named or anonymous, held in independent escrow.</div></div>
-      <div class="stepper-arrow">→</div>
-      <div class="stepper-step" data-step="4"><div class="stepper-icon">🛠️</div><div class="stepper-label">Step 4</div><div class="stepper-title">Verifier assigned</div><div class="stepper-desc">An accredited reviewer with no stake in the request is assigned at escrow confirmation — before any work begins.</div></div>
-      <div class="stepper-arrow">→</div>
-      <div class="stepper-step" data-step="5"><div class="stepper-icon">🔍</div><div class="stepper-label">Step 5</div><div class="stepper-title">Verified</div><div class="stepper-desc">An unaffiliated reviewer checks each milestone's evidence before it counts.</div></div>
-      <div class="stepper-arrow">→</div>
-      <div class="stepper-step" data-step="6"><div class="stepper-icon">✅</div><div class="stepper-label">Step 6</div><div class="stepper-title">Released &amp; tracked</div><div class="stepper-desc">Escrow releases the tranche. Every step stays on the public ledger.</div></div>
-    </div>
+    <div class="section-head"><h2>How it works</h2><p>Nine steps from a filed request to money released &mdash; each one under the role that performs it.</p></div>
+    <div class="tw-lane"><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Certifies</span><span class="tw-name">Government</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">1</span><div><b>Request filed</b><span>A municipality, NGO or business submits scope, budget and timeline.</span></div></div><div class="tw-step"><span class="tw-dot">2</span><div><b>Certified</b><span>A government branch checks technical and regulatory compliance.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Solves</span><span class="tw-name">Experts</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">3</span><div><b>Matched by field</b><span>The technical knowledge the problem actually needs is identified first.</span></div></div><div class="tw-step"><span class="tw-dot">4</span><div><b>Scoped &amp; priced</b><span>The organisation sets its own price against that scope.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Funds</span><span class="tw-name">Sponsors</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">5</span><div><b>Pledged</b><span>Sponsors commit funds, named or anonymous.</span></div></div><div class="tw-step"><span class="tw-dot">6</span><div><b>Escrow funded</b><span>Captured by an independent custodian. Held, not spent.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Checks</span><span class="tw-name">Verifier</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">7</span><div><b>Assigned</b><span>At escrow confirmation &mdash; before any work begins.</span></div></div><div class="tw-step"><span class="tw-dot">8</span><div><b>Verified</b><span>Each milestone&rsquo;s evidence checked before it counts.</span></div></div><div class="tw-step"><span class="tw-dot">9</span><div><b>Released &amp; tracked</b><span>Escrow releases the tranche. Every step stays on the ledger.</span></div></div></div></div></div>    <p class="tw-foot">Three roles work on the project; the fourth works on the process, and is brought in before any of them can start. <button type="button" class="tw-foot-link" data-goto="dashboard" data-scroll="roleWhen">Why the order matters &rarr;</button></p>
   </div></div>
 
   <div class="section reveal"><div class="wrap">
@@ -1354,6 +1444,7 @@
         </div>
         <button class="btn btn-secondary" data-goto="lead-list" style="flex-shrink:0;">Full lead list →</button>
       </div>
+      <p style="font-size:13px;color:var(--text-faint);line-height:1.7;margin:18px 0 0;max-width:74ch;">New here? The <button type="button" class="tw-foot-link" data-goto="home">home page</button> explains how the four roles fit together in a paragraph. This page is the detail underneath it &mdash; every model, every option, and every organisation in the network.</p>
     </div>
 
     <div class="section" style="padding-top:28px;">
@@ -1370,14 +1461,6 @@
       <div class="network-motto">One platform. Every issue resolved. Trust built in the open.</div>
     </div>
 
-    <div class="section" style="padding-top:0; padding-bottom:38px;">
-      <div class="net-overview">
-        <h3>How the four fit together</h3>
-        <p>A municipal problem needs four different things to become a finished, believable project, and no two of them can safely sit in the same hands. <b>Government</b> certifies that the request is real, lawful and within its jurisdiction &mdash; and never touches the money it approves. <b>Expert organisations</b> supply the technical knowledge the problem actually needs, set their own price, and do the work. <b>Sponsors</b> fund it, into independent escrow, before anything begins.</p>
-        <p>Those three all work <b>directly on the project</b>. They propose it, build it and pay for it &mdash; and every one of them has something riding on it being called a success. That is precisely why the fourth exists.</p>
-        <p>An <b>independent verifier</b> works on the process rather than the project. They are assigned at escrow confirmation, before work starts; they are barred by construction from being the certifying body, the implementing organisation or any funder of that request; and they are the only party who can release a tranche. The first three make the project happen. The fourth is the reason anyone outside it should believe that it did.</p>
-      </div>
-    </div>
 
     <div class="section">
       <div class="net-group"><div class="net-role">Certifies</div><h3 data-group="government" style="cursor:pointer;">Government</h3><p>Certifies compliance and runs the diaspora-welcome liaison desk. Never holds pledged funds.</p><button class="role-jump" type="button" data-demo-jump="ministry">See the government options <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button></div>
@@ -1483,7 +1566,7 @@
             <span class="rw-title">Captured into escrow before work starts</span>
             <p class="rw-body">Pledges are secured with an independent custodian before day one, so no implementer starts on a promise. Held, not spent.</p>
           </div>
-          <div class="rw-step checks">
+          <div class="rw-step">
             <span class="rw-n">4</span>
             <span class="rw-role">Verifier</span>
             <span class="rw-title">Assigned before any work begins</span>
@@ -1873,7 +1956,7 @@
           <span class="role-btn-sub">Diaspora, residents, businesses and NGOs funding a named request &mdash; named or anonymous, and released only against verified evidence.</span>
           <span class="role-btn-go">2 account types &rarr;</span>
         </button>
-        <button class="role-btn checks" type="button" data-aud-role="verifiers">
+        <button class="role-btn" type="button" data-aud-role="verifiers">
           <span class="role-btn-role">Checks</span>
           <span class="role-btn-name">Verifiers</span>
           <span class="role-btn-sub">Accredited reviewers who decide whether a tranche is released. Assigned in rotation, never to a request you are attached to.</span>
@@ -2161,24 +2244,46 @@
       <div class="section-head"><h2>Three ways to fix the repeated workflow</h2><p>The home page currently tells the same story three times. The role backbone stays in all three options below &mdash; what changes is what sits next to it.</p></div>
 
       <div class="test-opt">
-        <div class="test-opt-tag">Today</div>
-        <h3>What is on the home page right now</h3>
-        <p>Three horizontal strips in the first half of the page. <b style="color:#b91c1c;">Red</b> marks a beat that is already told by another strip; <b style="color:var(--accent);">blue</b> marks the only content unique to that strip. No strip holds all the unique beats, which is why none of them can simply be deleted.</p>
-        <div class="tw-today"><div class="tw-today-row"><span class="tw-today-name">Baladi teaser</span><span class="tw-pill uniq">Reported</span><span class="tw-pill uniq">Classified</span><span class="tw-pill dupe">Matched</span><span class="tw-pill dupe">Funded</span></div><div class="tw-today-row"><span class="tw-today-name">Network role-flow</span><span class="tw-pill dupe">Government</span><span class="tw-pill uniq">Experts &mdash; scope &amp; price</span><span class="tw-pill dupe">Sponsors</span><span class="tw-pill dupe">Verifier</span></div><div class="tw-today-row"><span class="tw-today-name">How it works</span><span class="tw-pill dupe">Filed</span><span class="tw-pill dupe">Certified</span><span class="tw-pill dupe">Pledged</span><span class="tw-pill dupe">Verifier assigned</span><span class="tw-pill uniq">Verified</span><span class="tw-pill uniq">Released &amp; tracked</span></div></div>
+        <div class="test-opt-tag">Where it landed</div>
+        <h3>What the home page carries now</h3>
+        <p>The three overlapping strips are down to one. Option A took the &ldquo;How it works&rdquo; slot, the six-step stepper and the Baladi entry strip both moved onto this page, and the space the Baladi strip left became a sign-up call to action. <b style="color:#b91c1c;">Red</b> marks a beat that used to be told twice; <b style="color:var(--accent);">blue</b> marks what only one strip ever said.</p>
+        <div class="tw-today">
+          <div class="tw-today-row"><span class="tw-today-name">On the home page</span><span class="tw-pill uniq">Government &middot; 1&ndash;2</span><span class="tw-pill uniq">Experts &middot; 3&ndash;4</span><span class="tw-pill uniq">Sponsors &middot; 5&ndash;6</span><span class="tw-pill uniq">Verifier &middot; 7&ndash;9</span></div>
+          <div class="tw-today-row"><span class="tw-today-name">Moved here &mdash; A</span><span class="tw-pill dupe">Filed</span><span class="tw-pill dupe">Certified</span><span class="tw-pill dupe">Pledged</span><span class="tw-pill dupe">Verifier assigned</span><span class="tw-pill dupe">Verified</span><span class="tw-pill dupe">Released</span></div>
+          <div class="tw-today-row"><span class="tw-today-name">Moved here &mdash; D</span><span class="tw-pill uniq">Reported</span><span class="tw-pill uniq">Classified</span><span class="tw-pill dupe">Matched</span><span class="tw-pill dupe">Funded</span></div>
+        </div>
       </div>
 
       <div class="test-opt">
-        <div class="test-opt-tag">Option A</div>
-        <h3>One strip, two lanes</h3>
-        <p>Role on top, its lifecycle steps underneath. The separate &ldquo;How it works&rdquo; section disappears and its six steps become the second lane, each attached to whoever performs it &mdash; plus the two Experts steps the six never had.</p>
-        <div class="tw-lane"><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Certifies</span><span class="tw-name">Government</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">1</span><div><b>Request filed</b><span>A municipality, NGO or business submits scope, budget and timeline.</span></div></div><div class="tw-step"><span class="tw-dot">2</span><div><b>Certified</b><span>A government branch checks technical and regulatory compliance.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Solves</span><span class="tw-name">Experts</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">3</span><div><b>Matched by field</b><span>The technical knowledge the problem actually needs is identified first.</span></div></div><div class="tw-step"><span class="tw-dot">4</span><div><b>Scoped &amp; priced</b><span>The organisation sets its own price against that scope.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Funds</span><span class="tw-name">Sponsors</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">5</span><div><b>Pledged</b><span>Sponsors commit funds, named or anonymous.</span></div></div><div class="tw-step"><span class="tw-dot">6</span><div><b>Escrow funded</b><span>Captured by an independent custodian. Held, not spent.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col checks"><div class="tw-col-head"><span class="tw-role">Checks</span><span class="tw-name">Verifier</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">7</span><div><b>Assigned</b><span>At escrow confirmation &mdash; before any work begins.</span></div></div><div class="tw-step"><span class="tw-dot">8</span><div><b>Verified</b><span>Each milestone&rsquo;s evidence checked before it counts.</span></div></div><div class="tw-step"><span class="tw-dot">9</span><div><b>Released &amp; tracked</b><span>Escrow releases the tranche. Every step stays on the ledger.</span></div></div></div></div></div><div class="test-verdict"><div class="test-gain"><b>Gain.</b> Three strips become one, and every lifecycle step finally says <b>who does it</b> &mdash; nothing on the site does that today. Nine steps instead of six, so granularity goes up rather than down.</div><div class="test-cost"><b>Cost.</b> The click-to-focus behaviour on the six steps needs rebuilding for the new markup, and the &ldquo;How it works&rdquo; heading leaves the home page. Highest effort of the three.</div></div>
+        <div class="test-opt-tag">Option A &mdash; replaced</div>
+        <h3>The six-step stepper</h3>
+        <p>What the home page carried until the two-lane version took its place. Kept here for comparison: six steps, none of which says who performs it, and no place for the two things experts actually do.</p>
+        <div class="stepper-holder">
+    <div class="section-head"><h2>How it works</h2><p>From a filed request to money released, in six steps. Click any step for a closer look.</p></div>
+    <div class="stepper-progress" id="stepperProgress" aria-hidden="true"><span></span></div>
+    <div class="stepper-row" id="howItWorksStepper">
+      <div class="stepper-step" data-step="1"><div class="stepper-icon">📋</div><div class="stepper-label">Step 1</div><div class="stepper-title">Request filed</div><div class="stepper-desc">A municipality, NGO or business submits scope, budget and timeline.</div></div>
+      <div class="stepper-arrow">→</div>
+      <div class="stepper-step" data-step="2"><div class="stepper-icon">🛡️</div><div class="stepper-label">Step 2</div><div class="stepper-title">Certified</div><div class="stepper-desc">A government branch checks technical and regulatory compliance.</div></div>
+      <div class="stepper-arrow">→</div>
+      <div class="stepper-step" data-step="3"><div class="stepper-icon">🤝</div><div class="stepper-label">Step 3</div><div class="stepper-title">Pledged</div><div class="stepper-desc">Sponsors commit funds, named or anonymous, held in independent escrow.</div></div>
+      <div class="stepper-arrow">→</div>
+      <div class="stepper-step" data-step="4"><div class="stepper-icon">🛠️</div><div class="stepper-label">Step 4</div><div class="stepper-title">Verifier assigned</div><div class="stepper-desc">An accredited reviewer with no stake in the request is assigned at escrow confirmation — before any work begins.</div></div>
+      <div class="stepper-arrow">→</div>
+      <div class="stepper-step" data-step="5"><div class="stepper-icon">🔍</div><div class="stepper-label">Step 5</div><div class="stepper-title">Verified</div><div class="stepper-desc">An unaffiliated reviewer checks each milestone's evidence before it counts.</div></div>
+      <div class="stepper-arrow">→</div>
+      <div class="stepper-step" data-step="6"><div class="stepper-icon">✅</div><div class="stepper-label">Step 6</div><div class="stepper-title">Released &amp; tracked</div><div class="stepper-desc">Escrow releases the tranche. Every step stays on the public ledger.</div></div>
+    </div>
+        </div>
+        <div class="test-verdict"><div class="test-gain"><b>What it did well.</b> Click any step to focus it and dim the rest &mdash; a real interaction the replacement does not have. Six steps also fit on one line at any width.</div><div class="test-cost"><b>Why it was replaced.</b> Not one of the six says <i>who</i> performs it, and the two steps experts actually do &mdash; being matched by field, then pricing the scope &mdash; had nowhere to go.</div></div>
       </div>
+
 
       <div class="test-opt">
         <div class="test-opt-tag">Option B</div>
         <h3>Backbone here, detail one click away</h3>
         <p>The home page keeps the role strip alone. The six lifecycle steps move to the Projects page and merge into &ldquo;Who steps in, and when&rdquo;, which already covers the same four beats in prose &mdash; so that page becomes the single workflow reference instead of a second partial copy.</p>
-        <div class="role-flow"><div class="role-flow-step"><span class="role-flow-tag">1 &middot; Government</span><b>Certifies the request</b><span>Checked for code, jurisdiction and necessity before anyone is asked to fund it.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step"><span class="role-flow-tag">2 &middot; Experts</span><b>Scope it and price it</b><span>Matched by field first, so the budget follows the technical need rather than the bid.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step"><span class="role-flow-tag">3 &middot; Sponsors</span><b>Fund it into escrow</b><span>Money is secured with an independent custodian before day one &mdash; held, not yet spent.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step checks"><span class="role-flow-tag">4 &middot; Verifier</span><b>Assigned, then work starts</b><span>The implementer knows who will check them &mdash; and could not choose that person.</span></div></div>
+        <div class="role-flow"><div class="role-flow-step"><span class="role-flow-tag">1 &middot; Government</span><b>Certifies the request</b><span>Checked for code, jurisdiction and necessity before anyone is asked to fund it.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step"><span class="role-flow-tag">2 &middot; Experts</span><b>Scope it and price it</b><span>Matched by field first, so the budget follows the technical need rather than the bid.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step"><span class="role-flow-tag">3 &middot; Sponsors</span><b>Fund it into escrow</b><span>Money is secured with an independent custodian before day one &mdash; held, not yet spent.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step"><span class="role-flow-tag">4 &middot; Verifier</span><b>Assigned, then work starts</b><span>The implementer knows who will check them &mdash; and could not choose that person.</span></div></div>
         <p style="font-size:12.5px;color:var(--text-faint);margin:16px 0 0;">&darr; and on the Projects page, one section instead of two overlapping ones:</p>
         <div style="border:1px dashed var(--border); border-radius:12px; padding:16px 18px; margin-top:10px; background:var(--bg-1);">
           <div style="font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--text-faint);margin-bottom:10px;">Projects page &middot; Who steps in, and when</div>
@@ -2190,7 +2295,7 @@
         <div class="test-opt-tag">Option C</div>
         <h3>Add the lane nobody has</h3>
         <p>The role strip stays. &ldquo;How it works&rdquo; is replaced by the one workflow the home page does not tell: <b>where the money is at each stage</b>. That content exists today, but it is buried in a table near the bottom of the Trust page.</p>
-        <div class="role-flow"><div class="role-flow-step"><span class="role-flow-tag">1 &middot; Government</span><b>Certifies the request</b><span>Checked for code, jurisdiction and necessity before anyone is asked to fund it.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step"><span class="role-flow-tag">2 &middot; Experts</span><b>Scope it and price it</b><span>Matched by field first, so the budget follows the technical need rather than the bid.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step"><span class="role-flow-tag">3 &middot; Sponsors</span><b>Fund it into escrow</b><span>Money is secured with an independent custodian before day one &mdash; held, not yet spent.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step checks"><span class="role-flow-tag">4 &middot; Verifier</span><b>Assigned, then work starts</b><span>The implementer knows who will check them &mdash; and could not choose that person.</span></div></div><div class="tw-money"><div class="tw-money-cell"><span class="tw-money-state">Nothing pledged</span><span class="tw-money-note">A request exists, no money is attached to it.</span><span class="tw-money-exit">Can be refused &rarr; nothing to return</span></div><div class="tw-money-cell"><span class="tw-money-state">Pledged, not captured</span><span class="tw-money-note">Commitments made against a threshold that has not been reached.</span><span class="tw-money-exit">Lapses &rarr; refunded in full</span></div><div class="tw-money-cell"><span class="tw-money-state">Held in escrow</span><span class="tw-money-note">With an independent custodian &mdash; never a government or implementer account.</span><span class="tw-money-exit">Stalls &rarr; balance returned</span></div><div class="tw-money-cell"><span class="tw-money-state">Released per milestone</span><span class="tw-money-note">One tranche at a time, each against evidence a verifier signed off.</span><span class="tw-money-exit">Rejected &rarr; held for remediation</span></div></div><div class="test-verdict"><div class="test-gain"><b>Gain.</b> Two strips instead of three, and the second earns its place by answering a different question &mdash; the first one a serious donor asks. Strongest trust argument of the three.</div><div class="test-cost"><b>Cost.</b> Puts &ldquo;what happens when it fails&rdquo; high on the home page. Honest, but a downbeat note above the fold.</div></div>
+        <div class="role-flow"><div class="role-flow-step"><span class="role-flow-tag">1 &middot; Government</span><b>Certifies the request</b><span>Checked for code, jurisdiction and necessity before anyone is asked to fund it.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step"><span class="role-flow-tag">2 &middot; Experts</span><b>Scope it and price it</b><span>Matched by field first, so the budget follows the technical need rather than the bid.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step"><span class="role-flow-tag">3 &middot; Sponsors</span><b>Fund it into escrow</b><span>Money is secured with an independent custodian before day one &mdash; held, not yet spent.</span></div><div class="role-flow-arrow" aria-hidden="true">&rarr;</div><div class="role-flow-step"><span class="role-flow-tag">4 &middot; Verifier</span><b>Assigned, then work starts</b><span>The implementer knows who will check them &mdash; and could not choose that person.</span></div></div><div class="tw-money"><div class="tw-money-cell"><span class="tw-money-state">Nothing pledged</span><span class="tw-money-note">A request exists, no money is attached to it.</span><span class="tw-money-exit">Can be refused &rarr; nothing to return</span></div><div class="tw-money-cell"><span class="tw-money-state">Pledged, not captured</span><span class="tw-money-note">Commitments made against a threshold that has not been reached.</span><span class="tw-money-exit">Lapses &rarr; refunded in full</span></div><div class="tw-money-cell"><span class="tw-money-state">Held in escrow</span><span class="tw-money-note">With an independent custodian &mdash; never a government or implementer account.</span><span class="tw-money-exit">Stalls &rarr; balance returned</span></div><div class="tw-money-cell"><span class="tw-money-state">Released per milestone</span><span class="tw-money-note">One tranche at a time, each against evidence a verifier signed off.</span><span class="tw-money-exit">Rejected &rarr; held for remediation</span></div></div><div class="test-verdict"><div class="test-gain"><b>Gain.</b> Two strips instead of three, and the second earns its place by answering a different question &mdash; the first one a serious donor asks. Strongest trust argument of the three.</div><div class="test-cost"><b>Cost.</b> Puts &ldquo;what happens when it fails&rdquo; high on the home page. Honest, but a downbeat note above the fold.</div></div>
       </div>
     </div>
   </div>
@@ -2214,6 +2319,21 @@
         <div><b>Licence</b>Accreditation number and the date it lapses. Past that date a verifier cannot be assigned.</div>
       </div>
       <p class="vr-note"><b>What this page does not do.</b> It publishes the record; it does not check it. Nothing on the platform currently re-examines a verifier&rsquo;s decisions, so an outlier here has no consequence attached to it &mdash; which is the gap described on the <button style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;" data-goto="trust">Trust page</button>, and the reason this register is the first of four steps rather than the whole answer.</p>
+      <div class="test-opt">
+        <div class="test-opt-tag">Option D</div>
+        <h3>The Baladi entry strip</h3>
+        <p>Four icons showing how a citizen report enters the system, previously sitting near the top of the home page. It is the only strip that told a story none of the others did &mdash; <b>Reported</b> and <b>Classified</b> happen on Baladi Map, before Man&#257;ra has a request at all &mdash; but the last two beats repeat the workflow below it.</p>
+        <div class="wf-teaser-steps" style="justify-content:flex-start;">
+          <div class="wf-teaser-step"><div class="wf-teaser-icon">📥</div><div class="wf-teaser-label">Reported</div></div>
+          <div class="wf-teaser-arrow">→</div>
+          <div class="wf-teaser-step"><div class="wf-teaser-icon">🏷️</div><div class="wf-teaser-label">Classified</div></div>
+          <div class="wf-teaser-arrow">→</div>
+          <div class="wf-teaser-step"><div class="wf-teaser-icon">🎯</div><div class="wf-teaser-label">Matched</div></div>
+          <div class="wf-teaser-arrow">→</div>
+          <div class="wf-teaser-step"><div class="wf-teaser-icon">✅</div><div class="wf-teaser-label">Funded</div></div>
+        </div>
+        <div class="test-verdict"><div class="test-gain"><b>Worth keeping.</b> The first two icons are the only place on the site that shows where a request comes from before it exists &mdash; a resident reporting a problem, and that report being classified.</div><div class="test-cost"><b>Worth cutting.</b> <i>Matched</i> and <i>Funded</i> restate the workflow strip directly beneath it, and four large icons above the fold outshouted the actual process.</div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -5880,6 +6000,58 @@ function renderJoinSubOptions(){
     });
   });
 }
+// The home page CTA sends people straight to their own category on Join, so the
+// first thing they see is their form rather than the choice they already made.
+function openJoinAs(cat){
+  switchView('join');
+  var card = document.querySelector('#joinCategoryNav .join-cat-card[data-jcat="' + cat + '"]');
+  if(card) card.click();
+  var role = document.querySelector('#audienceNav .role-btn[data-aud-role="' + cat + '"]');
+  if(role && !role.classList.contains('picked')) role.click();
+}
+// The home form picks a role, takes the details, then hands both to Join rather
+// than making someone type them again. Selecting is the whole first step, so the
+// submit button stays disabled — and says why — until one is chosen.
+var homeJoinRole = null;
+(function(){
+  var form = document.getElementById('homeJoinForm');
+  if(!form){
+    document.querySelectorAll('[data-join]').forEach(function(btn){
+      btn.addEventListener('click', function(){ openJoinAs(btn.dataset.join); });
+    });
+    return;
+  }
+  var cards = Array.prototype.slice.call(form.querySelectorAll('.join-cta-card'));
+  var submit = document.getElementById('homeJoinSubmit');
+  var LABEL = { government:'Register your branch', experts:'Register your organisation',
+                sponsors:'Start funding', verifiers:'Apply for accreditation' };
+  submit.disabled = true;
+  cards.forEach(function(card){
+    card.addEventListener('click', function(){
+      homeJoinRole = card.dataset.join;
+      cards.forEach(function(c){ c.setAttribute('aria-checked', String(c === card)); });
+      submit.disabled = false;
+      submit.textContent = LABEL[homeJoinRole] + ' →';
+    });
+  });
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!homeJoinRole) return;
+    openJoinAs(homeJoinRole);
+    // Carry anything already typed across to the form on Join.
+    var pairs = [['homeJoinName', 0], ['homeJoinOrg', 1], ['homeJoinEmail', 2]];
+    var target = document.querySelectorAll('#form-quickjoin input');
+    pairs.forEach(function(pr){
+      var src = document.getElementById(pr[0]);
+      if(src && src.value && target[pr[1]]) target[pr[1]].value = src.value;
+    });
+  });
+  // Anything else on the page tagged with a role still just jumps to Join.
+  document.querySelectorAll('[data-join]').forEach(function(btn){
+    if(cards.indexOf(btn) !== -1) return;
+    btn.addEventListener('click', function(){ openJoinAs(btn.dataset.join); });
+  });
+})();
 document.querySelectorAll('#joinCategoryNav .join-cat-card').forEach(card=>{
   card.addEventListener('click', ()=>{
     document.querySelectorAll('#joinCategoryNav .join-cat-card').forEach(c=> c.classList.remove('active'));
