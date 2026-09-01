@@ -691,6 +691,7 @@
   .ev-chip{ font-size:11px; color:var(--text-dim); background:var(--bg-2); border-radius:5px; padding:3px 8px; }
   .ev-chip-none{ color:var(--text-faint); font-style:italic; background:none; padding-inline:0; }
   .ev-by{ margin-top:8px; font-size:11.5px; }
+  .ev-sub{ display:block; margin-top:4px; font-size:11px; color:var(--text-faint); line-height:1.5; }
   .ev-ok{ color:var(--ok); }
   .ev-warn{ color:var(--warn); }
   .vf-when{ border:1px solid var(--border); border-radius:12px; padding:20px 22px; background:var(--bg-1); margin-top:18px; }
@@ -3708,7 +3709,7 @@ function ledgerEvidence(l){
     .filter(x=> x && /photo|video|receipt|report|sign-off|order|map|invoice|ledger|rota|record|test/i.test(x));
   return { by:by, independent:independent, items:items };
 }
-function evidenceHTML(l){
+function evidenceHTML(l, p){
   // Only work milestones carry evidence; a pledge opening does not.
   if(!/Milestone|Closed/.test(l.t)) return '';
   if(l.state === 'rejected'){
@@ -3735,10 +3736,21 @@ function evidenceHTML(l){
     who = '<span class="ev-warn">Submitted — awaiting independent check. Nothing released yet.</span>';
   } else if(e.by && e.independent){
     who = '<span class="ev-ok">Checked by ' + e.by + '</span>';
-  } else if(e.by){
-    who = '<span class="ev-warn">' + e.by + ' sign-off only — not independently verified</span>';
   } else {
-    who = '<span class="ev-warn">No independent verifier named on this record</span>';
+    // The row's own prose names either nobody or only the contractor. One
+    // verifier is assigned per request at escrow, so if there is one, they are
+    // who checked this — but say so as an inference from the assignment rather
+    // than pretending the row recorded it.
+    var assigned = p ? verifierFor(p) : null;
+    if(e.by){
+      who = '<span class="ev-warn">' + e.by + ' sign-off only — the contractor is not an independent check</span>';
+      if(assigned) who += '<span class="ev-sub">Independently checked by ' + assigned.name + ', the verifier assigned to this request.</span>';
+    } else if(assigned){
+      who = '<span class="ev-ok">Checked by ' + assigned.name + '</span>' +
+            '<span class="ev-sub">The verifier assigned to this request. This row predates per-milestone attribution, so the name comes from the assignment rather than the row.</span>';
+    } else {
+      who = '<span class="ev-warn">No independent verifier named, and none assigned</span>';
+    }
   }
   return '<div class="ev"><div class="ev-head">Evidence' +
     (l.ref ? ' <span class="ev-ref">' + l.ref + '</span>' : '') +
@@ -3748,7 +3760,7 @@ function renderDetail(){
   const p = PROJECTS.find(x=>x.id===openProjectId);
   const pct = Math.min(100, Math.round((p.raised/p.goal)*100));
   const storyHTML = projectStoryHTML(p);
-  const trail = p.ledger.map(l=>`<li><span class="t-dot ${l.state}"></span><div class="t-title">${l.t}</div><div class="t-meta">${l.d} — ${l.meta}</div>${evidenceHTML(l)}</li>`).join('');
+  const trail = p.ledger.map(l=>`<li><span class="t-dot ${l.state}"></span><div class="t-title">${l.t}</div><div class="t-meta">${l.d} — ${l.meta}</div>${evidenceHTML(l, p)}</li>`).join('');
   const donations = p.donations.length ? p.donations.map((d,i)=>`<div class="donation-row">
       <div class="d-left"><span class="d-type">${d.type}</span><span class="d-name">${d.name}</span></div>
       <div class="d-right"><span class="d-amt">${money(d.amount)}</span><br><span class="d-hash">${donationHash(p.id,i,d)}</span></div>
