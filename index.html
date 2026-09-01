@@ -1057,6 +1057,7 @@
           <div class="light-card"><b>What they cannot be</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">The implementer, the certifying body, a funder of that request, or based in the same locality as the work.</p></div>
           <div class="light-card"><b>Refusals are published</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Every verifier's rejection count sits next to their approvals. A reviewer who has never rejected anything is an unexamined one.</p></div>
         </div>
+        <button class="role-jump" type="button" data-demo-jump="v-district">See the verifier dashboard <span aria-hidden="true">&rarr;</span></button>
         <button class="role-jump" type="button" data-goto="trust">When they are assigned, and why it matters <span aria-hidden="true">&rarr;</span></button>
       </div>
     </div>
@@ -1650,6 +1651,7 @@
         <button data-branch="government">For government</button>
         <button data-branch="experts">For experts</button>
         <button data-branch="sponsors">For sponsors</button>
+        <button data-branch="verifiers">For verifiers</button>
       </div>
       <div id="demoBranchHeader"></div>
       <div class="demo-sub-nav" id="demoNav"></div>
@@ -4168,6 +4170,21 @@ function renderGroupPage(groupId){
 }
 
 const CATEGORY_META = {
+  'v-district': {name:'District engineer', group:'Verifiers',
+    overview:"A municipal or union-of-municipalities engineer acting outside their own locality. The most common verifier in practice, because the expertise is already public and already local — just not local to the work being checked.",
+    fit:"You are assigned requests in your governorate but never in your own municipality, and never where your union is the implementing partner."},
+  'v-oea': {name:'Order of Engineers & Architects', group:'Verifiers',
+    overview:"Lebanon's professional body for engineers and architects, whose Beirut and Tripoli branches maintain inspection desks. Membership and licensing are already independent of both municipalities and contractors.",
+    fit:"Your inspection desk takes assignments across several governorates, in the technical fields your members are licensed for."},
+  'v-envofficer': {name:'Environmental compliance officer', group:'Verifiers',
+    overview:"Officers checking environmental and waste work against permit conditions — the cases where a photograph of a finished site does not tell you whether it was done properly.",
+    fit:"You verify environment, waste, water and sewage milestones, where compliance is a question of method rather than appearance."},
+  'v-auditor': {name:'Programme auditor', group:'Verifiers',
+    overview:"Auditors for civic and NGO programmes, where the deliverable is a service run over months rather than a structure that can be photographed once.",
+    fit:"You verify NGO and initiative milestones, checking attendance, delivery records and spend against what was promised."},
+  'v-inspector': {name:'Independent inspector', group:'Verifiers',
+    overview:"Accredited individuals and small firms taking assignments where no public body is both qualified and unconnected — the gap that otherwise leaves a request unverifiable.",
+    fit:"You take the assignments nobody else can: right field, right governorate, no tie to the partner, the certifier or any funder."},
   ministry: {name:'Ministry', group:'Government',
     overview:"Lebanon's national ministries — the institutions, not individual officeholders, since cabinets change.",
     fit:"A ministry certifies that a request meets technical and regulatory standards in its field before it can open for pledges. It never touches pledged funds.",
@@ -4689,6 +4706,24 @@ document.getElementById('govorateSelect').innerHTML = '<option value="">Governor
 
 // ---------- Account demo dashboards ----------
 const ACCOUNT_DEMO_DATA = {
+  verifiers: {
+    title:'Verification queue',
+    subtitle:"Sample dashboard — what an assigned verifier sees. The one role that decides whether money moves.",
+    stats:[{num:'3', lbl:'Awaiting your decision'},{num:'31', lbl:'Verified to date'},
+           {num:'7', lbl:'Rejected to date'},{num:'9 days', lbl:'Median time to decide'}],
+    tableTitle:'Your recent decisions',
+    rowType:'row',
+    rows:[
+      {name:'Baalbek school roof repair — Milestone 2', sub:'Flashing detail not to spec · returned for remediation', pill:'Rejected', pillClass:'proposed'},
+      {name:'Solar streetlights, Deir Ammar — Milestone 2', sub:'Night test video reviewed on site', pill:'Verified', pillClass:'complete'},
+      {name:'Zahlé riverside cleanup — closing report', sub:'Maintenance rota published and checked', pill:'Verified', pillClass:'complete'}
+    ],
+    actionsTitle:'Standing obligations',
+    actions:[
+      {label:'Decide within 10 working days', sub:'Silence escalates the milestone. It never releases funds by default.'},
+      {label:'Declare any tie before deciding', sub:'A stake in the partner, the certifier or a funder removes you from the request.'}
+    ]
+  },
   municipalities: {
     title: 'Baalbek Municipality', subtitle: 'Sample dashboard — what a municipality account sees after posting requests.',
     stats: [ {num:'3', lbl:'Active requests'}, {num:'$41,200', lbl:'Raised across requests'}, {num:'7', lbl:'Milestones verified'}, {num:'1', lbl:'Awaiting your action'} ],
@@ -4770,6 +4805,18 @@ function renderAccountDemo(optionKey){
   var branch = branchForDemo(optionKey);
   var demoKey = isOverview ? 'overview' : demoKeyForOption(optionKey);
   var d = ACCOUNT_DEMO_DATA[demoKey];
+  // The verifier's headline number is the same queue rendered live below it, so
+  // derive it rather than storing a figure that can drift out of agreement with
+  // the list directly underneath — the contradiction this role already caused once.
+  if(d && demoKey === 'verifiers'){
+    var waiting = PROJECTS.filter(function(pr){
+      return (pr.ledger || []).some(function(l){
+        return /Milestone|Closed/.test(l.t) && (l.state === 'submitted' || l.state === 'remediation');
+      });
+    }).length;
+    d = Object.assign({}, d, { stats: d.stats.slice() });
+    d.stats[0] = { num:String(waiting), lbl: waiting === 1 ? 'Awaiting your decision' : 'Awaiting your decision' };
+  }
 
   ['demoOverviewCTA'].forEach(function(id){
     document.getElementById(id).style.display = isOverview ? 'block' : 'none';
@@ -4871,6 +4918,10 @@ function optionPanelHTML(key, branch){
     govExamples = GOVS.slice(0, 3).map(function(g){
       var towns = (MUNICIPALITIES[g.id] || []).length;
       return { name:g.name + ' governorate', sub: towns ? towns + ' municipalities listed' : 'Coordinates across its municipalities' };
+    });
+  } else if(key.indexOf('v-') === 0){
+    govExamples = VERIFIERS.filter(function(v){ return v.kind === key; }).slice(0, 3).map(function(v){
+      return { name:v.name, sub:v.org + ' · ' + v.record.verified + ' verified, ' + v.record.rejected + ' rejected' };
     });
   } else if(key === 'diaspora'){
     govExamples = Object.keys(COUNTRY_META).slice(0, 3).map(function(c){
@@ -5503,27 +5554,31 @@ function renderFieldGrid(containerId){
    so no real body is credited with a person who does not exist.
    =============================================================== */
 const VERIFIERS = [
-  {id:'v-koura', name:'District engineer, Koura', org:'Union of Municipalities of Koura',
+  {id:'v-koura', kind:'v-district', name:'District engineer, Koura', org:'Union of Municipalities of Koura',
    fields:['roads','publicland','water','sewage'], licence:'OEA-TR-2291', licenceExpiry:'2027-03',
    govs:['north','akkar'], locality:'Amioun', standing:'active',
    record:{verified:14, rejected:3, overturned:0, medianDays:6}},
-  {id:'v-oea-beirut', name:'Inspection desk, Order of Engineers & Architects (Beirut)', org:'Order of Engineers & Architects — Beirut',
+  {id:'v-oea-beirut', kind:'v-oea', name:'Inspection desk, Order of Engineers & Architects (Beirut)', org:'Order of Engineers & Architects — Beirut',
    fields:['electricity','roads','publicland','water','sewage','environment'], licence:'OEA-BE-1044', licenceExpiry:'2028-01',
    govs:['beirut','mtlebanon','keserwan'], locality:'Beirut', standing:'active',
    record:{verified:31, rejected:7, overturned:1, medianDays:9}},
-  {id:'v-oea-tripoli', name:'Inspection desk, Order of Engineers & Architects (Tripoli)', org:'Order of Engineers & Architects — Tripoli',
+  {id:'v-oea-tripoli', kind:'v-oea', name:'Inspection desk, Order of Engineers & Architects (Tripoli)', org:'Order of Engineers & Architects — Tripoli',
    fields:['electricity','roads','water','sewage','waste'], licence:'OEA-TR-0871', licenceExpiry:'2027-09',
    govs:['north','akkar'], locality:'Tripoli', standing:'active',
    record:{verified:22, rejected:5, overturned:0, medianDays:7}},
-  {id:'v-bekaa-env', name:'Environmental compliance officer, Beqaa', org:'Beqaa Environmental Compliance Office',
+  {id:'v-bekaa-env', kind:'v-envofficer', name:'Environmental compliance officer, Beqaa', org:'Beqaa Environmental Compliance Office',
    fields:['environment','waste','water','sewage'], licence:'MOE-BQ-5510', licenceExpiry:'2027-06',
    govs:['bekaa','baalbek'], locality:'Zahle', standing:'active',
    record:{verified:11, rejected:4, overturned:0, medianDays:8}},
-  {id:'v-south-eng', name:'District engineer, Nabatieh', org:'Union of Municipalities of Nabatieh',
+  {id:'v-south-eng', kind:'v-district', name:'District engineer, Nabatieh', org:'Union of Municipalities of Nabatieh',
    fields:['roads','publicland','electricity','waste'], licence:'OEA-NB-3320', licenceExpiry:'2026-12',
    govs:['south','nabatieh'], locality:'Nabatieh', standing:'active',
    record:{verified:9, rejected:2, overturned:0, medianDays:5}},
-  {id:'v-civic-audit', name:'Programme auditor, civic sector', org:'Lebanese Civic Audit Collective',
+  {id:'v-inspector-north', kind:'v-inspector', name:'Accredited inspector, Batroun', org:'Batroun Independent Inspection',
+   fields:['roads','publicland','electricity','water'], licence:'REG-IN-0907', licenceExpiry:'2027-11',
+   govs:['north','mtlebanon','keserwan'], locality:'Batroun', standing:'active',
+   record:{verified:7, rejected:2, overturned:0, medianDays:4}},
+  {id:'v-civic-audit', kind:'v-auditor', name:'Programme auditor, civic sector', org:'Lebanese Civic Audit Collective',
    fields:['ngoinit','environment','publicland','waste'], licence:'REG-CA-0142', licenceExpiry:'2028-04',
    govs:['beirut','mtlebanon','north','south','bekaa','nabatieh','akkar','baalbek','keserwan'], locality:'Beirut', standing:'active',
    record:{verified:18, rejected:6, overturned:1, medianDays:11}}
@@ -5608,8 +5663,8 @@ function verifierCardHTML(p){
 // the branch pages always carry exactly the options the Network page advertises:
 // 3 for government, 8 expert fields, 5 kinds of sponsor.
 function demoBranches(){
-  var labels = { government:'For government', experts:'For experts', sponsors:'For sponsors' };
-  return ['government','experts','sponsors'].map(function(id){
+  var labels = { government:'For government', experts:'For experts', sponsors:'For sponsors', verifiers:'For verifiers' };
+  var out = ['government','experts','sponsors'].map(function(id){
     var g = GROUP_META[id] || {};
     return {
       id: id,
@@ -5621,15 +5676,25 @@ function demoBranches(){
       })
     };
   });
+  // The fourth role gets an account like the other three. A verifier nobody can
+  // log in as is a claim rather than a mechanism.
+  out.push({
+    id:'verifiers', label:'For verifiers',
+    overview:"The role that decides whether money moves. A verifier confirms a milestone actually happened before any tranche is released, and is assigned at escrow confirmation — before work starts — from the pool with no tie to the partner, the certifier or any funder of that request.",
+    subs:['v-district','v-oea','v-envofficer','v-auditor','v-inspector'].map(function(key){
+      return { key:key, label:(CATEGORY_META[key] || {}).name || key };
+    })
+  });
+  return out;
 }
 // Only some options have a dashboard of their own; the rest are described and
 // then hand off to their role's dashboard rather than repeating it.
 function demoKeyForOption(key){
   return { ministry:'government', districts:'governorate', municipality:'municipalities',
-           diaspora:'diaspora', locals:'locals' }[key] || null;
+           diaspora:'diaspora', locals:'locals', 'v-district':'verifiers' }[key] || null;
 }
 function roleDashboardFor(branchId){
-  return { government:'government', experts:'organisations', sponsors:'diaspora' }[branchId] || null;
+  return { government:'government', experts:'organisations', sponsors:'diaspora', verifiers:'verifiers' }[branchId] || null;
 }
 // Which project types each expert field actually covers, so "open requests" is
 // real rather than a guess.
@@ -5714,6 +5779,19 @@ function roleMatchConfig(type){
     pick:function(p){ return p.status === 'funding' || p.status === 'proposed'; },
     line:function(p){ return p.type + ' · ' + p.locality + ', ' + govName(p.gov); }
   };
+  if(type === 'verifiers') return {
+    title:'Milestones waiting on your check',
+    note:'Evidence is submitted and nothing is released until you decide. Silence escalates the milestone rather than approving it.',
+    pick:function(p){
+      return (p.ledger || []).some(function(l){
+        return /Milestone|Closed/.test(l.t) && (l.state === 'submitted' || l.state === 'remediation');
+      });
+    },
+    line:function(p){
+      var row = (p.ledger || []).filter(function(l){ return l.state === 'submitted' || l.state === 'remediation'; })[0];
+      return (row ? row.t : 'Milestone') + ' · ' + p.locality + ' · nothing released yet';
+    }
+  };
   if(type === 'municipalities') return {
     title:'Your municipality\'s requests',
     note:'Everything filed for this locality, whatever stage it has reached.',
@@ -5766,11 +5844,11 @@ function wireRoleMatch(){
 // that already model them.
 function roleToDemo(role){
   // the first option under each branch
-  return { government:'ministry', expert:'electricity', donor:'orgbiz' }[role] || null;
+  return { government:'ministry', expert:'electricity', donor:'orgbiz', verifier:'v-district' }[role] || null;
 }
 function demoToRole(optionKey){
   var b = branchForDemo(optionKey);
-  return b ? ({ government:'government', experts:'expert', sponsors:'donor' })[b.id] : null;
+  return b ? ({ government:'government', experts:'expert', sponsors:'donor', verifiers:'verifier' })[b.id] : null;
 }
 
 /* ================= Project story =================
