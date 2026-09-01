@@ -332,6 +332,12 @@
     padding:8px 13px; margin:0 0 20px; }
   .role-jump:hover{ border-color:var(--accent); background:var(--accent-soft); }
   .role-jump:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .demo-sub-nav{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 22px; }
+  .demo-sub-nav button{ all:unset; box-sizing:border-box; cursor:pointer; font-size:12.5px; font-weight:600;
+    color:var(--text-dim); border:1px solid var(--border); border-radius:20px; padding:6px 13px; }
+  .demo-sub-nav button:hover{ color:var(--accent); border-color:var(--accent); }
+  .demo-sub-nav button.active{ background:var(--accent-soft); color:var(--accent); border-color:var(--accent); }
+  .demo-sub-nav button:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
   .role-note{ font-size:12.5px; color:var(--text-faint); margin:-6px 0 12px; }
   .role-list{ display:grid; gap:8px; margin-bottom:26px; }
   .role-row{ all:unset; box-sizing:border-box; cursor:pointer; display:flex; align-items:center; justify-content:space-between;
@@ -1549,15 +1555,12 @@
     <div class="section" style="padding-top:44px;">
       <button style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;font-size:12.5px;margin-bottom:20px;display:inline-block;" data-goto="join">← Back to Join</button>
       <div class="demo-banner">◆ Sample data — this previews the account experience, it isn't a real login.</div>
-      <div class="audience-nav-row" id="demoNav">
-        <button data-demo="overview">Overview</button>
-        <button data-demo="municipalities">Municipality</button>
-        <button data-demo="organisations">Organisation</button>
-        <button data-demo="locals">Local</button>
-        <button data-demo="diaspora">Diaspora</button>
-        <button data-demo="government">Government</button>
-        <button data-demo="governorate">Governorate</button>
+      <div class="audience-nav-row" id="demoBranchNav">
+        <button data-branch="government">For government</button>
+        <button data-branch="experts">For experts</button>
+        <button data-branch="sponsors">For sponsors</button>
       </div>
+      <div class="demo-sub-nav" id="demoNav"></div>
       <h2 style="font-size:24px;margin:0 0 4px;" id="demoTitle">—</h2>
       <p style="font-size:13px;color:var(--text-dim);margin:0 0 20px;" id="demoSubtitle">—</p>
       <div class="dash-stats" id="demoStats"></div>
@@ -4659,7 +4662,7 @@ function renderAccountDemo(type){
     ].map(s=>`<div class="stat"><span class="num">${s.num}</span><span class="lbl">${s.lbl}</span></div>`).join('');
     document.getElementById('demoTable').innerHTML = '';
     document.getElementById('demoRoleMatch').innerHTML = '';
-    document.querySelectorAll('#demoNav button').forEach(b=> b.classList.toggle('active', b.dataset.demo===type));
+    renderDemoNav(type);
     return;
   }
 
@@ -4691,17 +4694,15 @@ function renderAccountDemo(type){
   document.getElementById('demoActionsTitle').textContent = d.actionsTitle;
   document.getElementById('demoActions').innerHTML = d.actions.map(a=>
     `<div class="dash-action-row"><div class="dr-name" style="font-size:12.5px;">${a.label}</div><div class="dr-sub">${a.sub}</div></div>`).join('');
-  document.querySelectorAll('#demoNav button').forEach(b=> b.classList.toggle('active', b.dataset.demo===type));
+  renderDemoNav(type);
 }
 function openAccountDemo(type){
-  var role = { government:'government', organisations:'expert', diaspora:'donor' }[type];
+  var role = demoToRole(type);
   if(role) setRoute('role/' + role);
   switchView('account-demo');
   renderAccountDemo(type);
 }
-document.querySelectorAll('#demoNav button').forEach(btn=>{
-  btn.addEventListener('click', ()=> renderAccountDemo(btn.dataset.demo));
-});
+
 
 function caseHeadline(p, tag){
   if(tag==='diaspora') return money(p.raised) + ' mobilized · ' + corridorCountry(p.corridor);
@@ -5200,6 +5201,61 @@ setTimeout(()=>{
   });
 }, 1500);
 
+/* ================= Dashboard branches =================
+   The dashboards used to sit in one flat row of six, which hid the structure the
+   whole platform is built on. They are now grouped under the three roles —
+   government certifies, experts solve, sponsors fund — with each role's own
+   account types underneath it.
+
+   Every dashboard that existed is still here; only the way in changed.
+   ======================================================= */
+function demoBranches(){
+  return [
+    { id:'government', label:'For government',
+      subs:[ {key:'government',    label:'Ministry'},
+             {key:'governorate',   label:'Governorate'},
+             {key:'municipalities',label:'Municipality'} ] },
+    { id:'experts', label:'For experts',
+      subs:[ {key:'organisations', label:'Expert organisation'} ] },
+    { id:'sponsors', label:'For sponsors',
+      subs:[ {key:'diaspora', label:'Diaspora'},
+             {key:'locals',   label:'Locals'} ] }
+  ];
+}
+function branchForDemo(type){
+  var found = null;
+  demoBranches().forEach(function(b){
+    b.subs.forEach(function(sub){ if(sub.key === type) found = b; });
+  });
+  return found;
+}
+// Paint the branch row and the option row beneath it for whichever dashboard
+// is open. Called on every render so the two rows never disagree.
+function renderDemoNav(type){
+  var branch = branchForDemo(type);
+  document.querySelectorAll('#demoBranchNav button').forEach(function(b){
+    b.classList.toggle('active', !!branch && b.getAttribute('data-branch') === branch.id);
+  });
+  var sub = document.getElementById('demoNav');
+  if(!sub) return;
+  if(!branch){ sub.innerHTML = ''; return; }
+  sub.innerHTML = branch.subs.map(function(o){
+    return '<button data-demo="' + o.key + '"' + (o.key === type ? ' class="active"' : '') + '>' + o.label + '</button>';
+  }).join('');
+  sub.querySelectorAll('button').forEach(function(b){
+    b.addEventListener('click', function(){ renderAccountDemo(b.getAttribute('data-demo')); });
+  });
+}
+function openDemoBranch(branchId){
+  var b = null;
+  demoBranches().forEach(function(x){ if(x.id === branchId) b = x; });
+  if(!b) return;
+  openAccountDemo(b.subs[0].key);
+}
+document.querySelectorAll('#demoBranchNav button').forEach(function(b){
+  b.addEventListener('click', function(){ openDemoBranch(b.getAttribute('data-branch')); });
+});
+
 /* ================= Role dashboards =================
    Six sample dashboards already existed but sat behind More → Account
    Dashboards with no role framing, so nobody arriving as "a municipality" or
@@ -5270,6 +5326,10 @@ function wireRoleMatch(){
 // that already model them.
 function roleToDemo(role){
   return { government:'government', expert:'organisations', donor:'diaspora' }[role] || null;
+}
+function demoToRole(type){
+  var b = branchForDemo(type);
+  return b ? ({ government:'government', experts:'expert', sponsors:'donor' })[b.id] : null;
 }
 
 /* ================= Project story =================
