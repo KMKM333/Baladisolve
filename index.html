@@ -1656,10 +1656,10 @@
 
         <div id="leafletLegend" style="display:flex; gap:18px; flex-wrap:wrap; font-size:13px; color:var(--text-dim);">
           <span style="font-weight:700;color:var(--text);">Problem status:</span>
-          <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#DC2626;margin-inline-end:5px;"></span>Proposed</span>
-          <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#EAB308;margin-inline-end:5px;"></span>Funding</span>
-          <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#16A34A;margin-inline-end:5px;"></span>In progress</span>
-          <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#2563EB;margin-inline-end:5px;"></span>Complete</span>
+          <span><span style="display:inline-block;width:15px;height:15px;border-radius:50%;background:#E8112D;border:1.5px solid #fff;box-shadow:0 0 0 1px var(--border);margin-inline-end:6px;vertical-align:-2px;"></span>Proposed</span>
+          <span><span style="display:inline-block;width:15px;height:15px;border-radius:50%;background:#FFB800;border:1.5px solid #fff;box-shadow:0 0 0 1px var(--border);margin-inline-end:6px;vertical-align:-2px;"></span>Funding</span>
+          <span><span style="display:inline-block;width:15px;height:15px;border-radius:50%;background:#00B84D;border:1.5px solid #fff;box-shadow:0 0 0 1px var(--border);margin-inline-end:6px;vertical-align:-2px;"></span>In progress</span>
+          <span><span style="display:inline-block;width:15px;height:15px;border-radius:50%;background:#0A72FF;border:1.5px solid #fff;box-shadow:0 0 0 1px var(--border);margin-inline-end:6px;vertical-align:-2px;"></span>Complete</span>
         </div>
 
         <div id="worldFilterRow" style="display:none;">
@@ -4052,7 +4052,7 @@ function ensureLeafletMap(){
   // bar collapsing, safe-area insets settling) happened right after we checked.
   setTimeout(()=> leafletMapInstance && leafletMapInstance.invalidateSize(), 300);
 
-  const statusColor = { proposed:'#DC2626', funding:'#EAB308', progress:'#16A34A', complete:'#2563EB' };
+  const statusColor = { proposed:'#E8112D', funding:'#FFB800', progress:'#00B84D', complete:'#0A72FF' };
   const statusBorder = { proposed:'#fff', funding:'#fff', progress:'#fff', complete:'#fff' };
   const statusTextColor = { proposed:'#DC2626', funding:'#CA8A04', progress:'#16A34A', complete:'#2563EB' };
   mapLayers = { problems: L.layerGroup(), experts: L.layerGroup(), municipalities: L.layerGroup() };
@@ -4082,7 +4082,7 @@ function ensureLeafletMap(){
         <div style="font-size:10.5px;color:#888;margin-top:8px;">Click the title above to view the full project →</div>
       </div>`;
     const marker = L.circleMarker(coords, {
-      radius: 5, weight: 1.5, color: statusBorder[p.status] || '#fff', fillColor: statusColor[p.status] || '#8b95a3', fillOpacity: 0.9
+      radius: 10, weight: 2.5, color: statusBorder[p.status] || '#fff', fillColor: statusColor[p.status] || '#8b95a3', fillOpacity: 1
     }).bindPopup(stage1).addTo(mapLayers.problems);
     window.__mapMarkerRegistry[mid] = { marker, stage2 };
     mapSearchIndex.push({ name: p.title, sub: p.locality, type:'problems', status: p.status, coords, marker });
@@ -4181,7 +4181,7 @@ function ensureLeafletMap(){
   function mapDotHTML(item){
     if(item.type==='problems'){
       const c = statusColor[item.status] || '#8b95a3';
-      return `<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${c};margin-top:4px;flex-shrink:0;"></span>`;
+      return `<span style="display:inline-block;width:12px;height:12px;border-radius:50%;background:${c};border:1.5px solid #fff;box-shadow:0 0 0 1px rgba(0,0,0,0.18);margin-top:3px;flex-shrink:0;"></span>`;
     }
     if(item.type==='experts'){
       return `<span style="display:inline-block;width:0;height:0;border-inline-start:5px solid transparent;border-inline-end:5px solid transparent;border-bottom:9px solid var(--map-exp);filter:drop-shadow(0 0 1px var(--map-exp-ink));margin-top:4px;flex-shrink:0;"></span>`;
