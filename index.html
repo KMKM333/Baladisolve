@@ -322,6 +322,9 @@
 
   /* ---------- Stepper (How it works) ---------- */
   .stepper-row{ display:flex; align-items:flex-start; justify-content:center; gap:6px; flex-wrap:wrap; }
+  .stepper-progress{ height:2px; background:var(--border); border-radius:2px; margin:0 0 22px; overflow:hidden; }
+  .stepper-progress span{ display:block; height:100%; width:0; background:var(--accent); }
+  @media (prefers-reduced-motion: reduce){ .stepper-progress{ display:none; } }
   .stepper-step{ flex:1; min-width:150px; max-width:210px; cursor:pointer;
     transition:transform .2s var(--ease-spring), opacity .25s var(--ease-fluid); }
   .stepper-icon{ width:46px; height:46px; border-radius:12px; background:var(--accent-soft); display:flex;
@@ -832,6 +835,7 @@
 
   <div class="section reveal"><div class="wrap">
     <div class="section-head"><h2>How it works</h2><p>From a filed request to money released, in five steps. Click any step for a closer look.</p></div>
+    <div class="stepper-progress" id="stepperProgress" aria-hidden="true"><span></span></div>
     <div class="stepper-row" id="howItWorksStepper">
       <div class="stepper-step" data-step="1"><div class="stepper-icon">📋</div><div class="stepper-label">Step 1</div><div class="stepper-title">Request filed</div><div class="stepper-desc">A municipality, NGO or business submits scope, budget and timeline.</div></div>
       <div class="stepper-arrow">→</div>
@@ -5123,6 +5127,95 @@ setTimeout(()=>{
     revealObserver.unobserve(el);
   });
 }, 1500);
+
+/* ================= Scroll-driven "How it works" =================
+   The five steps are the trust argument, and as a static row that only
+   responded to clicks almost nobody read them. They now advance as the section
+   passes through the viewport, so the argument gets made whether or not anyone
+   interacts.
+
+   Drives the .active-step / .has-active classes the click handler already uses,
+   rather than inventing a second set of states. A click takes over permanently
+   from that point, so scrolling never fights a reader who is exploring by hand.
+
+   Uses Motion's scroll() when it loaded — it can drive this off the browser's
+   native ScrollTimeline — and a passive rAF-throttled listener when it did not.
+   Both call the same setStepperProgress, so the two paths cannot drift.
+   ================================================================ */
+(function(){
+  var row = document.getElementById('howItWorksStepper');
+  var rail = document.getElementById('stepperProgress');
+  if(!row) return;
+  var steps = Array.prototype.slice.call(row.querySelectorAll('.stepper-step'));
+  if(!steps.length) return;
+
+  // Someone who asked for less motion gets the plain, readable row.
+  if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var manual = false;
+  row.addEventListener('click', function(){ manual = true; }, true);
+
+  var lastIdx = -1;
+  function setStepperProgress(t){
+    if(manual) return;
+    t = t < 0 ? 0 : (t > 1 ? 1 : t);
+    if(rail && rail.firstElementChild){
+      rail.firstElementChild.style.width = (t * 100).toFixed(1) + '%';
+    }
+    // Before the section really arrives, leave the row in its resting state.
+    if(t <= 0.02){
+      if(lastIdx !== -1){
+        row.classList.remove('has-active');
+        steps.forEach(function(s){ s.classList.remove('active-step'); });
+        lastIdx = -1;
+      }
+      return;
+    }
+    var idx = Math.floor(t * steps.length);
+    if(idx > steps.length - 1) idx = steps.length - 1;
+    if(idx === lastIdx) return;
+    lastIdx = idx;
+    row.classList.add('has-active');
+    steps.forEach(function(s, i){ s.classList.toggle('active-step', i === idx); });
+  }
+
+  var usedMotion = false;
+  if(window.Motion && typeof window.Motion.scroll === 'function'){
+    try{
+      window.Motion.scroll(function(p){ setStepperProgress(p); },
+        { target: row, offset: ['start 0.85', 'end 0.55'] });
+      usedMotion = true;
+    }catch(e){ usedMotion = false; }
+  }
+  if(!usedMotion){
+    var ticking = false;
+    var onScroll = function(){
+      if(ticking) return;
+      ticking = true;
+      requestAnimationFrame(function(){
+        ticking = false;
+        var r = row.getBoundingClientRect();
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var start = vh * 0.85;                 // t = 0 as the row reaches here
+        var end = vh * 0.55;                   // t = 1 once it has passed here
+        var span = r.height + (start - end);
+        setStepperProgress(span > 0 ? (start - r.top) / span : 0);
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive:true });
+    window.addEventListener('resize', onScroll, { passive:true });
+    onScroll();
+  }
+  // Motion may finish loading after this runs; pick it up when it announces itself.
+  document.addEventListener('motion-ready', function(){
+    if(usedMotion || !window.Motion || typeof window.Motion.scroll !== 'function') return;
+    try{
+      window.Motion.scroll(function(p){ setStepperProgress(p); },
+        { target: row, offset: ['start 0.85', 'end 0.55'] });
+      usedMotion = true;
+    }catch(e){}
+  });
+})();
 
 /* ================= Language =================
    English is the source of truth and stays in the markup. Translations are
