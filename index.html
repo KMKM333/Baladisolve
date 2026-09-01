@@ -804,6 +804,68 @@
     .rw-steps{ grid-template-columns:1fr; row-gap:24px; }
     .rw-step::before{ display:none; }
   }
+  /* ---------- "Who checks the verifier" — the open question, and the four
+     options for closing it. Sits under Who does the verifying on Trust. ---------- */
+  .qa-open{ border:1px solid var(--warn); background:var(--warn-soft); border-radius:14px; padding:22px 26px; margin-top:34px; }
+  .qa-open-tag{ font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--warn); margin-bottom:9px; }
+  .qa-open h3{ font-size:20px; margin:0 0 10px; }
+  .qa-open p{ font-size:13.5px; color:var(--text-dim); line-height:1.75; margin:0 0 11px; max-width:80ch; }
+  .qa-open p:last-child{ margin-bottom:0; }
+  .qa-open b{ color:var(--text); }
+
+  .qa-ev{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-top:22px; }
+  .qa-ev-cell{ border:1px solid var(--border); border-radius:12px; padding:18px 20px; background:var(--bg-1); }
+  .qa-ev-num{ display:block; font-family:'IBM Plex Mono',monospace; font-size:30px; font-weight:600; color:var(--danger); line-height:1.1; }
+  .qa-ev-cap{ display:block; font-size:12.5px; color:var(--text-dim); line-height:1.6; margin-top:8px; }
+  @media (max-width:820px){ .qa-ev{ grid-template-columns:1fr; } }
+
+  .qa-cmp{ border:1px solid var(--border); border-radius:12px; overflow:hidden; margin-top:22px; }
+  .qa-cmp-row{ display:grid; grid-template-columns:1.1fr 1.3fr 1.3fr; gap:14px; padding:12px 18px;
+    border-bottom:1px solid var(--border); font-size:12.5px; color:var(--text-dim); align-items:center; }
+  .qa-cmp-row:last-child{ border-bottom:none; }
+  .qa-cmp-row span:first-child{ color:var(--text); font-weight:600; }
+  .qa-cmp-head{ background:var(--bg-1); font-size:10.5px; letter-spacing:.09em; text-transform:uppercase; color:var(--text-faint); }
+  .qa-cmp-head span:first-child{ color:var(--text-faint); font-weight:700; }
+  .qa-cmp-row.gap{ background:var(--warn-soft); }
+  .qa-cmp-row.gap span:last-child{ color:var(--warn); font-weight:700; }
+  .qa-ok{ color:var(--ok); font-weight:600; }
+  @media (max-width:820px){
+    .qa-cmp-row{ grid-template-columns:1fr; gap:3px; }
+    .qa-cmp-head{ display:none; }
+  }
+
+  .qa-opts{ display:grid; grid-template-columns:repeat(4,1fr); column-gap:14px; row-gap:8px; margin-top:18px; }
+  @supports (grid-template-rows: subgrid){
+    .qa-opts{ grid-template-rows:repeat(4,auto); }
+    .qa-opt{ display:grid; grid-template-rows:subgrid; grid-row:span 4; }
+  }
+  .qa-opt{ all:unset; box-sizing:border-box; cursor:pointer; display:flex; flex-direction:column; gap:8px;
+    border:1px solid var(--border); border-radius:13px; padding:18px 18px 16px; background:var(--bg-1);
+    transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
+  .qa-opt:hover{ border-color:var(--accent); transform:translateY(-2px); }
+  .qa-opt:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .qa-opt[aria-selected="true"]{ border-color:var(--accent); background:var(--accent-soft); box-shadow:0 6px 18px rgba(37,99,235,0.12); }
+  .qa-letter{ width:26px; height:26px; border-radius:8px; background:var(--accent); color:var(--on-accent);
+    font-size:13px; font-weight:800; display:flex; align-items:center; justify-content:center; }
+  .qa-opt-name{ font-size:14px; font-weight:800; color:var(--text); line-height:1.35; }
+  .qa-opt-one{ font-size:12px; color:var(--text-dim); line-height:1.6; }
+  .qa-opt-foot{ display:flex; flex-wrap:wrap; gap:6px; align-self:end; }
+  .qa-chip{ font-size:10px; font-weight:800; letter-spacing:.05em; text-transform:uppercase;
+    border-radius:20px; padding:3px 9px; border:1px solid var(--border); color:var(--text-faint); }
+  .qa-chip.rec{ border-color:var(--ok); color:var(--ok); background:var(--ok-soft); }
+  .qa-chip.hold{ border-color:var(--warn); color:var(--warn); background:var(--warn-soft); }
+  @media (max-width:980px){ .qa-opts{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:560px){ .qa-opts{ grid-template-columns:1fr; } }
+
+  .qa-detail{ border:1px solid var(--accent); border-radius:14px; background:var(--bg-1); padding:24px 26px 26px; margin-top:14px; }
+  .qa-detail-head{ display:flex; align-items:flex-start; gap:14px; margin-bottom:20px; }
+  .qa-detail-head h4{ font-size:18px; margin:0 0 5px; }
+  .qa-detail-lead{ font-size:13px; color:var(--text-dim); line-height:1.65; margin:0; max-width:74ch; }
+  .qa-dgrid{ display:grid; grid-template-columns:1fr 1fr; gap:20px 26px; }
+  .qa-dl{ display:block; font-size:10.5px; font-weight:800; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); margin-bottom:6px; }
+  .qa-dgrid p{ font-size:12.5px; color:var(--text-dim); line-height:1.7; margin:0; }
+  .qa-src{ font-size:11.5px; color:var(--text-faint); line-height:1.6; margin:20px 0 0; padding-top:14px; border-top:1px solid var(--border); }
+  @media (max-width:760px){ .qa-dgrid{ grid-template-columns:1fr; } }
   .vf-when{ border:1px solid var(--border); border-radius:12px; padding:20px 22px; background:var(--bg-1); margin-top:18px; }
   .vf-when-head{ font-size:11px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
   .vf-when-lead{ font-size:13.5px; color:var(--text); margin:0 0 16px; line-height:1.6; max-width:70ch; }
@@ -1623,6 +1685,61 @@
           <p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;line-height:1.65;">Where a sponsor or a municipality wants a stronger guarantee than a promise, the release rules can be written into a smart contract: funds move only on signatures from assigned verifiers, the signer list excludes the implementer, certifier and funders by construction, the tranche schedule is fixed when funding closes, and unreleased money returns automatically if a request stalls.</p>
           <p style="font-size:12.5px;color:var(--text-dim);margin:10px 0 0;line-height:1.65;"><b>What it does not do:</b> a contract cannot know whether the wall was built. Someone still has to look. It makes the <i>process</i> tamper-evident — who signed, when, and that nobody moved money alone — not the underlying facts true. It is an added layer for those who want it, never a replacement for the verifier.</p>
         </div>
+
+        <div class="qa-open">
+          <div class="qa-open-tag">Open question &mdash; not solved yet</div>
+          <h3>But who checks the verifier?</h3>
+          <p>Everything above rests on one role. The verifier is the reason a certification can be believed, a sponsor&rsquo;s money is safe, and a finished wall is really finished. So it is fair to ask the obvious next question: <b>if the verifier checks everyone else, who checks them?</b></p>
+          <p>Right now, honestly: <b>nobody.</b> A verifier&rsquo;s rejections are published next to their approvals, and that is the whole safeguard. It is better than nothing &mdash; a reviewer who has never rejected anything is visible &mdash; but it is not a system. We would rather write that down here than let you assume it was handled.</p>
+        </div>
+
+        <p style="font-size:13.5px;color:var(--text-dim);line-height:1.75;margin:26px 0 0;max-width:78ch;">This is not a hypothetical worry. The closest thing to Manāra that already exists at scale is the carbon credit market, where independent auditors sign off before money moves. It went wrong, and the numbers are public.</p>
+
+        <div class="qa-ev">
+          <div class="qa-ev-cell"><span class="qa-ev-num">2 in 3</span><span class="qa-ev-cap">Accredited auditors who <b>missed the flaws</b> in projects later found to be overstated, across 95 projects studied.</span></div>
+          <div class="qa-ev-cell"><span class="qa-ev-num">84%</span><span class="qa-ev-cap">Of credits across 2,346 projects that <b>did not represent real cuts</b> &mdash; all of them signed off by someone independent.</span></div>
+          <div class="qa-ev-cell"><span class="qa-ev-num">4</span><span class="qa-ev-cap">Verification bodies suspended in 2025 &mdash; caught by <b>a whistleblower</b>, not by routine monitoring.</span></div>
+        </div>
+
+        <p style="font-size:13.5px;color:var(--text-dim);line-height:1.75;margin:22px 0 0;max-width:78ch;">The cause everyone landed on was simple: <b>the auditors were paid by the people they were checking</b>, and the people being checked got to pick them. Manāra was built to avoid exactly that &mdash; two of the three doors are already shut.</p>
+
+        <div class="qa-cmp">
+          <div class="qa-cmp-row qa-cmp-head"><span>The question</span><span>What went wrong elsewhere</span><span>How Manāra is built</span></div>
+          <div class="qa-cmp-row"><span>Who picks the verifier?</span><span>The party being checked</span><span class="qa-ok">Rotation from the eligible pool</span></div>
+          <div class="qa-cmp-row"><span>Who pays the verifier?</span><span>The party being checked</span><span class="qa-ok">Escrow, never the implementer</span></div>
+          <div class="qa-cmp-row gap"><span>Who checks the verifier?</span><span>Nobody, until a whistleblower</span><span>Nobody &mdash; this is the gap</span></div>
+        </div>
+
+        <h3 style="font-size:19px;margin:34px 0 4px;">Four ways to close it</h3>
+        <p style="font-size:13.5px;color:var(--text-dim);line-height:1.7;margin:0 0 4px;max-width:78ch;">Each of these is borrowed from somewhere it already works. Pick one to read what it does, what it would catch, and what it would cost.</p>
+
+        <div class="qa-opts" id="qaOptions" role="tablist" aria-label="Options for checking the verifier">
+          <button class="qa-opt" type="button" role="tab" data-qa="a" aria-selected="true">
+            <span class="qa-letter">A</span>
+            <span class="qa-opt-name">Publish every verifier&rsquo;s record</span>
+            <span class="qa-opt-one">Put all their numbers on one page, side by side.</span>
+            <span class="qa-opt-foot"><span class="qa-chip">Low cost</span><span class="qa-chip rec">Recommended</span></span>
+          </button>
+          <button class="qa-opt" type="button" role="tab" data-qa="b" aria-selected="false">
+            <span class="qa-letter">B</span>
+            <span class="qa-opt-name">Re-check a sample of approvals</span>
+            <span class="qa-opt-one">One in ten passed milestones quietly checked again.</span>
+            <span class="qa-opt-foot"><span class="qa-chip">+10% cost</span><span class="qa-chip rec">Recommended</span></span>
+          </button>
+          <button class="qa-opt" type="button" role="tab" data-qa="c" aria-selected="false">
+            <span class="qa-letter">C</span>
+            <span class="qa-opt-name">Two verifiers on the big ones</span>
+            <span class="qa-opt-one">Above a threshold, two check separately and a third settles it.</span>
+            <span class="qa-opt-foot"><span class="qa-chip">Double cost</span><span class="qa-chip hold">On hold</span></span>
+          </button>
+          <button class="qa-opt" type="button" role="tab" data-qa="d" aria-selected="false">
+            <span class="qa-letter">D</span>
+            <span class="qa-opt-name">Say what happens when one gets it wrong</span>
+            <span class="qa-opt-one">Rotation limits, renewals, suspension, and where to complain.</span>
+            <span class="qa-opt-foot"><span class="qa-chip">Policy only</span><span class="qa-chip rec">Recommended</span></span>
+          </button>
+        </div>
+        <div class="qa-detail" id="qaDetail"></div>
     </div>
 
     <div class="section">
@@ -5129,6 +5246,80 @@ document.querySelectorAll('[data-cat]').forEach(el=>{
     else { openCategoryPage(el.dataset.cat); }
   });
 });
+
+// ---------- "Who checks the verifier": the four options on the Trust page ----------
+// Declared immediately above the code that reads it. A data const declared below
+// the point it is first used is the load-order bug that has taken this site down.
+const QA_OPTIONS = {
+  a: {
+    name: 'Publish every verifier&rsquo;s record',
+    lead: 'The cheapest of the four, and the one that makes the other three legible. Nothing new has to happen &mdash; the numbers already exist, they are just scattered across individual pages.',
+    is: 'One page listing every accredited verifier side by side: how many milestones they passed, how many they rejected, how long they took, and how many of their decisions were later overturned. Sortable, public, no login.',
+    catches: 'The verifier who never rejects anything. If everyone else turns down roughly one milestone in five and one person turns down none, that stands out the moment the numbers sit next to each other &mdash; and today nobody would ever notice.',
+    costs: 'Almost nothing. No new checks, no new people, no extra work for anyone. It is a page, not a process.',
+    src: 'After a run of scandals, the largest carbon standard began publishing performance data on its auditors so that anyone choosing one could see their record first.'
+  },
+  b: {
+    name: 'Re-check a sample of approvals',
+    lead: 'The only option here where the system can catch a bad verification <b>by itself</b>, rather than waiting for someone to complain.',
+    is: 'One in ten approved milestones is quietly checked a second time by a different verifier, after the money has already moved. If the second one disagrees, the first decision is marked overturned and goes on that verifier&rsquo;s public record. Verifiers whose numbers look unusual get sampled more often than the rest.',
+    catches: 'A verifier who is being too generous &mdash; waving work through that should have been sent back. That is the failure mode none of the other options can see, because a generous verifier produces no complaints: the implementer is paid, the sponsor is told it went well, and nobody involved has any reason to raise a hand.',
+    costs: 'About a tenth more verification work. That is the whole point of sampling &mdash; checking everything twice is unaffordable, so you check a slice and let everyone know a slice gets checked.',
+    src: 'Accredited inspection bodies worldwide already work this way: every inspector must be re-observed on the job across a four-year cycle. In the carbon market, which had no equivalent, the failures were found by a whistleblower instead.'
+  },
+  c: {
+    name: 'Two verifiers on the big ones',
+    lead: 'The strongest mechanism on this list and the hardest to pay for &mdash; which is why it is parked rather than dropped.',
+    is: 'Above a set amount, two verifiers examine the same milestone without being able to see each other&rsquo;s answer. If they disagree, a third settles it. How often the two disagree becomes a published measure of how reliable both of them are.',
+    catches: 'Honest mistakes as well as quiet bias, on exactly the milestones where the most money is released. It also produces something none of the other options do: a direct read on whether two qualified people looking at the same evidence actually reach the same conclusion.',
+    costs: 'Double, on whichever milestones it covers. That is a budget decision rather than a design one, so this would be offered as an upgrade a sponsor can choose to fund &mdash; the same way the smart contract layer above is optional.',
+    src: 'Breast cancer screening. Two radiologists read every scan independently and a third arbitrates disagreements &mdash; and the disagreement rate itself is treated as a core quality measure of the readers.'
+  },
+  d: {
+    name: 'Say what happens when one gets it wrong',
+    lead: 'On its own this catches nothing. It is what gives the other three consequences &mdash; without it, being caught means nothing happens.',
+    is: 'Written, published rules: how many times running a verifier may be assigned to the same implementing partner before rotating off, how often accreditation must be renewed, how long a verifier has to fix a problem before it becomes public, and who can suspend them. Complaints route to the oversight board, never back to the verifier being complained about.',
+    catches: 'Nothing directly &mdash; but it answers the first question a serious donor or a regulator asks, which is what happens to a verifier who gets it wrong. Right now the honest answer is: nothing.',
+    costs: 'Policy to write, almost no code. Every verifier already carries a standing, a licence and an expiry date; this decides what moves them between states.',
+    src: 'Audit regulators give a firm twelve months to fix a finding before it is published, and require lead auditors to rotate off a client after five years and stay off for five. Grant verifiers at the Global Fund are contracted two years at a time, renewable only on performance.'
+  }
+};
+function renderQaDetail(key){
+  var d = QA_OPTIONS[key];
+  var el = document.getElementById('qaDetail');
+  if(!d || !el) return;
+  el.innerHTML =
+    '<div class="qa-detail-head"><span class="qa-letter">' + key.toUpperCase() + '</span>' +
+    '<div><h4>' + d.name + '</h4><p class="qa-detail-lead">' + d.lead + '</p></div></div>' +
+    '<div class="qa-dgrid">' +
+      '<div><span class="qa-dl">What it is</span><p>' + d.is + '</p></div>' +
+      '<div><span class="qa-dl">What it would catch</span><p>' + d.catches + '</p></div>' +
+      '<div><span class="qa-dl">What it would cost</span><p>' + d.costs + '</p></div>' +
+      '<div><span class="qa-dl">Where the idea comes from</span><p>' + d.src + '</p></div>' +
+    '</div>' +
+    '<p class="qa-src">None of these is live yet. This section exists so the gap is stated in public while it is still open &mdash; a platform that only publishes the checks it has already passed is not being transparent, it is advertising.</p>';
+}
+(function(){
+  var row = document.getElementById('qaOptions');
+  if(!row) return;
+  var tabs = Array.prototype.slice.call(row.querySelectorAll('.qa-opt'));
+  function pick(btn){
+    tabs.forEach(function(t){ t.setAttribute('aria-selected', String(t === btn)); });
+    renderQaDetail(btn.dataset.qa);
+  }
+  tabs.forEach(function(btn, i){
+    btn.addEventListener('click', function(){ pick(btn); });
+    // Left/right arrows move between options, the way a tab strip should.
+    btn.addEventListener('keydown', function(e){
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if(!d) return;
+      e.preventDefault();
+      var next = tabs[(i + d + tabs.length) % tabs.length];
+      next.focus(); pick(next);
+    });
+  });
+  renderQaDetail('a');
+})();
 
 // wire Network page group headings (Government / Expert organisations / Sponsors) to their group pages
 document.querySelectorAll('[data-group]').forEach(el=>{
