@@ -18,3 +18,11 @@
     # The whole app is this one file, and it changes on every deploy, so a
     # stale cached copy is the difference between shipping and not shipping.
     Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    # Photos are static and now cached by the browser instead of being re-downloaded
+    # inside the HTML on every visit. Not "immutable": filenames are stable, so
+    # replacing a photo under the same name needs this window to lapse first.
+    Cache-Control = "public, max-age=2592000"
