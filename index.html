@@ -296,6 +296,10 @@
   .mini-card b{ display:block; font-size:14px; margin-bottom:4px; }
   .mini-card p{ font-size:12px; color:var(--text-dim); margin:0; line-height:1.5; }
   @media (max-width:480px){ .mini-card{ flex-basis:78vw; } }
+  .carousel-progress{ position:relative; height:3px; border-radius:2px; background:var(--bg-2); margin-top:12px; }
+  .carousel-progress span{ position:absolute; top:0; bottom:0; border-radius:2px; background:var(--accent);
+    transition:left .16s var(--ease-fluid), width .16s var(--ease-fluid); }
+  @media (prefers-reduced-motion: reduce){ .carousel-progress span{ transition:none; } }
   .proj-carousel{ display:flex; gap:14px; overflow-x:auto; scroll-snap-type:x mandatory;
     -webkit-overflow-scrolling:touch; padding-bottom:6px; scrollbar-width:thin; margin:0 -2px; padding-inline-start:2px; padding-inline-end:2px; }
   .proj-carousel .proj-card{ scroll-snap-align:start; flex:0 0 240px; }
@@ -3463,15 +3467,48 @@ function initCarouselControls(gridId, wrapId){
   const leftBtn = wrap.querySelector('.carousel-arrow.left');
   const rightBtn = wrap.querySelector('.carousel-arrow.right');
   if(!leftBtn || !rightBtn) return;
-  function updateArrows(){
-    leftBtn.classList.toggle('hidden', grid.scrollLeft <= 4);
-    rightBtn.classList.toggle('hidden', grid.scrollLeft >= grid.scrollWidth - grid.clientWidth - 4);
+
+  // The distance from one card to the next, measured rather than assumed. A
+  // hard-coded step that doesn't match the real pitch overshoots every click,
+  // and scroll-snap then drags it back — the two fight each other.
+  function pitch(){
+    const cards = grid.children;
+    if(cards.length > 1) return cards[1].offsetLeft - cards[0].offsetLeft;
+    if(cards.length === 1) return cards[0].offsetWidth;
+    return grid.clientWidth;
   }
-  leftBtn.addEventListener('click', ()=> grid.scrollBy({left: -280, behavior:'smooth'}));
-  rightBtn.addEventListener('click', ()=> grid.scrollBy({left: 280, behavior:'smooth'}));
-  grid.addEventListener('scroll', updateArrows);
-  window.addEventListener('resize', updateArrows);
-  updateArrows();
+  // Whole pages where they fit, one card where they don't.
+  function step(){
+    const p = pitch();
+    return p > 0 ? Math.max(1, Math.floor(grid.clientWidth / p)) * p : grid.clientWidth;
+  }
+
+  let bar = wrap.querySelector('.carousel-progress');
+  if(!bar){
+    bar = document.createElement('div');
+    bar.className = 'carousel-progress';
+    bar.appendChild(document.createElement('span'));
+    grid.insertAdjacentElement('afterend', bar);
+  }
+  const thumb = bar.firstChild;
+
+  function update(){
+    const max = grid.scrollWidth - grid.clientWidth;
+    leftBtn.classList.toggle('hidden', grid.scrollLeft <= 4);
+    rightBtn.classList.toggle('hidden', grid.scrollLeft >= max - 4);
+    // Nothing to scroll means nothing to indicate.
+    bar.style.display = max > 4 ? '' : 'none';
+    if(max > 4){
+      const visible = grid.clientWidth / grid.scrollWidth;
+      thumb.style.width = (visible * 100) + '%';
+      thumb.style.left = ((grid.scrollLeft / grid.scrollWidth) * 100) + '%';
+    }
+  }
+  leftBtn.addEventListener('click', ()=> grid.scrollBy({left: -step(), behavior:'smooth'}));
+  rightBtn.addEventListener('click', ()=> grid.scrollBy({left: step(), behavior:'smooth'}));
+  grid.addEventListener('scroll', update);
+  window.addEventListener('resize', update);
+  update();
 }
 
 // ---------- filters (All Projects) ----------
