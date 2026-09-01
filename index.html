@@ -1332,6 +1332,7 @@
         <select id="fType"><option value="">All project types</option></select>
         <select id="fSize"><option value="">All sizes</option></select>
         <select id="fStatus"><option value="">All statuses</option></select>
+        <select id="fUrgency"><option value="">All severities</option></select>
         <span class="count" id="resultCount"></span>
       </div>
       <div class="proj-grid" id="projectGrid"></div>
@@ -3475,17 +3476,23 @@ function initCarouselControls(gridId, wrapId){
 
 // ---------- filters (All Projects) ----------
 const fGov = document.getElementById('fGov'), fType = document.getElementById('fType'),
-      fSize = document.getElementById('fSize'), fStatus = document.getElementById('fStatus');
+      fSize = document.getElementById('fSize'), fStatus = document.getElementById('fStatus'),
+      fUrgency = document.getElementById('fUrgency');
 GOVS.forEach(g=>{ const o=document.createElement('option'); o.value=g.id; o.textContent=g.name; fGov.appendChild(o); });
 TYPES.forEach(t=>{ const o=document.createElement('option'); o.value=t; o.textContent=t; fType.appendChild(o); });
 [['small','Small (< $10k)'],['medium','Medium ($10k–$25k)'],['large','Large (> $25k)']].forEach(([v,l])=>{ const o=document.createElement('option'); o.value=v; o.textContent=l; fSize.appendChild(o); });
 Object.entries(statusLabel).forEach(([v,l])=>{ const o=document.createElement('option'); o.value=v; o.textContent=l; fStatus.appendChild(o); });
+// Severity is read off the projects themselves rather than hard-coded, so a new
+// level added to the data shows up here without a second edit.
+['Critical','High','Medium','Low'].filter(u=> PROJECTS.some(p=> p.urgency===u))
+  .forEach(u=>{ const o=document.createElement('option'); o.value=u; o.textContent=u; fUrgency.appendChild(o); });
 
 function filtered(){
-  const f = {gov:fGov.value, type:fType.value, size:fSize.value, status:fStatus.value};
+  const f = {gov:fGov.value, type:fType.value, size:fSize.value, status:fStatus.value, urgency:fUrgency.value};
   return PROJECTS.filter(p =>
     (!f.gov || p.gov===f.gov) && (!f.type || p.type===f.type) &&
-    (!f.size || sizeBudget(p)===f.size) && (!f.status || p.status===f.status)
+    (!f.size || sizeBudget(p)===f.size) && (!f.status || p.status===f.status) &&
+    (!f.urgency || p.urgency===f.urgency)
   );
 }
 function renderGrid(skipAnim){
@@ -3493,7 +3500,7 @@ function renderGrid(skipAnim){
   const doRender = ()=>{
     const list = filtered();
     document.getElementById('resultCount').textContent = list.length + ' projects';
-    grid.innerHTML = list.map(p=>cardHTML(p, true)).join('') || '<div class="empty-state" style="grid-column:1/-1;"><div class="es-icon">🔍</div><div class="es-msg">No projects match these filters</div><div class="es-sub">Try widening your governorate, type, or status filter.</div></div>';
+    grid.innerHTML = list.map(p=>cardHTML(p, true)).join('') || '<div class="empty-state" style="grid-column:1/-1;"><div class="es-icon">🔍</div><div class="es-msg">No projects match these filters</div><div class="es-sub">Try widening your governorate, type, severity, or status filter.</div></div>';
     attachCardEvents(grid);
     grid.classList.remove('reflowing');
   };
@@ -3501,7 +3508,7 @@ function renderGrid(skipAnim){
   grid.classList.add('reflowing');
   setTimeout(doRender, 180);
 }
-[fGov,fType,fSize,fStatus].forEach(el=> el.addEventListener('change', ()=> renderGrid()));
+[fGov,fType,fSize,fStatus,fUrgency].forEach(el=> el.addEventListener('change', ()=> renderGrid()));
 
 // ---------- stats ----------
 function renderStats(){
