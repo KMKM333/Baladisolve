@@ -595,11 +595,10 @@
   /* Map layer keys. A white marker needs a dark ring and a black one a light
      ring, or each disappears against half the surfaces it sits on. */
   .map-key{ display:inline-block; flex-shrink:0; }
+  .map-key.dot{ width:10px; height:10px; border-radius:50%; background:var(--accent); }
   .map-key.tri{ width:0; height:0; border-inline-start:5.5px solid transparent; border-inline-end:5.5px solid transparent;
     border-bottom:10px solid var(--map-exp); filter:drop-shadow(0 0 1px var(--map-exp-ink)); }
-  .map-key.tri.sm{ border-inline-start-width:3.5px; border-inline-end-width:3.5px; border-bottom-width:6.5px; }
   .map-key.sq{ width:10px; height:10px; border-radius:2px; background:var(--map-gov); box-shadow:0 0 0 1px var(--map-gov-ink), 0 0 0 2px var(--border); }
-  .map-key.sq.sm{ width:7px; height:7px; }
   .lead-group-tag{ font-size:10.5px; font-weight:700; padding:3px 9px; border-radius:10px; white-space:nowrap; }
   .lead-group-tag.g-gov{ background:var(--accent-soft); color:var(--accent); }
   .lead-group-tag.g-exp{ background:rgba(124,58,237,0.1); color:#7c3aed; }
@@ -1640,7 +1639,7 @@
 
         <div id="mapFilterRow" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
           <button class="map-filter-btn active" data-layer="problems" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;padding:10px 18px;border-radius:22px;border:1.5px solid var(--accent);color:var(--accent);background:var(--accent-soft);">
-            <span style="display:inline-block;width:11px;height:11px;border-radius:50%;background:var(--accent);"></span>Problems <span class="map-filter-count" data-count="problems" style="opacity:.7;"></span>
+            <span class="map-key dot"></span>Problems <span class="map-filter-count" data-count="problems" style="opacity:.7;"></span>
           </button>
           <button class="map-filter-btn active" data-layer="experts" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;padding:10px 18px;border-radius:22px;border:1.5px solid var(--border);color:var(--text);background:var(--bg-1);">
             <span class="map-key tri"></span>Experts <span class="map-filter-count" data-count="experts" style="opacity:.7;"></span>
@@ -1684,13 +1683,13 @@
             <input type="text" id="mapSearchInput" placeholder="Search a project, expert, or town…" style="width:100%;padding:9px 11px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-family:inherit;box-sizing:border-box;margin-bottom:10px;">
             <div id="mapSearchFilterRow" style="display:flex; gap:6px; flex-wrap:wrap;">
               <button class="map-search-filter-btn active" data-search-layer="problems" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:5px 10px;border-radius:14px;border:1.3px solid var(--accent);color:var(--accent);background:var(--accent-soft);">
-                <span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--accent);"></span>Problems
+                <span class="map-key dot"></span>Problems
               </button>
               <button class="map-search-filter-btn active" data-search-layer="experts" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:5px 10px;border-radius:14px;border:1.3px solid var(--border);color:var(--text);background:var(--bg-1);">
-                <span class="map-key tri sm"></span>Experts
+                <span class="map-key tri"></span>Experts
               </button>
               <button class="map-search-filter-btn active" data-search-layer="municipalities" style="all:unset;cursor:pointer;display:flex;align-items:center;gap:5px;font-size:11px;font-weight:600;padding:5px 10px;border-radius:14px;border:1.3px solid var(--border);color:var(--text);background:var(--bg-1);">
-                <span class="map-key sq sm"></span>Towns
+                <span class="map-key sq"></span>Towns
               </button>
             </div>
           </div>
@@ -4082,7 +4081,7 @@ function ensureLeafletMap(){
         <div style="font-size:10.5px;color:#888;margin-top:8px;">Click the title above to view the full project →</div>
       </div>`;
     const marker = L.circleMarker(coords, {
-      radius: 10, weight: 2.5, color: statusBorder[p.status] || '#fff', fillColor: statusColor[p.status] || '#8b95a3', fillOpacity: 1
+      radius: 7.5, weight: 2, color: statusBorder[p.status] || '#fff', fillColor: statusColor[p.status] || '#8b95a3', fillOpacity: 1
     }).bindPopup(stage1).addTo(mapLayers.problems);
     window.__mapMarkerRegistry[mid] = { marker, stage2 };
     mapSearchIndex.push({ name: p.title, sub: p.locality, type:'problems', status: p.status, coords, marker });
