@@ -996,16 +996,7 @@
       </div>
 
       <div class="net-group"><div class="net-role">Solves</div><h3 data-group="experts" style="cursor:pointer;">Expert organisations</h3><p>Matched to a request by field — the specific technical knowledge a problem needs, distinct from who implements or who pays.</p><button class="role-jump" type="button" data-demo-jump="electricity">See the expert options <span aria-hidden="true">&rarr;</span></button></div>
-      <div class="field-grid" style="margin-bottom:14px;">
-        <div class="field-card" data-cat="electricity"><div class="field-icon">⚡</div><h3>Electricity</h3><p>Grid repair, solar installation, and power system design.</p></div>
-        <div class="field-card" data-cat="waste"><div class="field-icon">♻️</div><h3>Waste Collection</h3><p>Routing, sorting, and recycling logistics.</p></div>
-        <div class="field-card" data-cat="water"><div class="field-icon">💧</div><h3>Water</h3><p>Supply networks, wells, and treatment systems.</p></div>
-        <div class="field-card" data-cat="publicland"><div class="field-icon">🌳</div><h3>Public Land &amp; Pavements</h3><p>Parks, sidewalks, and shared public space.</p></div>
-        <div class="field-card" data-cat="environment"><div class="field-icon">🍃</div><h3>Environment</h3><p>Pollution control, reforestation, and site remediation.</p></div>
-        <div class="field-card" data-cat="roads"><div class="field-icon">🚦</div><h3>Roads &amp; Traffic</h3><p>Paving, signage, and safety engineering.</p></div>
-        <div class="field-card" data-cat="sewage"><div class="field-icon">🚰</div><h3>Sewage</h3><p>Drainage, treatment, and wastewater systems.</p></div>
-        <div class="field-card" data-cat="ngoinit"><div class="field-icon">💡</div><h3>NGOs &amp; Initiatives</h3><p>Civic education, cultural preservation, and community programs that cut across a single technical category.</p></div>
-      </div>
+      <div class="field-grid" id="networkFieldGrid" style="margin-bottom:14px;"></div>
       <div style="font-size:12px;color:var(--text-faint);margin-bottom:34px;">Example on the ledger: <b style="color:var(--text-dim);">Cedar Engineers</b> — structural engineering — paired with Aley Union of Municipalities on the Wadi Faara retaining wall.</div>
 
       <div class="net-group"><div class="net-role">Funds</div><h3 data-group="sponsors" style="cursor:pointer;">Sponsors</h3><p>Five kinds of funders, one ledger. Every pledge is tracked the same way — named or anonymous, escrowed, released only against verified evidence.</p><button class="role-jump" type="button" data-demo-jump="orgbiz">See the sponsor options <span aria-hidden="true">&rarr;</span></button></div>
@@ -3119,12 +3110,8 @@ function renderHome(){
   document.querySelectorAll('#homeNetworkPreview .light-card').forEach(c=> c.style.cursor='pointer');
   document.querySelectorAll('#homeNetworkPreview .light-card').forEach(c=> c.addEventListener('click', ()=> switchView('network')));
 
-  document.getElementById('typeTiles').innerHTML = EXPERT_FIELDS.map(f=>
-    `<div class="field-card" data-cat="${f.id}" style="cursor:pointer;"><div class="field-icon">${f.icon}</div><h3>${f.name}</h3><p>${f.desc}</p></div>`
-  ).join('');
-  document.querySelectorAll('#typeTiles .field-card').forEach(el=>{
-    el.addEventListener('click', ()=> openCategoryPage(el.dataset.cat));
-  });
+  renderFieldGrid('typeTiles');
+  renderFieldGrid('networkFieldGrid');
 
   const featured = PROJECTS.filter(p=>p.status!=='proposed').slice(0,8);
   document.getElementById('featuredGrid').innerHTML = featured.map(cardHTML).join('');
@@ -5376,6 +5363,24 @@ setTimeout(()=>{
     revealObserver.unobserve(el);
   });
 }, 1500);
+
+// The eight expert fields used to be written twice — once as hand-written cards
+// on the Network page and once as this template for the home page — so editing a
+// name or description in one place silently left the other disagreeing. Both now
+// render from EXPERT_FIELDS through here, which is also what the backend will
+// need once fields stop being hardcoded at all.
+function renderFieldGrid(containerId){
+  var el = document.getElementById(containerId);
+  if(!el) return;
+  el.innerHTML = EXPERT_FIELDS.map(function(f){
+    return '<div class="field-card" data-cat="' + f.id + '" style="cursor:pointer;">' +
+      '<div class="field-icon">' + f.icon + '</div>' +
+      '<h3>' + f.name + '</h3><p>' + f.desc + '</p></div>';
+  }).join('');
+  el.querySelectorAll('.field-card').forEach(function(card){
+    card.addEventListener('click', function(){ openCategoryPage(card.dataset.cat); });
+  });
+}
 
 /* ================= Dashboard branches =================
    The dashboards used to sit in one flat row of six, which hid the structure the
