@@ -322,6 +322,17 @@
 
   /* ---------- Stepper (How it works) ---------- */
   .stepper-row{ display:flex; align-items:flex-start; justify-content:center; gap:6px; flex-wrap:wrap; }
+  .role-note{ font-size:12.5px; color:var(--text-faint); margin:-6px 0 12px; }
+  .role-list{ display:grid; gap:8px; margin-bottom:26px; }
+  .role-row{ all:unset; box-sizing:border-box; cursor:pointer; display:flex; align-items:center; justify-content:space-between;
+    gap:14px; border:1px solid var(--border); border-radius:9px; padding:12px 14px; }
+  .role-row:hover{ border-color:var(--accent); background:var(--accent-soft); }
+  .role-row:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .rr-main{ display:flex; flex-direction:column; gap:2px; min-width:0; }
+  .rr-name{ font-weight:700; font-size:13px; }
+  .rr-sub{ font-size:11.5px; color:var(--text-faint); }
+  .rr-go{ font-size:12px; font-weight:700; color:var(--accent); white-space:nowrap; }
+  .role-empty{ font-size:12.5px; color:var(--text-faint); margin-bottom:26px; }
   /* ---------- Project story (scroll-driven) ---------- */
   .story{ margin:34px 0 30px; padding-top:26px; border-top:1px solid var(--border); }
   .story-lede{ font-size:12.5px; color:var(--text-faint); margin:0 0 18px; }
@@ -1546,6 +1557,7 @@
       </div>
       <h3 class="dash-section-title" id="demoTableTitle">—</h3>
       <div class="dash-table" id="demoTable"></div>
+      <div id="demoRoleMatch"></div>
       <h3 class="dash-section-title" id="demoActionsTitle">—</h3>
       <div class="dash-actions" id="demoActions"></div>
     </div>
@@ -4626,6 +4638,7 @@ function renderAccountDemo(type){
       {num:'6', lbl:'Account types'}
     ].map(s=>`<div class="stat"><span class="num">${s.num}</span><span class="lbl">${s.lbl}</span></div>`).join('');
     document.getElementById('demoTable').innerHTML = '';
+    document.getElementById('demoRoleMatch').innerHTML = '';
     document.querySelectorAll('#demoNav button').forEach(b=> b.classList.toggle('active', b.dataset.demo===type));
     return;
   }
@@ -4653,12 +4666,19 @@ function renderAccountDemo(type){
       `<div class="dash-row"><div class="dr-main"><div class="dr-name">${r.name}</div><div class="dr-sub">${r.sub}</div></div><span class="status-pill st-${r.pillClass}">${r.pill}</span><span class="dr-value">${r.value}</span></div>`).join('');
   }
 
+  document.getElementById('demoRoleMatch').innerHTML = roleMatchHTML(type);
+  wireRoleMatch();
   document.getElementById('demoActionsTitle').textContent = d.actionsTitle;
   document.getElementById('demoActions').innerHTML = d.actions.map(a=>
     `<div class="dash-action-row"><div class="dr-name" style="font-size:12.5px;">${a.label}</div><div class="dr-sub">${a.sub}</div></div>`).join('');
   document.querySelectorAll('#demoNav button').forEach(b=> b.classList.toggle('active', b.dataset.demo===type));
 }
-function openAccountDemo(type){ switchView('account-demo'); renderAccountDemo(type); }
+function openAccountDemo(type){
+  var role = { government:'government', organisations:'expert', diaspora:'donor' }[type];
+  if(role) setRoute('role/' + role);
+  switchView('account-demo');
+  renderAccountDemo(type);
+}
 document.querySelectorAll('#demoNav button').forEach(btn=>{
   btn.addEventListener('click', ()=> renderAccountDemo(btn.dataset.demo));
 });
@@ -5157,6 +5177,73 @@ setTimeout(()=>{
   });
 }, 1500);
 
+/* ================= Role dashboards =================
+   Six sample dashboards already existed but sat behind More → Account
+   Dashboards with no role framing, so nobody arriving as "a municipality" or
+   "a donor" would ever find theirs. Two things were missing.
+
+   First, a way in: #/role/government, #/role/expert and #/role/donor now route
+   straight to the right dashboard, so a role page can be linked to directly.
+
+   Second, the question each role actually arrives with — what is waiting for
+   me? The panel below answers it from live project data rather than a fixed
+   sample list, so it stays true as projects change:
+
+     government  requests that cannot open for pledges until someone certifies
+     expert      open requests, with the field each one needs
+     donor       requests still short of goal, where a pledge moves the escrow
+
+   ==================================================== */
+function roleMatchConfig(type){
+  if(type === 'government') return {
+    title:'Waiting on certification',
+    note:'These cannot open for pledges until a government branch signs them off.',
+    pick:function(p){ return p.certStatus !== 'certified'; },
+    line:function(p){ return (p.certifyingBody || 'Certifying body not assigned') + ' · ' + p.locality; }
+  };
+  if(type === 'organisations') return {
+    title:'Open requests in your fields',
+    note:'Matched on the technical expertise each problem needs — separate from who certifies it or who pays.',
+    pick:function(p){ return p.status === 'funding' || p.status === 'proposed'; },
+    line:function(p){ return p.type + ' · ' + p.locality + ', ' + govName(p.gov); }
+  };
+  if(type === 'diaspora' || type === 'locals') return {
+    title:'Still short of goal',
+    note:'A pledge here moves the escrow threshold rather than topping up something already funded.',
+    pick:function(p){ return p.status === 'funding' && p.raised < p.goal; },
+    line:function(p){ return money(p.goal - p.raised) + ' still needed · ' + p.locality; }
+  };
+  return null;
+}
+function roleMatchHTML(type){
+  var cfg = roleMatchConfig(type);
+  if(!cfg) return '';
+  var list = PROJECTS.filter(cfg.pick).slice(0, 5);
+  if(!list.length){
+    return '<h3 class="dash-section-title">' + cfg.title + '</h3>' +
+      '<div class="role-empty">Nothing waiting right now.</div>';
+  }
+  var rows = list.map(function(p){
+    return '<button class="role-row" data-pid="' + p.id + '" type="button">' +
+      '<span class="rr-main"><span class="rr-name">' + p.title + '</span>' +
+      '<span class="rr-sub">' + cfg.line(p) + '</span></span>' +
+      '<span class="rr-go">View →</span></button>';
+  }).join('');
+  return '<h3 class="dash-section-title">' + cfg.title + '</h3>' +
+    '<p class="role-note">' + cfg.note + '</p>' +
+    '<div class="role-list">' + rows + '</div>';
+}
+function wireRoleMatch(){
+  document.querySelectorAll('#demoRoleMatch .role-row').forEach(function(b){
+    b.addEventListener('click', function(){ openDetail(parseInt(b.getAttribute('data-pid'), 10)); });
+  });
+}
+// The three roles the platform is built around, mapped onto the dashboards
+// that already model them.
+function roleToDemo(role){
+  return { government:'government', expert:'organisations', donor:'diaspora' }[role] || null;
+}
+
 /* ================= Project story =================
    The homepage teases "see a citizen report become a funded project" as four
    icons. On a project's own page that journey is real data — its report
@@ -5575,6 +5662,9 @@ function routeToPath(path){
   } else if(head === 'corridor'){
     var feat = CORRIDOR_FEATURES.find(function(f){ return f.id === arg || routeSlug(f.id) === arg; });
     if(feat){ openCorridorFeaturePage(feat.id); return; }
+  } else if(head === 'role'){
+    var demo = roleToDemo(arg);
+    if(demo){ openAccountDemo(demo); return; }
   } else if(head === 'org'){
     var lead = ALL_LEADS.find(function(l){ return routeSlug(l.name) === arg; });
     if(lead){ openLeadPage(lead.tags[0], lead); return; }
