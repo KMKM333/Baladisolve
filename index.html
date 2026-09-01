@@ -4697,9 +4697,11 @@ function renderAccountDemo(type){
   renderDemoNav(type);
 }
 function openAccountDemo(type){
+  // switchView writes its own route for the view it opens, so the role route has
+  // to be set after it or it gets overwritten with the generic #/account.
+  switchView('account-demo');
   var role = demoToRole(type);
   if(role) setRoute('role/' + role);
-  switchView('account-demo');
   renderAccountDemo(type);
 }
 
@@ -5243,7 +5245,12 @@ function renderDemoNav(type){
     return '<button data-demo="' + o.key + '"' + (o.key === type ? ' class="active"' : '') + '>' + o.label + '</button>';
   }).join('');
   sub.querySelectorAll('button').forEach(function(b){
-    b.addEventListener('click', function(){ renderAccountDemo(b.getAttribute('data-demo')); });
+    b.addEventListener('click', function(){
+      var key = b.getAttribute('data-demo');
+      var role = demoToRole(key);
+      if(role) setRoute('role/' + role);
+      renderAccountDemo(key);
+    });
   });
 }
 function openDemoBranch(branchId){
