@@ -500,31 +500,46 @@
   .wf-composite{ margin-top:12px; padding-top:12px; border-top:1.5px solid var(--text); display:flex; justify-content:space-between; align-items:center; font-size:13px; font-weight:800; }
   /* The home page's main call to action: four roles, four ways to register. */
   .join-cta{ border:1px solid var(--border); border-radius:20px; background:var(--bg-1); padding:30px 32px 32px; margin-top:22px; }
+  .join-cta-cols{ display:grid; grid-template-columns:1fr 1.05fr; gap:34px; align-items:start; }
+  .join-cta-points{ list-style:none; padding:0; margin:16px 0 20px; display:flex; flex-direction:column; gap:11px; }
+  .join-cta-points li{ position:relative; padding-inline-start:20px; font-size:12.5px; color:var(--text-dim); line-height:1.65; }
+  .join-cta-points li::before{ content:'\2713'; position:absolute; inset-inline-start:0; top:0; color:var(--accent); font-weight:800; font-size:12px; }
+  .join-cta-points b{ color:var(--text); }
+  .join-cta-form{ border:1px solid var(--border); border-radius:16px; background:var(--bg); padding:22px 24px 24px; }
+  .jcf-step{ font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:11px; }
+  .jcf-fields{ display:flex; flex-direction:column; gap:9px; margin-bottom:18px; }
+  .jcf-fields input{ font-family:inherit; font-size:13px; padding:11px 13px; border:1px solid var(--border);
+    border-radius:9px; background:var(--bg-1); color:var(--text); width:100%; box-sizing:border-box; }
+  .jcf-fields input::placeholder{ color:var(--text-faint); }
+  .jcf-fields input:focus-visible{ outline:2px solid var(--accent); outline-offset:-1px; border-color:var(--accent); }
+  .jcf-submit{ width:100%; box-sizing:border-box; }
+  .jcf-submit[disabled]{ opacity:.5; cursor:not-allowed; }
+  .jcf-note{ font-size:11.5px; color:var(--text-faint); line-height:1.6; margin:11px 0 0; text-align:center; }
+  .join-cta-demo{ all:unset; box-sizing:border-box; cursor:pointer; display:inline-flex; align-items:center; gap:7px;
+    font-size:12.5px; font-weight:700; color:var(--accent); border:1px solid var(--border); border-radius:9px; padding:9px 14px; }
+  .join-cta-demo:hover{ border-color:var(--accent); background:var(--accent-soft); }
+  .join-cta-demo:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .join-cta-card[aria-checked="true"]{ border-color:var(--accent); background:var(--accent-soft); box-shadow:0 4px 14px rgba(37,99,235,0.12); }
+  @media (max-width:940px){ .join-cta-cols{ grid-template-columns:1fr; gap:26px; } }
   .join-cta-head{ display:flex; align-items:flex-start; justify-content:space-between; gap:24px; margin-bottom:24px; }
   .join-cta-tag{ font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:9px; }
   .join-cta h3{ font-size:22px; font-weight:800; margin:0 0 8px; letter-spacing:-0.01em; }
   .join-cta-head p{ font-size:13.5px; color:var(--text-dim); line-height:1.7; margin:0; max-width:66ch; }
   .join-cta-demo{ flex-shrink:0; font-size:12.5px; }
-  .join-cta-grid{ display:grid; grid-template-columns:repeat(4,1fr); column-gap:14px; row-gap:8px; }
-  .join-cta-card{ all:unset; box-sizing:border-box; cursor:pointer; display:flex; flex-direction:column; gap:7px;
-    border:1px solid var(--border); border-radius:13px; padding:18px 18px 16px; background:var(--bg);
+  .join-cta-grid{ display:grid; grid-template-columns:repeat(2,1fr); column-gap:10px; row-gap:10px; margin-bottom:20px; }
+  .join-cta-card{ all:unset; box-sizing:border-box; cursor:pointer; display:flex; flex-direction:column; gap:4px;
+    border:1px solid var(--border); border-radius:11px; padding:13px 14px; background:var(--bg-1);
     transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
   .join-cta-card:hover{ border-color:var(--accent); transform:translateY(-3px); box-shadow:0 10px 24px rgba(15,23,42,0.08); }
   .join-cta-card:active{ transform:translateY(-1px) scale(.99); }
   .join-cta-card:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
   .jc-role{ font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); }
-  .jc-name{ font-size:18px; font-weight:800; color:var(--text); line-height:1.2; }
+  .jc-name{ font-size:15px; font-weight:800; color:var(--text); line-height:1.2; }
   .jc-line{ font-size:12px; color:var(--text-dim); line-height:1.6; }
   .jc-go{ font-size:12px; font-weight:700; color:var(--accent); }
   @supports (grid-template-rows: subgrid){
-    .join-cta-grid{ grid-template-rows:repeat(4,auto); }
-    .join-cta-card{ display:grid; grid-template-rows:subgrid; grid-row:span 4; }
-    .jc-go{ align-self:end; }
-  }
-  @media (max-width:1000px){ .join-cta-grid{ grid-template-columns:repeat(2,1fr); } }
-  @media (max-width:720px){
-    .join-cta-head{ flex-direction:column; gap:16px; }
-    .join-cta-demo{ align-self:stretch; text-align:center; }
+    .join-cta-grid{ grid-template-rows:repeat(3,auto); }
+    .join-cta-card{ display:grid; grid-template-rows:subgrid; grid-row:span 3; }
   }
   @media (max-width:560px){ .join-cta-grid{ grid-template-columns:1fr; } .join-cta{ padding:24px 20px 26px; } }
   .wf-teaser-box{ border:1px solid var(--border); border-radius:20px; background:var(--bg-1); padding:32px 34px; margin-top:22px; }
@@ -1246,39 +1261,49 @@
       </div>
     </div>
     <div class="join-cta">
-      <div class="join-cta-head">
-        <div>
-          <div class="join-cta-tag">Free to join · vetted once</div>
+      <div class="join-cta-cols">
+        <div class="join-cta-say">
+          <div class="join-cta-tag">Free to join &middot; vetted once</div>
           <h3>Whoever you are, there is a specific way in</h3>
-          <p>Four roles run this network, and every one of them is open. Pick yours and register &mdash; it takes about a minute, and nothing you post goes live until it has been checked.</p>
+          <p>Four roles run this network and every one of them is open. Register once, get vetted once, and you can act on any request after that.</p>
+          <ul class="join-cta-points">
+            <li><b>Nothing goes live unchecked.</b> Every request is certified before it can take a single pledge.</li>
+            <li><b>You never hold anyone else&rsquo;s money.</b> Pledges sit with an independent custodian, not with us and not with the implementer.</li>
+            <li><b>Your record is public from day one.</b> What you deliver, what you fund, what you reject &mdash; all of it on one ledger.</li>
+          </ul>
+          <button class="join-cta-demo" type="button" data-goto="workflow-demo">&#128229; See a citizen report become a funded project &rarr;</button>
         </div>
-        <button class="btn btn-secondary join-cta-demo" data-goto="workflow-demo">📥 See a citizen report become a funded project &rarr;</button>
-      </div>
-      <div class="join-cta-grid">
-        <button class="join-cta-card" type="button" data-join="government">
-          <span class="jc-role">Certifies</span>
-          <span class="jc-name">Government</span>
-          <span class="jc-line">Ministry, governorate or municipality. Certify what meets code, post requests &mdash; and never touch the money.</span>
-          <span class="jc-go">Register your branch &rarr;</span>
-        </button>
-        <button class="join-cta-card" type="button" data-join="experts">
-          <span class="jc-role">Solves</span>
-          <span class="jc-name">Experts</span>
-          <span class="jc-line">NGOs and vetted businesses that do the work. Choose what fits you, set your own price, get paid on proof.</span>
-          <span class="jc-go">Register your organisation &rarr;</span>
-        </button>
-        <button class="join-cta-card" type="button" data-join="sponsors">
-          <span class="jc-role">Funds</span>
-          <span class="jc-name">Sponsors</span>
-          <span class="jc-line">Diaspora, residents, businesses, NGOs, embassies. Fund a named request and follow every lira to the milestone.</span>
-          <span class="jc-go">Start funding &rarr;</span>
-        </button>
-        <button class="join-cta-card" type="button" data-join="verifiers">
-          <span class="jc-role">Checks</span>
-          <span class="jc-name">Verifiers</span>
-          <span class="jc-line">Accredited reviewers who decide whether a tranche is released &mdash; never on a request you are attached to.</span>
-          <span class="jc-go">Apply for accreditation &rarr;</span>
-        </button>
+
+        <form class="join-cta-form" id="homeJoinForm" novalidate>
+          <div class="jcf-step">1 &nbsp;Which are you?</div>
+          <div class="join-cta-grid" id="homeJoinRoles" role="radiogroup" aria-label="Profile type">
+            <button class="join-cta-card" type="button" role="radio" aria-checked="false" data-join="government">
+              <span class="jc-role">Certifies</span><span class="jc-name">Government</span>
+              <span class="jc-line">Ministry, governorate or municipality</span>
+            </button>
+            <button class="join-cta-card" type="button" role="radio" aria-checked="false" data-join="experts">
+              <span class="jc-role">Solves</span><span class="jc-name">Experts</span>
+              <span class="jc-line">NGOs and vetted businesses</span>
+            </button>
+            <button class="join-cta-card" type="button" role="radio" aria-checked="false" data-join="sponsors">
+              <span class="jc-role">Funds</span><span class="jc-name">Sponsors</span>
+              <span class="jc-line">Diaspora, residents, businesses</span>
+            </button>
+            <button class="join-cta-card" type="button" role="radio" aria-checked="false" data-join="verifiers">
+              <span class="jc-role">Checks</span><span class="jc-name">Verifiers</span>
+              <span class="jc-line">Accredited reviewers</span>
+            </button>
+          </div>
+
+          <div class="jcf-step">2 &nbsp;Your details</div>
+          <div class="jcf-fields">
+            <input type="text" id="homeJoinName" placeholder="Your name" autocomplete="name">
+            <input type="text" id="homeJoinOrg" placeholder="Organisation or municipality (if any)" autocomplete="organization">
+            <input type="email" id="homeJoinEmail" placeholder="Email" autocomplete="email">
+          </div>
+          <button class="btn btn-primary jcf-submit" type="submit" id="homeJoinSubmit">Pick a profile type to continue</button>
+          <p class="jcf-note">Takes about a minute. Nothing is published until it has been checked.</p>
+        </form>
       </div>
     </div>
     <div class="microcopy" style="margin-top:16px;"><b>Free to use</b> · Independent · Non-partisan</div>
@@ -5981,9 +6006,49 @@ function openJoinAs(cat){
   var role = document.querySelector('#audienceNav .role-btn[data-aud-role="' + cat + '"]');
   if(role && !role.classList.contains('picked')) role.click();
 }
-document.querySelectorAll('[data-join]').forEach(function(btn){
-  btn.addEventListener('click', function(){ openJoinAs(btn.dataset.join); });
-});
+// The home form picks a role, takes the details, then hands both to Join rather
+// than making someone type them again. Selecting is the whole first step, so the
+// submit button stays disabled — and says why — until one is chosen.
+var homeJoinRole = null;
+(function(){
+  var form = document.getElementById('homeJoinForm');
+  if(!form){
+    document.querySelectorAll('[data-join]').forEach(function(btn){
+      btn.addEventListener('click', function(){ openJoinAs(btn.dataset.join); });
+    });
+    return;
+  }
+  var cards = Array.prototype.slice.call(form.querySelectorAll('.join-cta-card'));
+  var submit = document.getElementById('homeJoinSubmit');
+  var LABEL = { government:'Register your branch', experts:'Register your organisation',
+                sponsors:'Start funding', verifiers:'Apply for accreditation' };
+  submit.disabled = true;
+  cards.forEach(function(card){
+    card.addEventListener('click', function(){
+      homeJoinRole = card.dataset.join;
+      cards.forEach(function(c){ c.setAttribute('aria-checked', String(c === card)); });
+      submit.disabled = false;
+      submit.textContent = LABEL[homeJoinRole] + ' →';
+    });
+  });
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!homeJoinRole) return;
+    openJoinAs(homeJoinRole);
+    // Carry anything already typed across to the form on Join.
+    var pairs = [['homeJoinName', 0], ['homeJoinOrg', 1], ['homeJoinEmail', 2]];
+    var target = document.querySelectorAll('#form-quickjoin input');
+    pairs.forEach(function(pr){
+      var src = document.getElementById(pr[0]);
+      if(src && src.value && target[pr[1]]) target[pr[1]].value = src.value;
+    });
+  });
+  // Anything else on the page tagged with a role still just jumps to Join.
+  document.querySelectorAll('[data-join]').forEach(function(btn){
+    if(cards.indexOf(btn) !== -1) return;
+    btn.addEventListener('click', function(){ openJoinAs(btn.dataset.join); });
+  });
+})();
 document.querySelectorAll('#joinCategoryNav .join-cat-card').forEach(card=>{
   card.addEventListener('click', ()=>{
     document.querySelectorAll('#joinCategoryNav .join-cat-card').forEach(c=> c.classList.remove('active'));
