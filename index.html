@@ -1056,23 +1056,7 @@
           <div class="light-card"><b>What they cannot be</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">The implementer, the certifying body, a funder of that request, or based in the same locality as the work.</p></div>
           <div class="light-card"><b>Refusals are published</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Every verifier's rejection count sits next to their approvals. A reviewer who has never rejected anything is an unexamined one.</p></div>
         </div>
-
-        <div class="vf-when">
-          <div class="vf-when-head">Where they fit — and why the timing is the whole point</div>
-          <p class="vf-when-lead">A verifier is assigned at <b>escrow confirmation</b>: after the money is secured, but <b>before any work begins</b>.</p>
-          <div class="vf-when-steps">
-            <div class="vf-when-step"><span class="vf-when-n">1</span><div><b>Escrow confirmed</b><span>Funds are held. Nothing is released.</span></div></div>
-            <div class="vf-when-step"><span class="vf-when-n">2</span><div><b>Verifier assigned</b><span>Rotated from the pool that passes the independence tests for this request. Recorded publicly, with who assigned them.</span></div></div>
-            <div class="vf-when-step"><span class="vf-when-n">3</span><div><b>Work starts</b><span>The implementer already knows who will check them, and could not choose that person.</span></div></div>
-          </div>
-          <p class="vf-when-warn">Assign the verifier <b>after</b> the work is done and the party being checked is picking their own examiner. That single ordering decision is the difference between verification and a formality — which is why it sits in the workflow as its own step rather than as an implementation detail.</p>
-        </div>
-
-        <div class="light-card" style="margin-top:18px;">
-          <b>Optional: a contract layer on top</b>
-          <p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;line-height:1.65;">Where a sponsor or a municipality wants a stronger guarantee than a promise, the release rules can be written into a smart contract: funds move only on signatures from assigned verifiers, the signer list excludes the implementer, certifier and funders by construction, the tranche schedule is fixed when funding closes, and unreleased money returns automatically if a request stalls.</p>
-          <p style="font-size:12.5px;color:var(--text-dim);margin:10px 0 0;line-height:1.65;"><b>What it does not do:</b> a contract cannot know whether the wall was built. Someone still has to look. It makes the <i>process</i> tamper-evident — who signed, when, and that nobody moved money alone — not the underlying facts true. It is an added layer for those who want it, never a replacement for the verifier.</p>
-        </div>
+        <button class="role-jump" type="button" data-goto="trust">When they are assigned, and why it matters <span aria-hidden="true">&rarr;</span></button>
       </div>
     </div>
 
@@ -1334,6 +1318,27 @@
         <div class="light-card"><div class="value-icon">👥</div><h4 style="margin:0 0 8px;font-size:16px;">Community</h4><p style="font-size:12.5px;color:var(--text-dim);line-height:1.6;margin:0;">A request only carries weight once residents have confirmed the need is real. The network follows the community — not the other way around.</p></div>
         <div class="light-card"><div class="value-icon">⚖</div><h4 style="margin:0 0 8px;font-size:16px;">Accountability</h4><p style="font-size:12.5px;color:var(--text-dim);line-height:1.6;margin:0;">Sponsors, implementers and government branches all answer to the same public record. No side channel, for anyone.</p></div>
       </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>Who does the verifying</h2><p>The fourth role &mdash; and the reason the other three can be believed.</p></div>
+      <p style="font-size:13.5px;color:var(--text-dim);line-height:1.7;margin:0 0 18px;max-width:74ch;">A verifier confirms that a milestone actually happened before any money moves, and is structurally barred from being the body that certified the request, the organisation doing the work, or anyone funding it. Independence is not a box someone ticks: five tests run against each request&rsquo;s own records, and the results are shown on the request itself with their outcomes.</p>
+        <div class="vf-when">
+          <div class="vf-when-head">Where they fit — and why the timing is the whole point</div>
+          <p class="vf-when-lead">A verifier is assigned at <b>escrow confirmation</b>: after the money is secured, but <b>before any work begins</b>.</p>
+          <div class="vf-when-steps">
+            <div class="vf-when-step"><span class="vf-when-n">1</span><div><b>Escrow confirmed</b><span>Funds are held. Nothing is released.</span></div></div>
+            <div class="vf-when-step"><span class="vf-when-n">2</span><div><b>Verifier assigned</b><span>Rotated from the pool that passes the independence tests for this request. Recorded publicly, with who assigned them.</span></div></div>
+            <div class="vf-when-step"><span class="vf-when-n">3</span><div><b>Work starts</b><span>The implementer already knows who will check them, and could not choose that person.</span></div></div>
+          </div>
+          <p class="vf-when-warn">Assign the verifier <b>after</b> the work is done and the party being checked is picking their own examiner. That single ordering decision is the difference between verification and a formality — which is why it sits in the workflow as its own step rather than as an implementation detail.</p>
+        </div>
+
+        <div class="light-card" style="margin-top:18px;">
+          <b>Optional: a contract layer on top</b>
+          <p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;line-height:1.65;">Where a sponsor or a municipality wants a stronger guarantee than a promise, the release rules can be written into a smart contract: funds move only on signatures from assigned verifiers, the signer list excludes the implementer, certifier and funders by construction, the tranche schedule is fixed when funding closes, and unreleased money returns automatically if a request stalls.</p>
+          <p style="font-size:12.5px;color:var(--text-dim);margin:10px 0 0;line-height:1.65;"><b>What it does not do:</b> a contract cannot know whether the wall was built. Someone still has to look. It makes the <i>process</i> tamper-evident — who signed, when, and that nobody moved money alone — not the underlying facts true. It is an added layer for those who want it, never a replacement for the verifier.</p>
+        </div>
     </div>
 
     <div class="section">
