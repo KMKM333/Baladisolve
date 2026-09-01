@@ -332,6 +332,11 @@
     padding:8px 13px; margin:0 0 20px; }
   .role-jump:hover{ border-color:var(--accent); background:var(--accent-soft); }
   .role-jump:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  /* Sharing sits with "Similar requests" at the foot of a project, where someone
+     has actually read it and might pass it on — not above the description. */
+  .share-row{ display:flex; gap:8px; flex-wrap:wrap; margin:30px 0 26px; padding-top:24px; border-top:1px solid var(--border); }
+  .share-row .btn{ font-size:12px; padding:9px 14px; }
+  .share-row #shareReport{ color:var(--danger); }
   .branch-title{ font-size:26px; margin:6px 0 8px; }
   .branch-overview{ font-size:13.5px; color:var(--text-dim); line-height:1.7; margin:0 0 18px; max-width:70ch; }
   .branch-cta{ display:flex; flex-wrap:wrap; gap:10px; margin-bottom:26px; }
@@ -3777,14 +3782,6 @@ function renderDetail(){
       <span class="tag-pill ${p.urgency==='Critical'?'st-progress':p.urgency==='High'?'st-funding':'st-complete'}" style="background:${p.urgency==='Critical'?'var(--danger-soft)':p.urgency==='High'?'var(--warn-soft)':'var(--ok-soft)'};color:${p.urgency==='Critical'?'var(--danger)':p.urgency==='High'?'var(--warn)':'var(--ok)'};">${p.urgency}</span>
       <span class="tag-pill" style="background:${p.certStatus==='certified'?'var(--ok-soft)':'var(--bg-2)'};color:${p.certStatus==='certified'?'var(--ok)':'var(--text-faint)'};">${p.certStatus==='certified' ? '✓ certified — '+p.certifyingBody : 'pending certification'}</span>
     </div>
-    <div style="display:flex; gap:8px; flex-wrap:wrap; margin:16px 0 4px;">
-      <button class="btn btn-secondary" id="shareCard" style="font-size:12px;padding:9px 14px;">🖼️ Share card</button>
-      <button class="btn btn-secondary" id="shareWhatsapp" style="font-size:12px;padding:9px 14px;">💬 WhatsApp</button>
-      <button class="btn btn-secondary" id="shareTwitter" style="font-size:12px;padding:9px 14px;">🐦 Twitter</button>
-      <button class="btn btn-secondary" id="shareFacebook" style="font-size:12px;padding:9px 14px;">📘 Facebook</button>
-      <button class="btn btn-secondary" id="shareCopy" style="font-size:12px;padding:9px 14px;">🔗 Copy link</button>
-      <button class="btn btn-secondary" id="shareReport" style="font-size:12px;padding:9px 14px;color:var(--danger);">🚩 Report</button>
-    </div>
     ${originLine}
     <div class="detail-desc">${p.desc}</div>
     <div class="detail-cols">
@@ -3809,6 +3806,14 @@ function renderDetail(){
           </div>
         </div>
         ${storyHTML}
+        <div class="share-row">
+          <button class="btn btn-secondary" id="shareCard">🖼️ Share card</button>
+          <button class="btn btn-secondary" id="shareWhatsapp">💬 WhatsApp</button>
+          <button class="btn btn-secondary" id="shareTwitter">🐦 Twitter</button>
+          <button class="btn btn-secondary" id="shareFacebook">📘 Facebook</button>
+          <button class="btn btn-secondary" id="shareCopy">🔗 Copy link</button>
+          <button class="btn btn-secondary" id="shareReport">🚩 Report</button>
+        </div>
         ${similarHTML}
       </div>
       <div class="detail-side">
