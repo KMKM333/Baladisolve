@@ -830,6 +830,18 @@
   .net-overview p{ font-size:13.5px; color:var(--text-dim); line-height:1.75; margin:0 0 12px; max-width:78ch; }
   .net-overview p:last-child{ margin-bottom:0; }
   .net-overview b{ color:var(--text); }
+  /* One line per role rather than three roles buried in a sentence. */
+  .nov-list{ list-style:none; padding:0; margin:15px 0 18px; display:grid; gap:11px; }
+  .nov-list li{ display:grid; grid-template-columns:minmax(0,180px) 1fr; gap:18px; align-items:baseline;
+    padding-inline-start:16px; position:relative; }
+  .nov-list li::before{ content:''; position:absolute; inset-inline-start:0; top:7px;
+    width:6px; height:6px; border-radius:50%; background:var(--accent); }
+  .nov-list b{ color:var(--text); font-size:13.5px; line-height:1.6; }
+  .nov-list span{ font-size:13.5px; color:var(--text-dim); line-height:1.7; }
+  @media (max-width:680px){
+    .nov-list li{ grid-template-columns:1fr; gap:1px; }
+    .nov-list{ gap:14px; }
+  }
   /* The role-timing panel on the Projects page. Its four steps read across the
      page as a timeline; stacked, each line ran the full 1400px and was unreadable. */
   .rw{ border:1px solid var(--border); border-radius:14px; background:var(--bg-1); padding:28px 30px 30px; }
@@ -1351,9 +1363,14 @@
 
     <div class="net-overview" style="margin-top:26px;">
       <h3>How the four fit together</h3>
-      <p>A municipal problem needs four different things to become a finished, believable project, and no two of them can safely sit in the same hands. <b>Government</b> certifies that the request is real, lawful and within its jurisdiction &mdash; and never touches the money it approves. <b>Expert organisations</b> supply the technical knowledge the problem actually needs, set their own price, and do the work. <b>Sponsors</b> fund it, into independent escrow, before anything begins.</p>
-      <p>Those three all work <b>directly on the project</b>. They propose it, build it and pay for it &mdash; and every one of them has something riding on it being called a success. That is precisely why the fourth exists.</p>
-      <p>An <b>independent verifier</b> works on the <b>process</b> rather than the project. They are assigned at escrow confirmation, before work starts; they are barred by construction from being the certifying body, the implementing organisation or any funder of that request; and they are the only party who can release a tranche of escrow. The first three make the project happen. The fourth is the reason anyone outside it should believe that it did.</p>
+      <p>A municipal problem needs four different things to become a finished, believable project &mdash; and no two of them can safely sit in the same hands.</p>
+      <ul class="nov-list">
+        <li><b>Government</b><span>Certifies that the request is real, lawful and within its jurisdiction &mdash; and never touches the money it approves.</span></li>
+        <li><b>Expert organisations</b><span>Supply the technical knowledge the problem actually needs, set their own price, and do the work.</span></li>
+        <li><b>Sponsors</b><span>Fund it, into independent escrow, before anything begins.</span></li>
+        <li><b>Independent verifiers</b><span>Assigned at escrow confirmation, before work starts. Barred by construction from being the certifying body, the implementing organisation or any funder &mdash; and the only party who can release a tranche.</span></li>
+      </ul>
+      <p>The first three all work <b>directly on the project</b>. They propose it, build it and pay for it, and every one of them has something riding on it being called a success. That is precisely why the fourth exists: it works on the <b>process</b> instead. The first three make the project happen; the fourth is the reason anyone outside it should believe that it did.</p>
     </div>
 
       <div class="rn-wrap">
