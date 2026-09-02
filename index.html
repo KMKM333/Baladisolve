@@ -505,6 +505,14 @@
   .join-cta-points b{ color:var(--text); }
   .join-cta-form{ border:1px solid var(--border); border-radius:16px; background:var(--bg); padding:22px 24px 24px; }
   .jcf-step{ font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin-bottom:11px; }
+  .jcf-subs{ display:flex; flex-wrap:wrap; gap:7px; margin-bottom:20px; }
+  .jcf-sub{ all:unset; box-sizing:border-box; cursor:pointer; font-size:12px; font-weight:600;
+    padding:9px 13px; border-radius:9px; border:1px solid var(--border); color:var(--text-dim);
+    background:var(--bg-1); transition:border-color .15s var(--ease-fluid), background .15s var(--ease-fluid), color .15s var(--ease-fluid); }
+  .jcf-sub:hover{ border-color:var(--accent); color:var(--accent); }
+  .jcf-sub[aria-pressed="true"]{ border-color:var(--accent); background:var(--accent-soft); color:var(--accent); }
+  .jcf-sub:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .jcf-waiting{ font-size:12px; color:var(--text-faint); line-height:1.6; margin:0; padding:9px 0 11px; }
   .jcf-fields{ display:flex; flex-direction:column; gap:9px; margin-bottom:18px; }
   .jcf-fields input{ font-family:inherit; font-size:13px; padding:11px 13px; border:1px solid var(--border);
     border-radius:9px; background:var(--bg-1); color:var(--text); width:100%; box-sizing:border-box; }
@@ -1292,10 +1300,12 @@
             </button>
           </div>
 
-          <div class="jcf-step">2 &nbsp;Your details</div>
+          <div class="jcf-step">2 &nbsp;Which kind?</div>
+          <div class="jcf-subs" id="homeJoinSubs" role="group" aria-label="Specific role"></div>
+
+          <div class="jcf-step">3 &nbsp;Your details</div>
           <div class="jcf-fields">
             <input type="text" id="homeJoinName" placeholder="Your name" autocomplete="name">
-            <input type="text" id="homeJoinOrg" placeholder="Organisation or municipality (if any)" autocomplete="organization">
             <input type="email" id="homeJoinEmail" placeholder="Email" autocomplete="email">
           </div>
           <button class="btn btn-primary jcf-submit" type="submit" id="homeJoinSubmit">Pick a profile type to continue</button>
@@ -6020,7 +6030,7 @@ function openJoinAs(cat){
 // The home form picks a role, takes the details, then hands both to Join rather
 // than making someone type them again. Selecting is the whole first step, so the
 // submit button stays disabled — and says why — until one is chosen.
-var homeJoinRole = null;
+var homeJoinRole = null, homeJoinSub = null;
 (function(){
   var form = document.getElementById('homeJoinForm');
   if(!form){
@@ -6031,13 +6041,34 @@ var homeJoinRole = null;
   }
   var cards = Array.prototype.slice.call(form.querySelectorAll('.join-cta-card'));
   var submit = document.getElementById('homeJoinSubmit');
+  var subs = document.getElementById('homeJoinSubs');
   var LABEL = { government:'Register your branch', experts:'Register your organisation',
                 sponsors:'Start funding', verifiers:'Apply for accreditation' };
   submit.disabled = true;
+  subs.innerHTML = '<p class="jcf-waiting">Pick one of the four above and the options for it appear here.</p>';
+
+  // Drawn from JOIN_CATEGORIES, so these are the same options the Join page
+  // offers rather than a second list that can drift away from it.
+  function renderSubs(role){
+    homeJoinSub = null;
+    var opts = JOIN_CATEGORIES[role] || [];
+    subs.innerHTML = opts.map(function(o){
+      return '<button class="jcf-sub" type="button" aria-pressed="false" data-sub="' + o + '">' + o + '</button>';
+    }).join('');
+    subs.querySelectorAll('.jcf-sub').forEach(function(b){
+      b.addEventListener('click', function(){
+        homeJoinSub = b.dataset.sub;
+        subs.querySelectorAll('.jcf-sub').forEach(function(x){
+          x.setAttribute('aria-pressed', String(x === b));
+        });
+      });
+    });
+  }
   cards.forEach(function(card){
     card.addEventListener('click', function(){
       homeJoinRole = card.dataset.join;
       cards.forEach(function(c){ c.setAttribute('aria-checked', String(c === card)); });
+      renderSubs(homeJoinRole);
       submit.disabled = false;
       submit.textContent = LABEL[homeJoinRole] + ' →';
     });
@@ -6046,10 +6077,13 @@ var homeJoinRole = null;
     e.preventDefault();
     if(!homeJoinRole) return;
     openJoinAs(homeJoinRole);
-    // Carry anything already typed across to the form on Join.
-    var pairs = [['homeJoinName', 0], ['homeJoinOrg', 1], ['homeJoinEmail', 2]];
+    // Carry the choice and anything typed across to the form on Join.
+    if(homeJoinSub){
+      var chip = document.querySelector('#joinSubOptions .join-sub-chip[data-sub="' + homeJoinSub + '"]');
+      if(chip) chip.click();
+    }
     var target = document.querySelectorAll('#form-quickjoin input');
-    pairs.forEach(function(pr){
+    [['homeJoinName', 0], ['homeJoinEmail', 2]].forEach(function(pr){
       var src = document.getElementById(pr[0]);
       if(src && src.value && target[pr[1]]) target[pr[1]].value = src.value;
     });
