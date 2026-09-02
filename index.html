@@ -834,6 +834,7 @@
   .rw-head{ font-size:11px; font-weight:800; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); margin-bottom:11px; }
   .rw-lead{ font-size:14.5px; color:var(--text); line-height:1.65; margin:0 0 30px; max-width:68ch; }
   .rw-steps{ display:grid; grid-template-columns:repeat(4,1fr); column-gap:26px; row-gap:30px; align-items:start; }
+  .rw-steps.rw-3{ grid-template-columns:repeat(3,1fr); }
   .rw-step{ position:relative; padding-top:38px; }
   .rw-step::before{ content:''; position:absolute; top:12px; left:50%; right:calc(-50% - 26px); height:2px; background:var(--border); }
   .rw-step:last-child::before{ display:none; }
@@ -965,17 +966,8 @@
   .qa-golink:hover{ text-decoration:underline; }
   .qa-golink:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
   @media (max-width:760px){ .qa-dgrid{ grid-template-columns:1fr; } }
-  .vf-when{ border:1px solid var(--border); border-radius:12px; padding:20px 22px; background:var(--bg-1); margin-top:18px; }
-  .vf-when-head{ font-size:11px; font-weight:700; letter-spacing:.09em; text-transform:uppercase; color:var(--accent); margin-bottom:10px; }
-  .vf-when-lead{ font-size:13.5px; color:var(--text); margin:0 0 16px; line-height:1.6; max-width:70ch; }
-  .vf-when-steps{ display:grid; gap:12px; margin-bottom:16px; }
-  .vf-when-step{ display:grid; grid-template-columns:26px 1fr; gap:12px; align-items:start; }
-  .vf-when-n{ width:25px; height:25px; border-radius:50%; background:var(--accent); color:var(--on-accent);
-    display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; }
-  .vf-when-step b{ display:block; font-size:13px; }
-  .vf-when-step span{ display:block; font-size:12.5px; color:var(--text-dim); line-height:1.55; margin-top:2px; }
-  .vf-when-warn{ font-size:12.5px; color:var(--text-dim); line-height:1.65; margin:0; padding-top:14px;
-    border-top:1px solid var(--border); max-width:74ch; }
+  /* .vf-when* removed: the Trust timing block now uses the .rw timeline, so
+     there is one implementation of this rather than two. */
   .stage-table{ border:1px solid var(--border); border-radius:10px; overflow:hidden; }
   .stage-row{ display:grid; grid-template-columns:1.1fr 1.4fr 1.6fr; gap:14px; padding:11px 16px;
     border-bottom:1px solid var(--border); font-size:12.5px; color:var(--text-dim); }
@@ -1799,15 +1791,27 @@
     <div class="section">
       <div class="section-head"><h2>Who does the verifying</h2><p>The fourth role &mdash; and the reason the other three can be believed.</p></div>
       <p style="font-size:13.5px;color:var(--text-dim);line-height:1.7;margin:0 0 18px;max-width:74ch;">A verifier confirms that a milestone actually happened before any money moves, and is structurally barred from being the body that certified the request, the organisation doing the work, or anyone funding it. Independence is not a box someone ticks: five tests run against each request&rsquo;s own records, and the results are shown on the request itself with their outcomes.</p>
-        <div class="vf-when">
-          <div class="vf-when-head">Where they fit — and why the timing is the whole point</div>
-          <p class="vf-when-lead">A verifier is assigned at <b>escrow confirmation</b>: after the money is secured, but <b>before any work begins</b>.</p>
-          <div class="vf-when-steps">
-            <div class="vf-when-step"><span class="vf-when-n">1</span><div><b>Escrow confirmed</b><span>Funds are held. Nothing is released.</span></div></div>
-            <div class="vf-when-step"><span class="vf-when-n">2</span><div><b>Verifier assigned</b><span>Rotated from the pool that passes the independence tests for this request. Recorded publicly, with who assigned them.</span></div></div>
-            <div class="vf-when-step"><span class="vf-when-n">3</span><div><b>Work starts</b><span>The implementer already knows who will check them, and could not choose that person.</span></div></div>
+        <div class="rw">
+          <div class="rw-head">Where they fit &mdash; and why the timing is the whole point</div>
+          <p class="rw-lead">A verifier is assigned at <b>escrow confirmation</b>: after the money is secured, but <b>before any work begins</b>.</p>
+          <div class="rw-steps rw-3">
+            <div class="rw-step">
+              <span class="rw-n">1</span>
+              <span class="rw-title">Escrow confirmed</span>
+              <p class="rw-body">Funds are held with an independent custodian. Nothing is released.</p>
+            </div>
+            <div class="rw-step">
+              <span class="rw-n">2</span>
+              <span class="rw-title">Verifier assigned</span>
+              <p class="rw-body">Rotated from the pool that passes the independence tests for this request, and recorded publicly with who assigned them.</p>
+            </div>
+            <div class="rw-step">
+              <span class="rw-n">3</span>
+              <span class="rw-title">Work starts</span>
+              <p class="rw-body">The implementer already knows who will check them &mdash; and could not choose that person.</p>
+            </div>
           </div>
-          <p class="vf-when-warn">Assign the verifier <b>after</b> the work is done and the party being checked is picking their own examiner. That single ordering decision is the difference between verification and a formality — which is why it sits in the workflow as its own step rather than as an implementation detail.</p>
+          <p class="rw-warn"><b>Assign the verifier after the work is done</b> and the party being checked is picking their own examiner. That single ordering decision is the difference between verification and a formality, which is why it sits in the workflow as its own step rather than as an implementation detail.</p>
         </div>
 
         <div class="light-card" style="margin-top:18px;">
