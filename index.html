@@ -839,16 +839,16 @@
   .rw-lead{ font-size:14.5px; color:var(--text); line-height:1.65; margin:0 0 30px; max-width:68ch; }
   .rw-steps{ display:grid; grid-template-columns:repeat(4,1fr); column-gap:26px; row-gap:30px; align-items:start; }
   .rw-steps.rw-3{ grid-template-columns:repeat(3,1fr); }
-  .rw-step{ position:relative; padding-top:38px; }
+  .rw-step{ position:relative; padding-top:38px; text-align:center; }
   .rw-step::before{ content:''; position:absolute; top:12px; left:50%; right:calc(-50% - 26px); height:2px; background:var(--border); }
   .rw-step:last-child::before{ display:none; }
   .rw-n{ position:absolute; top:0; left:50%; transform:translateX(-50%); z-index:1; width:26px; height:26px; border-radius:50%;
     background:var(--accent); color:var(--on-accent); font-size:12px; font-weight:800;
     display:flex; align-items:center; justify-content:center; }
   .rw-role{ display:block; font-size:10.5px; font-weight:800; letter-spacing:.085em; text-transform:uppercase; color:var(--accent); }
-  .rw-title{ display:block; font-size:14.5px; font-weight:800; color:var(--text); line-height:1.35; margin:4px 0 8px; min-height:2.7em; }
+  .rw-title{ display:block; font-size:14.5px; font-weight:800; color:var(--text); line-height:1.35; margin:4px 0 2px; min-height:2.7em; }
   .rw-body{ font-size:12.5px; color:var(--text-dim); line-height:1.7; margin:0; }
-  .rw-warn{ font-size:13px; color:var(--text-dim); line-height:1.75; margin:30px 0 0;
+  .rw-warn{ text-align:start; font-size:13px; color:var(--text-dim); line-height:1.75; margin:30px 0 0;
     padding-top:20px; border-top:1px solid var(--border); max-width:96ch; }
   .rw-warn b{ color:var(--text); }
   /* Below this the four columns drop under ~30 characters a line. */
