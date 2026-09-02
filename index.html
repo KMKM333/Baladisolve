@@ -793,9 +793,15 @@
      rather than the diagram disappearing. */
   .rn-svg-m{ display:none; width:100%; height:auto; font-family:inherit; }
   @media (max-width:760px){
-    .rn-wrap{ padding:20px 18px 16px; }
+    .rn-wrap{ padding:20px 14px 16px; }
     .rn-svg{ display:none; }
     .rn-svg-m{ display:block; }
+    /* Type is set in viewBox units, so it shrinks with the drawing. These are
+       sized to land near the same rendered pixel size the rest of the page uses
+       once the 380-unit viewBox is scaled down to a phone's width. */
+    .rn-svg-m .rn-name{ font-size:20px; }
+    .rn-svg-m .rn-role{ font-size:13px; letter-spacing:.06em; }
+    .rn-svg-m .rn-sub{ font-size:14px; }
   }
   /* Home: the four roles as one choice, rather than four scroll-past sections. */
   .role-btn-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
