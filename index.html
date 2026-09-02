@@ -617,6 +617,14 @@
   #view-map #govJumpRow > span:first-child{ font-size:13px !important; font-weight:700 !important; color:var(--text-dim) !important; }
   #view-map #leafletLegend{ font-size:13px !important; color:var(--text-dim) !important; gap:18px !important; }
   #view-map #leafletLegend > span:first-child{ font-weight:700; color:var(--text); }
+  @media (max-width:700px){
+    #view-map #mapFilterRow{ display:grid !important; grid-template-columns:repeat(3,1fr) !important;
+      gap:8px !important; flex-wrap:nowrap !important; }
+    #view-map .map-filter-btn{ flex-direction:column !important; gap:4px !important; text-align:center;
+      justify-content:center !important; font-size:12.5px !important; padding:9px 6px !important;
+      border-radius:12px !important; }
+    #view-map .map-filter-count{ font-size:11px; }
+  }
 
   /* ---------- Score / rank cards ---------- */
   .score-list{ display:flex; flex-direction:column; gap:10px; }
