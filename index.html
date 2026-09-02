@@ -849,12 +849,12 @@
   .rw-warn b{ color:var(--text); }
   /* Below this the four columns drop under ~30 characters a line. */
   @media (max-width:1180px){
-    .rw-steps{ grid-template-columns:1fr 1fr; }
+    .rw-steps, .rw-steps.rw-3{ grid-template-columns:1fr 1fr; }
     .rw-step:nth-child(2)::before{ display:none; }
   }
   @media (max-width:620px){
     .rw{ padding:22px 20px 24px; }
-    .rw-steps{ grid-template-columns:1fr; row-gap:24px; }
+    .rw-steps, .rw-steps.rw-3{ grid-template-columns:1fr; row-gap:24px; }
     .rw-step::before{ display:none; }
   }
   /* ---------- Verifier register (Option A) ---------- */
