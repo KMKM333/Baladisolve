@@ -278,6 +278,10 @@
   .light-card[data-cat]:hover, .light-card[style*="cursor:pointer"]:hover{ border-color:var(--accent); transform:translateY(-3px); box-shadow:0 10px 24px rgba(15,23,42,0.08); }
   .light-card[data-cat]:active, .light-card[style*="cursor:pointer"]:active{ transform:translateY(-1px) scale(.99); }
   .light-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:14px; }
+  /* A fixed three across, for a set whose count is meant to read as a shape. */
+  .light-grid.grid-3{ grid-template-columns:repeat(3,1fr); }
+  @media (max-width:900px){ .light-grid.grid-3{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:560px){ .light-grid.grid-3{ grid-template-columns:1fr; } }
   .network-motto{ font-size:20px; font-weight:800; text-align:center; padding:26px 20px; margin-top:28px; border-top:2px solid var(--text); letter-spacing:-0.01em; }
 
   /* ---------- Project cards ---------- */
@@ -1823,16 +1827,13 @@
 
     <div class="section">
       <div class="section-head"><h2>How the money is actually verified</h2><p>Six steps, each one checkable.</p></div>
-      <div class="light-grid">
+      <div class="light-grid grid-3">
         <div class="light-card"><div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:8px;">01 · INTAKE</div><h4 style="margin:0 0 8px;font-size:15px;">A named, checkable need</h4><p style="font-size:12.5px;color:var(--text-dim);line-height:1.6;margin:0;">Requests come from a registered municipality, a vetted NGO, or a recognised business partner — many grounded in a citizen report already confirmed by other affected residents.</p></div>
         <div class="light-card"><div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:8px;">02 · VETTING</div><h4 style="margin:0 0 8px;font-size:15px;">Whole-partner review</h4><p style="font-size:12.5px;color:var(--text-dim);line-height:1.6;margin:0;">Before a request goes live, the implementing partner is checked once — legal registration, past project record, references.</p></div>
         <div class="light-card"><div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:8px;">03 · ESCROW</div><h4 style="margin:0 0 8px;font-size:15px;">Money moves, but doesn't land yet</h4><p style="font-size:12.5px;color:var(--text-dim);line-height:1.6;margin:0;">Pledges sit in escrow held by an independent custodian — never a government account, never the implementer's — until a milestone is verified.</p></div>
         <div class="light-card"><div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:8px;">04 · VERIFICATION</div><h4 style="margin:0 0 8px;font-size:15px;">A claim and a check are different steps</h4><p style="font-size:12.5px;color:var(--text-dim);line-height:1.6;margin:0;">Evidence sits as "submitted" until an unaffiliated verifier confirms it. Only then does the ledger mark it verified and escrow release.</p></div>
         <div class="light-card"><div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:8px;">05 · OPEN LEDGER</div><h4 style="margin:0 0 8px;font-size:15px;">Anyone can trace any lira</h4><p style="font-size:12.5px;color:var(--text-dim);line-height:1.6;margin:0;">Funders — named or anonymous — see the same trail everyone else does. No private reporting track.</p></div>
         <div class="light-card"><div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:8px;">06 · DISPUTE</div><h4 style="margin:0 0 8px;font-size:15px;">A report button that goes somewhere</h4><p style="font-size:12.5px;color:var(--text-dim);line-height:1.6;margin:0;">Flags route to an independent oversight partner, not to the implementer being flagged.</p></div>
-      </div>
-      <div style="margin-top:24px; background:var(--danger-soft); border-radius:10px; padding:16px 20px; font-size:12.5px; color:#7f1d1d; line-height:1.6;">
-        <b>Design constraint worth stating out loud:</b> this platform should never claim that one specific dollar funded one specific brick. Pooled milestone funding is more honest, and more auditable, than manufacturing a person-to-person link that isn't really there.
       </div>
     </div>
 
