@@ -1733,25 +1733,49 @@
 
     <div class="section" style="padding-top:0;">
       <div class="section-head-row">
-        <div class="section-head" style="margin-bottom:0;"><h2>Experts</h2><p>Matched to a request by field — the specific technical knowledge a problem needs.</p></div>
-        <button class="btn-text" data-goto="network" style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;font-size:13.5px;">See the full network →</button>
+        <div class="section-head" style="margin-bottom:0;"><h2>Municipalities</h2><p>A sample of the towns on the map &mdash; squares, colored by governorate.</p></div>
+        <button class="btn-text" data-goto="lead-list" style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;font-size:13.5px;">Full lead list &rarr;</button>
       </div>
-      <div id="mapExpertsCarouselWrap" style="position:relative;">
-        <button class="carousel-arrow left" id="mapExpertsArrowLeft" aria-label="Scroll left">‹</button>
-        <div class="proj-carousel" id="mapExpertsCarousel"></div>
-        <button class="carousel-arrow right" id="mapExpertsArrowRight" aria-label="Scroll right">›</button>
+      <div id="mapMunisCarouselWrap" style="position:relative;">
+        <button class="carousel-arrow left" id="mapMunisArrowLeft" aria-label="Scroll left">&lsaquo;</button>
+        <div class="proj-carousel" id="mapMunisCarousel"></div>
+        <button class="carousel-arrow right" id="mapMunisArrowRight" aria-label="Scroll right">&rsaquo;</button>
       </div>
     </div>
 
     <div class="section" style="padding-top:0;">
       <div class="section-head-row">
-        <div class="section-head" style="margin-bottom:0;"><h2>Municipalities</h2><p>A sample of the towns on the map — squares, colored by governorate.</p></div>
-        <button class="btn-text" data-goto="lead-list" style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;font-size:13.5px;">Full lead list →</button>
+        <div class="section-head" style="margin-bottom:0;"><h2>Experts</h2><p>Matched to a request by field &mdash; the specific technical knowledge a problem needs.</p></div>
+        <button class="btn-text" data-goto="network" style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;font-size:13.5px;">See the full network &rarr;</button>
       </div>
-      <div id="mapMunisCarouselWrap" style="position:relative;">
-        <button class="carousel-arrow left" id="mapMunisArrowLeft" aria-label="Scroll left">‹</button>
-        <div class="proj-carousel" id="mapMunisCarousel"></div>
-        <button class="carousel-arrow right" id="mapMunisArrowRight" aria-label="Scroll right">›</button>
+      <div id="mapExpertsCarouselWrap" style="position:relative;">
+        <button class="carousel-arrow left" id="mapExpertsArrowLeft" aria-label="Scroll left">&lsaquo;</button>
+        <div class="proj-carousel" id="mapExpertsCarousel"></div>
+        <button class="carousel-arrow right" id="mapExpertsArrowRight" aria-label="Scroll right">&rsaquo;</button>
+      </div>
+    </div>
+
+    <div class="section" style="padding-top:0;">
+      <div class="section-head-row">
+        <div class="section-head" style="margin-bottom:0;"><h2>Sponsors</h2><p>Five kinds of funders, one ledger &mdash; named or anonymous, escrowed either way.</p></div>
+        <button class="btn-text" data-goto="network" style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;font-size:13.5px;">See the full network &rarr;</button>
+      </div>
+      <div id="mapSponsorsCarouselWrap" style="position:relative;">
+        <button class="carousel-arrow left" id="mapSponsorsArrowLeft" aria-label="Scroll left">&lsaquo;</button>
+        <div class="proj-carousel" id="mapSponsorsCarousel"></div>
+        <button class="carousel-arrow right" id="mapSponsorsArrowRight" aria-label="Scroll right">&rsaquo;</button>
+      </div>
+    </div>
+
+    <div class="section" style="padding-top:0;">
+      <div class="section-head-row">
+        <div class="section-head" style="margin-bottom:0;"><h2>Verifiers</h2><p>Accredited reviewers who check milestones &mdash; never on a request they are attached to.</p></div>
+        <button class="btn-text" data-goto="verifiers" style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;font-size:13.5px;">See every verifier&rsquo;s record &rarr;</button>
+      </div>
+      <div id="mapVerifiersCarouselWrap" style="position:relative;">
+        <button class="carousel-arrow left" id="mapVerifiersArrowLeft" aria-label="Scroll left">&lsaquo;</button>
+        <div class="proj-carousel" id="mapVerifiersCarousel"></div>
+        <button class="carousel-arrow right" id="mapVerifiersArrowRight" aria-label="Scroll right">&rsaquo;</button>
       </div>
     </div>
   </div>
@@ -4357,6 +4381,35 @@ function ensureLeafletMap(){
     });
     initCarouselControls('mapExpertsCarousel', 'mapExpertsCarouselWrap');
   }
+
+  // The two roles that have no pin on the map still belong in the list under it,
+  // so all four read in the same order they are given everywhere else.
+  const MAP_SPONSOR_CARDS = [
+    {id:'orgbiz',     icon:'🏢', name:'Organisations &amp; Businesses', desc:'Local companies and civic groups funding a specific request.'},
+    {id:'sponsorngo', icon:'🤝', name:'NGOs',                           desc:'Mission-driven nonprofits, often funding within their own focus area.'},
+    {id:'embassies',  icon:'🏛️', name:'Embassies',                      desc:'Government-to-government cultural or development funding.'},
+    {id:'diaspora',   icon:'🌍', name:'Diaspora',                       desc:'Individuals and diaspora associations funding their hometowns.'},
+    {id:'locals',     icon:'👥', name:'Locals',                         desc:'Residents pooling small amounts toward a nearby request.'}
+  ];
+  const MAP_VERIFIER_CARDS = [
+    {id:'v-district',    icon:'📐', name:'District engineer',                 desc:'A municipal or union engineer working outside their own locality.'},
+    {id:'v-oea',         icon:'📋', name:'Order of Engineers &amp; Architects', desc:'Inspection desks at Lebanon&rsquo;s professional body.'},
+    {id:'v-envofficer',  icon:'🍃', name:'Environmental compliance officer',  desc:'For work a photograph of a finished site cannot vouch for.'},
+    {id:'v-auditor',     icon:'📊', name:'Programme auditor',                 desc:'For services run over months rather than structures photographed once.'},
+    {id:'v-inspector',   icon:'🔍', name:'Independent inspector',             desc:'Takes the assignments nobody else is eligible for.'}
+  ];
+  [['mapSponsorsCarousel', MAP_SPONSOR_CARDS], ['mapVerifiersCarousel', MAP_VERIFIER_CARDS]].forEach(function(pair){
+    const el = document.getElementById(pair[0]);
+    if(!el) return;
+    el.innerHTML = pair[1].map(function(c){
+      return '<div class="mini-card" data-cat="' + c.id + '"><div class="mini-card-icon">' + c.icon +
+             '</div><b>' + c.name + '</b><p>' + c.desc + '</p></div>';
+    }).join('');
+    el.querySelectorAll('.mini-card').forEach(function(card){
+      card.addEventListener('click', function(){ openCategoryPage(card.dataset.cat); });
+    });
+    initCarouselControls(pair[0], pair[0].replace('Carousel','') + 'CarouselWrap');
+  });
 
   const munisEl = document.getElementById('mapMunisCarousel');
   if(munisEl){
