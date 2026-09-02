@@ -1040,6 +1040,24 @@
     background:#dc2626; color:#fff; border-radius:8px; padding:7px 12px; margin-inline-end:8px; }
   .test-btn:hover{ background:#b91c1c; }
   .test-btn:focus-visible{ outline:2px solid #dc2626; outline-offset:2px; }
+  .test-tabs{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+  .test-tab{ all:unset; box-sizing:border-box; cursor:pointer; font-size:13px; font-weight:700;
+    padding:11px 18px; border-radius:10px; border:1px solid var(--border); color:var(--text-dim); background:var(--bg-1); }
+  .test-tab:hover{ border-color:var(--accent); color:var(--accent); }
+  .test-tab[aria-selected="true"]{ border-color:var(--accent); background:var(--accent-soft); color:var(--accent); }
+  .test-tab:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .test-panel[hidden]{ display:none; }
+  .test-rec{ border:1px solid var(--accent); border-radius:16px; background:var(--accent-soft); padding:26px 28px; margin-top:26px; }
+  .test-rec h3{ font-size:19px; margin:0 0 8px; }
+  .test-rec > p{ font-size:13px; color:var(--text-dim); line-height:1.7; margin:0 0 18px; max-width:80ch; }
+  .test-band{ display:grid; grid-template-columns:34px 1fr; gap:14px; align-items:start; margin-bottom:16px; }
+  .test-band:last-of-type{ margin-bottom:0; }
+  .test-band-n{ width:30px; height:30px; border-radius:9px; background:var(--accent); color:var(--on-accent);
+    font-size:13px; font-weight:800; display:flex; align-items:center; justify-content:center; }
+  .test-band b{ display:block; font-size:14px; color:var(--text); }
+  .test-band span{ display:block; font-size:12.5px; color:var(--text-dim); line-height:1.7; margin-top:3px; }
+  .test-src{ font-size:11.5px; color:var(--text-faint); line-height:1.7; margin:22px 0 0; padding-top:14px; border-top:1px solid var(--border); }
+  .test-src a{ color:var(--text-dim); }
   .test-warn{ border:1px dashed #dc2626; background:rgba(220,38,38,0.07); color:#b91c1c;
     border-radius:10px; padding:14px 18px; font-size:12.5px; line-height:1.6; margin-bottom:30px; }
   .test-opt{ border:1px solid var(--border); border-radius:16px; padding:26px 26px 28px; margin-bottom:26px; background:var(--bg); }
@@ -2252,8 +2270,13 @@
 <section class="page" id="view-test">
   <div class="wrap">
     <div class="section" style="padding-top:44px;">
+      <div class="test-tabs" role="tablist" aria-label="Test pages">
+        <button class="test-tab" type="button" role="tab" aria-selected="true" data-testpage="1">Page 1 &middot; Graphs &amp; workflow</button>
+        <button class="test-tab" type="button" role="tab" aria-selected="false" data-testpage="2">Page 2 &middot; Account types</button>
+      </div>
       <div class="test-warn"><b>Temporary page.</b> Not linked from the footer, not translated, not in the main nav &mdash; only the red TEST button. It exists so the three workflow options can be looked at side by side, and should be reverted once one is chosen.</div>
 
+      <div class="test-panel" data-testpanel="1">
       <div class="section-head"><h2>Three ways to fix the repeated workflow</h2><p>The home page currently tells the same story three times. The role backbone stays in all three options below &mdash; what changes is what sits next to it.</p></div>
 
       <div class="test-opt">
@@ -2325,6 +2348,85 @@
           <div class="wf-teaser-step"><div class="wf-teaser-icon">✅</div><div class="wf-teaser-label">Funded</div></div>
         </div>
         <div class="test-verdict"><div class="test-gain"><b>Worth keeping.</b> The first two icons are the only place on the site that shows where a request comes from before it exists &mdash; a resident reporting a problem, and that report being classified.</div><div class="test-cost"><b>Worth cutting.</b> <i>Matched</i> and <i>Funded</i> restate the workflow strip directly beneath it, and four large icons above the fold outshouted the actual process.</div></div>
+      </div>
+      </div>
+
+      <div class="test-panel" data-testpanel="2" hidden>
+        <div class="section-head"><h2>What an account page should be</h2><p>Where each role lands after registering. Drawn from three families of product that already solve part of this &mdash; crowdfunding portals, CRMs, and social profiles &mdash; each of which answers a different question.</p></div>
+
+        <div class="test-opt">
+          <div class="test-opt-tag">Starting point</div>
+          <h3>Man&#257;ra already has seven of these</h3>
+          <p>Reachable today from Join &rarr; &ldquo;Preview the dashboard&rdquo;, or <button type="button" class="qa-golink" data-goto="account-demo">the account dashboards</button>. All seven share one shape: a title, four stat tiles, a table of recent rows, and a list of standing obligations. What is missing is the connection &mdash; registering does not land you on one.</p>
+        </div>
+
+        <div class="test-opt">
+          <div class="test-opt-tag">Research</div>
+          <h3>Three families, three different questions</h3>
+          <p>These are not three styles of the same page. Each answers something different, and the four roles need different mixes.</p>
+          <div class="qa-ev">
+            <div class="qa-ev-cell"><span class="qa-ev-num">62%</span><span class="qa-ev-cap">Of affluent donors <b>evaluate the impact</b> of their giving before deciding on the next gift. A sponsor&rsquo;s page is a retention mechanism, not a receipt.</span></div>
+            <div class="qa-ev-cell"><span class="qa-ev-num">80%</span><span class="qa-ev-cap">Of day-one persuasion is done by the <b>empty state</b>. Every new account here has zero requests, pledges and verifications.</span></div>
+            <div class="qa-ev-cell"><span class="qa-ev-num">3</span><span class="qa-ev-cap">Questions an impact report has to answer, in order: <b>what changed, who benefited, how do you know</b>.</span></div>
+          </div>
+          <div class="qa-cmp" style="margin-top:20px;">
+            <div class="qa-cmp-row qa-cmp-head"><span>Family</span><span>The question it answers</span><span>What is worth taking</span></div>
+            <div class="qa-cmp-row"><span>Crowdfunding portals</span><span>Where did my money go?</span><span>Custody state as a first-class part of the page, not a settings screen. Honesty about obstacles builds more trust than a clean story.</span></div>
+            <div class="qa-cmp-row"><span>CRM dashboards</span><span>What needs me today?</span><span>Role-specific views onto one source of truth, and bottleneck spotting &mdash; how long something has sat in a stage.</span></div>
+            <div class="qa-cmp-row"><span>Social profiles</span><span>Why should you believe me?</span><span>Credibility signals sit <i>above</i> the content, because they are the reason to trust what follows.</span></div>
+          </div>
+        </div>
+
+        <div class="test-opt">
+          <div class="test-opt-tag">The mapping</div>
+          <h3>The four roles do not want the same page</h3>
+          <div class="qa-cmp">
+            <div class="qa-cmp-row qa-cmp-head"><span>Role</span><span>First question on opening it</span><span>Dominant model</span></div>
+            <div class="qa-cmp-row"><span>Government</span><span>What is waiting on my sign-off?</span><span>CRM queue</span></div>
+            <div class="qa-cmp-row"><span>Experts</span><span>What work can I take, and am I getting paid?</span><span>CRM queue plus marketplace</span></div>
+            <div class="qa-cmp-row"><span>Sponsors</span><span>What did my money actually do?</span><span>Crowdfunding impact</span></div>
+            <div class="qa-cmp-row"><span>Verifiers</span><span>What must I decide, and what is my record?</span><span>CRM queue plus public record</span></div>
+          </div>
+        </div>
+
+        <div class="test-opt">
+          <div class="test-opt-tag">Option A</div>
+          <h3>One shell, four lenses</h3>
+          <p>Keep the shape the seven demos already use &mdash; stats, table, obligations &mdash; and swap only the contents per role.</p>
+          <div class="test-verdict"><div class="test-gain"><b>Gain.</b> Cheapest by a distance, already half built, and consistent across every role.</div><div class="test-cost"><b>Cost.</b> Forces a sponsor&rsquo;s impact story into a work-queue layout, which is the wrong shape for the one role that is not doing any work.</div></div>
+        </div>
+
+        <div class="test-opt">
+          <div class="test-opt-tag">Option B &mdash; recommended</div>
+          <h3>Private queue, public twin</h3>
+          <p>Two zones: <b>what needs you</b> (private, CRM-style) sitting on top of <b>your public record</b> &mdash; the page everyone else already sees of you. An account becomes an authenticated overlay on a public identity rather than a separate private space.</p>
+          <div class="test-verdict"><div class="test-gain"><b>Gain.</b> The pattern already exists here: the verifier register is a public profile, and organisation and municipality pages already render publicly. This generalises them rather than inventing something. It is also the only option that is on-brand &mdash; a platform whose whole argument is public track record should not have a purely private account page.</div><div class="test-cost"><b>Cost.</b> Two zones to design per role instead of one, and it commits to every account showing its own bad numbers.</div></div>
+        </div>
+
+        <div class="test-opt">
+          <div class="test-opt-tag">Option C</div>
+          <h3>Ledger first</h3>
+          <p>The account page is a filtered view of the public ledger &mdash; your slice of exactly the data anyone else can read.</p>
+          <div class="test-verdict"><div class="test-gain"><b>Gain.</b> Maximally consistent with the transparency claim, and it would force the browsable ledger to finally get built &mdash; the site says &ldquo;open ledger&rdquo; repeatedly and has no page behind it.</div><div class="test-cost"><b>Cost.</b> Badly under-serves &ldquo;what needs me today&rdquo;, which is the thing that makes anyone come back a second time.</div></div>
+        </div>
+
+        <div class="test-opt">
+          <div class="test-opt-tag">Option D</div>
+          <h3>Progressive</h3>
+          <p>Day one is an onboarding checklist that turns into a dashboard as it fills.</p>
+          <div class="test-verdict"><div class="test-gain"><b>Gain.</b> Directly answers the empty-state problem, which is otherwise the day-one experience for every single new account.</div><div class="test-cost"><b>Cost.</b> Not really an alternative to A, B or C &mdash; it is a layer any of them needs anyway.</div></div>
+        </div>
+
+        <div class="test-rec">
+          <h3>What to build: B, with D layered on it</h3>
+          <p>One page per role, three bands. The same skeleton everywhere, so a reader who has seen one account page can read any of them.</p>
+          <div class="test-band"><span class="test-band-n">1</span><div><b>Needs you now</b><span>The queue &mdash; milestones awaiting a decision, requests awaiting certification, tranches awaiting release. Empty on day one, so it carries the onboarding checklist instead: get vetted, then post your first request. That is where option D lives.</span></div></div>
+          <div class="test-band"><span class="test-band-n">2</span><div><b>Your record</b><span>The public twin, credibility signals first. A verifier sees approvals, rejections and overturns; a partner sees completion rate and days-to-milestone; a sponsor sees funded and verified totals. The same numbers a stranger sees, because they are the same page.</span></div></div>
+          <div class="test-band"><span class="test-band-n">3</span><div><b>Where the money is</b><span>Only for the roles that touch it. Sponsors get the impact framing &mdash; what changed, who benefited, how do you know. Municipalities and experts get escrow and tranche state, held against released.</span></div></div>
+          <p class="test-src"><b>One deliberate consequence:</b> every account page shows its own bad numbers &mdash; rejections, overturns, stalled requests. That follows from what the site already does in publishing rejection counts next to approvals, and it is what the impact-reporting research says actually builds trust.</p>
+        </div>
+
+        <p class="test-src">Sources: <a href="https://www.zeffy.com/blog/nonprofit-organization-transparency" target="_blank" rel="noopener">Zeffy on nonprofit transparency</a> &middot; <a href="https://www.casebook.net/blog/nonprofit-impact-reports-how-to-communicate-outcomes-effectively/" target="_blank" rel="noopener">Casebook on impact reports</a> &middot; <a href="https://www.hublead.io/blog/hubspot-dashboard-examples" target="_blank" rel="noopener">HubSpot dashboard patterns</a> &middot; <a href="https://www.72technologies.com/blog/empty-states-as-onboarding-surface" target="_blank" rel="noopener">Empty states as onboarding</a> &middot; <a href="https://www.eleken.co/blog-posts/profile-page-design" target="_blank" rel="noopener">Profile page design</a></p>
       </div>
     </div>
   </div>
@@ -6608,6 +6710,34 @@ function verifierFor(p){
   return pool[p.id % pool.length];
 }
 
+
+// ---------- TEMPORARY: the TEST page's two sub-pages ----------
+(function(){
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.test-tab'));
+  if(!tabs.length) return;
+  var panels = Array.prototype.slice.call(document.querySelectorAll('.test-panel'));
+  function show(id){
+    tabs.forEach(function(t){ t.setAttribute('aria-selected', String(t.dataset.testpage === id)); });
+    panels.forEach(function(pn){ pn.hidden = pn.dataset.testpanel !== id; });
+  }
+  tabs.forEach(function(tab, i){
+    tab.addEventListener('click', function(){ show(tab.dataset.testpage); });
+    tab.addEventListener('keydown', function(e){
+      var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if(!d) return;
+      e.preventDefault();
+      var next = tabs[(i + d + tabs.length) % tabs.length];
+      next.focus(); show(next.dataset.testpage);
+    });
+  });
+  // The panel-2 link out is inside a panel, so it misses the parse-time wiring.
+  document.querySelectorAll('.test-panel .qa-golink').forEach(function(b){
+    b.addEventListener('click', function(){
+      if(b.dataset.goto === 'account-demo') openAccountDemo('overview');
+      else switchView(b.dataset.goto);
+    });
+  });
+})();
 
 // ---------- Verifier register: every verifier's record, side by side ----------
 // Sits below VERIFIERS on purpose. Rates are derived, never stored, so the page
