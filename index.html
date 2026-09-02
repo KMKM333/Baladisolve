@@ -1819,61 +1819,6 @@
           <p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;line-height:1.65;">Where a sponsor or a municipality wants a stronger guarantee than a promise, the release rules can be written into a smart contract: funds move only on signatures from assigned verifiers, the signer list excludes the implementer, certifier and funders by construction, the tranche schedule is fixed when funding closes, and unreleased money returns automatically if a request stalls.</p>
           <p style="font-size:12.5px;color:var(--text-dim);margin:10px 0 0;line-height:1.65;"><b>What it does not do:</b> a contract cannot know whether the wall was built. Someone still has to look. It makes the <i>process</i> tamper-evident — who signed, when, and that nobody moved money alone — not the underlying facts true. It is an added layer for those who want it, never a replacement for the verifier.</p>
         </div>
-
-        <div class="qa-open">
-          <div class="qa-open-tag">Open question &mdash; not solved yet</div>
-          <h3>But who checks the verifier?</h3>
-          <p>Everything above rests on one role. The verifier is the reason a certification can be believed, a sponsor&rsquo;s money is safe, and a finished wall is really finished. So it is fair to ask the obvious next question: <b>if the verifier checks everyone else, who checks them?</b></p>
-          <p>Right now, honestly: <b>nobody.</b> A verifier&rsquo;s rejections are published next to their approvals, and that is the whole safeguard. It is better than nothing &mdash; a reviewer who has never rejected anything is visible &mdash; but it is not a system. We would rather write that down here than let you assume it was handled.</p>
-        </div>
-
-        <p style="font-size:13.5px;color:var(--text-dim);line-height:1.75;margin:26px 0 0;max-width:78ch;">This is not a hypothetical worry. The closest thing to Manāra that already exists at scale is the carbon credit market, where independent auditors sign off before money moves. It went wrong, and the numbers are public.</p>
-
-        <div class="qa-ev">
-          <div class="qa-ev-cell"><span class="qa-ev-num">2 in 3</span><span class="qa-ev-cap">Accredited auditors who <b>missed the flaws</b> in projects later found to be overstated, across 95 projects studied.</span></div>
-          <div class="qa-ev-cell"><span class="qa-ev-num">84%</span><span class="qa-ev-cap">Of credits across 2,346 projects that <b>did not represent real cuts</b> &mdash; all of them signed off by someone independent.</span></div>
-          <div class="qa-ev-cell"><span class="qa-ev-num">4</span><span class="qa-ev-cap">Verification bodies suspended in 2025 &mdash; caught by <b>a whistleblower</b>, not by routine monitoring.</span></div>
-        </div>
-
-        <p style="font-size:13.5px;color:var(--text-dim);line-height:1.75;margin:22px 0 0;max-width:78ch;">The cause everyone landed on was simple: <b>the auditors were paid by the people they were checking</b>, and the people being checked got to pick them. Manāra was built to avoid exactly that &mdash; two of the three doors are already shut.</p>
-
-        <div class="qa-cmp">
-          <div class="qa-cmp-row qa-cmp-head"><span>The question</span><span>What went wrong elsewhere</span><span>How Manāra is built</span></div>
-          <div class="qa-cmp-row"><span>Who picks the verifier?</span><span>The party being checked</span><span class="qa-ok">Rotation from the eligible pool</span></div>
-          <div class="qa-cmp-row"><span>Who pays the verifier?</span><span>The party being checked</span><span class="qa-ok">Escrow, never the implementer</span></div>
-          <div class="qa-cmp-row gap"><span>Who checks the verifier?</span><span>Nobody, until a whistleblower</span><span>Nobody &mdash; this is the gap</span></div>
-        </div>
-
-        <h3 style="font-size:19px;margin:34px 0 4px;">Four ways to close it</h3>
-        <p style="font-size:13.5px;color:var(--text-dim);line-height:1.7;margin:0 0 4px;max-width:78ch;">Each of these is borrowed from somewhere it already works. Pick one to read what it does, what it would catch, and what it would cost.</p>
-
-        <div class="qa-opts" id="qaOptions" role="tablist" aria-label="Options for checking the verifier">
-          <button class="qa-opt" type="button" role="tab" data-qa="a" aria-selected="true">
-            <span class="qa-letter">A</span>
-            <span class="qa-opt-name">Publish every verifier&rsquo;s record</span>
-            <span class="qa-opt-one">Put all their numbers on one page, side by side.</span>
-            <span class="qa-opt-foot"><span class="qa-chip">Low cost</span><span class="qa-chip built">Built</span></span>
-          </button>
-          <button class="qa-opt" type="button" role="tab" data-qa="b" aria-selected="false">
-            <span class="qa-letter">B</span>
-            <span class="qa-opt-name">Re-check a sample of approvals</span>
-            <span class="qa-opt-one">One in ten passed milestones quietly checked again.</span>
-            <span class="qa-opt-foot"><span class="qa-chip">+10% cost</span><span class="qa-chip rec">Recommended</span></span>
-          </button>
-          <button class="qa-opt" type="button" role="tab" data-qa="c" aria-selected="false">
-            <span class="qa-letter">C</span>
-            <span class="qa-opt-name">Two verifiers on the big ones</span>
-            <span class="qa-opt-one">Above a threshold, two check separately and a third settles it.</span>
-            <span class="qa-opt-foot"><span class="qa-chip">Double cost</span><span class="qa-chip hold">On hold</span></span>
-          </button>
-          <button class="qa-opt" type="button" role="tab" data-qa="d" aria-selected="false">
-            <span class="qa-letter">D</span>
-            <span class="qa-opt-name">Say what happens when one gets it wrong</span>
-            <span class="qa-opt-one">Rotation limits, renewals, suspension, and where to complain.</span>
-            <span class="qa-opt-foot"><span class="qa-chip">Policy only</span><span class="qa-chip rec">Recommended</span></span>
-          </button>
-        </div>
-        <div class="qa-detail" id="qaDetail"></div>
     </div>
 
     <div class="section">
@@ -1904,6 +1849,63 @@
         <div class="stage-row"><span>Closed</span><span>Fully released</span><span>Final report published</span></div>
       </div>
       <p style="font-size:12.5px;color:var(--text-faint);line-height:1.65;margin:14px 0 0;max-width:74ch;">A rejected milestone is not a dead request. It returns to the implementer for remediation and resubmission &mdash; because if rejection meant the project died, no verifier would ever reject anything, and the check would quietly become a formality.</p>
+    </div>
+
+    <div class="section">
+      <div class="qa-open">
+        <div class="qa-open-tag">Open question &mdash; not solved yet</div>
+        <h3>But who checks the verifier?</h3>
+        <p>Everything above rests on one role. The verifier is the reason a certification can be believed, a sponsor&rsquo;s money is safe, and a finished wall is really finished. So it is fair to ask the obvious next question: <b>if the verifier checks everyone else, who checks them?</b></p>
+        <p>Right now, honestly: <b>nobody.</b> A verifier&rsquo;s rejections are published next to their approvals, and that is the whole safeguard. It is better than nothing &mdash; a reviewer who has never rejected anything is visible &mdash; but it is not a system. We would rather write that down here than let you assume it was handled.</p>
+      </div>
+
+      <p style="font-size:13.5px;color:var(--text-dim);line-height:1.75;margin:26px 0 0;max-width:78ch;">This is not a hypothetical worry. The closest thing to Manāra that already exists at scale is the carbon credit market, where independent auditors sign off before money moves. It went wrong, and the numbers are public.</p>
+
+      <div class="qa-ev">
+        <div class="qa-ev-cell"><span class="qa-ev-num">2 in 3</span><span class="qa-ev-cap">Accredited auditors who <b>missed the flaws</b> in projects later found to be overstated, across 95 projects studied.</span></div>
+        <div class="qa-ev-cell"><span class="qa-ev-num">84%</span><span class="qa-ev-cap">Of credits across 2,346 projects that <b>did not represent real cuts</b> &mdash; all of them signed off by someone independent.</span></div>
+        <div class="qa-ev-cell"><span class="qa-ev-num">4</span><span class="qa-ev-cap">Verification bodies suspended in 2025 &mdash; caught by <b>a whistleblower</b>, not by routine monitoring.</span></div>
+      </div>
+
+      <p style="font-size:13.5px;color:var(--text-dim);line-height:1.75;margin:22px 0 0;max-width:78ch;">The cause everyone landed on was simple: <b>the auditors were paid by the people they were checking</b>, and the people being checked got to pick them. Manāra was built to avoid exactly that &mdash; two of the three doors are already shut.</p>
+
+      <div class="qa-cmp">
+        <div class="qa-cmp-row qa-cmp-head"><span>The question</span><span>What went wrong elsewhere</span><span>How Manāra is built</span></div>
+        <div class="qa-cmp-row"><span>Who picks the verifier?</span><span>The party being checked</span><span class="qa-ok">Rotation from the eligible pool</span></div>
+        <div class="qa-cmp-row"><span>Who pays the verifier?</span><span>The party being checked</span><span class="qa-ok">Escrow, never the implementer</span></div>
+        <div class="qa-cmp-row gap"><span>Who checks the verifier?</span><span>Nobody, until a whistleblower</span><span>Nobody &mdash; this is the gap</span></div>
+      </div>
+
+      <h3 style="font-size:19px;margin:34px 0 4px;">Four ways to close it</h3>
+      <p style="font-size:13.5px;color:var(--text-dim);line-height:1.7;margin:0 0 4px;max-width:78ch;">Each of these is borrowed from somewhere it already works. Pick one to read what it does, what it would catch, and what it would cost.</p>
+
+      <div class="qa-opts" id="qaOptions" role="tablist" aria-label="Options for checking the verifier">
+        <button class="qa-opt" type="button" role="tab" data-qa="a" aria-selected="true">
+          <span class="qa-letter">A</span>
+          <span class="qa-opt-name">Publish every verifier&rsquo;s record</span>
+          <span class="qa-opt-one">Put all their numbers on one page, side by side.</span>
+          <span class="qa-opt-foot"><span class="qa-chip">Low cost</span><span class="qa-chip built">Built</span></span>
+        </button>
+        <button class="qa-opt" type="button" role="tab" data-qa="b" aria-selected="false">
+          <span class="qa-letter">B</span>
+          <span class="qa-opt-name">Re-check a sample of approvals</span>
+          <span class="qa-opt-one">One in ten passed milestones quietly checked again.</span>
+          <span class="qa-opt-foot"><span class="qa-chip">+10% cost</span><span class="qa-chip rec">Recommended</span></span>
+        </button>
+        <button class="qa-opt" type="button" role="tab" data-qa="c" aria-selected="false">
+          <span class="qa-letter">C</span>
+          <span class="qa-opt-name">Two verifiers on the big ones</span>
+          <span class="qa-opt-one">Above a threshold, two check separately and a third settles it.</span>
+          <span class="qa-opt-foot"><span class="qa-chip">Double cost</span><span class="qa-chip hold">On hold</span></span>
+        </button>
+        <button class="qa-opt" type="button" role="tab" data-qa="d" aria-selected="false">
+          <span class="qa-letter">D</span>
+          <span class="qa-opt-name">Say what happens when one gets it wrong</span>
+          <span class="qa-opt-one">Rotation limits, renewals, suspension, and where to complain.</span>
+          <span class="qa-opt-foot"><span class="qa-chip">Policy only</span><span class="qa-chip rec">Recommended</span></span>
+        </button>
+      </div>
+      <div class="qa-detail" id="qaDetail"></div>
     </div>
   </div>
 </section>
