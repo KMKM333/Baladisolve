@@ -95,7 +95,7 @@ if (coords.size === 0) throw new Error('Parsed 0 coordinates from /en/map — Ba
 // filled by preferring reports with a photo, spread across categories so a
 // sample is not simply the roads backlog, most-confirmed first within each.
 function pick(n, already) {
-  const usable = [...reports.values()].filter((r) => r.title && coords.has(r.id));
+  const usable = [...reports.values()].filter((r) => r.title && r.title.trim());
   const keep = usable.filter((r) => already[r.id] != null);
   const rest = usable.filter((r) => already[r.id] == null);
   const room = Math.max(0, n - keep.length);
@@ -132,7 +132,7 @@ function toRecord(r, id) {
   const locality = muni.name_en || r.location_name || 'Lebanon';
   const gov = GOV[muni.governorate] || 'mtlebanon';
   const ref = 'BM-' + r.id.slice(0, 8).toUpperCase();
-  const [lat, lng] = coords.get(r.id);
+  const xy = coords.get(r.id);
   // Pinned to Beirut, not the machine's zone: these are Lebanese reports, so the
   // date a resident filed it is the one that means anything. It also stops the
   // daily sync flipping dates back and forth between a UTC runner and a local
@@ -148,11 +148,12 @@ function toRecord(r, id) {
     + '. Not yet certified, costed or open for funding.';
   const photo = r.photo_urls && r.photo_urls[0];
   return `  {id:${id}, title:'${esc(r.title)}', type:'${TYPE[r.category] || TYPE.other}', gov:'${gov}', `
-    + `locality:'${esc(locality)}', size:'small', goal:null, raised:0, status:'proposed', urgency:'${URGENCY[r.severity] || 'Medium'}',\n`
+    + `locality:'${esc(locality)}', size:null, goal:null, raised:0, status:'proposed', urgency:'${URGENCY[r.severity] || 'Medium'}',\n`
     + `   partner:'Not yet assigned', org:'${esc(locality)} — reporting community', corridor:null, audienceTags:['locals'],\n`
     + `   certifyingBody:null, certStatus:'pending', source:'baladi', sourceId:'${r.id}',\n`
     + `   sourceUrl:'https://www.baladimap.com/en/issues/${r.id}',\n`
-    + `   coords:[${lat},${lng}],${photo ? `\n   photo:'${photo}',` : ''}\n`
+    + (xy ? `   coords:[${xy[0]},${xy[1]}],` : `   coords:null, /* no pin on Baladi Map — cannot be placed on the map */`)
+    + `${photo ? `\n   photo:'${photo}',` : ''}\n`
     + `   metrics:[{label:'Residents confirmed', value:${conf}}],\n`
     + `   timeline:{start:'reported ${when}', target:'TBD — awaiting certification', schedule:'early', scheduleLabel:'Not yet certified'},\n`
     + `   originReport:{ref:'${ref}', confirmed:${conf}}, beneficiaries:${conf}, daysToMilestone:null, interest:${conf}, interestable:true,\n`
@@ -218,3 +219,10 @@ console.log('  governorates ', tally((x) => (x.municipalities || {}).governorate
 console.log('  with photo   ', chosen.filter((x) => x.photo_urls?.length).length, `of ${chosen.length}`);
 console.log('  with text    ', chosen.filter((x) => x.description).length, `of ${chosen.length}`);
 console.log('  confirmations', chosen.reduce((a, x) => a + (x.affected_count || 0), 0));
+const unmapped = chosen.filter((x) => !coords.has(x.id));
+const otherCat = chosen.filter((x) => x.category === 'other');
+console.log('  FLAGS:');
+console.log(`    ${unmapped.length} report(s) have no pin on Baladi Map and will not appear on the map`);
+console.log(`    ${otherCat.length} report(s) are category "other" on Baladi — shown under Public Space & Land Use as a best fit, not a real classification`);
+console.log(`    ${chosen.filter((x) => !x.photo_urls?.length).length} report(s) have no photo (placeholder shown, never generated)`);
+console.log(`    ${chosen.filter((x) => x.is_fixed).length} report(s) are marked fixed on Baladi — still shown as proposed here, since Manara has not certified or funded anything`);
