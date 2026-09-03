@@ -1164,6 +1164,11 @@
   .tw-step{ position:relative; }
   .tw-step:not(:last-child)::before{ content:''; position:absolute; left:10.5px; top:24px; bottom:-11px;
     width:1px; background:var(--border); }
+  .tier-role{ font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--accent); }
+  .tier-go{ display:block; margin-top:10px; font-size:12px; font-weight:700; color:var(--accent); }
+  .tier-switch{ display:flex; gap:8px; margin:0 0 22px; flex-wrap:wrap; }
+  .tier-switch-btn{ all:unset; cursor:pointer; font-size:12.5px; font-weight:700; padding:7px 14px; border:1.5px solid var(--border); border-radius:20px; color:var(--text-dim); }
+  .tier-switch-btn[aria-pressed="true"]{ border-color:var(--accent); color:var(--accent); background:var(--accent-soft); }
   .tw-foot{ font-size:12.5px; color:var(--text-dim); line-height:1.7; margin:18px 0 0; max-width:80ch; }
   .tw-foot-link{ all:unset; box-sizing:border-box; cursor:pointer; color:var(--accent); font-weight:700; }
   .tw-foot-link:hover{ text-decoration:underline; }
@@ -1437,7 +1442,7 @@
         <span class="role-btn-name">Verifiers</span>
         <span class="role-btn-sub">The role that decides whether money moves &mdash; signs off the request with government before a pledge is taken, signs off every release, and is never attached to what it checks.</span>
         <span class="role-btn-when">The implementer knows who will check them, and could not choose that person. Each tranche waits on their sign-off.</span>
-        <span class="role-btn-go">See the verifier types &rarr;</span>
+        <span class="role-btn-go">Two lines of verifier &rarr;</span>
       </button>
     </div>
 
@@ -1620,13 +1625,7 @@
         <h3 data-group="verifiers" style="cursor:pointer;">Independent verifiers</h3>
         <p>The fourth role, and the reason the other three can be believed. A verifier signs off the request with government before it can take a pledge, a second-line verifier reviews that sign-off pseudonymously, and the first confirms that each milestone actually happened before any money moves — and is structurally barred from being the body that certified the request, the organisation doing the work, or anyone funding it.</p>
 
-        <div class="light-grid" style="margin-bottom:14px;">
-          <div class="light-card" data-cat="v-district"><b>District engineer</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">A municipal or union engineer working outside their own locality — the expertise is already public, just not local to the work.</p></div>
-          <div class="light-card" data-cat="v-oea"><b>Order of Engineers &amp; Architects</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Inspection desks at Lebanon's professional body, already independent of both municipalities and contractors.</p></div>
-          <div class="light-card" data-cat="v-envofficer"><b>Environmental compliance officer</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">For work where a photograph of a finished site doesn't tell you whether it was done properly.</p></div>
-          <div class="light-card" data-cat="v-auditor"><b>Programme auditor</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">For services run over months rather than structures photographed once — attendance, delivery records, spend against promise.</p></div>
-          <div class="light-card" data-cat="v-inspector"><b>Independent inspector</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Takes the assignments nobody else can: right field, right governorate, no tie to the partner, certifier or any funder.</p></div>
-        </div>
+        <div class="light-grid" style="margin-bottom:14px;" id="networkVerifierTiers"></div>
         <button class="role-jump" type="button" data-demo-jump="v-district">See the verifier dashboard <span aria-hidden="true">&rarr;</span></button>
         <button class="role-jump" type="button" data-goto="trust">When they are assigned, and why it matters <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="verifiers">See every verifier&rsquo;s record <span aria-hidden="true">&rarr;</span></button>
       </div>
@@ -2142,7 +2141,7 @@
           <span class="role-btn-role">Checks</span>
           <span class="role-btn-name">Verifiers</span>
           <span class="role-btn-sub">Accredited reviewers who decide whether a tranche is released. Assigned in rotation, never to a request you are attached to.</span>
-          <span class="role-btn-go">5 verifier types &rarr;</span>
+          <span class="role-btn-go">5 first-line types, plus an appointed second line &rarr;</span>
         </button>
       </div>
 
@@ -6749,11 +6748,8 @@ function ensureLeafletMap(){
     {id:'locals',     icon:'👥', name:'Locals',                         desc:'Residents pooling small amounts toward a nearby request.'}
   ];
   const MAP_VERIFIER_CARDS = [
-    {id:'v-district',    icon:'📐', name:'District engineer',                 desc:'A municipal or union engineer working outside their own locality.'},
-    {id:'v-oea',         icon:'📋', name:'Order of Engineers &amp; Architects', desc:'Inspection desks at Lebanon&rsquo;s professional body.'},
-    {id:'v-envofficer',  icon:'🍃', name:'Environmental compliance officer',  desc:'For work a photograph of a finished site cannot vouch for.'},
-    {id:'v-auditor',     icon:'📊', name:'Programme auditor',                 desc:'For services run over months rather than structures photographed once.'},
-    {id:'v-inspector',   icon:'🔍', name:'Independent inspector',             desc:'Takes the assignments nobody else is eligible for.'}
+    {id:'tier-first',  icon:'🔍', name:'First-line verifiers',  desc:'Five kinds of accredited reviewer. Sign off the request, then check every milestone.'},
+    {id:'tier-second', icon:'🔍', name:'Second-line verifiers', desc:'Appointed from the register. Review each sign-off, seeing no names.'}
   ];
   [['mapSponsorsCarousel', MAP_SPONSOR_CARDS], ['mapVerifiersCarousel', MAP_VERIFIER_CARDS]].forEach(function(pair){
     const el = document.getElementById(pair[0]);
@@ -6763,7 +6759,10 @@ function ensureLeafletMap(){
              '</div><b>' + c.name + '</b><p>' + c.desc + '</p></div>';
     }).join('');
     el.querySelectorAll('.mini-card').forEach(function(card){
-      card.addEventListener('click', function(){ openCategoryPage(card.dataset.cat); });
+      card.addEventListener('click', function(){
+        if(card.dataset.cat.indexOf('tier-') === 0) openVerifierTier(card.dataset.cat.slice(5));
+        else openCategoryPage(card.dataset.cat);
+      });
     });
     initCarouselControls(pair[0], pair[0].replace('Carousel','') + 'CarouselWrap');
   });
@@ -7425,6 +7424,74 @@ const GROUP_META = {
   },
 };
 
+// The verifier role is shown as two tiers rather than five boxes: the
+// first line (five kinds of accredited reviewer) and the second line
+// (appointed from the register to review the first). Each tier has its own
+// page; the boxes that used to sit directly under "verifiers" now sit under
+// the first-line tier.
+const VERIFIER_TIERS = {
+  first: {
+    name:'First-line verifiers', role:'Checks the work',
+    lead:'Accredited reviewers assigned at certification. They sign off the request with government, then confirm each milestone actually happened before any money moves. Never on a request they certified, implemented or funded.',
+    boxes:['v-district','v-oea','v-envofficer','v-auditor','v-inspector'],
+    links:[['verifiers','See every verifier&rsquo;s record'],['trust','When they are assigned, and why it matters']]
+  },
+  second: {
+    name:'Second-line verifiers', role:'Checks the check',
+    lead:'Appointed from the register, not recruited. They review the first-line sign-off on every request before it opens for pledges, and every change to cost or timeline after &mdash; pseudonymously, seeing no names. Their record is published under the pseudonym.',
+    boxes:['l2-appointment','l2-review','l2-pseudonym','l2-record','l2-fee'],
+    links:[['verifiers','See the second-line table on the register'],['trust','Why a second line, and what it still does not check']]
+  }
+};
+function tierCardsHTML(){
+  return Object.keys(VERIFIER_TIERS).map(function(k){
+    var t = VERIFIER_TIERS[k];
+    return '<div class="light-card tier-card" data-vtier="' + k + '" style="cursor:pointer;">' +
+      '<span class="tier-role">' + t.role + '</span><b style="font-size:14px;display:block;margin-top:4px;">' + t.name + '</b>' +
+      '<p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;line-height:1.55;">' + t.lead + '</p>' +
+      '<span class="tier-go">' + t.boxes.length + ' boxes &rarr;</span></div>';
+  }).join('');
+}
+function wireTierCards(scope){
+  (scope || document).querySelectorAll('[data-vtier]').forEach(function(el){
+    el.addEventListener('click', function(){ openVerifierTier(el.dataset.vtier); });
+  });
+}
+function openVerifierTier(tier){
+  setRoute('verifiers/' + tier);
+  detailBackFn = ()=> switchView('network');
+  renderVerifierTierPage(tier);
+  switchView('detail');
+}
+function renderVerifierTierPage(tier){
+  document.getElementById('mobilePledgeBar')?.classList.remove('show');
+  var t = VERIFIER_TIERS[tier] || VERIFIER_TIERS.first;
+  document.getElementById('detailContent').innerHTML =
+    '<div style="font-size:12px;color:var(--text-faint);margin-bottom:12px;"><span style="cursor:pointer;" id="bcHomeTier">Home</span> / <span style="cursor:pointer;" id="bcNetworkTier">Network</span> / <span style="cursor:pointer;" id="bcVerTier">Independent verifiers</span> / <span style="color:var(--text-dim);">' + t.name + '</span></div>' +
+    '<button class="detail-back" id="detailBackBtn">&larr; Back to Network</button>' +
+    '<div style="margin-bottom:2px;"><span style="font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--bg-2);color:var(--text-faint);padding:3px 9px;border-radius:10px;">Verifiers &middot; ' + t.role + '</span></div>' +
+    '<h1 class="detail-title">' + t.name + '</h1>' +
+    '<div class="detail-desc" style="max-width:680px;">' + t.lead + '</div>' +
+    '<div class="tier-switch">' + Object.keys(VERIFIER_TIERS).map(function(k){
+      return '<button type="button" class="tier-switch-btn" data-vtier="' + k + '" aria-pressed="' + (k === tier) + '">' + VERIFIER_TIERS[k].name + '</button>';
+    }).join('') + '</div>' +
+    '<h3 style="font-size:16px;margin-bottom:12px;">' + (tier === 'second' ? 'How the second line works' : 'Five kinds of first-line verifier') + '</h3>' +
+    '<div class="light-grid">' + t.boxes.map(function(c){
+      var m = CATEGORY_META[c];
+      return '<div class="light-card" data-cat="' + c + '" style="cursor:pointer;"><b style="font-size:13.5px;">' + m.name + '</b><p style="font-size:12px;color:var(--text-dim);margin:6px 0 0;line-height:1.5;">' + m.overview + '</p></div>';
+    }).join('') + '</div>' +
+    '<div style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap;">' + t.links.map(function(l){
+      return '<button class="role-jump" type="button" data-goto="' + l[0] + '">' + l[1] + ' <span aria-hidden="true">&rarr;</span></button>';
+    }).join('') + '</div>';
+  var root = document.getElementById('detailContent');
+  root.querySelectorAll('[data-cat]').forEach(function(el){ el.addEventListener('click', function(){ openCategoryPage(el.dataset.cat); }); });
+  root.querySelectorAll('[data-goto]').forEach(function(el){ el.addEventListener('click', function(){ switchView(el.dataset.goto); }); });
+  wireTierCards(root);
+  document.getElementById('bcHomeTier').addEventListener('click', ()=> switchView('home'));
+  document.getElementById('bcNetworkTier').addEventListener('click', ()=> switchView('network'));
+  document.getElementById('bcVerTier').addEventListener('click', ()=> openGroupPage('verifiers'));
+  document.getElementById('detailBackBtn').addEventListener('click', ()=> detailBackFn());
+}
 function openGroupPage(groupId){
   setRoute('group/' + groupId);
   detailBackFn = ()=> switchView('network');
@@ -7471,10 +7538,14 @@ function renderGroupPage(groupId){
     </div>
     <h1 class="detail-title">${g.name}</h1>
     <div class="detail-desc" style="max-width:680px;">${g.overview}</div>
-    <h3 style="font-size:16px;margin-bottom:12px;">Subsections</h3>
+    <h3 style="font-size:16px;margin-bottom:12px;">${groupId === 'verifiers' ? 'Two lines' : 'Subsections'}</h3>
     <div class="light-grid" id="groupSubsectionGrid"></div>
     ${matchingHTML}
   `;
+  if(groupId === 'verifiers'){
+    document.getElementById('groupSubsectionGrid').innerHTML = tierCardsHTML();
+    wireTierCards(document.getElementById('groupSubsectionGrid'));
+  } else
   document.getElementById('groupSubsectionGrid').innerHTML = g.subsections.map(catId=>{
     const meta = CATEGORY_META[catId];
     return `<div class="light-card" data-cat="${catId}" style="cursor:pointer;"><b style="font-size:13.5px;">${meta.name}</b><p style="font-size:12px;color:var(--text-dim);margin:6px 0 0;line-height:1.5;">${meta.overview}</p></div>`;
@@ -7507,6 +7578,21 @@ const CATEGORY_META = {
   'v-inspector': {name:'Independent inspector', group:'Verifiers',
     overview:"Accredited individuals and small firms taking assignments where no public body is both qualified and unconnected — the gap that otherwise leaves a request unverifiable.",
     fit:"You take the assignments nobody else can: right field, right governorate, no tie to the partner, the certifier or any funder."},
+  'l2-appointment': {name:'How a second-line verifier is appointed', group:'Verifiers · Second line',
+    overview:"Nobody applies to be a second-line verifier. They are appointed from the first-line register on three published conditions: a current licence, at least thirty milestone decisions, and an overturn rate in the bottom half of the register. Appointment lapses with the licence.",
+    fit:"The second line is drawn from the people the first line has already tested — which is why the register comes first, and this tier cannot exist without it."},
+  'l2-review': {name:'What they review', group:'Verifiers · Second line',
+    overview:"The first-line verifier's sign-off on a request — scope, the milestones, the evidence each will need and the cost bracket for bids — before the request opens for pledges, and every later change to cost or timeline. Never the work itself, and never a milestone release.",
+    fit:"A sign-off is desk work measured in days, so it can be reviewed on every request. A site visit cannot, which is why releases are checked once and re-checking a sample of them is still open."},
+  'l2-pseudonym': {name:'Why they see no names', group:'Verifiers · Second line',
+    overview:"The platform shows a second-line verifier the request, the scope, the bracket and the first verifier's reasoning — not who the first verifier is, who the implementer is, or who is funding it. Their own decisions are published under a stable pseudonym such as L2-0417.",
+    fit:"A reviewer who cannot see a name has nothing to favour and nobody to be friendly with. Pseudonymity is what makes a second opinion independent rather than collegial."},
+  'l2-record': {name:'Their published record', group:'Verifiers · Second line',
+    overview:"Every second-line verifier's reviews, confirmations, send-backs, agreement rate and median days sit on the register under their pseudonym, next to the first-line table. An agreement rate far from the others is the thing to ask about — in either direction.",
+    fit:"The second line is checked the same way the first is: by publishing the record and letting the outliers show."},
+  'l2-fee': {name:'A fixed fee, inside the published cost', group:'Verifiers · Second line',
+    overview:"Both verifier fees are fixed lines in every request's published cost. Neither can grow with the project, so neither verifier has anything to gain from a bigger bracket or a longer timeline.",
+    fit:"Paid from escrow, never by the implementer — the same rule as the first line, for the same reason."},
   ministry: {name:'Ministry', group:'Government',
     overview:"Lebanon's national ministries — the institutions, not individual officeholders, since cabinets change.",
     fit:"A ministry certifies that a request meets technical and regulatory standards in its field before it can open for pledges. It never touches pledged funds.",
@@ -7542,6 +7628,21 @@ function getCategoryLeads(catId){
   if(catId==='municipality') return GOVS.slice(0,6).map(g=>({name:MUNICIPALITIES[g.id][0], summary:`Municipality in ${g.name}.`, typeLabel:'Municipality', govId:g.id}));
   // The verifier register stands in for ALL_LEADS here, shaped the same way so
   // the existing category and lead pages render it without special-casing.
+  if(catId.indexOf('l2-') === 0){
+    return VERIFIERS_L2.map(v=>({
+      name: v.pseudonym,
+      typeLabel: 'Second-line verifier',
+      summary: 'Pseudonymous · appointed from the register ' + v.appointed + ' · licence to ' + v.licenceExpiry + '.',
+      whatTheyDo: 'Reviews first-line sign-offs on scope and cost bracket before a request opens for pledges, and every later change to cost or timeline — seeing no names.',
+      wherePrevalent: 'Any governorate. The second line is not local, by design.',
+      examples: [
+        v.record.reviewed + ' sign-offs reviewed: ' + v.record.confirmed + ' confirmed, ' + v.record.sentBack + ' sent back.',
+        'Agreement rate ' + (l2AgreementRate(v) * 100).toFixed(1) + '%.',
+        'Median ' + v.record.medianDays + ' days from sign-off to review.'
+      ],
+      additional: 'Published under the pseudonym only. Neither the first-line verifier nor the implementer learns who reviewed them.'
+    }));
+  }
   if(catId.indexOf('v-') === 0){
     return VERIFIERS.filter(v=> v.kind === catId).map(v=>({
       name: v.name,
@@ -7854,6 +7955,7 @@ function renderCategoryPage(catId){
   const isMuni = catId==='municipality';
   const isDiaspora = catId==='diaspora';
   const isDistricts = catId==='districts';
+  const isL2 = catId.indexOf('l2-') === 0;
   document.getElementById('detailContent').innerHTML = `
     <div style="font-size:12px;color:var(--text-faint);margin-bottom:12px;">
       <span style="cursor:pointer;" id="bcHomeCat">Home</span> / <span style="cursor:pointer;" id="bcNetworkCat">Network</span> / <span style="color:var(--text-dim);">${meta.name}</span>
@@ -7867,7 +7969,7 @@ function renderCategoryPage(catId){
     <div class="detail-desc">${meta.overview}</div>
     <div class="light-card" style="max-width:720px;margin-bottom:26px;"><b>Where this fits in the system</b><p style="font-size:12.5px;color:var(--text-dim);margin:8px 0 0;line-height:1.6;">${meta.fit}</p></div>
     ${isMuni ? `<button class="btn btn-primary" id="openMuniDirectory" style="margin-bottom:22px;">Browse all 110 municipalities →</button>` : ''}
-    <h3 style="font-size:16px;margin-bottom:12px;">${isMuni ? 'A few municipalities, for example' : (isDiaspora ? 'Sending countries' : (isDistricts ? 'All 26 districts, by governorate' : 'Leads in this category'))}</h3>
+    <h3 style="font-size:16px;margin-bottom:12px;">${isMuni ? 'A few municipalities, for example' : (isDiaspora ? 'Sending countries' : (isDistricts ? 'All 26 districts, by governorate' : (isL2 ? 'The second line today' : 'Leads in this category')))}</h3>
     <div id="catLeadsGrid" class="${(isDiaspora || isDistricts) ? '' : 'light-grid'}"></div>
     ${isDiaspora ? `<div style="font-size:11.5px;color:var(--text-faint);margin-top:12px;">Same corridor data as the Corridors page — click one for its full country profile.</div>` : ''}
     ${isDistricts ? `<div style="font-size:11.5px;color:var(--text-faint);margin-top:4px;">Click a governorate name to see its own profile.</div>` : ''}
@@ -9518,6 +9620,12 @@ function renderVerifierRegister(){
     'It is the kind of thing somebody should look at, and <b>today nobody does</b>.';
 }
 renderVerifierRegister();
+(function(){
+  var el = document.getElementById('networkVerifierTiers');
+  if(!el) return;
+  el.innerHTML = tierCardsHTML();
+  wireTierCards(el);
+})();
 
 // Shown on every request: who checks this one, and why they are allowed to.
 // The independence tests are printed with their results rather than summarised
@@ -9654,8 +9762,8 @@ function demoBranches(){
   out.push({
     id:'verifiers', label:'For verifiers',
     overview:"The role that decides whether money moves. A verifier confirms a milestone actually happened before any tranche is released, and is assigned at certification — before a pledge is taken — and their sign-off is reviewed by a second-line verifier who sees no names. They are drawn from the pool with no tie to the partner, the certifier or any funder of that request.",
-    subs:['v-district','v-oea','v-envofficer','v-auditor','v-inspector'].map(function(key){
-      return { key:key, label:(CATEGORY_META[key] || {}).name || key };
+    subs:['v-district','v-oea','v-envofficer','v-auditor','v-inspector','l2-review'].map(function(key){
+      return { key:key, label: key === 'l2-review' ? 'Second line (appointed)' : ((CATEGORY_META[key] || {}).name || key) };
     })
   });
   return out;
