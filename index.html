@@ -1201,6 +1201,7 @@
   .rn-node-l2{ stroke-dasharray:4 3; }
   .tier-role{ font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--accent); }
   .tier-go{ display:block; margin-top:10px; font-size:12px; font-weight:700; color:var(--accent); }
+  .group-links{ display:flex; gap:10px; flex-wrap:wrap; margin:18px 0 0; }
   .tier-switch{ display:flex; gap:8px; margin:0 0 22px; flex-wrap:wrap; }
   .tier-switch-btn{ all:unset; cursor:pointer; font-size:12.5px; font-weight:700; padding:7px 14px; border:1.5px solid var(--border); border-radius:20px; color:var(--text-dim); }
   .tier-switch-btn[aria-pressed="true"]{ border-color:var(--accent); color:var(--accent); background:var(--accent-soft); }
@@ -7558,6 +7559,16 @@ function renderVerifierTierPage(tier){
   document.getElementById('bcVerTier').addEventListener('click', ()=> openGroupPage('verifiers'));
   document.getElementById('detailBackBtn').addEventListener('click', ()=> detailBackFn());
 }
+// Every role's group page has the same shape as the verifier tier pages: a
+// switch across the four roles, a heading for the boxes, the boxes, the links.
+const GROUP_ORDER = ['government','experts','sponsors','verifiers'];
+const GROUP_BOXES_HEADING = { government:'Three kinds of government body', experts:'Eight expert fields', sponsors:'Five kinds of sponsor', verifiers:'Two lines of verifier' };
+const GROUP_LINKS = {
+  government:[['demo','government','See the government options'],['when','','When they step in, and why it matters']],
+  experts:[['demo','experts','See the expert options'],['when','','When they step in, and why it matters']],
+  sponsors:[['demo','sponsors','See the sponsor options'],['when','','When they step in, and why it matters']],
+  verifiers:[['goto','verifiers','See every verifier&rsquo;s record'],['goto','trust','When they are assigned, and why it matters']]
+};
 function openGroupPage(groupId){
   setRoute('group/' + groupId);
   detailBackFn = ()=> switchView('network');
@@ -7572,7 +7583,7 @@ function renderGroupPage(groupId){
     : groupId==='sponsors' ? 'How sponsors get matched to requests'
     : 'How experts get matched to problems';
   const matchingHTML = ms ? `
-    <h3 style="font-size:16px;margin:110px 0 6px;">🎯 ${msHeading}</h3>
+    <h3 style="font-size:16px;margin:44px 0 6px;">🎯 ${msHeading}</h3>
     <p style="font-size:12.5px;color:var(--text-dim);max-width:720px;margin:0 0 16px;line-height:1.6;">${ms.intro}</p>
     <div style="overflow-x:auto;margin-bottom:14px;">
       <table style="width:100%;border-collapse:collapse;font-size:12.5px;min-width:600px;">
@@ -7604,8 +7615,10 @@ function renderGroupPage(groupId){
     </div>
     <h1 class="detail-title">${g.name}</h1>
     <div class="detail-desc" style="max-width:680px;">${g.overview}</div>
-    <h3 style="font-size:16px;margin-bottom:12px;">${groupId === 'verifiers' ? 'Two lines' : 'Subsections'}</h3>
+    <div class="tier-switch">${GROUP_ORDER.map(k=>`<button type="button" class="tier-switch-btn" data-group-switch="${k}" aria-pressed="${k===groupId}">${GROUP_META[k].name}</button>`).join('')}</div>
+    <h3 style="font-size:16px;margin-bottom:12px;">${GROUP_BOXES_HEADING[groupId] || 'Subsections'}</h3>
     <div class="light-grid" id="groupSubsectionGrid"></div>
+    <div class="group-links">${(GROUP_LINKS[groupId] || []).map(l=>`<button class="role-jump" type="button" data-glink="${l[0]}" data-arg="${l[1]}">${l[2]} <span aria-hidden="true">&rarr;</span></button>`).join('')}</div>
     ${matchingHTML}
   `;
   if(groupId === 'verifiers'){
@@ -7623,6 +7636,12 @@ function renderGroupPage(groupId){
       else { openCategoryPage(el.dataset.cat); }
     });
   });
+  document.querySelectorAll('#detailContent [data-group-switch]').forEach(b=> b.addEventListener('click', ()=> openGroupPage(b.dataset.groupSwitch)));
+  document.querySelectorAll('#detailContent [data-glink]').forEach(b=> b.addEventListener('click', ()=>{
+    if(b.dataset.glink === 'goto') switchView(b.dataset.arg);
+    else if(b.dataset.glink === 'when'){ switchView('dashboard'); const t = document.getElementById('roleWhen'); if(t) setTimeout(()=> t.scrollIntoView({behavior:'smooth', block:'start'}), 60); }
+    else openAccountDemo(roleDashboardFor(b.dataset.arg) || 'overview');
+  }));
   document.getElementById('bcHomeGroup').addEventListener('click', ()=> switchView('home'));
   document.getElementById('bcNetworkGroup').addEventListener('click', ()=> switchView('network'));
   document.getElementById('detailBackBtn').addEventListener('click', ()=> detailBackFn());
