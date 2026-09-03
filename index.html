@@ -1087,6 +1087,17 @@
   .partner-line b{ color:var(--text); }
 
   .comments-block{ margin-top:40px; border-top:1px solid var(--border); padding-top:30px; }
+  .chat-tabs{ display:flex; gap:8px; margin:0 0 12px; flex-wrap:wrap; }
+  .chat-tab{ all:unset; cursor:pointer; display:flex; flex-direction:column; gap:2px; padding:8px 14px; border:1.5px solid var(--border); border-radius:10px; font-size:13px; font-weight:700; color:var(--text-dim); background:var(--bg-1); }
+  .chat-tab span{ font-size:11px; font-weight:400; color:var(--text-faint); }
+  .chat-tab[aria-selected="true"]{ border-color:var(--accent); color:var(--accent); background:var(--accent-soft); }
+  .chat-tab:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .chat-note{ font-size:12px; color:var(--text-faint); line-height:1.6; margin:0 0 10px; }
+  .chat-members{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 12px; }
+  .chat-member{ display:flex; flex-direction:column; gap:1px; font-size:12px; color:var(--text-dim); border:1px solid var(--border); border-radius:8px; padding:6px 10px; background:var(--bg-1); }
+  .chat-member b{ font-size:10px; text-transform:uppercase; letter-spacing:.04em; color:var(--text-faint); }
+  .chat-closed{ font-size:12.5px; color:var(--text-dim); border:1px dashed var(--border); border-radius:8px; padding:10px 12px; line-height:1.55; }
+  .chat-join{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:14px 0 4px; font-size:12px; color:var(--text-faint); }
   .comment{ padding:14px 0; border-bottom:1px solid var(--border); }
   .comment .c-head{ display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; }
   .comment .c-author{ font-weight:700; }
@@ -7094,6 +7105,25 @@ function renderDetail(){
     </div>
   `;
 
+  // Two chats: public for anyone, stakeholder for everyone on the request —
+  // including both verifiers, so a stalled signature is visible to the people
+  // waiting on it. The affected group is seeded from Baladi confirmations.
+  const chatTab = p._chatTab || 'public';
+  p.stakeholderChat = p.stakeholderChat || (STAKEHOLDER_CHAT[p.id] || []).slice();
+  const stakeRows = p.stakeholderChat.length ? p.stakeholderChat.map(c=>`<div class="comment">
+      <div class="c-head"><span><span class="c-author">${c.author}</span><span class="c-role">${c.role}</span></span><span class="c-time">${c.time}</span></div>
+      <div class="c-text">${c.text}</div>
+    </div>`).join('') : `<div style="font-size:12.5px;color:var(--text-faint);">No messages yet.</div>`;
+  const v1 = p.status==='proposed' ? null : verifierFor(p), v2 = verifierL2For(p);
+  const chatMembers = [
+    ['Government lead', muniEntity || p.certifyingBody || 'not yet certified'],
+    ['Expert', p.expertPartner ? p.expertPartner.name : (orgEntity || 'not yet bid')],
+    ['Sponsors', p.donations.length ? p.donations.length + ' pledged' : 'none yet'],
+    ['Verifier', v1 ? v1.name : 'not yet assigned'],
+    ['Second line', v2 ? v2.pseudonym : 'not yet assigned'],
+    ['Affected residents', affectedCount]
+  ].map(m=>`<span class="chat-member"><b>${m[0]}</b>${m[1]}</span>`).join('');
+
   // Fix #3: the donut, custody trail, and donation ledger all answer "where did the money go" —
   // grouped into one section instead of scattered between unrelated content.
   const followTheMoney = `
@@ -7152,7 +7182,15 @@ function renderDetail(){
         </div>
         <div class="comments-block detail-block">
           <h3 style="font-size:16px;">Discussion</h3>
-          <div>${commentRows}</div>
+          <div class="chat-tabs" role="tablist">
+            <button type="button" class="chat-tab" role="tab" data-chat="public" aria-selected="${chatTab==='public'}">Public<span>Anyone with an account</span></button>
+            <button type="button" class="chat-tab" role="tab" data-chat="stake" aria-selected="${chatTab==='stake'}">Stakeholders<span>Everyone on this request, both verifiers included</span></button>
+          </div>
+          ${chatTab==='public' ? `<p class="chat-note">Questions, flags and pushback from anyone. What is said here is public and stays on the request.</p><div>${commentRows}</div>` : `
+            <div class="chat-members">${chatMembers}</div>
+            <p class="chat-note">Verifiers sit in this chat on purpose: a signature everyone is waiting on is visible to the people waiting on it. Bottlenecks and pressure happen in the open.</p>
+            ${p.certStatus==='certified' ? `<div>${stakeRows}</div>` : `<div class="chat-closed">Opens when this request is certified.${p.originReport || p.source==='baladi' ? ' The ' + affectedCount + ' residents who confirmed it on Baladi Map form the affected group and get a seat here automatically.' : ''}</div>`}
+            <div class="chat-join">${p._joined ? '<b>You are in the affected group.</b> Your posts here are seen by everyone on the request.' : `<button type="button" class="btn btn-secondary" id="joinAffected">Join as an affected resident</button><span>${affectedCount} in the group so far${p.originReport || p.source==='baladi' ? ' — seeded from Baladi Map confirmations' : ''}.</span>`}</div>`}
           <div class="comment-form">
             <textarea id="commentText" placeholder="Ask a question or share an update..."></textarea>
             <div style="display:flex;justify-content:space-between;align-items:center;">
@@ -7279,9 +7317,15 @@ function renderDetail(){
   document.getElementById('postComment').addEventListener('click', ()=>{
     const txt = document.getElementById('commentText').value.trim();
     if(!txt) return;
-    p.comments.push({author: currentRole==='Individual' ? 'Anonymous' : currentRole+' account', role: currentRole, text: txt, time: 'just now'});
+    const msg = {author: currentRole==='Individual' ? 'Anonymous' : currentRole+' account', role: currentRole, text: txt, time: 'just now'};
+    if((p._chatTab || 'public') === 'stake') p.stakeholderChat.push(msg); else p.comments.push(msg);
     renderDetail();
   });
+  document.querySelectorAll('.chat-tab').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ p._chatTab = btn.dataset.chat; renderDetail(); });
+  });
+  const joinBtn = document.getElementById('joinAffected');
+  if(joinBtn) joinBtn.addEventListener('click', ()=>{ p._joined = true; p.affectedCount = (p.affectedCount || 0) + 1; renderDetail(); });
 
   // mobile sticky pledge bar — mirrors the main fund block on small screens
   document.getElementById('mpbNum').textContent = money(p.raised);
@@ -9258,6 +9302,29 @@ const VERIFIERS_L2 = [
   {id:'l2-0922', pseudonym:'L2-0922', appointed:'2026-02', licenceExpiry:'2028-01', record:{reviewed:21, confirmed:20, sentBack:1, medianDays:2}},
   {id:'l2-1305', pseudonym:'L2-1305', appointed:'2025-08', licenceExpiry:'2027-03', record:{reviewed:47, confirmed:39, sentBack:8, medianDays:4}}
 ];
+// Stakeholder threads on three demo requests. Verifiers sit in this chat on
+// purpose: a signature everyone is waiting on is visible to the people waiting.
+const STAKEHOLDER_CHAT = {
+  10: [
+    {author:'Halba Municipal Council', role:'Government lead', text:'Procurement receipts uploaded against milestone 1. Pipe supplier quoted 9% over the bracket line for the second batch — flagging it here before we order.', time:'8 May'},
+    {author:'District engineer, Koura', role:'Verifier', text:'Seen. I can approve a variance against the published specs if the second-line verifier does too. Send the revised quote and the original spec side by side, not a summary.', time:'9 May'},
+    {author:'L2-0922', role:'Second-line verifier', text:'Quote and spec compared. The increase is the supplier price, not a scope change — approved, funded from contingency. No new pledges needed.', time:'12 May'},
+    {author:'Akkar Diaspora Circle — Doha', role:'Sponsor', text:'Thanks for showing the working. What is the date for tranche 2 now?', time:'13 May'},
+    {author:'R. Hamad', role:'Affected resident', text:'Pressure on our street is still gone after 6pm. Is the second segment the one that fixes us?', time:'14 May'},
+    {author:'North Lebanon Water Establishment', role:'Expert', text:'Yes — segment two covers the eastern branch. Installation starts the week tranche 2 is released.', time:'14 May'}
+  ],
+  13: [
+    {author:'SWIM Initiative', role:'Expert', text:'Event two tonnage log and photos are up. Waiting on the verifier.', time:'24 May'},
+    {author:'District engineer, Nabatieh', role:'Verifier', text:'Photos are fine; the tonnage log needs the weighbridge ticket, not a hand tally. Resubmit with it and I can sign the same day.', time:'25 May'},
+    {author:'SWIM Initiative', role:'Expert', text:'Ticket attached. Apologies — it was in the truck.', time:'25 May'},
+    {author:'M. Khalil', role:'Affected resident', text:'The stretch by the fishermen\'s harbour still has the nets. Is that in scope for the next event?', time:'27 May'}
+  ],
+  14: [
+    {author:'Beit Mery Municipality', role:'Government lead', text:'We are 40% funded. If we do not reach the threshold by 15 July the erosion work slips to autumn.', time:'21 Jun'},
+    {author:'Mount Lebanon Heritage Circle — Mexico City', role:'Sponsor', text:'We can add 800 if the municipality matches it. Can the top-up be confirmed here?', time:'23 Jun'},
+    {author:'District engineer, Koura', role:'Verifier', text:'For the record: nothing is released until the threshold is met, whoever tops it up. The bracket stands.', time:'23 Jun'}
+  ]
+};
 function verifierL2For(p){
   if(p.certStatus !== 'certified') return null;
   return VERIFIERS_L2[(p.id * 7) % VERIFIERS_L2.length];
