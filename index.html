@@ -1087,6 +1087,7 @@
   .partner-line b{ color:var(--text); }
 
   .comments-block{ margin-top:40px; border-top:1px solid var(--border); padding-top:30px; }
+  .off-ledger{ display:inline-block; font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; background:var(--bg-2); color:var(--text-dim); padding:2px 7px; border-radius:8px; margin-top:10px; }
   .chat-tabs{ display:flex; gap:8px; margin:0 0 12px; flex-wrap:wrap; }
   .chat-tab{ all:unset; cursor:pointer; display:flex; flex-direction:column; gap:2px; padding:8px 14px; border:1.5px solid var(--border); border-radius:10px; font-size:13px; font-weight:700; color:var(--text-dim); background:var(--bg-1); }
   .chat-tab span{ font-size:11px; font-weight:400; color:var(--text-faint); }
@@ -1917,9 +1918,9 @@
       </div>
 
       <h3 style="font-size:16px;margin-bottom:4px;">More than money</h3>
-      <div class="section-head" style="margin-top:2px;"><p>The same corridor that funds a project can be a stepping stone to real connections and partnerships — most of them costing nothing but a conversation. Click one to see how it would actually work.</p></div>
+      <div class="section-head" style="margin-top:2px;"><p>The same corridor that funds a project can be a stepping stone to real connections and partnerships — most of them costing nothing but a conversation. Click one to see how it would actually work. <b>None of it passes through escrow or verification.</b> These sit beside the ledger, not on it, so the trust argument on every project page stays about projects.</p></div>
       <div class="light-grid" id="corridorFeatureGrid"></div>
-      <div style="font-size:11.5px;color:var(--text-faint);margin-top:16px;margin-bottom:8px;">These five are illustrative — the point isn't that Manāra runs a courier service or job board itself, but that a verified diaspora-hometown corridor is infrastructure other kinds of connection can be built on top of, not just a funding pipe.</div>
+      <div style="font-size:11.5px;color:var(--text-faint);margin-top:16px;margin-bottom:8px;">These five are illustrative — the point isn't that Manāra runs a courier service or job board itself, but that a verified diaspora-hometown corridor is infrastructure other kinds of connection can be built on top of, not just a funding pipe. Courier groups in particular carry a line of policy before they go live: no cash, no restricted goods, the traveller stays responsible for what they carry under customs law, and every group has a named account holder as admin.</div>
     </div>
 
     <div class="section">
@@ -2962,7 +2963,7 @@ const CORRIDOR_FEATURES = [
   {id:'travel', icon:'✈️', name:'Travel & Courier Groups',
    tagline:"Send it with whoever's flying next.",
    overview:"Informal networks of travelers carrying packages, documents and small goods between diaspora communities and their hometowns. Formal shipping to and from Lebanon is slow and expensive, especially since 2019 — so for decades, the default has been asking whoever's flying that route next to carry something in a spare suitcase.",
-   howItWorks:"Someone on either end of a corridor posts what they need sent and when — a document, medication, a small gift — along with their travel dates or a request for a traveler. Someone flying that same route volunteers, and the handoff happens at the airport or a agreed meeting point. No payment changes hands beyond covering the item itself; it runs on trust and a shared hometown connection.",
+   howItWorks:"Each corridor's group is an ordinary WhatsApp group with a named Manāra account holder as admin, so there is a person behind it. Someone on either end posts what they need sent and when — a document, medication, a small gift — along with their travel dates or a request for a traveler. Someone flying that same route volunteers, and the handoff happens at the airport or a agreed meeting point. No payment changes hands beyond covering the item itself; it runs on trust and a shared hometown connection.",
    precedent:["Facebook and WhatsApp groups organized around exactly this pattern already exist informally for many diaspora-to-Lebanon routes.","The practice predates social media — Lebanese diaspora communities have coordinated courier favors through community networks for generations."],
    getInvolved:"On a real version of this page, you'd post your corridor and travel window, or browse open requests along a corridor you travel regularly."},
   {id:'jobs', icon:'💼', name:'Job Opportunities',
@@ -2979,12 +2980,12 @@ const CORRIDOR_FEATURES = [
    getInvolved:"On a real version of this page, you'd list your corridor and expertise as a mentor, or request an introduction as a mentee."},
   {id:'culture', icon:'🌿', name:'Cultural & Heritage Exchange',
    tagline:"Bringing diaspora youth back to a specific town, not just a country.",
-   overview:"Diaspora identity is often tied to a country in the abstract — but the strongest connections are to a specific town, with a specific family history. Organized visits and cultural exchange along a real corridor make that concrete, especially for second- and third-generation diaspora youth.",
+   overview:"Diaspora identity is often tied to a country in the abstract — but the strongest connections are to a specific town, with a specific family history. Every Lebanese community abroad can meet locals, and each other, here — town by town rather than country to country. Organized visits and cultural exchange along a real corridor make that concrete, especially for second- and third-generation diaspora youth.",
    howItWorks:"A local community or municipality plans a visit window — often tied to a summer festival or a family occasion — and shares it along the corridor. Diaspora families with roots in that town can plan trips around it, and connect with others from the same corridor doing the same.",
    precedent:["Many Lebanese villages already hold summer 'mahrajans' (festivals) specifically timed to when diaspora families return for visits.","The World Lebanese Cultural Union, founded in 1959, has run cultural and heritage programming connecting diaspora communities to their hometowns for over six decades."],
    getInvolved:"On a real version of this page, you'd see upcoming visit windows and events for your corridor, and connect with your governorate's diaspora-welcome liaison desk to help plan a trip."},
   {id:'trade', icon:'🏪', name:'Trade & Small Business Partnerships',
-   tagline:"Local products, diaspora markets — and the reverse.",
+   tagline:"Local products, diaspora markets — and investment the other way.",
    overview:"Lebanese producers and artisans often make things worth exporting — wine, olive oil, crafts — but lack a route to diaspora markets abroad. Diaspora entrepreneurs, meanwhile, often want to source, manufacture or distribute through Lebanon but don't know where to start. A corridor connects both sides of that gap.",
    howItWorks:"A local producer or small business lists what they make and where. A diaspora business or individual browsing that corridor can express interest in distribution, import, or a direct partnership — turning an informal 'my cousin makes great oil' into an actual introduction.",
    precedent:["Lebanese wine and olive oil exporters increasingly rely on diaspora contacts abroad for distribution, given limited formal export infrastructure.","Lebanon for Entrepreneurs (LFE) was explicitly founded to help diaspora capital and networks reach Lebanese small businesses and startups."],
@@ -6874,6 +6875,7 @@ function renderCorridorFeatureGrid(){
   document.getElementById('corridorFeatureGrid').innerHTML = CORRIDOR_FEATURES.map(f=>`<div class="light-card" style="cursor:pointer;" data-fid="${f.id}">
       <b style="font-size:13.5px;">${f.icon} ${f.name}</b>
       <p style="font-size:12.5px;color:var(--text-dim);margin:8px 0 0;line-height:1.6;">${f.tagline}</p>
+      <span class="off-ledger">Outside the ledger</span>
     </div>`).join('');
   document.querySelectorAll('#corridorFeatureGrid .light-card').forEach(el=>{
     el.addEventListener('click', ()=> openCorridorFeaturePage(el.dataset.fid));
@@ -6889,7 +6891,7 @@ function renderCorridorFeaturePage(fid){
   const f = CORRIDOR_FEATURES.find(x=>x.id===fid);
   document.getElementById('detailContent').innerHTML = `
     <button class="detail-back" id="detailBackBtn">← Back to Diaspora</button>
-    <div class="detail-kicker">More than money · Diaspora</div>
+    <div class="detail-kicker">More than money · Diaspora · Outside the ledger</div>
     <h1 class="detail-title">${f.icon} ${f.name}</h1>
     <div class="detail-loc" style="margin-bottom:20px;">${f.tagline}</div>
     <div class="detail-cols">
