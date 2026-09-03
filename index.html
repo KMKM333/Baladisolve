@@ -1198,6 +1198,7 @@
   .tw-step{ position:relative; }
   .tw-step:not(:last-child)::before{ content:''; position:absolute; left:10.5px; top:24px; bottom:-11px;
     width:1px; background:var(--border); }
+  .rn-node-l2{ stroke-dasharray:4 3; }
   .tier-role{ font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--accent); }
   .tier-go{ display:block; margin-top:10px; font-size:12px; font-weight:700; color:var(--accent); }
   .tier-switch{ display:flex; gap:8px; margin:0 0 22px; flex-wrap:wrap; }
@@ -1516,6 +1517,8 @@
           <rect class="rn-node" x="10" y="112" width="190" height="56" rx="11"/><text class="rn-role" x="26" y="136">SOLVES</text><text class="rn-name" x="26" y="158">Experts</text>
           <rect class="rn-node" x="10" y="204" width="190" height="56" rx="11"/><text class="rn-role" x="26" y="228">FUNDS</text><text class="rn-name" x="26" y="250">Sponsors</text>
           <rect class="rn-node" x="575" y="12" width="180" height="56" rx="11"/><text class="rn-role" x="591" y="36">CHECKS</text><text class="rn-name" x="591" y="58">Verifier</text>
+          <path class="rn-link-check" d="M755,40 L770,40"/>
+          <rect class="rn-node rn-node-l2" x="770" y="12" width="150" height="56" rx="11"/><text class="rn-role" x="786" y="36">CHECKS THE CHECK</text><text class="rn-name" x="786" y="58">Second line</text>
 
           <rect class="rn-node" x="380" y="104" width="172" height="72" rx="11"/>
           <text class="rn-name" x="466" y="138" text-anchor="middle">The request</text>
@@ -1550,6 +1553,7 @@
           <rect class="rn-node" x="14" y="78" width="190" height="54" rx="11"/><text class="rn-role" x="30" y="100">SOLVES</text><text class="rn-name" x="30" y="121">Experts</text>
           <rect class="rn-node" x="14" y="146" width="190" height="54" rx="11"/><text class="rn-role" x="30" y="168">FUNDS</text><text class="rn-name" x="30" y="189">Sponsors</text>
           <rect class="rn-node" x="212" y="376" width="154" height="56" rx="11"/><text class="rn-role" x="228" y="398">CHECKS</text><text class="rn-name" x="228" y="419">Verifier</text>
+          <text class="rn-role" x="228" y="452">+ SECOND LINE</text><text class="rn-role" x="228" y="466">CHECKS THE CHECK</text>
 
           <rect class="rn-node" x="95" y="266" width="190" height="76" rx="11"/>
           <text class="rn-name" x="190" y="300" text-anchor="middle">The request</text>
@@ -2040,7 +2044,7 @@
         <div class="light-card"><div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:8px;">01 · INTAKE</div><h4 style="margin:0 0 8px;font-size:15px;">A named, checkable need</h4><p style="font-size:12.5px;color:var(--text-dim);line-height:1.6;margin:0;">Requests come from a registered municipality, a vetted NGO, or a recognised business partner — many grounded in a citizen report already confirmed by other affected residents.</p></div>
         <div class="light-card"><div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:8px;">02 · VETTING</div><h4 style="margin:0 0 8px;font-size:15px;">Whole-partner review</h4><p style="font-size:12.5px;color:var(--text-dim);line-height:1.6;margin:0;">Before a request goes live, the implementing partner is checked once — legal registration, past project record, references.</p></div>
         <div class="light-card"><div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:8px;">03 · ESCROW</div><h4 style="margin:0 0 8px;font-size:15px;">Money moves, but doesn't land yet</h4><p style="font-size:12.5px;color:var(--text-dim);line-height:1.6;margin:0;">Pledges sit in escrow held by an independent custodian — never a government account, never the implementer's — until a milestone is verified.</p></div>
-        <div class="light-card"><div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:8px;">04 · VERIFICATION</div><h4 style="margin:0 0 8px;font-size:15px;">A claim and a check are different steps</h4><p style="font-size:12.5px;color:var(--text-dim);line-height:1.6;margin:0;">Evidence sits as "submitted" until an unaffiliated verifier confirms it. Only then does the ledger mark it verified and escrow release.</p></div>
+        <div class="light-card"><div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:8px;">04 · VERIFICATION</div><h4 style="margin:0 0 8px;font-size:15px;">A claim and a check are different steps</h4><p style="font-size:12.5px;color:var(--text-dim);line-height:1.6;margin:0;">Evidence sits as "submitted" until an unaffiliated verifier confirms it. Only then does the ledger mark it verified and escrow release. The sign-off that let the request open was itself reviewed by a second-line verifier who saw no names.</p></div>
         <div class="light-card"><div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:8px;">05 · OPEN LEDGER</div><h4 style="margin:0 0 8px;font-size:15px;">Anyone can trace any lira</h4><p style="font-size:12.5px;color:var(--text-dim);line-height:1.6;margin:0;">Funders — named or anonymous — see the same trail everyone else does. No private reporting track.</p></div>
         <div class="light-card"><div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:8px;">06 · DISPUTE</div><h4 style="margin:0 0 8px;font-size:15px;">A report button that goes somewhere</h4><p style="font-size:12.5px;color:var(--text-dim);line-height:1.6;margin:0;">Flags route to an independent oversight partner, not to the implementer being flagged.</p></div>
       </div>
@@ -2179,7 +2183,7 @@
         <button class="role-btn" type="button" data-aud-role="verifiers">
           <span class="role-btn-role">Checks</span>
           <span class="role-btn-name">Verifiers</span>
-          <span class="role-btn-sub">Accredited reviewers who decide whether a tranche is released. Assigned in rotation, never to a request you are attached to.</span>
+          <span class="role-btn-sub">Accredited reviewers who decide whether a tranche is released. Assigned in rotation, never to a request you are attached to, with a second line reviewing your sign-offs.</span>
           <span class="role-btn-go">5 first-line types, plus an appointed second line &rarr;</span>
         </button>
       </div>
