@@ -797,7 +797,7 @@
   .ev-ok{ color:var(--ok); }
   .ev-warn{ color:var(--warn); }
   /* The four roles drawn as a network rather than listed as a row: three meet on
-     the request, the fourth sits on the release instead — which is the whole
+     the request, the fourth gates the request and the release instead — which is the whole
      separation argument, made visually. */
   .rn-wrap{ margin-top:26px; border:1px solid var(--border); border-radius:14px; background:var(--bg-1); padding:24px 26px 20px; }
   .rn-svg{ display:block; width:100%; height:auto; font-family:inherit; }
@@ -895,6 +895,7 @@
   .rw-lead{ font-size:14.5px; color:var(--text); line-height:1.65; margin:0 0 30px; max-width:68ch; }
   .rw-steps{ display:grid; grid-template-columns:repeat(4,1fr); column-gap:26px; row-gap:30px; align-items:start; }
   .rw-steps.rw-3{ grid-template-columns:repeat(3,1fr); }
+.rw-steps.rw-5{ grid-template-columns:repeat(5,1fr); }
   .rw-step{ position:relative; padding-top:38px; text-align:center; }
   .rw-step::before{ content:''; position:absolute; top:12px; left:50%; right:calc(-50% - 26px); height:2px; background:var(--border); }
   .rw-step:last-child::before{ display:none; }
@@ -909,12 +910,12 @@
   .rw-warn b{ color:var(--text); }
   /* Below this the four columns drop under ~30 characters a line. */
   @media (max-width:1180px){
-    .rw-steps, .rw-steps.rw-3{ grid-template-columns:1fr 1fr; }
+    .rw-steps, .rw-steps.rw-3,.rw-steps.rw-5{ grid-template-columns:1fr 1fr; }
     .rw-step:nth-child(2)::before{ display:none; }
   }
   @media (max-width:620px){
     .rw{ padding:22px 20px 24px; }
-    .rw-steps, .rw-steps.rw-3{ grid-template-columns:1fr; row-gap:24px; }
+    .rw-steps, .rw-steps.rw-3,.rw-steps.rw-5{ grid-template-columns:1fr; row-gap:24px; }
     .rw-step::before{ display:none; }
   }
   /* ---------- Verifier register (Option A) ---------- */
@@ -1413,7 +1414,7 @@
       <button class="role-btn" type="button" data-group="verifiers">
         <span class="role-btn-head"><span class="role-btn-role">Checks</span><span class="role-btn-step">4</span></span>
         <span class="role-btn-name">Verifiers</span>
-        <span class="role-btn-sub">The role that decides whether money moves &mdash; assigned before work starts, and never to a request they are attached to.</span>
+        <span class="role-btn-sub">The role that decides whether money moves &mdash; signs off the request with government before a pledge is taken, signs off every release, and is never attached to what it checks.</span>
         <span class="role-btn-when">The implementer knows who will check them, and could not choose that person. Each tranche waits on their sign-off.</span>
         <span class="role-btn-go">See the verifier types &rarr;</span>
       </button>
@@ -1426,7 +1427,7 @@
         <li><b>Government</b><span>Certifies that the request is real, lawful and within its jurisdiction &mdash; and never touches the money it approves.</span></li>
         <li><b>Expert organisations</b><span>Supply the technical knowledge the problem actually needs, set their own price, and do the work.</span></li>
         <li><b>Sponsors</b><span>Fund it, into independent escrow, before anything begins.</span></li>
-        <li><b>Independent verifiers</b><span>Assigned at escrow confirmation, before work starts. Barred by construction from being the certifying body, the implementing organisation or any funder &mdash; and the only party who can release a tranche.</span></li>
+        <li><b>Independent verifiers</b><span>Assigned when the request is certified. They sign it off with government before it can open for pledges, then gate every release. Barred by construction from being the certifying body, the implementing organisation or any funder.</span></li>
       </ul>
       <p>The first three all work <b>directly on the project</b>. They propose it, build it and pay for it, and every one of them has something riding on it being called a success. That is precisely why the fourth exists: it works on the <b>process</b> instead. The first three make the project happen; the fourth is the reason anyone outside it should believe that it did.</p>
     </div>
@@ -1434,7 +1435,7 @@
       <div class="rn-wrap">
         <svg class="rn-svg" viewBox="0 0 940 280" role="img" aria-labelledby="rnTitle rnDesc">
           <title id="rnTitle">How the four roles connect</title>
-          <desc id="rnDesc">Government, experts and sponsors all connect to the request itself. The verifier connects instead to the escrow release, gating it, with no line to the request.</desc>
+          <desc id="rnDesc">Government, experts and sponsors all connect to the request itself. The verifier gates twice: it signs off the request with government before pledges open, and it gates the escrow release.</desc>
           <defs>
             <marker id="rnArrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M0,0 L8,4 L0,8 z" fill="var(--border)"/>
@@ -1445,6 +1446,8 @@
           <path class="rn-link" marker-end="url(#rnArrow)" d="M200,140 L372,140"/>
           <path class="rn-link" marker-end="url(#rnArrow)" d="M200,232 C292,232 292,140 372,140"/>
           <path class="rn-link" marker-end="url(#rnArrow)" d="M552,140 L732,140"/>
+          <path class="rn-link-check" d="M597,68 C597,92 536,74 536,104"/>
+          <circle class="rn-gate" cx="536" cy="104" r="5.5"/>
           <path class="rn-link-check" d="M665,68 L665,134"/>
           <circle class="rn-gate" cx="665" cy="140" r="5.5"/>
 
@@ -1463,7 +1466,7 @@
         </svg>
         <svg class="rn-svg-m" viewBox="0 0 380 550" role="img" aria-labelledby="rnTitleM rnDescM">
           <title id="rnTitleM">How the four roles connect</title>
-          <desc id="rnDescM">Government, experts and sponsors all feed into the request. The verifier connects instead to the escrow release, gating it, with no line to the request.</desc>
+          <desc id="rnDescM">Government, experts and sponsors all feed into the request. The verifier gates twice: it signs off the request with government before pledges open, and it gates the escrow release.</desc>
           <defs>
             <marker id="rnArrowM" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M0,0 L8,4 L0,8 z" fill="var(--border)"/>
@@ -1476,6 +1479,8 @@
           <path class="rn-link" d="M250,37 L250,228"/>
           <path class="rn-link" marker-end="url(#rnArrowM)" d="M250,228 C250,252 190,244 190,262"/>
           <path class="rn-link" marker-end="url(#rnArrowM)" d="M190,342 L190,470"/>
+          <path class="rn-link-check" d="M289,376 C289,358 261,360 261,342"/>
+          <circle class="rn-gate" cx="261" cy="342" r="5.5"/>
           <path class="rn-link-check" d="M212,404 L197,404"/>
           <circle class="rn-gate" cx="190" cy="404" r="5.5"/>
 
@@ -1492,7 +1497,7 @@
           <text class="rn-name" x="190" y="506" text-anchor="middle">Escrow releases</text>
           <text class="rn-sub" x="190" y="526" text-anchor="middle">one tranche</text>
         </svg>
-        <p class="rn-cap"><b>Read the lines, not the boxes.</b> Three roles connect to the request &mdash; they certify it, build it and pay for it. The fourth has no line to the request at all: it sits on the release, and nothing passes that point without it. That gap is the separation, and it is why a verifier can be believed about work they had no part in.</p>
+        <p class="rn-cap"><b>Read the lines, not the boxes.</b> Three roles connect to the request &mdash; they certify it, build it and pay for it. The fourth touches it only as a gate, twice: it signs off the request with government before a single pledge is taken, and it signs off every release after. It never certifies, builds or pays &mdash; and that is why it can be believed about work it had no part in.</p>
       </div>
 
     <p class="role-flow-note">Nothing here is released on a claim. A milestone stays &ldquo;submitted&rdquo; until someone with no stake in it confirms it happened.</p>
@@ -1501,7 +1506,7 @@
 
   <div class="section reveal"><div class="wrap">
     <div class="section-head"><h2>How it works</h2><p>Nine steps from a filed request to money released &mdash; each one under the role that performs it.</p></div>
-    <div class="tw-lane"><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Certifies</span><span class="tw-name">Government</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">1</span><div><b>Request filed</b><span>A municipality, NGO or business submits scope, budget and timeline.</span></div></div><div class="tw-step"><span class="tw-dot">2</span><div><b>Certified</b><span>A government branch checks technical and regulatory compliance.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Solves</span><span class="tw-name">Experts</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">3</span><div><b>Matched by field</b><span>The technical knowledge the problem actually needs is identified first.</span></div></div><div class="tw-step"><span class="tw-dot">4</span><div><b>Scoped &amp; priced</b><span>The organisation sets its own price against that scope.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Funds</span><span class="tw-name">Sponsors</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">5</span><div><b>Pledged</b><span>Sponsors commit funds, named or anonymous.</span></div></div><div class="tw-step"><span class="tw-dot">6</span><div><b>Escrow funded</b><span>Captured by an independent custodian. Held, not spent.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Checks</span><span class="tw-name">Verifier</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">7</span><div><b>Assigned</b><span>At escrow confirmation &mdash; before any work begins.</span></div></div><div class="tw-step"><span class="tw-dot">8</span><div><b>Verified</b><span>Each milestone&rsquo;s evidence checked before it counts.</span></div></div><div class="tw-step"><span class="tw-dot">9</span><div><b>Released &amp; tracked</b><span>Escrow releases the tranche. Every step stays on the ledger.</span></div></div></div></div></div>    <p class="tw-foot">Three roles work on the project; the fourth works on the process, and is brought in before any of them can start. <button type="button" class="tw-foot-link" data-goto="dashboard" data-scroll="roleWhen">Why the order matters &rarr;</button></p>
+    <div class="tw-lane"><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Certifies</span><span class="tw-name">Government</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">1</span><div><b>Request filed</b><span>A municipality, NGO or business submits scope, budget and timeline.</span></div></div><div class="tw-step"><span class="tw-dot">2</span><div><b>Certified</b><span>A government branch checks technical and regulatory compliance.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Solves</span><span class="tw-name">Experts</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">4</span><div><b>Matched by field</b><span>The technical knowledge the problem actually needs is identified first.</span></div></div><div class="tw-step"><span class="tw-dot">5</span><div><b>Scoped &amp; priced</b><span>The organisation sets its own price against that scope.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Funds</span><span class="tw-name">Sponsors</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">6</span><div><b>Pledged</b><span>Sponsors commit funds, named or anonymous.</span></div></div><div class="tw-step"><span class="tw-dot">7</span><div><b>Escrow funded</b><span>Captured by an independent custodian. Held, not spent.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Checks</span><span class="tw-name">Verifier</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">3</span><div><b>Signs off the request</b><span>With government, before it opens for pledges. Assigned at certification.</span></div></div><div class="tw-step"><span class="tw-dot">8</span><div><b>Verified</b><span>Each milestone&rsquo;s evidence checked before it counts.</span></div></div><div class="tw-step"><span class="tw-dot">9</span><div><b>Released &amp; tracked</b><span>Escrow releases the tranche. Every step stays on the ledger.</span></div></div></div></div></div>    <p class="tw-foot">Three roles work on the project; the fourth works on the process, and is brought in at certification &mdash; before any of them can start. <button type="button" class="tw-foot-link" data-goto="dashboard" data-scroll="roleWhen">Why the order matters &rarr;</button></p>
   </div></div>
 
   <div class="section reveal"><div class="wrap">
@@ -1590,7 +1595,7 @@
       <div class="net-group" id="verifierGroup" style="margin-top:34px;">
         <div class="net-role">Checks</div>
         <h3 data-group="verifiers" style="cursor:pointer;">Independent verifiers</h3>
-        <p>The fourth role, and the reason the other three can be believed. A verifier confirms that a milestone actually happened before any money moves — and is structurally barred from being the body that certified the request, the organisation doing the work, or anyone funding it.</p>
+        <p>The fourth role, and the reason the other three can be believed. A verifier signs off the request with government before it can take a pledge, then confirms that each milestone actually happened before any money moves — and is structurally barred from being the body that certified the request, the organisation doing the work, or anyone funding it.</p>
 
         <div class="light-grid" style="margin-bottom:14px;">
           <div class="light-card" data-cat="v-district"><b>District engineer</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">A municipal or union engineer working outside their own locality — the expertise is already public, just not local to the work.</p></div>
@@ -1651,7 +1656,7 @@
       <div class="rw">
         <div class="rw-head">When each role is brought in &mdash; and why the timing matters</div>
         <p class="rw-lead">Three roles work directly on the project. The fourth works on the <b>process</b>, and is brought in before the first of them can start.</p>
-        <div class="rw-steps">
+        <div class="rw-steps rw-5">
           <div class="rw-step">
             <span class="rw-n">1</span>
             <span class="rw-role">Government</span>
@@ -1660,24 +1665,30 @@
           </div>
           <div class="rw-step">
             <span class="rw-n">2</span>
+            <span class="rw-role">Verifier</span>
+            <span class="rw-title">Signs off the request before it opens for pledges</span>
+            <p class="rw-body">Assigned at certification from the pool with no tie to this request. Confirms with government that the milestones and evidence can actually be checked. No sign-off, no pledges.</p>
+          </div>
+          <div class="rw-step">
+            <span class="rw-n">3</span>
             <span class="rw-role">Experts</span>
             <span class="rw-title">Matched before a budget is fixed</span>
             <p class="rw-body">The field a problem needs is settled before anyone prices it, so scope is argued on technical grounds rather than on who happened to bid.</p>
           </div>
           <div class="rw-step">
-            <span class="rw-n">3</span>
+            <span class="rw-n">4</span>
             <span class="rw-role">Sponsors</span>
             <span class="rw-title">Captured into escrow before work starts</span>
             <p class="rw-body">Pledges are secured with an independent custodian before day one, so no implementer starts on a promise. Held, not spent.</p>
           </div>
           <div class="rw-step">
-            <span class="rw-n">4</span>
+            <span class="rw-n">5</span>
             <span class="rw-role">Verifier</span>
-            <span class="rw-title">Assigned before any work begins</span>
-            <p class="rw-body">The moment escrow is confirmed, a reviewer with no tie to the certifier, implementer or funders is assigned. Only then does work start.</p>
+            <span class="rw-title">Signs off every release</span>
+            <p class="rw-body">Already in place before day one, so the implementer knows who will check them and could not choose that person. No tranche moves without their sign-off.</p>
           </div>
         </div>
-        <p class="rw-warn"><b>Change the order and each safeguard quietly stops working.</b> Certify after the pledges and funders are backing an unapproved request. Fix the budget before the field is known and the price is a negotiation rather than an estimate. Assign the verifier after the work is done and the party being checked is picking their own examiner. Each of these steps only does its job because of where it sits in the sequence &mdash; which is why the sequence is published rather than assumed.</p>
+        <p class="rw-warn"><b>Change the order and each safeguard quietly stops working.</b> Certify after the pledges and funders are backing an unapproved request. Fix the budget before the field is known and the price is a negotiation rather than an estimate. Bring the verifier in after the money is committed and funders are backing a request nobody has confirmed can be checked; bring them in after the work is done and the party being checked is picking their own examiner. Each of these steps only does its job because of where it sits in the sequence &mdash; which is why the sequence is published rather than assumed.</p>
       </div>
     </div>
 
@@ -1929,25 +1940,25 @@
       <p style="font-size:13.5px;color:var(--text-dim);line-height:1.7;margin:0 0 18px;max-width:74ch;">A verifier confirms that a milestone actually happened before any money moves, and is structurally barred from being the body that certified the request, the organisation doing the work, or anyone funding it. Independence is not a box someone ticks: five tests run against each request&rsquo;s own records, and the results are shown on the request itself with their outcomes.</p>
         <div class="rw">
           <div class="rw-head">Where they fit &mdash; and why the timing is the whole point</div>
-          <p class="rw-lead">A verifier is assigned at <b>escrow confirmation</b>: after the money is secured, but <b>before any work begins</b>.</p>
+          <p class="rw-lead">A verifier is assigned at <b>certification</b>: before a single pledge, and long before any work. They sign off twice &mdash; once on the request, once on every release.</p>
           <div class="rw-steps rw-3">
             <div class="rw-step">
               <span class="rw-n">1</span>
-              <span class="rw-title">Escrow confirmed</span>
-              <p class="rw-body">Funds are held with an independent custodian. Nothing is released.</p>
-            </div>
-            <div class="rw-step">
-              <span class="rw-n">2</span>
-              <span class="rw-title">Verifier assigned</span>
+              <span class="rw-title">Request certified, verifier assigned</span>
               <p class="rw-body">Rotated from the pool that passes the independence tests for this request, and recorded publicly with who assigned them.</p>
             </div>
             <div class="rw-step">
+              <span class="rw-n">2</span>
+              <span class="rw-title">Request signed off</span>
+              <p class="rw-body">Verifier and government confirm the milestones and evidence can actually be checked. Only then does it open for pledges.</p>
+            </div>
+            <div class="rw-step">
               <span class="rw-n">3</span>
-              <span class="rw-title">Work starts</span>
-              <p class="rw-body">The implementer already knows who will check them &mdash; and could not choose that person.</p>
+              <span class="rw-title">Escrow confirmed, work starts</span>
+              <p class="rw-body">The implementer already knows who will check them &mdash; and could not choose that person. Every tranche waits on their sign-off.</p>
             </div>
           </div>
-          <p class="rw-warn"><b>Assign the verifier after the work is done</b> and the party being checked is picking their own examiner. That single ordering decision is the difference between verification and a formality, which is why it sits in the workflow as its own step rather than as an implementation detail.</p>
+          <p class="rw-warn"><b>Bring the verifier in after the money is committed</b> and funders are backing a request nobody has confirmed can be checked. <b>Bring them in after the work is done</b> and the party being checked is picking their own examiner. That ordering is the difference between verification and a formality, which is why it sits in the workflow as its own step rather than as an implementation detail.</p>
         </div>
 
         <div class="light-card" style="margin-top:18px;">
@@ -1974,9 +1985,10 @@
       <p style="font-size:13.5px;color:var(--text-dim);line-height:1.7;margin:0 0 18px;max-width:74ch;">Escrow is not a holding pen. It exists so that money which has not bought anything can go back. A request can end without finishing at four different points, and each one has a defined answer for the funds &mdash; because &ldquo;what happens if it fails&rdquo; is the first question a serious donor asks, and the first question a regulator asks.</p>
       <div class="stage-table">
         <div class="stage-row stage-head"><span>Stage</span><span>Where the money is</span><span>Can exit to</span></div>
-        <div class="stage-row"><span>Submitted</span><span>Nothing pledged</span><span>Certified, or <b>refused</b></span></div>
+        <div class="stage-row"><span>Submitted</span><span>Nothing pledged</span><span>Certified &amp; verifier assigned, or <b>refused</b></span></div>
+        <div class="stage-row"><span>Certified</span><span>Verifier reviews the request</span><span>Signed off &rarr; open for pledges, or <b>sent back</b></span></div>
         <div class="stage-row"><span>Open for pledges</span><span>Pledged, not captured</span><span>Threshold met, or <b>lapsed &rarr; refunded in full</b></span></div>
-        <div class="stage-row"><span>Escrow funded</span><span>Held, not releasable</span><span>Verifier assigned, work starts</span></div>
+        <div class="stage-row"><span>Escrow funded</span><span>Held, not releasable</span><span>Work starts &mdash; verifier already in place</span></div>
         <div class="stage-row"><span>In progress</span><span>Held, released per verified milestone</span><span>Next milestone, or <b>stalled &rarr; balance returned</b></span></div>
         <div class="stage-row"><span>Milestone rejected</span><span>Held &mdash; nothing released</span><span><b>Remediation</b>, then resubmission</span></div>
         <div class="stage-row"><span>Closed</span><span>Fully released</span><span>Final report published</span></div>
@@ -2269,7 +2281,7 @@
         <ul class="ov-bullets">
           <li>Get accredited once for your fields and governorates, then take assignments in rotation.</li>
           <li>You are never offered a request you certified, implemented, or funded &mdash; five independence tests run before it reaches you.</li>
-          <li>You are assigned at escrow confirmation, before work starts, so nobody being checked ever chose you.</li>
+          <li>You are assigned at certification and sign off the request before it opens for pledges &mdash; so nobody being checked ever chose you, and no money is committed to a request you could not check.</li>
           <li>Your rejections are published next to your approvals. A reviewer who has never rejected anything is an unexamined one.</li>
         </ul>
         <button class="btn btn-secondary" style="margin-bottom:24px;" onclick="openAccountDemo('verifiers')">Preview the Verifier dashboard &rarr;</button>
@@ -6959,7 +6971,7 @@ function evidenceHTML(l, p){
     who = '<span class="ev-ok">Checked by ' + e.by + '</span>';
   } else {
     // The row's own prose names either nobody or only the contractor. One
-    // verifier is assigned per request at escrow, so if there is one, they are
+    // verifier is assigned per request at certification, so if there is one, they are
     // who checked this — but say so as an inference from the assignment rather
     // than pretending the row recorded it.
     var assigned = p ? verifierFor(p) : null;
@@ -8043,7 +8055,7 @@ function renderVerifierCases(){
   grid.innerHTML = rows.map(function(x){
     return '<div class="case-card" data-id="' + x.p.id + '">' +
       '<div class="cc-org">' + x.v.org + '</div><h4>' + x.p.title + '</h4>' +
-      '<div class="cc-headline">' + x.v.name + ' — assigned before work began</div>' +
+      '<div class="cc-headline">' + x.v.name + ' — assigned at certification, before work began</div>' +
       '<div class="cc-blurb">' + x.p.desc.slice(0,120) + (x.p.desc.length>120?'…':'') + '</div></div>';
   }).join('') || '<div style="color:var(--text-faint);font-size:12px;">No assigned verifications yet.</div>';
   grid.querySelectorAll('.case-card').forEach(function(el){
@@ -8187,7 +8199,7 @@ const JOIN_TUNE = {
       lead:'Takes the assignments nobody else is eligible for: right field, right governorate, no tie to the partner, certifier or any funder.',
       bullets:['Accredited once for your fields and governorates, then assigned in rotation.',
                'Five independence tests run against each request\'s own records before it reaches you.',
-               'Assigned at escrow confirmation, before work starts — so nobody being checked ever chose you.'] }
+               'Assigned at certification. You sign off the request before it opens for pledges, so nobody being checked ever chose you.'] }
   }
 };
 function tunePane(pane, role, option){
@@ -9230,7 +9242,7 @@ function verifierIndependence(v, p){
   return { checks:checks, pass:pass, field:field };
 }
 // Assigned from the eligible pool, deterministically per request, and — the part
-// that matters — at escrow confirmation, before work starts. A verifier chosen
+// that matters — at certification, before a pledge is taken. A verifier chosen
 // after the work is finished is an examiner chosen by the party being examined.
 function verifierFor(p){
   var pool = VERIFIERS.filter(function(v){
@@ -9376,7 +9388,7 @@ function verifierCardHTML(p){
     return '<div class="light-card" style="margin-bottom:16px;">' +
       '<b style="font-size:13px;display:block;margin-bottom:10px;">Independent verifier</b>' +
       '<div class="vf-none"><b>Not yet assigned</b>' +
-      '<span>A verifier is assigned at escrow confirmation, before any work begins. This request has not been certified or funded, so there is nothing to verify yet — and nobody has been chosen to do it.</span></div></div>';
+      '<span>' + (p.certStatus === 'certified' ? 'This request is certified and waiting for its verifier to sign it off before it can open for pledges.' : 'A verifier is assigned when the request is certified, and must sign it off before it can open for pledges. This request has not been certified yet, so nobody has been chosen.') + '</span></div></div>';
   }
   var v = verifierFor(p);
   if(!v){
@@ -9395,7 +9407,7 @@ function verifierCardHTML(p){
     '<b style="font-size:13px;display:block;margin-bottom:4px;">Independent verifier</b>' +
     '<div class="vf-name">' + v.name + '</div>' +
     '<div class="vf-org">' + v.org + ' · licence ' + v.licence + '</div>' +
-    '<div class="vf-assigned">Assigned at escrow confirmation, before work began — not after the evidence arrived.</div>' +
+    '<div class="vf-assigned">Assigned at certification, before a single pledge — signed off the request, and signs off every release.</div>' +
     '<div class="vf-checks">' + rows + '</div>' +
     '<div class="vf-record">' + rec.verified + ' verified · <b>' + rec.rejected + ' rejected</b> · ' +
       rec.overturned + ' later overturned · median ' + rec.medianDays + ' days</div>' +
@@ -9461,7 +9473,7 @@ function demoBranches(){
   // log in as is a claim rather than a mechanism.
   out.push({
     id:'verifiers', label:'For verifiers',
-    overview:"The role that decides whether money moves. A verifier confirms a milestone actually happened before any tranche is released, and is assigned at escrow confirmation — before work starts — from the pool with no tie to the partner, the certifier or any funder of that request.",
+    overview:"The role that decides whether money moves. A verifier confirms a milestone actually happened before any tranche is released, and is assigned at certification — before a pledge is taken — from the pool with no tie to the partner, the certifier or any funder of that request.",
     subs:['v-district','v-oea','v-envofficer','v-auditor','v-inspector'].map(function(key){
       return { key:key, label:(CATEGORY_META[key] || {}).name || key };
     })

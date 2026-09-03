@@ -189,8 +189,9 @@ How it works, and the rules it enforces:
   committed throws too; `--force` overrides when the drop is real.
 
 Where the site's analysis does not apply to a citizen report, it says so rather
-than pretending: no verifier is named on a `proposed` request (assignment is at
-escrow confirmation), reporting communities are excluded from both
+than pretending: no verifier is named on an uncertified request (assignment is at
+certification, and the verifier signs the request off before it can open for
+pledges), reporting communities are excluded from both
 leaderboards, `size` is null until something is costed, and the 19 reports
 filed without a pin carry a note on their page and do not appear on the live
 map. The import prints these flags on every run.
