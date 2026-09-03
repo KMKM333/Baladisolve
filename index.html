@@ -1052,6 +1052,9 @@
   .vf-mark.no{ color:var(--danger); }
   .vf-record{ font-size:11.5px; color:var(--text-dim); padding-top:10px; border-top:1px solid var(--border); }
   .vf-note{ font-size:11px; color:var(--text-faint); margin-top:8px; line-height:1.5; }
+  .vf-l2{ margin-top:10px; padding:10px 12px; border:1px solid var(--border); border-radius:8px; display:flex; flex-direction:column; gap:4px; font-size:12px; color:var(--text-dim); line-height:1.5; }
+  .vf-l2 b{ font-size:12.5px; color:var(--text); }
+  .vf-l2-rec{ font-family:'IBM Plex Mono',monospace; font-size:11.5px; color:var(--text-faint); }
   .vf-none{ display:flex; flex-direction:column; gap:4px; border:1px dashed var(--warn); border-radius:8px; padding:10px 12px; }
   .vf-none b{ font-size:11.5px; color:var(--warn); }
   .vf-none span{ font-size:11.5px; color:var(--text-dim); line-height:1.5; }
@@ -2584,13 +2587,17 @@
       <div class="vr-strip" id="vrStrip"></div>
       <div class="vr-flag" id="vrFlag"></div>
       <div class="vr-scroll"><table class="vr" id="vrTable"></table></div>
+      <h3 style="font-size:17px;margin:34px 0 4px;">Second-line verifiers</h3>
+      <p style="font-size:12.5px;color:var(--text-dim);line-height:1.65;margin:0 0 12px;max-width:78ch;">Appointed from the table above, not recruited: a current licence, at least thirty decisions, and an overturn rate in the bottom half. They review the first-line verifier&rsquo;s sign-off on every request before it opens for pledges, and every change to cost or timeline after &mdash; pseudonymously, seeing no names. The record is published under the pseudonym.</p>
+      <div class="vr-scroll"><table class="vr" id="vrTableL2"></table></div>
       <div class="vr-legend">
         <div><b>Rejection rate</b>Share of milestones sent back rather than passed. Neither a high nor a low number is automatically good &mdash; but a number far from everyone else&rsquo;s is worth asking about.</div>
         <div><b>Overturned</b>Decisions later found to be wrong and reversed. A zero is only meaningful if something was actually looking.</div>
         <div><b>Median days</b>Evidence submitted to decision made. Fast is not free: somebody has to go and look.</div>
         <div><b>Licence</b>Accreditation number and the date it lapses. Past that date a verifier cannot be assigned.</div>
+        <div><b>Agreement rate</b>Share of first-line sign-offs a second-line verifier confirmed rather than sent back. Same caveat as rejection rate: only a number far from the others means anything.</div>
       </div>
-      <p class="vr-note"><b>What this page does not do.</b> It publishes the record; it does not check it. Nothing on the platform currently re-examines a verifier&rsquo;s decisions, so an outlier here has no consequence attached to it &mdash; which is the gap described on the <button style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;" data-goto="trust">Trust page</button>, and the reason this register is the first of four steps rather than the whole answer.</p>
+      <p class="vr-note"><b>What this page does not do.</b> It publishes the record, and the second-line table is the one place a decision is re-examined by another verifier &mdash; on request sign-offs and on changes to cost or timeline. Milestone releases are still not re-checked, so an outlier in the first table has no consequence attached to it yet &mdash; which is the remaining gap described on the <button style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;" data-goto="trust">Trust page</button>, and the reason this register is the first of four steps rather than the whole answer.</p>
     </div>
   </div>
 </section>
@@ -6993,7 +7000,7 @@ function renderDetail(){
   const p = PROJECTS.find(x=>x.id===openProjectId);
   const pct = p.goal ? Math.min(100, Math.round((p.raised/p.goal)*100)) : 0;
   const storyHTML = projectStoryHTML(p);
-  const trail = p.ledger.map(l=>`<li><span class="t-dot ${l.state}"></span><div class="t-title">${l.t}</div><div class="t-meta">${l.d} — ${l.meta}</div>${evidenceHTML(l, p)}</li>`).join('');
+  const trail = signoffRows(p).concat(p.ledger).map(l=>`<li><span class="t-dot ${l.state}"></span><div class="t-title">${l.t}</div><div class="t-meta">${l.d} — ${l.meta}</div>${evidenceHTML(l, p)}</li>`).join('');
   const donations = p.donations.length ? p.donations.map((d,i)=>`<div class="donation-row">
       <div class="d-left"><span class="d-type">${d.type}</span><span class="d-name">${d.name}</span></div>
       <div class="d-right"><span class="d-amt">${money(d.amount)}</span><br><span class="d-hash">${donationHash(p.id,i,d)}</span></div>
@@ -9218,6 +9225,37 @@ const VERIFIERS = [
    record:{verified:18, rejected:6, overturned:1, medianDays:11}}
 ];
 
+// ---------- Second-line verifiers ----------
+// Appointed from the register, not recruited: a current licence, at least
+// thirty decisions, an overturn rate in the bottom half. They review the
+// first-line verifier's decision, not the work — the sign-off that lets a
+// request open for pledges, and any later change to cost or timeline — and
+// they do it pseudonymously: the platform shows them the request, the scope,
+// the cost bracket and the first verifier's reasoning, never a name. Their
+// record is published under a stable pseudonym so the register still holds.
+const VERIFIERS_L2 = [
+  {id:'l2-0417', pseudonym:'L2-0417', appointed:'2025-11', licenceExpiry:'2027-08', record:{reviewed:38, confirmed:33, sentBack:5, medianDays:3}},
+  {id:'l2-0922', pseudonym:'L2-0922', appointed:'2026-02', licenceExpiry:'2028-01', record:{reviewed:21, confirmed:20, sentBack:1, medianDays:2}},
+  {id:'l2-1305', pseudonym:'L2-1305', appointed:'2025-08', licenceExpiry:'2027-03', record:{reviewed:47, confirmed:39, sentBack:8, medianDays:4}}
+];
+function verifierL2For(p){
+  if(p.certStatus !== 'certified') return null;
+  return VERIFIERS_L2[(p.id * 7) % VERIFIERS_L2.length];
+}
+function l2AgreementRate(v){ return v.record.reviewed ? v.record.confirmed / v.record.reviewed : 0; }
+// Every certified request that reached pledges carries the two sign-offs that
+// let it open. They are synthesised from the assignment rather than stored, so
+// the trail can never name a different verifier from the card beside it.
+function signoffRows(p){
+  if(p.certStatus !== 'certified' || p.status === 'proposed') return [];
+  var v = verifierFor(p), l2 = verifierL2For(p);
+  if(!v || !l2) return [];
+  return [
+    {t:'Request signed off — first line', d:p.timeline.start, meta:'Scope, milestones and cost bracket confirmed by ' + v.name + ', assigned at certification', ref:'SGN-' + p.id, state:'verified'},
+    {t:'Second-line review', d:p.timeline.start, meta:'Sign-off reviewed pseudonymously by ' + l2.pseudonym + ' — no names seen. Opened for pledges.', ref:'L2-' + p.id, state:'verified'}
+  ];
+}
+
 // Which expert field a project's type belongs to — the inverse of typesForField.
 function fieldForProject(p){
   var out = null;
@@ -9360,6 +9398,18 @@ function renderVerifierRegister(){
     });
   });
 
+  var t2 = document.getElementById('vrTableL2');
+  if(t2){
+    var l2s = VERIFIERS_L2.slice().sort(function(a, b){ return l2AgreementRate(b) - l2AgreementRate(a); });
+    t2.innerHTML = '<thead><tr><th>Second-line verifier</th><th class="num">Reviews</th><th class="num">Confirmed</th><th class="num">Sent back</th><th class="num">Agreement rate</th><th class="num">Median days</th><th>Licence</th></tr></thead><tbody>' +
+      l2s.map(function(v){
+        return '<tr><td class="vr-who"><b>' + v.pseudonym + '</b><span>Pseudonymous · appointed from the register ' + v.appointed + '</span></td>' +
+          '<td class="vr-num">' + v.record.reviewed + '</td><td class="vr-num">' + v.record.confirmed + '</td><td class="vr-num">' + v.record.sentBack + '</td>' +
+          '<td class="vr-num">' + pct(l2AgreementRate(v)) + '</td><td class="vr-num">' + v.record.medianDays + '</td>' +
+          '<td>Current<span style="display:block;font-size:11px;color:var(--text-faint);margin-top:2px;">to ' + v.licenceExpiry + '</span></td></tr>';
+      }).join('') + '</tbody>';
+  }
+
   var decisions = VERIFIERS.reduce(function(a, v){ return a + v.record.verified + v.record.rejected; }, 0);
   var overturned = VERIFIERS.reduce(function(a, v){ return a + v.record.overturned; }, 0);
   document.getElementById('vrStrip').innerHTML =
@@ -9389,7 +9439,7 @@ function verifierCardHTML(p){
     return '<div class="light-card" style="margin-bottom:16px;">' +
       '<b style="font-size:13px;display:block;margin-bottom:10px;">Independent verifier</b>' +
       '<div class="vf-none"><b>Not yet assigned</b>' +
-      '<span>' + (p.certStatus === 'certified' ? 'This request is certified and waiting for its verifier to sign it off before it can open for pledges.' : 'A verifier is assigned when the request is certified, and must sign it off before it can open for pledges. This request has not been certified yet, so nobody has been chosen.') + '</span></div></div>';
+      '<span>' + (p.certStatus === 'certified' ? 'This request is certified. Its verifier signs off the scope and cost bracket, a second-line verifier reviews that sign-off pseudonymously, and only then does it open for pledges.' : 'A verifier is assigned when the request is certified, and must sign it off before it can open for pledges. A second-line verifier then reviews that sign-off before pledges open. This request has not been certified yet, so nobody has been chosen.') + '</span></div></div>';
   }
   var v = verifierFor(p);
   if(!v){
@@ -9404,6 +9454,10 @@ function verifierCardHTML(p){
       '<span>' + c.k + '</span></div>';
   }).join('');
   var rec = v.record;
+  var l2 = verifierL2For(p);
+  var l2HTML = l2 ? '<div class="vf-l2"><b>Second-line review · ' + l2.pseudonym + '</b>' +
+    '<span>Reviewed the first-line sign-off on scope and cost bracket before this request opened for pledges — pseudonymously, seeing no names. Approves any later change to cost or timeline against the published specs.</span>' +
+    '<span class="vf-l2-rec">' + l2.record.confirmed + ' of ' + l2.record.reviewed + ' first-line decisions confirmed · ' + l2.record.sentBack + ' sent back · median ' + l2.record.medianDays + ' days</span></div>' : '';
   return '<div class="light-card" style="margin-bottom:16px;">' +
     '<b style="font-size:13px;display:block;margin-bottom:4px;">Independent verifier</b>' +
     '<div class="vf-name">' + v.name + '</div>' +
@@ -9412,6 +9466,7 @@ function verifierCardHTML(p){
     '<div class="vf-checks">' + rows + '</div>' +
     '<div class="vf-record">' + rec.verified + ' verified · <b>' + rec.rejected + ' rejected</b> · ' +
       rec.overturned + ' later overturned · median ' + rec.medianDays + ' days</div>' +
+    l2HTML +
     '<div class="vf-note">A reviewer who has never rejected anything is an unexamined one, so refusals are published alongside approvals.</div>' +
     '</div>';
 }
