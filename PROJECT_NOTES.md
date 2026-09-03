@@ -202,6 +202,40 @@ commits if anything moved; that push is what deploys. It runs
 does not exist in CI. Dates are formatted in `Asia/Beirut`, not the runner's
 zone — the first automated run committed a one-day date flip and nothing else.
 
+## Verification model (September 2026)
+
+The pipeline a request follows, and where each piece lives in `index.html`:
+
+1. **Reported** — a Baladi import or a municipal filing (`status:'proposed'`).
+2. **Certified, verifier assigned** — `verifierFor(p)` picks from `VERIFIERS`
+   by the five independence tests, at certification, not at escrow.
+3. **Signed off** — the verifier confirms milestones, evidence and a cost
+   bracket. `priceCardHTML(p)` shows the bracket, bids and the published
+   breakdown; both verifier fees are fixed lines so they cannot grow with
+   the project. Demo figures derive from `goal`; a citizen report has none
+   and the card says so.
+4. **Second-line review** — `VERIFIERS_L2` (pseudonymous, appointed from the
+   register) via `verifierL2For(p)`. `signoffRows(p)` synthesises the two
+   sign-off rows at the top of every funded request's custody trail so the
+   trail can never name a different verifier from the card.
+5. **Bids open** — attributes decide who may bid, price decides who wins.
+6. **Escrow, milestones, releases** — unchanged. A change to cost or timeline
+   is a `Variance approved` ledger row, approved by both verifiers, paid
+   from contingency (Halba, id 10, carries the example).
+
+The Trust page's "who checks the verifier" section treats Option C as built
+(the second line) and Option B (re-checking releases) as the remaining gap.
+The register has a second table, `#vrTableL2`, with agreement rates.
+
+Project pages carry two chats: public (`p.comments`) and stakeholder
+(`p.stakeholderChat`, seeded from `STAKEHOLDER_CHAT` for ids 10, 13, 14).
+Verifiers are in the stakeholder chat on purpose. The affected-residents
+group is seeded from Baladi confirmations rather than a new identity check.
+
+Attribute frameworks in `GROUP_META` carry six conduct metrics marked
+`isNew` (two per role; the municipality pair carry `scope`). Recusal Rate
+for verifiers was considered and deliberately dropped.
+
 ## Deployment
 
 **A push to `main` deploys automatically.** That is the whole workflow — do not
