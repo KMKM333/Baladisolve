@@ -4123,7 +4123,7 @@ document.querySelectorAll('.footer-col button[data-view]').forEach(btn=>{
   btn.addEventListener('click', ()=> switchView(btn.dataset.view));
 });
 
-const money = n => '$' + n.toLocaleString('en-US');
+const money = n => (n == null ? '\u2014' : '$' + n.toLocaleString('en-US'));
 function pulseValue(el){
   if(!el) return;
   el.classList.remove('pulse-once');
@@ -5108,7 +5108,7 @@ function renderDetail(){
       <div class="detail-side">
         <div class="fund-block">
           <div class="fb-num">${money(p.raised)}</div>
-          <div class="fb-of">${pct}% of ${money(p.goal)} goal</div>
+          <div class="fb-of">${p.goal ? `${pct}% of ${money(p.goal)} goal` : 'Not yet costed &mdash; awaiting certification'}</div>
           <div class="fund-bar"><div style="width:${pct}%;"></div></div>
           <div class="fb-actions">
             <button class="btn btn-primary" id="pledgeBtn">Pledge $50</button>
@@ -5186,13 +5186,13 @@ function renderDetail(){
   });
   document.getElementById('shareCopy').addEventListener('click', async (e)=>{
     const btn = e.currentTarget; const original = btn.textContent;
-    try{ await navigator.clipboard.writeText(`${p.title} — ${money(p.raised)} of ${money(p.goal)} raised. ${p.locality}, ${govName(p.gov)}.`); btn.textContent='✓ Copied'; }
+    try{ await navigator.clipboard.writeText(`${p.title} — ${p.goal ? `${money(p.raised)} of ${money(p.goal)} raised` : 'not yet costed'}. ${p.locality}, ${govName(p.gov)}.`); btn.textContent='✓ Copied'; }
     catch(err){ btn.textContent='Copy unavailable'; }
     setTimeout(()=> btn.textContent=original, 1600);
   });
   document.getElementById('shareCard').addEventListener('click', async (e)=>{
     const btn = e.currentTarget; const original = btn.textContent;
-    const summary = `${p.title}\n${p.locality}, ${govName(p.gov)}\n${statusLabel[p.status]} · ${money(p.raised)} of ${money(p.goal)} raised\nCertified by ${p.certifyingBody}`;
+    const summary = `${p.title}\n${p.locality}, ${govName(p.gov)}\n${statusLabel[p.status]}${p.goal ? ` · ${money(p.raised)} of ${money(p.goal)} raised` : ' · not yet costed'}\n${p.certifyingBody ? `Certified by ${p.certifyingBody}` : 'Not yet certified'}`;
     try{ await navigator.clipboard.writeText(summary); btn.textContent='✓ Copied summary'; }
     catch(err){ btn.textContent='Copy unavailable'; }
     setTimeout(()=> btn.textContent=original, 1600);
@@ -7217,7 +7217,7 @@ function refundPolicyHTML(p){
     body = 'Nothing has been pledged yet. No money is at stake until the request opens for funding.';
     tone = 'neutral';
   } else if(p.status === 'funding'){
-    body = 'Nothing is released before the goal is met. If this request does not reach ' + money(p.goal) +
+    body = 'Nothing is released before the goal is met. If this request does not reach ' + money(p.goal || 0) +
            ', every pledge is returned in full — ' + money(p.raised) + ' is currently held, not spent.';
     tone = 'warn';
   } else if(p.status === 'progress'){
@@ -7394,7 +7394,7 @@ function roleMatchConfig(type){
     title:'Still short of goal',
     note:'A pledge here moves the escrow threshold rather than topping up something already funded.',
     pick:function(p){ return p.status === 'funding' && p.raised < p.goal; },
-    line:function(p){ return money(p.goal - p.raised) + ' still needed · ' + p.locality; }
+    line:function(p){ return (p.goal ? money(p.goal - p.raised) + ' still needed' : 'Not yet costed') + ' · ' + p.locality; }
   };
   return null;
 }
