@@ -7451,7 +7451,7 @@ var storyScrollHandler = null;   // var, not const: see the router note below
 
 function projectStoryHTML(p){
   var rep = p.originReport;
-  var pct = Math.min(100, Math.round((p.raised / p.goal) * 100));
+  var pct = p.goal ? Math.min(100, Math.round((p.raised / p.goal) * 100)) : 0;
   var stages = [
     { k:'Reported',  h: rep ? rep.ref : 'Citizen report',
       d: rep ? (rep.confirmed + ' resident' + (rep.confirmed === 1 ? '' : 's') + ' confirmed the same problem') : 'Filed from the ground in ' + p.locality + '.' },
@@ -7461,8 +7461,9 @@ function projectStoryHTML(p){
           : 'Awaiting certification — it cannot open for pledges until this clears.' },
     { k:'Matched',   h: p.partner || p.org || 'Implementing partner',
       d: 'Matched on ' + p.type + ', the specific expertise this problem needs.' },
-    { k:'Funded',    h: money(p.raised) + ' of ' + money(p.goal),
-      d: pct >= 100 ? 'Fully funded. Released only against verified milestones.'
+    { k:'Funded',    h: p.goal ? money(p.raised) + ' of ' + money(p.goal) : 'Not yet costed',
+      d: !p.goal ? 'No budget yet. An expert organisation has to scope it before it can open for pledges.'
+                 : pct >= 100 ? 'Fully funded. Released only against verified milestones.'
                     : pct + '% raised so far. Held in escrow until a milestone is verified.' }
   ];
   var steps = stages.map(function(s, i){
