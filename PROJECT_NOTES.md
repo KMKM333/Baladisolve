@@ -151,6 +151,56 @@ init-time class, which is the one that has actually broken production.
 git config core.hooksPath .githooks
 ```
 
+## Baladi Map import
+
+The projects with `source:'baladi'` (ids 1001+) are real citizen reports from
+Baladi Map, the demand-side partner. They are not hand-written; they are
+generated into the block between the two `BALADI IMPORT` markers inside
+`PROJECTS` by `scripts/import-baladi.mjs`. **Edit the script, not the block** —
+the block is overwritten on every run.
+
+```bash
+node scripts/import-baladi.mjs --limit 200 --pages 15   # everything Baladi serves
+```
+
+How it works, and the rules it enforces:
+
+- **Dev-time only, output committed.** The script reads two public pages —
+  `/en/issues?page=N` (text, photos, dates, governorate) and `/en/map`
+  (coordinates) — joins them on id, and writes the block. The live site never
+  calls baladimap.com: no CORS, no key, nothing scraping a partner in production.
+- **Ids are pinned.** `scripts/baladi-ids.json` maps each Baladi report id to
+  its Manāra number for good. Re-running reuses the number; new reports take the
+  next free one; numbers are never handed back. A link someone has already been
+  given can never start opening a different report.
+- **Selection is additive.** Everything imported before is imported again; only
+  spare slots are filled from the ranking (photo first, spread across
+  categories, most-confirmed first). A smaller `--limit` stops adding, never
+  removes.
+- **Nothing about the funding side is invented.** Reports come in as
+  `proposed`, with `goal:null`, `raised:0`, no partner, no certifying body, no
+  verifier. Title, description, severity and confirmation count are the
+  reporter's own. Photos are hotlinked from Baladi's public storage, resized via
+  its render endpoint (`photoAt()`), and credited. **Generated illustrations are
+  never produced for a Baladi report** — `projectImage()` returns before the
+  prompt lookup for anything with `source:'baladi'`.
+- **It refuses to write bad data.** Zero reports or zero coordinates parsed
+  throws (a redesign still returns 200). A sharp drop against what is already
+  committed throws too; `--force` overrides when the drop is real.
+
+Where the site's analysis does not apply to a citizen report, it says so rather
+than pretending: no verifier is named on a `proposed` request (assignment is at
+escrow confirmation), reporting communities are excluded from both
+leaderboards, `size` is null until something is costed, and the 19 reports
+filed without a pin carry a note on their page and do not appear on the live
+map. The import prints these flags on every run.
+
+`.github/workflows/sync-baladi.yml` re-runs the import daily at 05:00 UTC and
+commits if anything moved; that push is what deploys. It runs
+`check-html.mjs` itself, because the pre-commit hook is local git config and
+does not exist in CI. Dates are formatted in `Asia/Beirut`, not the runner's
+zone — the first automated run committed a one-day date flip and nothing else.
+
 ## Deployment
 
 **A push to `main` deploys automatically.** That is the whole workflow — do not
