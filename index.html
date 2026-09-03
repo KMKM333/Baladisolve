@@ -2087,19 +2087,19 @@
           <span class="role-btn-role">Solves</span>
           <span class="role-btn-name">Experts</span>
           <span class="role-btn-sub">NGOs and vetted local businesses that do the work. Set your own price, get paid against delivery proof rather than promises.</span>
-          <span class="role-btn-go">1 account type &rarr;</span>
+          <span class="role-btn-go">8 fields &rarr;</span>
         </button>
         <button class="role-btn" type="button" data-aud-role="sponsors">
           <span class="role-btn-role">Funds</span>
           <span class="role-btn-name">Sponsors</span>
           <span class="role-btn-sub">Diaspora, residents, businesses and NGOs funding a named request &mdash; named or anonymous, and released only against verified evidence.</span>
-          <span class="role-btn-go">2 account types &rarr;</span>
+          <span class="role-btn-go">5 sponsor types &rarr;</span>
         </button>
         <button class="role-btn" type="button" data-aud-role="verifiers">
           <span class="role-btn-role">Checks</span>
           <span class="role-btn-name">Verifiers</span>
           <span class="role-btn-sub">Accredited reviewers who decide whether a tranche is released. Assigned in rotation, never to a request you are attached to.</span>
-          <span class="role-btn-go">1 account type &rarr;</span>
+          <span class="role-btn-go">5 verifier types &rarr;</span>
         </button>
       </div>
 
@@ -2143,7 +2143,7 @@
         <form class="signup-form" id="form-organisations">
           <input type="text" placeholder="Organisation name" required>
           <select required><option value="">Type</option><option>NGO</option><option>Local sustainable business</option></select>
-          <select required><option value="">Sector</option><option>Recycling</option><option>Tree planting</option><option>Garbage collection</option><option>Solar</option><option>Transport</option><option>Water & Sanitation</option><option>Other</option></select>
+          <select required><option value="">Field</option><option>Electricity</option><option>Waste Collection</option><option>Water</option><option>Public Land &amp; Pavements</option><option>Environment</option><option>Roads &amp; Traffic</option><option>Sewage</option><option>NGOs &amp; Initiatives</option></select>
           <input type="email" placeholder="Contact email" required>
         </form>
         <button class="btn btn-primary" onclick="document.getElementById('form-organisations').requestSubmit()">Register your organisation</button>
@@ -2175,6 +2175,27 @@
         <div class="case-grid" id="case-locals" style="margin-top:14px;"></div>
       </div>
 
+      <div class="audience-pane" id="aud-sponsororg" data-aud-role="sponsors">
+        <h2 style="font-size:24px;">For Organisations &amp; Businesses</h2>
+        <p style="font-size:14px;color:var(--text-dim);max-width:600px;line-height:1.6;margin-bottom:20px;">Fund a named request in the place you operate &mdash; and be credited, publicly, for every milestone that is verified.</p>
+        <ul class="ov-bullets">
+          <li>Pledge to a specific, costed request &mdash; never to a general fund.</li>
+          <li>Money sits with an independent custodian until a verifier signs off each milestone.</li>
+          <li>Your name on every release, on the public ledger, if you want it there.</li>
+          <li>Follow the request to completion from your own dashboard.</li>
+        </ul>
+        <button class="btn btn-secondary" style="margin-bottom:24px;" onclick="openAccountDemo('diaspora')">Preview the Sponsor dashboard &rarr;</button>
+        <h3 style="font-size:16px;">Join the movement</h3>
+        <form class="signup-form" id="form-sponsororg">
+          <input type="text" placeholder="Organisation name" required>
+          <select required><option value="">Type</option><option>Local business</option><option>NGO or foundation</option><option>Embassy or development agency</option></select>
+          <input type="text" placeholder="Area or governorate you want to fund in">
+          <input type="email" placeholder="Contact email" required>
+        </form>
+        <button class="btn btn-primary" onclick="document.getElementById('form-sponsororg').requestSubmit()">Register your organisation</button>
+        <div class="signup-success" id="success-sponsororg" style="margin-top:14px;">Thanks &mdash; we&rsquo;ll set up your sponsor account and show you open requests in your area.</div>
+      </div>
+
       <div class="audience-pane" id="aud-diaspora" data-aud-role="sponsors">
         <h2 style="font-size:24px;">For Diaspora</h2>
         <p style="font-size:14px;color:var(--text-dim);max-width:600px;line-height:1.6;margin-bottom:20px;">Fund a specific, timelined project in your hometown — and see exactly where it went, down to the milestone.</p>
@@ -2199,7 +2220,7 @@
       </div>
 
       <div class="audience-pane" id="aud-government" data-aud-role="government">
-        <h2 style="font-size:24px;">For Government</h2>
+        <h2 style="font-size:24px;">For Ministries</h2>
         <p style="font-size:14px;color:var(--text-dim);max-width:600px;line-height:1.6;margin-bottom:20px;">Certify what meets code. Welcome diaspora back. Never touch the money.</p>
         <ul class="ov-bullets">
           <li>Certify a request's technical and regulatory compliance — the one thing only you can do here.</li>
@@ -2221,7 +2242,7 @@
       </div>
 
       <div class="audience-pane" id="aud-governorate" data-aud-role="government">
-        <h2 style="font-size:24px;">For Governorates</h2>
+        <h2 style="font-size:24px;">For Governorates &amp; Districts</h2>
         <p style="font-size:14px;color:var(--text-dim);max-width:600px;line-height:1.6;margin-bottom:20px;">Coordinate across your municipalities. Don't control any single one of them.</p>
         <ul class="ov-bullets">
           <li>Get an aggregate view across every municipality in your governorate.</li>
@@ -8012,22 +8033,181 @@ function showAudiencePane(id){
   document.querySelectorAll('#audienceSubRow .join-sub-chip').forEach(c=>
     c.classList.toggle('sel', c.dataset.pane === id));
 }
-function openAudienceRole(role){
+// Every account type in JOIN_CATEGORIES gets a chip, and every chip tunes a base
+// pane for that specific type — headline, lead, bullets, the form's preset and
+// the button — so eight expert fields and five verifier types do not need
+// twenty-one hand-written panes. Base panes stay as the fallback shape.
+const JOIN_PANE_FOR = {
+  government: {'Ministry':'aud-government', 'Governorates & Districts':'aud-governorate', 'Municipality':'aud-municipalities'},
+  experts:    (o)=> 'aud-organisations',
+  sponsors:   {'Organisations & Businesses':'aud-sponsororg', 'NGOs':'aud-sponsororg', 'Embassies':'aud-sponsororg', 'Diaspora':'aud-diaspora', 'Locals':'aud-locals'},
+  verifiers:  (o)=> 'aud-verifiers'
+};
+const JOIN_TUNE = {
+  government: {
+    'Ministry': { h2:'For Ministries', cta:'Register your ministry branch', name:'Ministry or branch name',
+      lead:'Certify what meets code, in your field. Welcome diaspora back. Never touch the money.',
+      bullets:['Certify a request\'s technical and regulatory compliance — the one thing only a ministry can do here.',
+               'Never touch pledged funds; certification and custody stay on separate tracks by design.',
+               'Run the diaspora-welcome liaison desk: ID help, property paperwork, inauguration invitations.',
+               'Hold one non-voting seat on the oversight board.'] },
+    'Governorates & Districts': { h2:'For Governorates & Districts', cta:'Register your governorate desk',
+      lead:'Coordinate across your municipalities and districts. Don\'t control any single one of them.',
+      bullets:['Get an aggregate view across every municipality in your governorate.',
+               'Co-endorse projects that cross municipal boundaries.',
+               'Coordinate, don\'t control — read-only on funds and certification.',
+               'Spot patterns no single municipality can see alone.'] },
+    'Municipality': { h2:'For Municipalities', cta:'Register your municipality',
+      lead:'Post a costed, timelined request and let diaspora and local businesses fund it directly — outside your general budget, with public credit for every verified step.',
+      bullets:['Post a scoped request — description, budget, timeline, expected partners.',
+               'Get public credit on the Scoreboard the moment a milestone is verified.',
+               'Works even where your council has limited capacity — pair with a vetted NGO.',
+               'You never hold pledged funds — an independent custodian does.'] }
+  },
+  experts: {
+    'Electricity': { h2:'For electricity experts', field:'Electricity', cta:'Register as an electricity expert',
+      lead:'Grid repair, solar, streetlighting and generators — the largest share of what municipalities ask for.',
+      bullets:['Requests arrive already certified by the Ministry of Energy & Water; you scope and price them.',
+               'Evidence a verifier can check: night tests, meter readings, photo sets with timestamps.',
+               'Paid per verified milestone from escrow — never on a promise.'] },
+    'Waste Collection': { h2:'For waste collection experts', field:'Waste Collection', cta:'Register as a waste collection expert',
+      lead:'Routing, sorting, recycling logistics — and the services that need to keep running after the launch photo.',
+      bullets:['Turn a one-off cleanup into a subscription-funded collection line.',
+               'Evidence is operational: pickup logs, weighbridge tickets, route records.',
+               'A programme auditor, not a photograph, verifies a service run over months.'] },
+    'Water': { h2:'For water experts', field:'Water', cta:'Register as a water expert',
+      lead:'Supply networks, wells and treatment — where a finished site says nothing about whether it works.',
+      bullets:['Scope against the certified request, then set your own price.',
+               'Verification looks at flow and quality readings, not just the structure.',
+               'Released tranche by tranche as each milestone is independently confirmed.'] },
+    'Public Land & Pavements': { h2:'For public land & pavement experts', field:'Public Land & Pavements', cta:'Register as a public land expert',
+      lead:'Parks, sidewalks and shared space — the work residents see and confirm every day.',
+      bullets:['Requests grounded in resident reports, many with confirmation counts attached.',
+               'Photo evidence works well here — and a district engineer checks it on site.',
+               'Public credit on the Scoreboard for every delivered milestone.'] },
+    'Environment': { h2:'For environment experts', field:'Environment', cta:'Register as an environment expert',
+      lead:'Pollution control, reforestation and remediation — checked by an environmental compliance officer, not a camera.',
+      bullets:['Scope to permit conditions; the certifying body is usually the Ministry of Environment.',
+               'Verification is against permit conditions and sampling, because a photo cannot show it was done properly.',
+               'Longer milestones, released against evidence that holds up.'] },
+    'Roads & Traffic': { h2:'For roads & traffic experts', field:'Roads & Traffic', cta:'Register as a roads expert',
+      lead:'Paving, signage and safety — the single largest category of citizen reports on Baladi Map.',
+      bullets:['More open requests here than in any other field, most with a resident-confirmed pin.',
+               'Choose the ones that fit your capacity and set your own price.',
+               'Paid against verified evidence — before-and-after sets, dated, checked by a district engineer.'] },
+    'Sewage': { h2:'For sewage experts', field:'Sewage', cta:'Register as a sewage expert',
+      lead:'Drainage, treatment and wastewater — where a request often begins as a health complaint.',
+      bullets:['Requests certified for public-health compliance before they open for funding.',
+               'Verification includes inspection, not only completion photos.',
+               'Escrow releases per milestone, held by an independent custodian.'] },
+    'NGOs & Initiatives': { h2:'For NGOs & civic initiatives', field:'NGOs & Initiatives', cta:'Register your initiative',
+      lead:'Civic education, cultural preservation and community programmes that cut across one technical category.',
+      bullets:['Be the vetted partner where a council is dissolved or lacks capacity.',
+               'Programme work is verified by an auditor against attendance and delivery records.',
+               'Build a public delivery record that outlasts any single project.'] }
+  },
+  sponsors: {
+    'Organisations & Businesses': { h2:'For Organisations & Businesses', type:'Local business', cta:'Register your organisation',
+      lead:'Fund a named request in the place you operate — and be credited, publicly, for every milestone that is verified.',
+      bullets:['Pledge to a specific, costed request — never to a general fund.',
+               'Money sits with an independent custodian until a verifier signs off each milestone.',
+               'Your name on every release, on the public ledger, if you want it there.',
+               'Follow the request to completion from your own dashboard.'] },
+    'NGOs': { h2:'For NGOs', type:'NGO or foundation', cta:'Register your NGO',
+      lead:'Fund within your own focus area, with the certification, escrow and verification handled for you.',
+      bullets:['Filter open requests by field and governorate to match your mandate.',
+               'Every release is verified independently — your reporting is done by the ledger.',
+               'Co-fund alongside diaspora and local pledges on the same request.',
+               'Full custody trail for your own donors and auditors.'] },
+    'Embassies': { h2:'For Embassies', type:'Embassy or development agency', cta:'Register your embassy or agency',
+      lead:'Government-to-government funding with an independent verifier on every release — and no ministry ever holding the money.',
+      bullets:['Requests are certified by the relevant Lebanese ministry before they open.',
+               'Funds are held by an independent custodian, not by any government account.',
+               'A verifier with no tie to certifier, implementer or funder signs off every tranche.',
+               'One public ledger for every lira, for your reporting and theirs.'] },
+    'Diaspora': { h2:'For Diaspora', cta:'Join the diaspora network',
+      lead:'Fund a specific, timelined project in your hometown — and see exactly where it went, down to the milestone.',
+      bullets:['Pledge to a named project in your corridor — named or fully anonymous.',
+               'See the full custody trail: pledged, escrowed, verified, released.',
+               'Get invited back for the inauguration of anything you funded.',
+               'Use the governorate liaison desk for ID or property paperwork on your next visit.'] },
+    'Locals': { h2:'For Locals', cta:'Join as a local',
+      lead:'You\'re the ground truth this whole system runs on — from the first report to the final check.',
+      bullets:['Report the problem on Baladi Map first — that\'s what gives a project its legitimacy here.',
+               'Confirm you\'d benefit before a project is even open for funding.',
+               'Ask questions and flag concerns directly on any project.',
+               'Pool small amounts with neighbours toward a nearby request.'] }
+  },
+  verifiers: {
+    'District engineer': { h2:'For district engineers', vtype:'District engineer', cta:'Apply for accreditation as a district engineer',
+      lead:'A municipal or union engineer, working outside your own locality. The most common verifier in practice.',
+      bullets:['Assigned requests in your governorate — never in your own municipality, never where your union is the implementer.',
+               'Site inspection of physical work: roads, lighting, water, public space.',
+               'Your rejections are published next to your approvals; a reviewer who never rejects is an unexamined one.'] },
+    'Order of Engineers & Architects': { h2:'For the Order of Engineers & Architects', vtype:'Order of Engineers & Architects', cta:'Register your inspection desk',
+      lead:'Inspection desks at Lebanon\'s professional body — already independent of both municipalities and contractors.',
+      bullets:['Your desk takes assignments across several governorates, in the fields your members are licensed for.',
+               'Structural and technical verification where a photograph is not enough.',
+               'Decide within ten working days; silence escalates the milestone, never releases it.'] },
+    'Environmental compliance officer': { h2:'For environmental compliance officers', vtype:'Environmental compliance officer', cta:'Apply for accreditation as a compliance officer',
+      lead:'For environment and waste work checked against permit conditions — the cases a finished-site photo cannot vouch for.',
+      bullets:['Assigned to remediation, waste and water requests in your governorates.',
+               'Verification against permit conditions and sampling, not completion pictures.',
+               'Barred by construction from any request where you certified or are funding.'] },
+    'Programme auditor': { h2:'For programme auditors', vtype:'Programme auditor', cta:'Apply for accreditation as a programme auditor',
+      lead:'For services run over months rather than structures photographed once — attendance, delivery records, spend against promise.',
+      bullets:['Assigned to collection lines, programmes and subscription-funded services.',
+               'Audit records and receipts against the promised schedule and budget.',
+               'Your median days-to-decision is published alongside your record.'] },
+    'Independent inspector': { h2:'For independent inspectors', vtype:'Independent inspector', cta:'Apply for accreditation as an independent inspector',
+      lead:'Takes the assignments nobody else is eligible for: right field, right governorate, no tie to the partner, certifier or any funder.',
+      bullets:['Accredited once for your fields and governorates, then assigned in rotation.',
+               'Five independence tests run against each request\'s own records before it reaches you.',
+               'Assigned at escrow confirmation, before work starts — so nobody being checked ever chose you.'] }
+  }
+};
+function tunePane(pane, role, option){
+  const t = (JOIN_TUNE[role] || {})[option];
+  if(!t) return;
+  const h2 = pane.querySelector('h2'); if(h2 && t.h2) h2.textContent = t.h2;
+  const lead = pane.querySelector('h2 + p'); if(lead && t.lead) lead.textContent = t.lead;
+  const ul = pane.querySelector('.ov-bullets');
+  if(ul && t.bullets) ul.innerHTML = t.bullets.map(b=> '<li>' + b + '</li>').join('');
+  const cta = pane.querySelector('.btn.btn-primary'); if(cta && t.cta) cta.textContent = t.cta;
+  const nameField = pane.querySelector('form input[type="text"]'); if(nameField && t.name) nameField.placeholder = t.name;
+  // Preselect the form's own select for this option, where the form has one.
+  const want = t.field || t.type || t.vtype;
+  if(want){
+    pane.querySelectorAll('form select').forEach(sel=>{
+      const opt = [...sel.options].find(o=> o.textContent.replace(/\s+/g,' ').trim() === want);
+      if(opt) sel.value = opt.value || opt.textContent;
+    });
+  }
+}
+function openAudienceRole(role, preselect){
   document.querySelectorAll('#audienceNav .role-btn').forEach(b=>
     b.classList.toggle('picked', b.dataset.audRole === role));
-  const panes = Array.prototype.slice.call(
-    document.querySelectorAll('.audience-pane[data-aud-role="' + role + '"]'));
+  const options = JOIN_CATEGORIES[role] || [];
+  const paneFor = JOIN_PANE_FOR[role];
   const row = document.getElementById('audienceSubRow');
-  row.innerHTML = panes.map(p=>
-    '<button class="join-sub-chip" type="button" data-pane="' + p.id + '">' +
-    p.querySelector('h2').textContent + '</button>').join('');
-  // A single account type has nothing to choose between, so don't show a chooser.
-  row.style.display = panes.length > 1 ? '' : 'none';
-  row.querySelectorAll('.join-sub-chip').forEach(c=>
-    c.addEventListener('click', ()=> showAudiencePane(c.dataset.pane)));
+  row.innerHTML = options.map(o=>{
+    const label = ((JOIN_TUNE[role] || {})[o] || {}).h2 || ('For ' + o);
+    return '<button class="join-sub-chip" type="button" data-sub="' + o.replace(/"/g,'&quot;') + '">' + label + '</button>';
+  }).join('');
+  row.style.display = '';
+  const open = (o)=>{
+    const id = typeof paneFor === 'function' ? paneFor(o) : paneFor[o];
+    const pane = document.getElementById(id);
+    if(!pane) return;
+    tunePane(pane, role, o);
+    document.querySelectorAll('.audience-pane').forEach(p=> p.classList.remove('active'));
+    pane.classList.add('active');
+    row.querySelectorAll('.join-sub-chip').forEach(c=> c.classList.toggle('sel', c.dataset.sub === o));
+  };
+  row.querySelectorAll('.join-sub-chip').forEach(c=> c.addEventListener('click', ()=> open(c.dataset.sub)));
   document.getElementById('audienceRolePanel').hidden = false;
   if(role === 'verifiers') renderVerifierCases();
-  if(panes.length) showAudiencePane(panes[0].id);
+  open(preselect && options.indexOf(preselect) !== -1 ? preselect : options[0]);
 }
 document.querySelectorAll('#audienceNav .role-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
@@ -8431,12 +8611,11 @@ function renderJoinSubOptions(){
 }
 // The home page CTA sends people straight to their own category on Join, so the
 // first thing they see is their form rather than the choice they already made.
-function openJoinAs(cat){
+function openJoinAs(cat, sub){
   switchView('join');
   var card = document.querySelector('#joinCategoryNav .join-cat-card[data-jcat="' + cat + '"]');
   if(card) card.click();
-  var role = document.querySelector('#audienceNav .role-btn[data-aud-role="' + cat + '"]');
-  if(role && !role.classList.contains('picked')) role.click();
+  openAudienceRole(cat, sub);
 }
 // The home form picks a role, takes the details, then hands both to Join rather
 // than making someone type them again. Selecting is the whole first step, so the
@@ -8487,7 +8666,7 @@ var homeJoinRole = null, homeJoinSub = null;
   form.addEventListener('submit', function(e){
     e.preventDefault();
     if(!homeJoinRole) return;
-    openJoinAs(homeJoinRole);
+    openJoinAs(homeJoinRole, homeJoinSub);
     // Carry the choice and anything typed across to the form on Join.
     if(homeJoinSub){
       var chip = document.querySelector('#joinSubOptions .join-sub-chip[data-sub="' + homeJoinSub + '"]');
