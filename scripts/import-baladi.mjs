@@ -29,6 +29,7 @@ const FIRST_ID = 1001;
 // its number for good. Without it the ids are just positions in a freshly
 // sorted list, and every re-import quietly repoints links people already have.
 const IDS = 'scripts/baladi-ids.json';
+const file = 'index.html';
 
 const arg = (f, d) => { const i = process.argv.indexOf(f); return i > -1 ? parseInt(process.argv[i + 1], 10) : d; };
 const LIMIT = arg('--limit', 20);
@@ -81,6 +82,12 @@ for (let p = 1; p <= PAGES; p++) {
 // Coordinates only exist on the map page.
 const coords = new Map();
 for (const r of objects(await flight(MAP))) if (r.latitude) coords.set(r.id, [r.latitude, r.longitude]);
+
+// This reads a partner's HTML, not an API they promised to keep stable. If they
+// redesign, the pages still return 200 and the parser simply finds nothing —
+// which would quietly empty the block and deploy that. Refuse instead.
+if (reports.size === 0) throw new Error('Parsed 0 reports from /en/issues — Baladi\'s page shape has probably changed.');
+if (coords.size === 0) throw new Error('Parsed 0 coordinates from /en/map — Baladi\'s page shape has probably changed.');
 
 // Anything imported before is imported again, so a scheduled run refreshes the
 // set rather than churning it — a report already carrying a public link never
@@ -169,6 +176,16 @@ let fresh = 0;
 for (const r of chosen) {
   if (pinned[r.id] == null) { pinned[r.id] = next++; fresh++; }
 }
+// A partial break is the dangerous one: enough parses to look like success,
+// while most of the set vanishes. Compare against what is already committed and
+// refuse to shrink it sharply. --force is the deliberate override.
+const live = (fs.readFileSync(file, 'utf8').match(/source:'baladi'/g) || []).length;
+if (live > 0 && chosen.length < live * 0.8 && !process.argv.includes('--force')) {
+  throw new Error(
+    `Refusing to write: ${chosen.length} reports parsed but ${live} are already published. `
+    + 'That is a large drop, which usually means Baladi changed shape rather than lost reports. '
+    + 'Re-run with --force if the drop is real.');
+}
 fs.writeFileSync(IDS, JSON.stringify(pinned, null, 1) + '\n');
 
 // Emitted in id order so a re-run produces a readable diff rather than a
@@ -177,7 +194,6 @@ const block = [START,
   ...chosen.slice().sort((a, b) => pinned[a.id] - pinned[b.id]).map((r) => toRecord(r, pinned[r.id])),
   END].join('\n');
 
-const file = 'index.html';
 let src = fs.readFileSync(file, 'utf8');
 const rx = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 if (src.includes(START)) {
