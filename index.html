@@ -347,6 +347,9 @@
   @media (max-width:900px){ .detail-photo-none{ aspect-ratio:4 / 3; } }
   .pc-src{ display:inline-flex; align-items:center; gap:5px; font-size:10.5px; font-weight:700; letter-spacing:.02em;
     color:var(--accent); background:var(--accent-soft); border-radius:20px; padding:3px 9px; margin-inline-start:6px; white-space:nowrap; }
+  /* Deliberately not the accent: a generated picture should not wear the same
+     badge colour as a resident's photograph. */
+  .pc-src.pc-illus{ color:var(--text-faint); background:var(--bg-2); }
   .pc-confirm{ display:flex; align-items:center; gap:5px; font-size:11.5px; color:var(--text-dim); margin-bottom:12px; }
   .pc-confirm b{ color:var(--text); font-weight:700; }
   .pc-body .pc-confirm:last-child{ margin-bottom:0; }
@@ -4797,9 +4800,12 @@ function cardHTML(p, hideMoney){
   // requests that began as a citizen report carry one, and that difference is
   // worth showing rather than hiding: it is the one part of a request a funder
   // on the other side of the world cannot check for themselves.
+  const isIllustration = !!photo && String(photo).indexOf('image.pollinations.ai') !== -1;
   const srcHTML = p.source === 'baladi'
     ? '<div class="pc-src" title="Imported from Baladi Map — a real citizen report"><span aria-hidden="true">\u{1F4E5}</span> From Baladi Map</div>'
-    : '';
+    : (isIllustration
+        ? '<div class="pc-src pc-illus" title="Generated illustration on a sample request — not a photograph of a real place">Illustration</div>'
+        : '');
   const confirmed = p.originReport ? p.originReport.confirmed : 0;
   const confirmHTML = confirmed
     ? `<div class="pc-confirm" title="Residents who confirmed this problem on Baladi Map before the request was filed"><span aria-hidden="true">\u{1F465}</span> <b>${confirmed}</b> resident${confirmed===1?'':'s'} confirmed</div>`
@@ -5638,7 +5644,11 @@ function renderDetail(){
 
   const heroPhoto = projectImage(p);
   const heroHTML = heroPhoto
-    ? `<figure class="detail-photo"><img src="${heroPhoto}" alt="${p.title.replace(/"/g,'&quot;')}" loading="lazy" onerror="window.__heroFallback(this)">${p.source==='baladi' ? '<figcaption>Photo by the resident who reported this, via Baladi Map</figcaption>' : ''}</figure>`
+    ? `<figure class="detail-photo"><img src="${heroPhoto}" alt="${p.title.replace(/"/g,'&quot;')}" loading="lazy" onerror="window.__heroFallback(this)">${
+        p.source==='baladi' ? '<figcaption>Photo by the resident who reported this, via Baladi Map</figcaption>'
+        : String(heroPhoto).indexOf('image.pollinations.ai') !== -1
+          ? '<figcaption>Generated illustration on a sample request &mdash; not a photograph of a real place.</figcaption>'
+          : ''}</figure>`
     : `<div class="detail-photo detail-photo-none"><span>${p.source==='baladi' ? 'No photo submitted with this report' : 'No photograph on file yet'}</span></div>`;
   document.getElementById('detailContent').innerHTML = `
     <div style="font-size:12px;color:var(--text-faint);margin-bottom:12px;">
