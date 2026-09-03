@@ -1077,6 +1077,12 @@
   .donation-row .d-amt{ font-family:'IBM Plex Mono', monospace; font-weight:600; }
   .donation-row .d-hash{ font-family:'IBM Plex Mono', monospace; font-size:9.5px; color:var(--text-faint); }
 
+  .price-meta{ display:flex; gap:22px; flex-wrap:wrap; font-size:12px; color:var(--text-dim); margin:0 0 12px; }
+  .price-meta b{ display:block; font-size:15px; color:var(--text); font-family:'IBM Plex Mono',monospace; margin-bottom:2px; }
+  .price-tbl{ width:100%; border-collapse:collapse; font-size:12.5px; }
+  .price-tbl td{ padding:6px 0; border-bottom:1px solid var(--bg-2); color:var(--text-dim); }
+  .price-tbl td:last-child{ text-align:end; font-family:'IBM Plex Mono',monospace; white-space:nowrap; padding-inline-start:12px; }
+  .price-tbl tr.total td{ font-weight:700; color:var(--text); border-bottom:0; padding-top:10px; }
   .partner-line{ font-size:12.5px; color:var(--text-dim); margin-bottom:8px; }
   .partner-line b{ color:var(--text); }
 
@@ -1511,7 +1517,7 @@
 
   <div class="section reveal"><div class="wrap">
     <div class="section-head"><h2>How it works</h2><p>Nine steps from a filed request to money released &mdash; each one under the role that performs it.</p></div>
-    <div class="tw-lane"><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Certifies</span><span class="tw-name">Government</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">1</span><div><b>Request filed</b><span>A municipality, NGO or business submits scope, budget and timeline.</span></div></div><div class="tw-step"><span class="tw-dot">2</span><div><b>Certified</b><span>A government branch checks technical and regulatory compliance.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Solves</span><span class="tw-name">Experts</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">4</span><div><b>Matched by field</b><span>The technical knowledge the problem actually needs is identified first.</span></div></div><div class="tw-step"><span class="tw-dot">5</span><div><b>Scoped &amp; priced</b><span>The organisation sets its own price against that scope.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Funds</span><span class="tw-name">Sponsors</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">6</span><div><b>Pledged</b><span>Sponsors commit funds, named or anonymous.</span></div></div><div class="tw-step"><span class="tw-dot">7</span><div><b>Escrow funded</b><span>Captured by an independent custodian. Held, not spent.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Checks</span><span class="tw-name">Verifier</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">3</span><div><b>Signs off the request</b><span>With government, then reviewed by a second-line verifier who sees no names. Only then does it open for pledges.</span></div></div><div class="tw-step"><span class="tw-dot">8</span><div><b>Verified</b><span>Each milestone&rsquo;s evidence checked before it counts.</span></div></div><div class="tw-step"><span class="tw-dot">9</span><div><b>Released &amp; tracked</b><span>Escrow releases the tranche. Every step stays on the ledger.</span></div></div></div></div></div>    <p class="tw-foot">Three roles work on the project; the fourth works on the process, and is brought in at certification &mdash; before any of them can start. <button type="button" class="tw-foot-link" data-goto="dashboard" data-scroll="roleWhen">Why the order matters &rarr;</button></p>
+    <div class="tw-lane"><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Certifies</span><span class="tw-name">Government</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">1</span><div><b>Request filed</b><span>A municipality, NGO or business submits scope, budget and timeline.</span></div></div><div class="tw-step"><span class="tw-dot">2</span><div><b>Certified</b><span>A government branch checks technical and regulatory compliance.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Solves</span><span class="tw-name">Experts</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">4</span><div><b>Eligible to bid</b><span>Attributes decide which organisations may bid on the request.</span></div></div><div class="tw-step"><span class="tw-dot">5</span><div><b>Bid inside the bracket</b><span>Price decides who wins; government and the verifier approve it.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Funds</span><span class="tw-name">Sponsors</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">6</span><div><b>Pledged</b><span>Sponsors commit funds, named or anonymous.</span></div></div><div class="tw-step"><span class="tw-dot">7</span><div><b>Escrow funded</b><span>Captured by an independent custodian. Held, not spent.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Checks</span><span class="tw-name">Verifier</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">3</span><div><b>Signs off the request</b><span>With government, then reviewed by a second-line verifier who sees no names. Only then does it open for pledges.</span></div></div><div class="tw-step"><span class="tw-dot">8</span><div><b>Verified</b><span>Each milestone&rsquo;s evidence checked before it counts.</span></div></div><div class="tw-step"><span class="tw-dot">9</span><div><b>Released &amp; tracked</b><span>Escrow releases the tranche. Every step stays on the ledger.</span></div></div></div></div></div>    <p class="tw-foot">Three roles work on the project; the fourth works on the process, and is brought in at certification &mdash; before any of them can start. <button type="button" class="tw-foot-link" data-goto="dashboard" data-scroll="roleWhen">Why the order matters &rarr;</button></p>
   </div></div>
 
   <div class="section reveal"><div class="wrap">
@@ -1584,7 +1590,7 @@
         <div class="light-card" data-cat="municipality"><b>Municipality</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Posts the request and delivers the work on the ground, once certified.</p></div>
       </div>
 
-      <div class="net-group"><div class="net-role">Solves</div><h3 data-group="experts" style="cursor:pointer;">Expert organisations</h3><p>Matched to a request by field — the specific technical knowledge a problem needs, distinct from who implements or who pays.</p><button class="role-jump" type="button" data-demo-jump="electricity">See the expert options <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button></div>
+      <div class="net-group"><div class="net-role">Solves</div><h3 data-group="experts" style="cursor:pointer;">Expert organisations</h3><p>Matched to a request by field — the specific technical knowledge a problem needs, distinct from who implements or who pays. Attributes decide who may bid on a request; price, inside the bracket the verifier set, decides who wins.</p><button class="role-jump" type="button" data-demo-jump="electricity">See the expert options <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button></div>
       <div class="field-grid" id="networkFieldGrid" style="margin-bottom:14px;"></div>
       <div style="font-size:12px;color:var(--text-faint);margin-bottom:34px;">Example on the ledger: <b style="color:var(--text-dim);">Cedar Engineers</b> — structural engineering — paired with Aley Union of Municipalities on the Wadi Faara retaining wall.</div>
 
@@ -1677,8 +1683,8 @@
           <div class="rw-step">
             <span class="rw-n">3</span>
             <span class="rw-role">Experts</span>
-            <span class="rw-title">Matched before a budget is fixed</span>
-            <p class="rw-body">The field a problem needs is settled before anyone prices it, so scope is argued on technical grounds rather than on who happened to bid.</p>
+            <span class="rw-title">Bid inside the bracket</span>
+            <p class="rw-body">Attributes decide who may bid; price decides who wins. Government and the first-line verifier approve the winner, so scope is argued on technical grounds and price on competition.</p>
           </div>
           <div class="rw-step">
             <span class="rw-n">4</span>
@@ -1693,7 +1699,7 @@
             <p class="rw-body">Already in place before day one, so the implementer knows who will check them and could not choose that person. No tranche moves without their sign-off.</p>
           </div>
         </div>
-        <p class="rw-warn"><b>Change the order and each safeguard quietly stops working.</b> Certify after the pledges and funders are backing an unapproved request. Fix the budget before the field is known and the price is a negotiation rather than an estimate. Bring the verifier in after the money is committed and funders are backing a request nobody has confirmed can be checked; bring them in after the work is done and the party being checked is picking their own examiner. Each of these steps only does its job because of where it sits in the sequence &mdash; which is why the sequence is published rather than assumed.</p>
+        <p class="rw-warn"><b>Change the order and each safeguard quietly stops working.</b> Certify after the pledges and funders are backing an unapproved request. Open bids before the bracket is set and the price is a negotiation rather than an estimate. Bring the verifier in after the money is committed and funders are backing a request nobody has confirmed can be checked; bring them in after the work is done and the party being checked is picking their own examiner. Each of these steps only does its job because of where it sits in the sequence &mdash; which is why the sequence is published rather than assumed.</p>
       </div>
     </div>
 
@@ -1996,7 +2002,8 @@
       <div class="stage-table">
         <div class="stage-row stage-head"><span>Stage</span><span>Where the money is</span><span>Can exit to</span></div>
         <div class="stage-row"><span>Submitted</span><span>Nothing pledged</span><span>Certified &amp; verifier assigned, or <b>refused</b></span></div>
-        <div class="stage-row"><span>Certified</span><span>First- then second-line verifier review the request</span><span>Signed off twice &rarr; open for pledges, or <b>sent back</b></span></div>
+        <div class="stage-row"><span>Certified</span><span>First- then second-line verifier review the request</span><span>Signed off twice &rarr; bids open, or <b>sent back</b></span></div>
+        <div class="stage-row"><span>Bids open</span><span>Nothing pledged; bracket published</span><span>Winner approved by government &amp; verifier &rarr; open for pledges, or <b>no eligible bid &rarr; re-scoped</b></span></div>
         <div class="stage-row"><span>Open for pledges</span><span>Pledged, not captured</span><span>Threshold met, or <b>lapsed &rarr; refunded in full</b></span></div>
         <div class="stage-row"><span>Escrow funded</span><span>Held, not releasable</span><span>Work starts &mdash; verifier already in place</span></div>
         <div class="stage-row"><span>In progress</span><span>Held, released per verified milestone</span><span>Next milestone, or <b>stalled &rarr; balance returned</b></span></div>
@@ -2109,7 +2116,7 @@
         <button class="role-btn" type="button" data-aud-role="experts">
           <span class="role-btn-role">Solves</span>
           <span class="role-btn-name">Experts</span>
-          <span class="role-btn-sub">NGOs and vetted local businesses that do the work. Set your own price, get paid against delivery proof rather than promises.</span>
+          <span class="role-btn-sub">NGOs and vetted local businesses that do the work. Bid inside a published bracket, get paid against delivery proof rather than promises.</span>
           <span class="role-btn-go">8 fields &rarr;</span>
         </button>
         <button class="role-btn" type="button" data-aud-role="sponsors">
@@ -7136,6 +7143,7 @@ function renderDetail(){
         <div class="metric-row">${metricChips}</div>
         <div class="timeline-line">${p.timeline.start} → ${p.timeline.target} <span class="sched ${schedClass[p.timeline.schedule]}">${p.timeline.scheduleLabel}</span></div>
         ${whosInvolved}
+        ${priceCardHTML(p)}
         ${followTheMoney}
         <div style="margin-top:16px;">
           <div class="partner-line">Implementing partner — <b>${p.partner}</b></div>
@@ -7325,10 +7333,10 @@ const GROUP_META = {
   },
   experts: {
     name:'Expert organisations', role:'Solves',
-    overview:"A certified request needs someone who actually knows how to fix it. Expert organisations are matched to a request by field — the specific technical knowledge a problem calls for — which is a distinct role from who implements the work or who pays for it, even though the same organisation sometimes ends up doing more than one of those jobs.",
+    overview:"A certified request needs someone who actually knows how to fix it. Expert organisations are matched to a request by field — the specific technical knowledge a problem calls for — which is a distinct role from who implements the work or who pays for it, even though the same organisation sometimes ends up doing more than one of those jobs. Attributes decide who is eligible to bid; the bid, inside the cost bracket the verifier set, decides who wins; government and the first-line verifier approve the winner.",
     subsections: ['electricity','waste','water','publicland','environment','roads','sewage','ngoinit'],
     matchingSystem: {
-      intro: "Proposed framework, not a live algorithm yet — this is the scoring model that would drive automatic expert-to-problem matching once enough leads carry the underlying data. Each attribute scores 1–5; a composite match score is a weighted sum, not a simple average, since some attributes (Verification Confidence, Independence) should gate a match rather than just nudge it.",
+      intro: "Proposed framework, not a live algorithm yet — this is the scoring model that would decide which experts are eligible to bid on a request once enough leads carry the underlying data. Attributes gate who may bid; price decides who wins. Each attribute scores 1–5; a composite match score is a weighted sum, not a simple average, since some attributes (Verification Confidence, Independence) should gate a match rather than just nudge it.",
       attributes: [
         {name:'Proximity & Coverage', low:'No real presence here', high:'Exact locality match'},
         {name:'Field Specificity', low:'Unrelated to their expertise', high:'This is their primary field'},
@@ -9480,6 +9488,41 @@ function verifierCardHTML(p){
     l2HTML +
     '<div class="vf-note">A reviewer who has never rejected anything is an unexamined one, so refusals are published alongside approvals.</div>' +
     '</div>';
+}
+
+// How the price was set. The bracket comes from the first-line verifier at
+// sign-off, eligible experts bid inside it, and the published cost carries the
+// two verifier fees as fixed lines so they can never grow with the project.
+// Demo requests carry sample figures derived from the goal; a citizen report
+// has no goal, so it says so instead of inventing one.
+function priceCardHTML(p){
+  var head = '<div class="detail-block"><h3 style="font-size:16px;margin:0 0 6px;">How the price is set</h3>';
+  if(!p.goal){
+    return head + '<p style="font-size:12.5px;color:var(--text-dim);line-height:1.6;margin:0;">No cost bracket yet. At certification the first-line verifier sets a bracket, eligible expert organisations bid inside it, and government and the verifier approve the winner. Nothing on this request is costed until then &mdash; and nothing here is invented to fill the gap.</p></div>';
+  }
+  var g = p.goal;
+  var lo = Math.round(g * 0.88 / 100) * 100, hi = Math.round(g * 1.14 / 100) * 100;
+  var bids = 2 + (p.id % 3);
+  var feeV = 350, feeL2 = 150;
+  var custodian = Math.round(g * 0.01), contingency = Math.round(g * 0.06);
+  var works = g - feeV - feeL2 - custodian - contingency;
+  var expert = Math.round(works * 0.4), solution = works - expert;
+  var row = function(k, v, cls){ return '<tr' + (cls ? ' class="' + cls + '"' : '') + '><td>' + k + '</td><td>' + money(v) + '</td></tr>'; };
+  return head +
+    '<p style="font-size:11.5px;color:var(--text-faint);margin:0 0 10px;">Sample figures on a demo request. The mechanism is the point: the bracket is set before anyone bids, and the verifier fees are fixed.</p>' +
+    '<div class="price-meta"><div><b>' + money(lo) + ' &ndash; ' + money(hi) + '</b>Bracket set by the verifier at sign-off</div>' +
+    '<div><b>' + bids + '</b>Eligible bids inside the bracket</div>' +
+    '<div><b>' + money(g) + '</b>Winning bid, approved by government and the verifier</div></div>' +
+    '<table class="price-tbl"><tbody>' +
+    row('Expert &mdash; labour, design and supervision', expert) +
+    row('Solution &mdash; materials and works', solution) +
+    row('First-line verifier fee (fixed)', feeV) +
+    row('Second-line verifier fee (fixed)', feeL2) +
+    row('Escrow custodian (1%)', custodian) +
+    row('Contingency (6%), released only against an approved variance', contingency) +
+    row('Published cost', g, 'total') +
+    '</tbody></table>' +
+    '<p style="font-size:12px;color:var(--text-dim);line-height:1.6;margin:10px 0 0;">Attributes decide who may bid; price decides who wins. Three sources can meet the published cost: sponsors, a government top-up, and any discount the winning bidder offered &mdash; shown in the bid, never counted as a pledge.</p></div>';
 }
 
 // Every request says what becomes of the money if it does not finish. Without
