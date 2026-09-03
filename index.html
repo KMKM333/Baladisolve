@@ -5021,6 +5021,16 @@ function projectImage(p){
   const prompt = PROJECT_PROMPTS[p.id];
   return prompt ? pollinationsUrl(prompt, p.id * 137) : null;
 }
+// Ask Baladi's storage for a resized copy instead of the original. The
+// originals are full-resolution phone shots averaging ~790 KB, drawn into
+// 337px cards — scrolling the grid pulled around 37 MB. Supabase's render
+// endpoint serves the same file at a chosen width for roughly a sixth of that.
+// Anything that is not a Supabase object URL passes through untouched.
+function photoAt(url, width){
+  if(!url || String(url).indexOf('/storage/v1/object/public/') === -1) return url;
+  return String(url).replace('/storage/v1/object/public/', '/storage/v1/render/image/public/')
+    .replace(/\?.*$/, '') + '?width=' + width + '&quality=75';
+}
 function pollinationsUrl(prompt, seed){
   // flux specifically — Pollinations' own documentation states this is "always free regardless
   // of tier," unlike seedream/nanobanana which appear to need a registered API key even for
@@ -5040,7 +5050,7 @@ function cardHTML(p, hideMoney){
     // the same icon fallback the generated images already use. loading="lazy" also
     // finally does something: an embedded base64 image was always downloaded, a file
     // off-screen is not fetched at all.
-    photoHTML = `<div class="pc-photo"><img src="${photo}" alt="${p.title}" loading="lazy" onerror="window.__photoFallback(this,'${icon}')"></div>`;
+    photoHTML = `<div class="pc-photo"><img src="${photoAt(photo, 640)}" alt="${p.title}" loading="lazy" onerror="window.__photoFallback(this,'${icon}')"></div>`;
   } else if(prompt){
     const url = pollinationsUrl(prompt, p.id * 137);
     // onerror calls a small global helper rather than embedding HTML inline in the attribute,
@@ -5898,7 +5908,7 @@ function renderDetail(){
 
   const heroPhoto = projectImage(p);
   const heroHTML = heroPhoto
-    ? `<figure class="detail-photo"><img src="${heroPhoto}" alt="${p.title.replace(/"/g,'&quot;')}" loading="lazy" onerror="window.__heroFallback(this)">${
+    ? `<figure class="detail-photo"><img src="${photoAt(heroPhoto, 1400)}" alt="${p.title.replace(/"/g,'&quot;')}" loading="lazy" onerror="window.__heroFallback(this)">${
         p.source==='baladi' ? '<figcaption>Photo by the resident who reported this, via Baladi Map</figcaption>'
         : String(heroPhoto).indexOf('image.pollinations.ai') !== -1
           ? '<figcaption>Generated illustration on a sample request &mdash; not a photograph of a real place.</figcaption>'
