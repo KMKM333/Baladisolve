@@ -1088,17 +1088,6 @@
 
   .comments-block{ margin-top:40px; border-top:1px solid var(--border); padding-top:30px; }
   .off-ledger{ display:inline-block; font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; background:var(--bg-2); color:var(--text-dim); padding:2px 7px; border-radius:8px; margin-top:10px; }
-  .chat-tabs{ display:flex; gap:8px; margin:0 0 12px; flex-wrap:wrap; }
-  .chat-tab{ all:unset; cursor:pointer; display:flex; flex-direction:column; gap:2px; padding:8px 14px; border:1.5px solid var(--border); border-radius:10px; font-size:13px; font-weight:700; color:var(--text-dim); background:var(--bg-1); }
-  .chat-tab span{ font-size:11px; font-weight:400; color:var(--text-faint); }
-  .chat-tab[aria-selected="true"]{ border-color:var(--accent); color:var(--accent); background:var(--accent-soft); }
-  .chat-tab:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
-  .chat-note{ font-size:12px; color:var(--text-faint); line-height:1.6; margin:0 0 10px; }
-  .chat-members{ display:flex; flex-wrap:wrap; gap:8px; margin:0 0 12px; }
-  .chat-member{ display:flex; flex-direction:column; gap:1px; font-size:12px; color:var(--text-dim); border:1px solid var(--border); border-radius:8px; padding:6px 10px; background:var(--bg-1); }
-  .chat-member b{ font-size:10px; text-transform:uppercase; letter-spacing:.04em; color:var(--text-faint); }
-  .chat-closed{ font-size:12.5px; color:var(--text-dim); border:1px dashed var(--border); border-radius:8px; padding:10px 12px; line-height:1.55; }
-  .chat-join{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:14px 0 4px; font-size:12px; color:var(--text-faint); }
   .comment{ padding:14px 0; border-bottom:1px solid var(--border); }
   .comment .c-head{ display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px; }
   .comment .c-author{ font-weight:700; }
@@ -1107,6 +1096,44 @@
   .comment .c-text{ font-size:13px; color:var(--text-dim); line-height:1.55; }
   .comment-form{ margin-top:18px; display:flex; flex-direction:column; gap:10px; max-width:520px; }
   .comment-form textarea{ font-family:inherit; font-size:13px; padding:10px 12px; border:1px solid var(--border); border-radius:8px; resize:none; min-height:60px; }
+  /* Discussion: two chats, avatar per message, a colour per role */
+  .chat-head{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin:0 0 14px; }
+  .chat-seg{ display:inline-flex; gap:2px; padding:3px; border:1px solid var(--border); border-radius:11px; background:var(--bg-1); }
+  .chat-tab{ all:unset; cursor:pointer; padding:7px 14px; border-radius:8px; font-size:13px; font-weight:700; color:var(--text-dim); display:inline-flex; align-items:center; gap:6px; }
+  .chat-tab em{ font-style:normal; font-size:11px; font-weight:700; padding:1px 7px; border-radius:9px; background:var(--bg-2); color:var(--text-faint); }
+  .chat-tab[aria-selected="true"]{ background:var(--surface); color:var(--text); box-shadow:0 1px 2px rgba(15,23,42,.10); }
+  .chat-tab[aria-selected="true"] em{ background:var(--accent-soft); color:var(--accent); }
+  .chat-tab:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .chat-sub{ font-size:12px; color:var(--text-faint); }
+  .chat-note{ font-size:12px; color:var(--text-dim); line-height:1.6; margin:0 0 14px; padding:8px 12px; border-inline-start:3px solid var(--accent); background:var(--bg-1); border-radius:0 8px 8px 0; }
+  .chat-room{ display:flex; flex-wrap:wrap; gap:10px 20px; margin:0 0 14px; }
+  .room-member{ display:flex; align-items:center; gap:8px; font-size:12.5px; color:var(--text); }
+  .room-member b{ display:block; font-size:10px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--text-faint); }
+  .chat-list{ border-top:1px solid var(--border); }
+  .chat-empty{ font-size:12.5px; color:var(--text-faint); padding:18px 0; }
+  .msg{ display:grid; grid-template-columns:34px 1fr; gap:12px; padding:14px 0; border-bottom:1px solid var(--bg-2); }
+  .msg-av{ width:34px; height:34px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:11.5px; font-weight:700; color:#fff; background:#64748b; flex-shrink:0; letter-spacing:.02em; }
+  .msg-av.sm{ width:26px; height:26px; font-size:10px; }
+  .msg-head{ display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; margin-bottom:3px; }
+  .msg-author{ font-weight:700; font-size:13px; }
+  .msg-role{ font-size:10px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; padding:2px 7px; border-radius:8px; background:var(--bg-2); color:var(--text-dim); }
+  .msg-time{ margin-inline-start:auto; font-size:11.5px; color:var(--text-faint); }
+  .msg-text{ font-size:13.5px; color:var(--text-dim); line-height:1.6; }
+  .r-gov .msg-av, .r-gov.msg-av{ background:#1d4ed8; } .r-gov .msg-role{ background:#dbeafe; color:#1e40af; }
+  .r-exp .msg-av, .r-exp.msg-av{ background:#0f766e; } .r-exp .msg-role{ background:#ccfbf1; color:#115e59; }
+  .r-spo .msg-av, .r-spo.msg-av{ background:#b45309; } .r-spo .msg-role{ background:#ffedd5; color:#9a3412; }
+  .r-ver .msg-av, .r-ver.msg-av{ background:#6d28d9; } .r-ver .msg-role{ background:#ede9fe; color:#5b21b6; }
+  .r-l2 .msg-av, .r-l2.msg-av{ background:#4c1d95; box-shadow:inset 0 0 0 2px #fff, inset 0 0 0 4px #c4b5fd; } .r-l2 .msg-role{ background:#ede9fe; color:#4c1d95; }
+  .r-res .msg-av, .r-res.msg-av{ background:#475569; } .r-res .msg-role{ background:#e2e8f0; color:#334155; }
+  .chat-closed{ font-size:12.5px; color:var(--text-dim); border:1px dashed var(--border); border-radius:10px; padding:12px 14px; line-height:1.55; }
+  .chat-join{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin:16px 0 4px; font-size:12px; color:var(--text-faint); }
+  .comment-form.chat-composer{ display:grid; grid-template-columns:34px 1fr; gap:12px; align-items:start; max-width:none; }
+  .composer{ border:1px solid var(--border); border-radius:12px; background:var(--surface); overflow:hidden; }
+  .composer:focus-within{ border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft); }
+  .chat-composer textarea{ display:block; width:100%; box-sizing:border-box; font-size:13.5px; padding:12px 14px; border:0; border-radius:0; resize:none; min-height:64px; background:transparent; color:var(--text); }
+  .chat-composer textarea:focus{ outline:none; }
+  .composer-foot{ display:flex; justify-content:space-between; align-items:center; gap:10px; padding:8px 10px 8px 14px; border-top:1px solid var(--bg-2); font-size:11.5px; color:var(--text-faint); background:var(--bg-1); }
+  @media (max-width:620px){ .msg-time{ margin-inline-start:0; width:100%; } }
 
 
   /* ===== TEMPORARY — workflow option mockups, /#/test. Delete with the page. ===== */
@@ -7034,10 +7061,8 @@ function renderDetail(){
       <div class="d-left"><span class="d-type">${d.type}</span><span class="d-name">${d.name}</span></div>
       <div class="d-right"><span class="d-amt">${money(d.amount)}</span><br><span class="d-hash">${donationHash(p.id,i,d)}</span></div>
     </div>`).join('') : `<div style="font-size:12.5px;color:var(--text-faint);">No pledges yet.</div>`;
-  const commentRows = p.comments.length ? p.comments.map(c=>`<div class="comment">
-      <div class="c-head"><span><span class="c-author">${c.author}</span><span class="c-role">${c.role}</span></span><span class="c-time">${c.time}</span></div>
-      <div class="c-text">${c.text}</div>
-    </div>`).join('') : `<div style="font-size:12.5px;color:var(--text-faint);">No comments yet.</div>`;
+  const msgHTML = c => `<div class="msg ${chatRoleClass(c.role)}"><span class="msg-av" aria-hidden="true">${initials(c.author)}</span><div class="msg-body"><div class="msg-head"><span class="msg-author">${c.author}</span><span class="msg-role">${c.role}</span><span class="msg-time">${c.time}</span></div><div class="msg-text">${c.text}</div></div></div>`;
+  const commentRows = p.comments.length ? p.comments.map(msgHTML).join('') : `<div class="chat-empty">No comments yet. Ask the first question.</div>`;
   const metricChips = p.metrics.map(m=>`<div class="m-item"><b>${m.value}</b><span>${m.label}</span></div>`).join('');
   const originLine = p.originReport ? `<div style="font-size:11.5px;color:var(--text-faint);margin-bottom:16px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
       <span>Grounded in citizen report ${p.originReport.ref} —</span>
@@ -7111,10 +7136,7 @@ function renderDetail(){
   // waiting on it. The affected group is seeded from Baladi confirmations.
   const chatTab = p._chatTab || 'public';
   p.stakeholderChat = p.stakeholderChat || (STAKEHOLDER_CHAT[p.id] || []).slice();
-  const stakeRows = p.stakeholderChat.length ? p.stakeholderChat.map(c=>`<div class="comment">
-      <div class="c-head"><span><span class="c-author">${c.author}</span><span class="c-role">${c.role}</span></span><span class="c-time">${c.time}</span></div>
-      <div class="c-text">${c.text}</div>
-    </div>`).join('') : `<div style="font-size:12.5px;color:var(--text-faint);">No messages yet.</div>`;
+  const stakeRows = p.stakeholderChat.length ? p.stakeholderChat.map(msgHTML).join('') : `<div class="chat-empty">No messages yet.</div>`;
   const v1 = p.status==='proposed' ? null : verifierFor(p), v2 = verifierL2For(p);
   const chatMembers = [
     ['Government lead', muniEntity || p.certifyingBody || 'not yet certified'],
@@ -7123,7 +7145,7 @@ function renderDetail(){
     ['Verifier', v1 ? v1.name : 'not yet assigned'],
     ['Second line', v2 ? v2.pseudonym : 'not yet assigned'],
     ['Affected residents', affectedCount]
-  ].map(m=>`<span class="chat-member"><b>${m[0]}</b>${m[1]}</span>`).join('');
+  ].map(m=>`<span class="room-member ${chatRoleClass(m[0])}"><span class="msg-av sm" aria-hidden="true">${/^\d/.test(String(m[1])) ? String(m[1]).match(/^\d+/)[0] : initials(String(m[1]))}</span><span><b>${m[0]}</b>${m[1]}</span></span>`).join('');
 
   // Fix #3: the donut, custody trail, and donation ledger all answer "where did the money go" —
   // grouped into one section instead of scattered between unrelated content.
@@ -7183,20 +7205,23 @@ function renderDetail(){
         </div>
         <div class="comments-block detail-block">
           <h3 style="font-size:16px;">Discussion</h3>
-          <div class="chat-tabs" role="tablist">
-            <button type="button" class="chat-tab" role="tab" data-chat="public" aria-selected="${chatTab==='public'}">Public<span>Anyone with an account</span></button>
-            <button type="button" class="chat-tab" role="tab" data-chat="stake" aria-selected="${chatTab==='stake'}">Stakeholders<span>Everyone on this request, both verifiers included</span></button>
+          <div class="chat-head">
+            <div class="chat-seg" role="tablist">
+              <button type="button" class="chat-tab" role="tab" data-chat="public" aria-selected="${chatTab==='public'}">Public <em>${p.comments.length}</em></button>
+              <button type="button" class="chat-tab" role="tab" data-chat="stake" aria-selected="${chatTab==='stake'}">Stakeholders <em>${p.stakeholderChat.length}</em></button>
+            </div>
+            <span class="chat-sub">${chatTab==='public' ? 'Anyone with an account. Public, and it stays on the request.' : 'Everyone on this request, both verifiers included.'}</span>
           </div>
-          ${chatTab==='public' ? `<p class="chat-note">Questions, flags and pushback from anyone. What is said here is public and stays on the request.</p><div>${commentRows}</div>` : `
-            <div class="chat-members">${chatMembers}</div>
+          ${chatTab==='public' ? `<div class="chat-list">${commentRows}</div>` : `
+            <div class="chat-room">${chatMembers}</div>
             <p class="chat-note">Verifiers sit in this chat on purpose: a signature everyone is waiting on is visible to the people waiting on it. Bottlenecks and pressure happen in the open.</p>
-            ${p.certStatus==='certified' ? `<div>${stakeRows}</div>` : `<div class="chat-closed">Opens when this request is certified.${p.originReport || p.source==='baladi' ? ' The ' + affectedCount + ' residents who confirmed it on Baladi Map form the affected group and get a seat here automatically.' : ''}</div>`}
+            ${p.certStatus==='certified' ? `<div class="chat-list">${stakeRows}</div>` : `<div class="chat-closed">Opens when this request is certified.${p.originReport || p.source==='baladi' ? ' The ' + affectedCount + ' residents who confirmed it on Baladi Map form the affected group and get a seat here automatically.' : ''}</div>`}
             <div class="chat-join">${p._joined ? '<b>You are in the affected group.</b> Your posts here are seen by everyone on the request.' : `<button type="button" class="btn btn-secondary" id="joinAffected">Join as an affected resident</button><span>${affectedCount} in the group so far${p.originReport || p.source==='baladi' ? ' — seeded from Baladi Map confirmations' : ''}.</span>`}</div>`}
-          <div class="comment-form">
-            <textarea id="commentText" placeholder="Ask a question or share an update..."></textarea>
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-              <span style="font-size:11px;color:var(--text-faint);">Posting as: ${currentRole}</span>
-              <button class="btn btn-secondary" id="postComment">Post</button>
+          <div class="comment-form chat-composer">
+            <span class="msg-av ${chatRoleClass(currentRole)}" aria-hidden="true">${initials(currentRole)}</span>
+            <div class="composer">
+              <textarea id="commentText" placeholder="${chatTab==='stake' ? 'Message everyone on this request…' : 'Ask a question or share an update…'}"></textarea>
+              <div class="composer-foot"><span>Posting as <b>${currentRole}</b> in <b>${chatTab==='stake' ? 'Stakeholders' : 'Public'}</b></span><button class="btn btn-primary" id="postComment">Post</button></div>
             </div>
           </div>
         </div>
@@ -9666,6 +9691,26 @@ function verifierCardHTML(p){
     l2HTML +
     '<div class="vf-note">A reviewer who has never rejected anything is an unexamined one, so refusals are published alongside approvals.</div>' +
     '</div>';
+}
+
+// Discussion rendering helpers: an initials avatar and a colour per role, so a
+// verifier's message reads as a verifier's before anyone reads the name.
+function chatRoleClass(role){
+  var r = String(role || '').toLowerCase();
+  if(/second/.test(r)) return 'r-l2';
+  if(/verif/.test(r)) return 'r-ver';
+  if(/government|municipal|ministry|lead/.test(r)) return 'r-gov';
+  if(/expert|ngo|organisation|contractor/.test(r)) return 'r-exp';
+  if(/sponsor|funder|diaspora/.test(r)) return 'r-spo';
+  if(/resident|affected|local/.test(r)) return 'r-res';
+  return 'r-any';
+}
+function initials(name){
+  var raw = String(name || '');
+  if(/^L2-/.test(raw)) return 'L2';
+  var parts = raw.replace(/[—–].*$/, '').replace(/[^\w\s'’.]/g, ' ').trim().split(/\s+/).filter(Boolean);
+  if(!parts.length) return '?';
+  return ((parts[0][0] || '?') + (parts.length > 1 ? parts[parts.length - 1][0] : '')).toUpperCase();
 }
 
 // How the price was set. The bracket comes from the first-line verifier at
