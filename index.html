@@ -7130,6 +7130,7 @@ function renderDetail(){
           </div>
           <div id="projectMiniMap"></div>
           <div style="font-size:11px;color:var(--text-faint);margin-top:8px;">${p.locality}, ${govName(p.gov)} governorate</div>
+          ${p.source === 'baladi' && !p.coords ? `<div style="font-size:11px;color:var(--warn);margin-top:6px;line-height:1.5;">No pin was dropped on Baladi Map for this report, so it is shown at town level here and does not appear on the live map.</div>` : ''}
         </div>
 
         <div class="light-card">
