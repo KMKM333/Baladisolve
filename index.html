@@ -342,6 +342,9 @@
   .detail-photo img{ display:block; width:100%; aspect-ratio:16 / 10; object-fit:cover; }
   @media (max-width:900px){ .detail-photo img{ aspect-ratio:4 / 3; } }
   .detail-photo figcaption{ font-size:11.5px; color:var(--text-faint); padding:9px 14px; border-top:1px solid var(--border); }
+  .detail-photo-none{ display:flex; align-items:center; justify-content:center; aspect-ratio:16 / 10;
+    font-size:12.5px; color:var(--text-faint); text-align:center; padding:20px; }
+  @media (max-width:900px){ .detail-photo-none{ aspect-ratio:4 / 3; } }
   .pc-src{ display:inline-flex; align-items:center; gap:5px; font-size:10.5px; font-weight:700; letter-spacing:.02em;
     color:var(--accent); background:var(--accent-soft); border-radius:20px; padding:3px 9px; margin-inline-start:6px; white-space:nowrap; }
   .pc-confirm{ display:flex; align-items:center; gap:5px; font-size:11.5px; color:var(--text-dim); margin-bottom:12px; }
@@ -4749,6 +4752,18 @@ const PROJECT_PROMPTS = {
   21: "Documentary photojournalism style, wide landscape shot: a small community composting facility with rotary drum bins in a rural yard near Marjayoun, South Lebanon, hills in the background, daytime, no people, no text overlays.",
   22: "Documentary photojournalism style, wide landscape shot: a cleaned riverside strip with new wooden benches in Bebnine, Akkar, northern Lebanon, a shallow river and modest village houses in the background, daytime, no people, no text overlays.",
 };
+// Every image a project can have, in one place: a file committed to images/, a
+// photo hotlinked from Baladi, or a generated illustration for the demo
+// projects. Nothing generated is ever produced for a Baladi report — an
+// invented picture of a real street someone reported would be fabricated
+// evidence on a platform whose whole argument is verified evidence.
+function projectImage(p){
+  if(PROJECT_PHOTOS[p.id]) return PROJECT_PHOTOS[p.id];
+  if(p.photo) return p.photo;
+  if(p.source === 'baladi') return null;
+  const prompt = PROJECT_PROMPTS[p.id];
+  return prompt ? pollinationsUrl(prompt, p.id * 137) : null;
+}
 function pollinationsUrl(prompt, seed){
   // flux specifically — Pollinations' own documentation states this is "always free regardless
   // of tier," unlike seedream/nanobanana which appear to need a registered API key even for
@@ -4759,7 +4774,7 @@ function pollinationsUrl(prompt, seed){
 }
 function cardHTML(p, hideMoney){
   const pct = p.goal ? Math.min(100, Math.round((p.raised/p.goal)*100)) : 0;
-  const photo = PROJECT_PHOTOS[p.id] || p.photo;
+  const photo = projectImage(p);
   const prompt = PROJECT_PROMPTS[p.id];
   const icon = typeIcon[p.type] || '📍';
   let photoHTML;
@@ -4803,6 +4818,16 @@ function cardHTML(p, hideMoney){
     </div>
   </div>`;
 }
+// A dead image URL leaves the same stated placeholder rather than a gap, so the
+// page keeps its shape either way.
+window.__heroFallback = function(imgEl){
+  const fig = imgEl.closest('figure');
+  if(!fig) return;
+  const box = document.createElement('div');
+  box.className = 'detail-photo detail-photo-none';
+  box.innerHTML = '<span>Photo could not be loaded</span>';
+  fig.replaceWith(box);
+};
 window.__photoFallback = function(imgEl, icon){
   const wrapper = imgEl.parentElement;
   wrapper.className = 'pc-photo pc-photo-placeholder';
@@ -5611,10 +5636,10 @@ function renderDetail(){
     </div>
   `;
 
-  const heroPhoto = PROJECT_PHOTOS[p.id] || p.photo;
+  const heroPhoto = projectImage(p);
   const heroHTML = heroPhoto
-    ? `<figure class="detail-photo"><img src="${heroPhoto}" alt="${p.title.replace(/"/g,'&quot;')}" loading="lazy" onerror="this.closest('figure').remove()">${p.source==='baladi' ? '<figcaption>Photo by the resident who reported this, via Baladi Map</figcaption>' : ''}</figure>`
-    : '';
+    ? `<figure class="detail-photo"><img src="${heroPhoto}" alt="${p.title.replace(/"/g,'&quot;')}" loading="lazy" onerror="window.__heroFallback(this)">${p.source==='baladi' ? '<figcaption>Photo by the resident who reported this, via Baladi Map</figcaption>' : ''}</figure>`
+    : `<div class="detail-photo detail-photo-none"><span>${p.source==='baladi' ? 'No photo submitted with this report' : 'No photograph on file yet'}</span></div>`;
   document.getElementById('detailContent').innerHTML = `
     <div style="font-size:12px;color:var(--text-faint);margin-bottom:12px;">
       <span style="cursor:pointer;" id="bcHome">Home</span> / <span style="cursor:pointer;" id="bcProjects">Projects</span> / <span style="color:var(--text-dim);">${p.title.length>40?p.title.slice(0,40)+'…':p.title}</span>
