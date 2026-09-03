@@ -126,7 +126,13 @@ function toRecord(r, id) {
   const gov = GOV[muni.governorate] || 'mtlebanon';
   const ref = 'BM-' + r.id.slice(0, 8).toUpperCase();
   const [lat, lng] = coords.get(r.id);
-  const when = r.created_at ? new Date(r.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : '—';
+  // Pinned to Beirut, not the machine's zone: these are Lebanese reports, so the
+  // date a resident filed it is the one that means anything. It also stops the
+  // daily sync flipping dates back and forth between a UTC runner and a local
+  // machine, committing churn every morning.
+  const when = r.created_at
+    ? new Date(r.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'Asia/Beirut' })
+    : '—';
   // The reporter's own words, then a plain statement of what has not happened.
   // Nothing about the funding side is invented, because none of it exists yet.
   const desc = (r.description ? esc(r.description) + ' ' : '')
