@@ -903,6 +903,7 @@
   .rw-steps{ display:grid; grid-template-columns:repeat(4,1fr); column-gap:26px; row-gap:30px; align-items:start; }
   .rw-steps.rw-3{ grid-template-columns:repeat(3,1fr); }
 .rw-steps.rw-5{ grid-template-columns:repeat(5,1fr); }
+.rw-steps.rw-6{ grid-template-columns:repeat(3,1fr); row-gap:34px; }
   .rw-step{ position:relative; padding-top:38px; text-align:center; }
   .rw-step::before{ content:''; position:absolute; top:12px; left:50%; right:calc(-50% - 26px); height:2px; background:var(--border); }
   .rw-step:last-child::before{ display:none; }
@@ -917,12 +918,12 @@
   .rw-warn b{ color:var(--text); }
   /* Below this the four columns drop under ~30 characters a line. */
   @media (max-width:1180px){
-    .rw-steps, .rw-steps.rw-3,.rw-steps.rw-5{ grid-template-columns:1fr 1fr; }
+    .rw-steps, .rw-steps.rw-3,.rw-steps.rw-5,.rw-steps.rw-6{ grid-template-columns:1fr 1fr; }
     .rw-step:nth-child(2)::before{ display:none; }
   }
   @media (max-width:620px){
     .rw{ padding:22px 20px 24px; }
-    .rw-steps, .rw-steps.rw-3,.rw-steps.rw-5{ grid-template-columns:1fr; row-gap:24px; }
+    .rw-steps, .rw-steps.rw-3,.rw-steps.rw-5,.rw-steps.rw-6{ grid-template-columns:1fr; row-gap:24px; }
     .rw-step::before{ display:none; }
   }
   /* ---------- Verifier register (Option A) ---------- */
@@ -1111,6 +1112,9 @@
   .comment-form{ margin-top:18px; display:flex; flex-direction:column; gap:10px; max-width:520px; }
   .comment-form textarea{ font-family:inherit; font-size:13px; padding:10px 12px; border:1px solid var(--border); border-radius:8px; resize:none; min-height:60px; }
   /* Discussion: two chats, avatar per message, a colour per role */
+  .affected-btn{ all:unset; cursor:pointer; font-size:11.5px; font-weight:700; color:var(--accent); border:1.5px solid var(--accent); border-radius:16px; padding:3px 10px; }
+  .affected-btn:hover{ background:var(--accent-soft); }
+  .affected-done{ font-size:11.5px; font-weight:700; color:var(--ok); }
   .chat-head{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin:0 0 14px; }
   .chat-seg{ display:inline-flex; gap:2px; padding:3px; border:1px solid var(--border); border-radius:11px; background:var(--bg-1); }
   .chat-tab{ all:unset; cursor:pointer; padding:7px 14px; border-radius:8px; font-size:13px; font-weight:700; color:var(--text-dim); display:inline-flex; align-items:center; gap:6px; }
@@ -1724,33 +1728,39 @@
       <div class="rw">
         <div class="rw-head">When each role is brought in &mdash; and why the timing matters</div>
         <p class="rw-lead">Three roles work directly on the project. The fourth works on the <b>process</b>, and is brought in before the first of them can start.</p>
-        <div class="rw-steps rw-5">
+        <div class="rw-steps rw-6">
           <div class="rw-step">
             <span class="rw-n">1</span>
+            <span class="rw-role">Residents</span>
+            <span class="rw-title">Reported and confirmed on Baladi Map</span>
+            <p class="rw-body">A resident files the problem; neighbours confirm it. Those confirmations are the affected group, which follows the request into its stakeholder chat and can say &ldquo;I&rsquo;ve been affected too&rdquo;.</p>
+          </div>
+          <div class="rw-step">
+            <span class="rw-n">2</span>
             <span class="rw-role">Government</span>
             <span class="rw-title">Certified before the request is public</span>
             <p class="rw-body">Checked for jurisdiction, code and necessity before a request can open for pledges &mdash; so nobody is asked to fund what no authority has confirmed.</p>
           </div>
           <div class="rw-step">
-            <span class="rw-n">2</span>
+            <span class="rw-n">3</span>
             <span class="rw-role">Verifier</span>
             <span class="rw-title">Signs off the request before it opens for pledges</span>
             <p class="rw-body">Assigned at certification from the pool with no tie to this request. Confirms the milestones and evidence can be checked, and sets the cost bracket alone &mdash; government certifies scope, never price, so a municipality cannot inflate its own request. A second-line verifier reviews the bracket seeing no names. No sign-off, no pledges.</p>
           </div>
           <div class="rw-step">
-            <span class="rw-n">3</span>
+            <span class="rw-n">4</span>
             <span class="rw-role">Experts</span>
             <span class="rw-title">Bid inside the bracket</span>
             <p class="rw-body">Attributes decide who may bid; price decides who wins. The first-line verifier approves the winning bid and the second line reviews it. Government has no say on price.</p>
           </div>
           <div class="rw-step">
-            <span class="rw-n">4</span>
+            <span class="rw-n">5</span>
             <span class="rw-role">Sponsors</span>
             <span class="rw-title">Captured into escrow before work starts</span>
             <p class="rw-body">Pledges are secured with an independent custodian before day one, so no implementer starts on a promise. Held, not spent.</p>
           </div>
           <div class="rw-step">
-            <span class="rw-n">5</span>
+            <span class="rw-n">6</span>
             <span class="rw-role">Verifier</span>
             <span class="rw-title">Signs off every release</span>
             <p class="rw-body">Already in place before day one, so the implementer knows who will check them and could not choose that person. No tranche moves without their sign-off, and any change to cost or timeline is approved by both verifiers against the published specs.</p>
@@ -2067,7 +2077,7 @@
         <div class="stage-row"><span>Certified</span><span>First- then second-line verifier review the request</span><span>Signed off twice &rarr; bids open, or <b>sent back</b></span></div>
         <div class="stage-row"><span>Bids open</span><span>Nothing pledged; bracket published</span><span>Winner approved by the verifier, reviewed by the second line &rarr; open for pledges, or <b>no eligible bid &rarr; re-scoped</b></span></div>
         <div class="stage-row"><span>Open for pledges</span><span>Pledged, not captured</span><span>Threshold met, or <b>lapsed &rarr; refunded in full</b></span></div>
-        <div class="stage-row"><span>Escrow funded</span><span>Held, not releasable</span><span>Work starts &mdash; verifier already in place</span></div>
+        <div class="stage-row"><span>Escrow funded</span><span>Held by the custodian, not releasable</span><span>Work starts &mdash; the verifier gates the first release, not the deposit</span></div>
         <div class="stage-row"><span>In progress</span><span>Held, released per verified milestone</span><span>Next milestone, or <b>stalled &rarr; balance returned</b></span></div>
         <div class="stage-row"><span>Cost or timeline change</span><span>Held &mdash; nothing extra released</span><span>Both verifiers approve the variance against the published specs, or <b>refused</b></span></div>
         <div class="stage-row"><span>Milestone rejected</span><span>Held &mdash; nothing released</span><span><b>Remediation</b>, then resubmission</span></div>
@@ -7117,6 +7127,7 @@ function renderDetail(){
       <span>Grounded in citizen report ${p.originReport.ref} —</span>
       ${avatarStackHTML(p.originReport.confirmed)}
       <span>confirmed by ${p.originReport.confirmed} residents.</span>
+      ${p._joined ? '<span class="affected-done">You&rsquo;re in the affected group</span>' : '<button type="button" class="affected-btn" id="affectedTop">I&rsquo;ve been affected too</button>'}
     </div>` : '';
   const expertLine = p.expertPartner ? `<div class="partner-line">Technical expert — <b>${p.expertPartner.name}</b> (${p.expertPartner.field})</div>` : '';
 
@@ -7265,7 +7276,7 @@ function renderDetail(){
             <div class="chat-room">${chatMembers}</div>
             <p class="chat-note">Verifiers sit in this chat on purpose: a signature everyone is waiting on is visible to the people waiting on it. Bottlenecks and pressure happen in the open.</p>
             ${p.certStatus==='certified' ? `<div class="chat-list">${stakeRows}</div>` : `<div class="chat-closed">Opens when this request is certified.${p.originReport || p.source==='baladi' ? ' The ' + affectedCount + ' residents who confirmed it on Baladi Map form the affected group and get a seat here automatically.' : ''}</div>`}
-            <div class="chat-join">${p._joined ? '<b>You are in the affected group.</b> Your posts here are seen by everyone on the request.' : `<button type="button" class="btn btn-secondary" id="joinAffected">Join as an affected resident</button><span>${affectedCount} in the group so far${p.originReport || p.source==='baladi' ? ' — seeded from Baladi Map confirmations' : ''}.</span>`}</div>`}
+            <div class="chat-join">${p._joined ? '<b>You are in the affected group.</b> Your posts here are seen by everyone on the request.' : `<button type="button" class="btn btn-secondary" id="joinAffected">I&rsquo;ve been affected too</button><span>${affectedCount} in the group so far${p.originReport || p.source==='baladi' ? ' — seeded from Baladi Map confirmations' : ''}.</span>`}</div>`}
           <div class="comment-form chat-composer">
             <span class="msg-av ${chatRoleClass(currentRole)}" aria-hidden="true">${initials(currentRole)}</span>
             <div class="composer">
@@ -7401,6 +7412,11 @@ function renderDetail(){
   });
   const joinBtn = document.getElementById('joinAffected');
   if(joinBtn) joinBtn.addEventListener('click', ()=>{ p._joined = true; p.affectedCount = (p.affectedCount || 0) + 1; renderDetail(); });
+  const topBtn = document.getElementById('affectedTop');
+  if(topBtn) topBtn.addEventListener('click', ()=>{
+    p._joined = true; p.affectedCount = (p.affectedCount || 0) + 1; p._chatTab = 'stake'; renderDetail();
+    const cb = document.querySelector('.comments-block'); if(cb) cb.scrollIntoView({behavior:'smooth', block:'start'});
+  });
 
   // mobile sticky pledge bar — mirrors the main fund block on small screens
   document.getElementById('mpbNum').textContent = money(p.raised);
