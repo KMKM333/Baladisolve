@@ -1706,7 +1706,7 @@
   <div class="wrap">
     <div class="section" style="padding-top:44px;">
       <button class="detail-back" id="muniDirBack">← Back to Network</button>
-      <div class="section-head"><h2>Municipality directory</h2><p>All 90 municipalities across Lebanon's nine governorates — illustrative list, filterable by region.</p></div>
+      <div class="section-head"><h2>Municipality directory</h2><p>All 110 municipalities across Lebanon's nine governorates — illustrative list, filterable by region.</p></div>
       <div class="light-card" style="max-width:720px;margin-bottom:26px;"><b>Where this fits in the system</b><p style="font-size:12.5px;color:var(--text-dim);margin:8px 0 0;line-height:1.6;">The default implementing partner where a council is sitting. Submits milestone evidence and may co-fund as a matching sponsor.</p></div>
       <div class="filters-row">
         <select id="muniDirFilter"><option value="">All governorates</option></select>
@@ -2717,11 +2717,18 @@ const MUNI_COORDS = {
     'Tripoli':[34.4367,35.8497], 'Zgharta':[34.3986,35.8964], 'Batroun':[34.2553,35.6581],
     'Amioun':[34.3000,35.8000], 'Minyeh':[34.4667,35.9167], 'Bcharre':[34.2517,36.0122],
     'Chekka':[34.3500,35.7167], 'Kousba':[34.3017,35.8528], 'Ehden':[34.2872,35.9744], 'Kfarhazir':[34.3078,35.7736],
+    'El Mina':[34.4425,35.8204],
+    'Beqaa Safreen':[34.3756,36.0213], /* approximate — mean of resident report pins; no OSM match */
+    'Bsarma':[34.3342,35.8412],
   },
   keserwan: {
     'Jounieh':[33.9808,35.6178], 'Byblos (Jbeil)':[34.1232,35.6519], 'Ghazir':[34.0178,35.6639],
     'Ghosta':[33.9911,35.6736], 'Zouk Mosbeh':[33.9550,35.6147], 'Kaslik':[33.9831,35.6181],
     'Harissa':[33.9797,35.6394], 'Faraya':[33.9833,35.8333], 'Ajaltoun':[33.9678,35.6850], 'Sarba':[33.9774,35.6184],
+    'Zouk Mikael':[33.9701,35.6214],
+    'Qlaiaat Kesrouane':[33.9728,35.7143],
+    'Blat - Qartaboun - Mastita':[34.1116,35.6749],
+    'Ashqout':[33.9910,35.7069],
   },
   baalbek: {
     'Baalbek':[34.0063,36.2073], 'Hermel':[34.3931,36.3844], 'Britel':[34.0167,36.1167],
@@ -2732,11 +2739,24 @@ const MUNI_COORDS = {
     'Achrafieh':[33.8869,35.5131], 'Ras Beirut':[33.8996,35.4784], 'Hamra':[33.8959,35.4794],
     'Verdun':[33.8825,35.4783], 'Mazraa':[33.8722,35.4914], 'Gemmayze':[33.8963,35.5150],
     'Downtown':[33.8959,35.5057], 'Mar Mikhael':[33.8994,35.5194], 'Zuqaq al-Blat':[33.8919,35.5019], 'Ain el-Mreisseh':[33.9017,35.4881],
+    'Beirut':[33.8892,35.5026],
   },
   mtlebanon: {
     'Baabda':[33.8433,35.5433], 'Aley':[33.8047,35.5972], 'Beiteddine':[33.6931,35.5814],
     'Deir el Qamar':[33.6994,35.5636], 'Broummana':[33.8828,35.6197], 'Jdeideh':[33.8842,35.5583],
     'Dbayeh':[33.9394,35.5872], 'Antelias':[33.9169,35.5919], 'Sin El Fil':[33.8783,35.5386], 'Choueifat':[33.8228,35.4936],
+    'Dekwaneh - Mar Roukoz - Dahr El Hossein':[33.8804,35.5466],
+    'Menqlet Mezher':[33.9118,35.5997], /* approximate — mean of resident report pins; no OSM match */
+    'Fanar':[33.8788,35.5750],
+    'Mansouriye - Mkalless - Daychouniye':[33.8533,35.5689],
+    'Beit Meri':[33.8663,35.6033],
+    'Sibline':[33.6255,35.4202],
+    'Chiyah':[33.8652,35.5180],
+    'Boutchai - Merdache':[33.8219,35.5449], /* approximate — mean of resident report pins; no OSM match */
+    'Jdaide - Baouchriye - Sad el Baouchriye':[33.8819,35.5564], /* approximate — mean of resident report pins; no OSM match */
+    'Bourj Hammoud':[33.8889,35.5390],
+    'Beit Chebab - Chaouiye - Qnaitra':[33.9305,35.6724],
+    'Qornet El Hamra':[33.9352,35.6450], /* approximate — mean of resident report pins; no OSM match */
   },
   bekaa: {
     'Zahlé':[33.8463,35.9019], 'Chtaura':[33.8158,35.8536], 'Rayak':[33.8500,36.0167],
@@ -2783,8 +2803,10 @@ const MAP_VB_W = 260, MAP_VB_H = 299.3;
 
 const CITIES = {
   akkar: ['Halba', 'Qoubaiyat', 'Bebnine'],
-  north: ['Tripoli', 'Zgharta', 'Batroun'],
-  keserwan: ['Jounieh', 'Byblos (Jbeil)', 'Ghazir'],
+  north: ['Tripoli', 'Zgharta', 'Batroun',
+    'El Mina','Beqaa Safreen','Bsarma'],
+  keserwan: ['Jounieh', 'Byblos (Jbeil)', 'Ghazir',
+    'Zouk Mikael','Qlaiaat Kesrouane','Blat - Qartaboun - Mastita','Ashqout'],
   baalbek: ['Baalbek', 'Hermel', 'Britel'],
   beirut: ['Beirut'],
   mtlebanon: ['Baabda', 'Aley', 'Jdeideh'],
@@ -2799,8 +2821,10 @@ const MUNICIPALITIES = {
   north: ['Tripoli','Zgharta','Batroun','Amioun','Minyeh','Bcharre','Chekka','Kousba','Ehden','Kfarhazir'],
   keserwan: ['Jounieh','Byblos (Jbeil)','Ghazir','Ghosta','Zouk Mosbeh','Kaslik','Harissa','Faraya','Ajaltoun','Sarba'],
   baalbek: ['Baalbek','Hermel','Britel','Douris','Nabi Chit','Iaat','Chmestar','Younine','Al-Ain','Fakiha'],
-  beirut: ['Achrafieh','Ras Beirut','Hamra','Verdun','Mazraa','Gemmayze','Downtown','Mar Mikhael','Zuqaq al-Blat','Ain el-Mreisseh'],
-  mtlebanon: ['Baabda','Aley','Beiteddine','Deir el Qamar','Broummana','Jdeideh','Dbayeh','Antelias','Sin El Fil','Choueifat'],
+  beirut: ['Achrafieh','Ras Beirut','Hamra','Verdun','Mazraa','Gemmayze','Downtown','Mar Mikhael','Zuqaq al-Blat','Ain el-Mreisseh',
+    'Beirut'],
+  mtlebanon: ['Baabda','Aley','Beiteddine','Deir el Qamar','Broummana','Jdeideh','Dbayeh','Antelias','Sin El Fil','Choueifat',
+    'Dekwaneh - Mar Roukoz - Dahr El Hossein','Menqlet Mezher','Fanar','Mansouriye - Mkalless - Daychouniye','Beit Meri','Sibline','Chiyah','Boutchai - Merdache','Jdaide - Baouchriye - Sad el Baouchriye','Bourj Hammoud','Beit Chebab - Chaouiye - Qnaitra','Qornet El Hamra'],
   bekaa: ['Zahlé','Chtaura','Rayak','Bar Elias','Taalabaya','Ferzol','Qab Elias','Saadnayel','Jdita','Mouallaqa'],
   nabatieh: ['Nabatieh','Bint Jbeil','Marjeyoun','Hasbaya','Kfar Roummane','Deir Kifa','Zawtar','Kfar Tebnit','Khiam','Ibl es-Saqi'],
   south: ['Sidon (Saida)','Tyre (Sour)','Jezzine','Ghazieh','Zahrani','Qana','Bazouriye','Jwaya','Kfarfalous','Aanqoun'],
@@ -7758,7 +7782,7 @@ function renderCategoryPage(catId){
     <h1 class="detail-title">${meta.name}</h1>
     <div class="detail-desc">${meta.overview}</div>
     <div class="light-card" style="max-width:720px;margin-bottom:26px;"><b>Where this fits in the system</b><p style="font-size:12.5px;color:var(--text-dim);margin:8px 0 0;line-height:1.6;">${meta.fit}</p></div>
-    ${isMuni ? `<button class="btn btn-primary" id="openMuniDirectory" style="margin-bottom:22px;">Browse all 90 municipalities →</button>` : ''}
+    ${isMuni ? `<button class="btn btn-primary" id="openMuniDirectory" style="margin-bottom:22px;">Browse all 110 municipalities →</button>` : ''}
     <h3 style="font-size:16px;margin-bottom:12px;">${isMuni ? 'A few municipalities, for example' : (isDiaspora ? 'Sending countries' : (isDistricts ? 'All 26 districts, by governorate' : 'Leads in this category'))}</h3>
     <div id="catLeadsGrid" class="${(isDiaspora || isDistricts) ? '' : 'light-grid'}"></div>
     ${isDiaspora ? `<div style="font-size:11.5px;color:var(--text-faint);margin-top:12px;">Same corridor data as the Corridors page — click one for its full country profile.</div>` : ''}
