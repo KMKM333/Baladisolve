@@ -1,0 +1,75 @@
+name: Sync Baladi Map reports
+
+# Refreshes the imported citizen reports once a day: confirmation counts,
+# severity, status, titles, descriptions and photos all come back from Baladi as
+# they are now. Ids are pinned, and the selection is additive, so a sync updates
+# and adds but never renumbers or removes what is already published.
+#
+# Committing here is what deploys — a push to main is what Netlify builds from.
+
+on:
+  schedule:
+    - cron: '0 5 * * *'      # 05:00 UTC daily, ~08:00 Beirut
+  workflow_dispatch:          # and on demand from the Actions tab
+    inputs:
+      limit:
+        description: 'How many reports to hold in total'
+        required: false
+        default: '60'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-baladi
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Import from Baladi Map
+        id: import
+        run: |
+          node scripts/import-baladi.mjs \
+            --limit "${{ github.event.inputs.limit || 60 }}" --pages 15 | tee /tmp/summary.txt
+          {
+            echo 'summary<<EOF'
+            cat /tmp/summary.txt
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
+
+      # The pre-commit hook that guards this repo is local config, so it does not
+      # run here. An unchecked auto-commit would deploy straight to the live site,
+      # which is exactly the case these checks exist for.
+      - name: Run the same checks the pre-commit hook runs
+        run: node scripts/check-html.mjs
+
+      - name: Commit if anything actually changed
+        run: |
+          if git diff --quiet -- index.html scripts/baladi-ids.json; then
+            echo "No change from Baladi today — nothing to commit."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html scripts/baladi-ids.json
+          git commit -F - <<'MSG'
+          Sync Baladi Map reports
+
+          Automated daily refresh of the imported citizen reports — confirmation
+          counts, severity, status, text and photos as they stand on Baladi now.
+          Ids are pinned and the selection is additive, so nothing already
+          published was renumbered or removed.
+
+          ${{ steps.import.outputs.summary }}
+
+          Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
+          MSG
+          git push

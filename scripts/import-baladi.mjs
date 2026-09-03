@@ -82,12 +82,22 @@ for (let p = 1; p <= PAGES; p++) {
 const coords = new Map();
 for (const r of objects(await flight(MAP))) if (r.latitude) coords.set(r.id, [r.latitude, r.longitude]);
 
-// Prefer reports that carry a photo, then spread across categories so a sample
-// is not simply the roads backlog, then most-confirmed first within each.
-function pick(n) {
+// Anything imported before is imported again, so a scheduled run refreshes the
+// set rather than churning it — a report already carrying a public link never
+// silently disappears because a newer one out-ranked it. Remaining slots are
+// filled by preferring reports with a photo, spread across categories so a
+// sample is not simply the roads backlog, most-confirmed first within each.
+function pick(n, already) {
   const usable = [...reports.values()].filter((r) => r.title && coords.has(r.id));
+  const keep = usable.filter((r) => already[r.id] != null);
+  const rest = usable.filter((r) => already[r.id] == null);
+  const room = Math.max(0, n - keep.length);
+  return keep.concat(spread(rest, room));
+}
+function spread(pool, n) {
+  if (n <= 0) return [];
   const byCat = new Map();
-  for (const r of usable) {
+  for (const r of pool) {
     if (!byCat.has(r.category)) byCat.set(r.category, []);
     byCat.get(r.category).push(r);
   }
@@ -139,12 +149,15 @@ function toRecord(r, id) {
     + `   comments:[]},`;
 }
 
-const chosen = pick(LIMIT);
+// The pin file is read before selecting, since what is already imported decides
+// what has to stay in.
+const pinned = fs.existsSync(IDS) ? JSON.parse(fs.readFileSync(IDS, 'utf8')) : {};
+const before = Object.keys(pinned).length;
+const chosen = pick(LIMIT, pinned);
 
 // Reuse the number a report already has; anything new takes the next free one.
 // Numbers are never handed back, so a retired report's link cannot start
 // resolving to a different problem later.
-const pinned = fs.existsSync(IDS) ? JSON.parse(fs.readFileSync(IDS, 'utf8')) : {};
 let next = Math.max(FIRST_ID - 1, ...Object.values(pinned)) + 1;
 let fresh = 0;
 for (const r of chosen) {
@@ -175,6 +188,8 @@ const tally = (f) => [...chosen.reduce((m, x) => m.set(f(x), (m.get(f(x)) || 0) 
 console.log(`Baladi: ${reports.size} reports read across ${PAGES} pages, ${coords.size} with coordinates`);
 const nums = chosen.map((r) => pinned[r.id]).sort((a, b) => a - b);
 console.log(`Imported ${chosen.length} — ids ${nums[0]}–${nums[nums.length - 1]}, ${fresh} newly assigned, ${chosen.length - fresh} kept from ${IDS}`);
+const gone = Object.keys(pinned).filter((k) => !reports.has(k) && k in pinned).length - (before - chosen.length + fresh);
+if (chosen.length < before) console.log(`  note: ${before - chosen.length} previously imported report(s) are no longer in Baladi's feed`);
 console.log('  categories   ', tally((x) => x.category));
 console.log('  severities   ', tally((x) => x.severity));
 console.log('  governorates ', tally((x) => (x.municipalities || {}).governorate));
