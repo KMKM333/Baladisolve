@@ -7304,12 +7304,12 @@ const GROUP_META = {
         {name:'Report Responsiveness', scope:'Municipalities', low:'Citizen reports go unacknowledged', high:'Reports acknowledged and moved to certification within a published window', isNew:true},
         {name:'Co-funding Follow-through', scope:'Municipalities', low:'Pledged a matching top-up, never disbursed', high:'Every matching pledge paid in full, on time', isNew:true},
       ],
-      note: "Process Transparency and Conflict of Interest are gates rather than ordinary scoring inputs: a certifying body with opaque criteria or a stake in the outcome shouldn't be auto-matched no matter how fast or convenient it otherwise scores — that's exactly the failure mode the certify/solve/fund separation exists to prevent."
+      note: "Process Transparency and Conflict of Interest are gates rather than ordinary scoring inputs: a certifying body with opaque criteria or a stake in the outcome shouldn't be auto-matched no matter how fast or convenient it otherwise scores — that's exactly the failure mode the certify/solve/fund separation exists to prevent. The two attributes marked new are conduct metrics rather than fit: they record how a municipality behaved on past requests — whether it answered its residents' reports and paid the top-ups it promised — and they apply to municipalities only."
     },
   },
   experts: {
     name:'Expert organisations', role:'Solves',
-    overview:"A certified request needs someone who actually knows how to fix it. Expert organisations are matched to a request by field — the specific technical knowledge a problem calls for — which is a distinct role from who implements the work or who pays for it, even though the same organisation sometimes ends up doing more than one of those jobs. The two attributes marked new are conduct metrics rather than fit: they record how a municipality behaved on past requests — whether it answered its residents' reports and paid the top-ups it promised — and they apply to municipalities only.",
+    overview:"A certified request needs someone who actually knows how to fix it. Expert organisations are matched to a request by field — the specific technical knowledge a problem calls for — which is a distinct role from who implements the work or who pays for it, even though the same organisation sometimes ends up doing more than one of those jobs.",
     subsections: ['electricity','waste','water','publicland','environment','roads','sewage','ngoinit'],
     matchingSystem: {
       intro: "Proposed framework, not a live algorithm yet — this is the scoring model that would drive automatic expert-to-problem matching once enough leads carry the underlying data. Each attribute scores 1–5; a composite match score is a weighted sum, not a simple average, since some attributes (Verification Confidence, Independence) should gate a match rather than just nudge it.",
@@ -7328,12 +7328,12 @@ const GROUP_META = {
         {name:'Rejection Recovery', low:'Rejected milestones abandoned or disputed', high:'Rejected milestones remediated and re-verified within the published window', isNew:true},
         {name:'Evidence Quality', low:'Evidence routinely returned as insufficient', high:'First submission accepted by the verifier without query', isNew:true},
       ],
-      note: "Verification Confidence and Independence Check are marked as gates rather than ordinary scoring inputs: a low score on either should block an automatic match and require human review first, rather than just lowering the overall number — a highly \"effective\" but unverified or conflicted match is exactly the failure mode this platform's certify/solve/fund separation exists to prevent."
+      note: "Verification Confidence and Independence Check are marked as gates rather than ordinary scoring inputs: a low score on either should block an automatic match and require human review first, rather than just lowering the overall number — a highly \"effective\" but unverified or conflicted match is exactly the failure mode this platform's certify/solve/fund separation exists to prevent. The two attributes marked new are conduct metrics rather than fit: not whether this organisation suits the request, but how it behaved when a milestone was sent back and how much work its evidence gave the verifier last time."
     },
   },
   sponsors: {
     name:'Sponsors', role:'Funds',
-    overview:"Five kinds of funders, one ledger. Every pledge is tracked the same way regardless of who it comes from — named or anonymous, held in escrow, released only against independently verified evidence. None of them can certify a request or implement it themselves; funding stays its own separate role. The two attributes marked new are conduct metrics rather than fit: not whether this organisation suits the request, but how it behaved when a milestone was sent back and how much work its evidence gave the verifier last time.",
+    overview:"Five kinds of funders, one ledger. Every pledge is tracked the same way regardless of who it comes from — named or anonymous, held in escrow, released only against independently verified evidence. None of them can certify a request or implement it themselves; funding stays its own separate role.",
     subsections: ['orgbiz','sponsorngo','embassies','diaspora','locals'],
     matchingSystem: {
       intro: "Proposed framework, not a live algorithm yet — suggested for review, not finalized. Since a sponsor's role is funding, not technical or regulatory judgment, these attributes score funding fit and custody discipline rather than delivery skill. Each attribute scores 1–5; a composite score is a weighted sum, not a simple average, since two attributes here should gate a match rather than just nudge it.",
@@ -7349,7 +7349,7 @@ const GROUP_META = {
         {name:'Stall Behaviour', low:'Demands a refund at the first delay', high:'Holds through remediation and re-verification', isNew:true},
         {name:'Ledger Engagement', low:'Never returns after pledging', high:'Reads milestones, asks questions in the discussion, flags concerns', isNew:true},
       ],
-      note: "Escrow Compliance and Conflict of Interest are gates rather than ordinary scoring inputs: a sponsor unwilling to release funds against verified milestones, or one with a stake in who implements or certifies the work, shouldn't be auto-matched no matter how well-funded or responsive they otherwise score — that undermines the exact separation of roles this platform exists to enforce."
+      note: "Escrow Compliance and Conflict of Interest are gates rather than ordinary scoring inputs: a sponsor unwilling to release funds against verified milestones, or one with a stake in who implements or certifies the work, shouldn't be auto-matched no matter how well-funded or responsive they otherwise score — that undermines the exact separation of roles this platform exists to enforce. The two attributes marked new are conduct metrics rather than fit: whether a funder held through a rejected milestone, and whether they ever came back to read the ledger they paid into."
     },
   },
 };
@@ -7422,7 +7422,7 @@ function renderGroupPage(groupId){
 
 const CATEGORY_META = {
   'v-district': {name:'District engineer', group:'Verifiers',
-    overview:"A municipal or union-of-municipalities engineer acting outside their own locality. The most common verifier in practice, because the expertise is already public and already local — just not local to the work being checked. The two attributes marked new are conduct metrics rather than fit: whether a funder held through a rejected milestone, and whether they ever came back to read the ledger they paid into.",
+    overview:"A municipal or union-of-municipalities engineer acting outside their own locality. The most common verifier in practice, because the expertise is already public and already local — just not local to the work being checked.",
     fit:"You are assigned requests in your governorate but never in your own municipality, and never where your union is the implementing partner."},
   'v-oea': {name:'Order of Engineers & Architects', group:'Verifiers',
     overview:"Lebanon's professional body for engineers and architects, whose Beirut and Tripoli branches maintain inspection desks. Membership and licensing are already independent of both municipalities and contractors.",
