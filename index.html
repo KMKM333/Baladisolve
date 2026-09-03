@@ -4461,7 +4461,9 @@ function ensureLeafletMap(){
   // ---- Problems (projects) ----
   let problemCount = 0;
   PROJECTS.forEach(p=>{
-    const coords = PROJECT_COORDS[p.id];
+    // Hand-placed coordinates first; imported reports carry their own, straight
+    // from the reporter's pin on Baladi Map.
+    const coords = PROJECT_COORDS[p.id] || p.coords;
     if(!coords) return;
     problemCount++;
     const pct = p.goal ? Math.min(100, Math.round((p.raised/p.goal)*100)) : 0;
