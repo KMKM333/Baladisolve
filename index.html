@@ -1210,6 +1210,7 @@
   .tw-step:not(:last-child)::before{ content:''; position:absolute; left:10.5px; top:24px; bottom:-11px;
     width:1px; background:var(--border); }
   .rn-node-l2{ stroke-dasharray:4 3; }
+  .vr-link{ all:unset; cursor:pointer; color:var(--accent); font-weight:700; }
   .tier-role{ font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--accent); }
   .tier-go{ display:block; margin-top:10px; font-size:12px; font-weight:700; color:var(--accent); }
   .group-links{ display:flex; gap:10px; flex-wrap:wrap; margin:18px 0 0; }
@@ -2679,11 +2680,15 @@
       <h3 style="font-size:17px;margin:34px 0 4px;">Second-line verifiers</h3>
       <p style="font-size:12.5px;color:var(--text-dim);line-height:1.65;margin:0 0 12px;max-width:78ch;">Appointed from the table above, not recruited: a current licence, at least thirty decisions, and an overturn rate in the bottom half. They review the first-line verifier&rsquo;s sign-off on every request before it opens for pledges, and every change to cost or timeline after &mdash; pseudonymously, seeing no names. The record is published under the pseudonym.</p>
       <div class="vr-scroll"><table class="vr" id="vrTableL2"></table></div>
+      <h3 style="font-size:17px;margin:34px 0 4px;">Variances approved</h3>
+      <p style="font-size:12.5px;color:var(--text-dim);line-height:1.65;margin:0 0 12px;max-width:78ch;">Every change to a published cost or timeline, on one page, with the request, the change and both verifiers who approved it. It is the cheapest fraud signal a ledger can carry: a verifier who approves many variances for the same implementer stands out here before anyone complains.</p>
+      <div class="vr-scroll"><table class="vr" id="vrVariances"></table></div>
       <div class="vr-legend">
         <div><b>Rejection rate</b>Share of milestones sent back rather than passed. Neither a high nor a low number is automatically good &mdash; but a number far from everyone else&rsquo;s is worth asking about.</div>
         <div><b>Overturned</b>Decisions later found to be wrong and reversed. A zero is only meaningful if something was actually looking.</div>
         <div><b>Median days</b>Evidence submitted to decision made. Fast is not free: somebody has to go and look.</div>
         <div><b>Licence</b>Accreditation number and the date it lapses. Past that date a verifier cannot be assigned.</div>
+        <div><b>Variances</b>Changes to a published cost or timeline this verifier approved. Many for one implementer is the thing to ask about.</div>
         <div><b>Agreement rate</b>Share of first-line sign-offs a second-line verifier confirmed rather than sent back. Same caveat as rejection rate: only a number far from the others means anything.</div>
       </div>
       <p class="vr-note"><b>What this page does not do.</b> It publishes the record. The second-line table is where sign-offs and variances get a second opinion. Releases still get one. An outlier in the first table has no consequence attached to it yet &mdash; which is the remaining gap described on the <button style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;" data-goto="trust">Trust page</button>, and the reason this register is the first of four steps rather than the whole answer.</p>
@@ -9624,6 +9629,20 @@ function verifierFor(p){
 // ---------- Verifier register: every verifier's record, side by side ----------
 // Sits below VERIFIERS on purpose. Rates are derived, never stored, so the page
 // can never disagree with the numbers shown on an individual request.
+// Every approved change to a published cost or timeline, with both verifiers
+// who approved it. Read from the custody trails, never stored separately.
+function allVariances(){
+  var out = [];
+  PROJECTS.forEach(function(p){
+    (p.ledger || []).forEach(function(l){
+      if(/^Variance approved/.test(l.t)) out.push({p:p, l:l, v1:verifierFor(p), v2:verifierL2For(p)});
+    });
+  });
+  return out;
+}
+function variancesFor(v){
+  return allVariances().filter(function(x){ return (x.v1 && x.v1.id === v.id) || (x.v2 && x.v2.id === v.id); }).length;
+}
 function verifierRate(v){
   var t = v.record.verified + v.record.rejected;
   return t ? v.record.rejected / t : 0;
@@ -9642,6 +9661,7 @@ var VR_COLS = [
   {k:'verified',   label:'Passed',         num:true},
   {k:'rejected',   label:'Rejected',       num:true},
   {k:'overturned', label:'Overturned',     num:true},
+  {k:'variances',  label:'Variances',      num:true},
   {k:'medianDays', label:'Median days',    num:true},
   {k:'expiry',     label:'Licence',        num:false}
 ];
@@ -9649,6 +9669,7 @@ function vrValue(v, k){
   if(k === 'name')   return v.name.toLowerCase();
   if(k === 'rate')   return verifierRate(v);
   if(k === 'expiry') return v.licenceExpiry;
+  if(k === 'variances') return variancesFor(v);
   return v.record[k];
 }
 function renderVerifierRegister(){
@@ -9681,6 +9702,7 @@ function renderVerifierRegister(){
       '<td class="vr-num">' + v.record.verified + '</td>' +
       '<td class="vr-num">' + v.record.rejected + '</td>' +
       '<td class="vr-num">' + v.record.overturned + '</td>' +
+      '<td class="vr-num">' + variancesFor(v) + '</td>' +
       '<td class="vr-num">' + v.record.medianDays + '</td>' +
       '<td>' + v.licence + '<span style="display:block;font-size:11px;color:var(--text-faint);margin-top:2px;">to ' +
         v.licenceExpiry + (vrExpiringSoon(v) ? '<span class="vr-tag exp">Lapsing soon</span>' : '') + '</span></td>' +
@@ -9700,13 +9722,26 @@ function renderVerifierRegister(){
   var t2 = document.getElementById('vrTableL2');
   if(t2){
     var l2s = VERIFIERS_L2.slice().sort(function(a, b){ return l2AgreementRate(b) - l2AgreementRate(a); });
-    t2.innerHTML = '<thead><tr><th>Second-line verifier</th><th class="num">Reviews</th><th class="num">Confirmed</th><th class="num">Sent back</th><th class="num">Agreement rate</th><th class="num">Median days</th><th>Licence</th></tr></thead><tbody>' +
+    t2.innerHTML = '<thead><tr><th>Second-line verifier</th><th class="num">Reviews</th><th class="num">Confirmed</th><th class="num">Sent back</th><th class="num">Variances</th><th class="num">Agreement rate</th><th class="num">Median days</th><th>Licence</th></tr></thead><tbody>' +
       l2s.map(function(v){
         return '<tr><td class="vr-who"><b>' + v.pseudonym + '</b><span>Pseudonymous · appointed from the register ' + v.appointed + '</span></td>' +
           '<td class="vr-num">' + v.record.reviewed + '</td><td class="vr-num">' + v.record.confirmed + '</td><td class="vr-num">' + v.record.sentBack + '</td>' +
+          '<td class="vr-num">' + variancesFor(v) + '</td>' +
           '<td class="vr-num">' + pct(l2AgreementRate(v)) + '</td><td class="vr-num">' + v.record.medianDays + '</td>' +
           '<td>Current<span style="display:block;font-size:11px;color:var(--text-faint);margin-top:2px;">to ' + v.licenceExpiry + '</span></td></tr>';
       }).join('') + '</tbody>';
+  }
+
+  var tv = document.getElementById('vrVariances');
+  if(tv){
+    var vs = allVariances();
+    tv.innerHTML = '<thead><tr><th>Request</th><th>Change</th><th class="num">Date</th><th>First line</th><th>Second line</th></tr></thead><tbody>' +
+      (vs.length ? vs.map(function(x){
+        return '<tr><td class="vr-who"><b><button type="button" class="vr-link" data-pid="' + x.p.id + '">' + x.p.title + '</button></b><span>' + x.p.locality + '</span></td>' +
+          '<td>' + x.l.t.replace(/^Variance approved\s*[—–-]\s*/, '') + '<span style="display:block;font-size:11px;color:var(--text-faint);margin-top:2px;">' + x.l.meta + '</span></td>' +
+          '<td class="vr-num">' + x.l.d + '</td><td>' + (x.v1 ? x.v1.name : '&mdash;') + '</td><td>' + (x.v2 ? x.v2.pseudonym : '&mdash;') + '</td></tr>';
+      }).join('') : '<tr><td colspan="5" style="color:var(--text-faint);">No variances approved yet.</td></tr>') + '</tbody>';
+    tv.querySelectorAll('.vr-link').forEach(function(b){ b.addEventListener('click', function(){ openDetail(parseInt(b.dataset.pid)); }); });
   }
 
   var decisions = VERIFIERS.reduce(function(a, v){ return a + v.record.verified + v.record.rejected; }, 0);
