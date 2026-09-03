@@ -290,7 +290,14 @@
   .network-motto{ font-size:20px; font-weight:800; text-align:center; padding:26px 20px; margin-top:28px; border-top:2px solid var(--text); letter-spacing:-0.01em; }
 
   /* ---------- Project cards ---------- */
-  .filters-row{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:26px; }
+  .filters-bar{ display:flex; flex-direction:column; gap:12px; margin-bottom:26px; }
+  .filters-search{ display:flex; align-items:center; gap:10px; border:1px solid var(--border); border-radius:12px; padding:10px 14px; background:var(--surface); cursor:text; }
+  .filters-search input{ flex:1; min-width:0; border:0; outline:0; font:inherit; font-size:14px; background:transparent; color:var(--text); }
+  .filters-search input::-webkit-search-cancel-button{ display:none; }
+  .filters-search:focus-within{ border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft); }
+  .filters-search button{ all:unset; cursor:pointer; font-size:12px; font-weight:700; color:var(--accent); }
+  .filters-reset{ all:unset; cursor:pointer; font-size:12.5px; font-weight:700; color:var(--accent); padding:0 4px; align-self:center; }
+  .filters-row{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:0; }
   .filters-row select{ font-family:inherit; font-size:13px; color:var(--text-dim); background:var(--surface);
     border:1px solid var(--border); border-radius:8px; padding:9px 14px; }
   .filters-row .count{ margin-inline-start:auto; align-self:center; font-size:12.5px; color:var(--text-faint); }
@@ -1742,14 +1749,19 @@
     </div>
 
     <div class="section" style="padding-top:28px;">
-      <div class="section-head"><h2>All projects</h2><p>Every open request, filterable by region, type, size and status.</p></div>
-      <div class="filters-row">
-        <select id="fGov"><option value="">All governorates</option></select>
-        <select id="fType"><option value="">All project types</option></select>
-        <select id="fSize"><option value="">All sizes</option></select>
-        <select id="fStatus"><option value="">All statuses</option></select>
-        <select id="fUrgency"><option value="">All severities</option></select>
-        <span class="count" id="resultCount"></span>
+      <div class="section-head"><h2>All projects</h2><p>Every open request. Search, or narrow by governorate, municipality, type, size, status and severity.</p></div>
+      <div class="filters-bar">
+        <label class="filters-search"><span aria-hidden="true">🔍</span><input type="search" id="fSearch" placeholder="Search a title, town, organisation or type" autocomplete="off"><button type="button" id="fClear" hidden>Clear</button></label>
+        <div class="filters-row">
+          <select id="fGov"><option value="">All governorates</option></select>
+          <select id="fMuni"><option value="">All municipalities</option></select>
+          <select id="fType"><option value="">All project types</option></select>
+          <select id="fSize"><option value="">All sizes</option></select>
+          <select id="fStatus"><option value="">All statuses</option></select>
+          <select id="fUrgency"><option value="">All severities</option></select>
+          <button type="button" class="filters-reset" id="fReset" hidden>Reset filters</button>
+          <span class="count" id="resultCount"></span>
+        </div>
       </div>
       <div class="proj-grid" id="projectGrid"></div>
     </div>
@@ -6399,19 +6411,39 @@ Object.entries(statusLabel).forEach(([v,l])=>{ const o=document.createElement('o
 ['Critical','High','Medium','Low'].filter(u=> PROJECTS.some(p=> p.urgency===u))
   .forEach(u=>{ const o=document.createElement('option'); o.value=u; o.textContent=u; fUrgency.appendChild(o); });
 
+// The municipality is the first segment of the locality ("Halba, Akkar"), for
+// demo requests and imported reports alike. The list follows the governorate
+// filter so it never offers a town that cannot match.
+function muniOf(p){ return String(p.locality || '').split(/[,·]/)[0].trim(); }
+function fillMuniOptions(){
+  var keep = fMuni.value, towns = {};
+  PROJECTS.forEach(function(p){
+    if(fGov.value && p.gov !== fGov.value) return;
+    var t = muniOf(p); if(t) towns[t] = (towns[t] || 0) + 1;
+  });
+  var names = Object.keys(towns).sort(function(a, b){ return a.localeCompare(b); });
+  fMuni.innerHTML = '<option value="">All municipalities</option>' +
+    names.map(function(t){ return '<option value="' + t.replace(/"/g, '&quot;') + '">' + t + ' (' + towns[t] + ')</option>'; }).join('');
+  fMuni.value = names.indexOf(keep) !== -1 ? keep : '';
+}
+fillMuniOptions();
 function filtered(){
-  const f = {gov:fGov.value, type:fType.value, size:fSize.value, status:fStatus.value, urgency:fUrgency.value};
+  const q = (fSearch.value || '').trim().toLowerCase();
+  const f = {gov:fGov.value, muni:fMuni.value, type:fType.value, size:fSize.value, status:fStatus.value, urgency:fUrgency.value};
+  fReset.hidden = !(q || f.gov || f.muni || f.type || f.size || f.status || f.urgency);
+  fClear.hidden = !q;
   return PROJECTS.filter(p =>
-    (!f.gov || p.gov===f.gov) && (!f.type || p.type===f.type) &&
+    (!f.gov || p.gov===f.gov) && (!f.muni || muniOf(p)===f.muni) && (!f.type || p.type===f.type) &&
     (!f.size || sizeBudget(p)===f.size) && (!f.status || p.status===f.status) &&
-    (!f.urgency || p.urgency===f.urgency)
+    (!f.urgency || p.urgency===f.urgency) &&
+    (!q || [p.title, p.locality, p.org, p.partner, p.type, p.expertPartner && p.expertPartner.name].join(' ').toLowerCase().indexOf(q) !== -1)
   );
 }
 function renderGrid(skipAnim){
   const grid = document.getElementById('projectGrid');
   const doRender = ()=>{
     const list = filtered();
-    document.getElementById('resultCount').textContent = list.length + ' projects';
+    document.getElementById('resultCount').textContent = list.length === PROJECTS.length ? PROJECTS.length + ' requests' : list.length + ' of ' + PROJECTS.length + ' requests';
     grid.innerHTML = list.map(p=>cardHTML(p, true)).join('') || '<div class="empty-state" style="grid-column:1/-1;"><div class="es-icon">🔍</div><div class="es-msg">No projects match these filters</div><div class="es-sub">Try widening your governorate, type, severity, or status filter.</div></div>';
     attachCardEvents(grid);
     grid.classList.remove('reflowing');
@@ -6420,7 +6452,12 @@ function renderGrid(skipAnim){
   grid.classList.add('reflowing');
   setTimeout(doRender, 180);
 }
-[fGov,fType,fSize,fStatus,fUrgency].forEach(el=> el.addEventListener('change', ()=> renderGrid()));
+fGov.addEventListener('change', fillMuniOptions);
+[fGov,fMuni,fType,fSize,fStatus,fUrgency].forEach(el=> el.addEventListener('change', ()=> renderGrid()));
+let searchTimer = null;
+fSearch.addEventListener('input', ()=>{ clearTimeout(searchTimer); searchTimer = setTimeout(()=> renderGrid(true), 120); });
+fClear.addEventListener('click', ()=>{ fSearch.value = ''; renderGrid(true); fSearch.focus(); });
+fReset.addEventListener('click', ()=>{ fSearch.value = ''; [fGov,fMuni,fType,fSize,fStatus,fUrgency].forEach(el=> el.value = ''); fillMuniOptions(); renderGrid(); });
 
 // ---------- stats ----------
 function renderStats(){
