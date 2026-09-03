@@ -5025,11 +5025,13 @@ function projectImage(p){
 // originals are full-resolution phone shots averaging ~790 KB, drawn into
 // 337px cards — scrolling the grid pulled around 37 MB. Supabase's render
 // endpoint serves the same file at a chosen width for roughly a sixth of that.
+// resize=contain matters: with only a width, the endpoint keeps the original
+// height and returns a 640x2048 sliver rather than a scaled 640x853 image.
 // Anything that is not a Supabase object URL passes through untouched.
 function photoAt(url, width){
   if(!url || String(url).indexOf('/storage/v1/object/public/') === -1) return url;
   return String(url).replace('/storage/v1/object/public/', '/storage/v1/render/image/public/')
-    .replace(/\?.*$/, '') + '?width=' + width + '&quality=75';
+    .replace(/\?.*$/, '') + '?width=' + width + '&quality=75&resize=contain';
 }
 function pollinationsUrl(prompt, seed){
   // flux specifically — Pollinations' own documentation states this is "always free regardless
