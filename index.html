@@ -334,8 +334,13 @@
   .proj-card h4{ font-size:15.5px; font-weight:700; margin:0 0 4px; line-height:1.3; }
   .proj-card .pc-loc{ font-size:12px; color:var(--text-faint); margin-bottom:14px; }
   .proj-card .pc-meta{ display:flex; justify-content:space-between; align-items:baseline; font-size:12px; color:var(--text-dim); }
-  .detail-photo{ margin:0 0 20px; border-radius:14px; overflow:hidden; border:1px solid var(--border); background:var(--bg-1); }
-  .detail-photo img{ display:block; width:100%; max-height:420px; object-fit:cover; }
+  /* Capped in width as well as height, so the hero does not letterbox into a
+     wide strip on a big screen. Source photos are mostly portrait phone shots,
+     so a 4:3 frame crops far less off them than a full-width band would. */
+  .detail-photo{ margin:0 0 20px; border-radius:14px; overflow:hidden; border:1px solid var(--border);
+    background:var(--bg-1); max-width:620px; }
+  .detail-photo img{ display:block; width:100%; aspect-ratio:4 / 3; object-fit:cover; }
+  @media (max-width:700px){ .detail-photo img{ aspect-ratio:1 / 1; } }
   .detail-photo figcaption{ font-size:11.5px; color:var(--text-faint); padding:9px 14px; border-top:1px solid var(--border); }
   .pc-src{ display:inline-flex; align-items:center; gap:5px; font-size:10.5px; font-weight:700; letter-spacing:.02em;
     color:var(--accent); background:var(--accent-soft); border-radius:20px; padding:3px 9px; margin-inline-start:6px; white-space:nowrap; }
