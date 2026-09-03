@@ -1086,6 +1086,13 @@
 
   .price-meta{ display:flex; gap:22px; flex-wrap:wrap; font-size:12px; color:var(--text-dim); margin:0 0 12px; }
   .price-meta b{ display:block; font-size:15px; color:var(--text); font-family:'IBM Plex Mono',monospace; margin-bottom:2px; }
+  .bids{ margin:0 0 14px; border:1px solid var(--border); border-radius:10px; padding:10px 12px; }
+  .bids-h{ display:block; font-size:12px; margin-bottom:4px; }
+  .bid-row{ display:grid; grid-template-columns:1fr auto; gap:1px 12px; font-size:12.5px; padding:7px 0; border-top:1px solid var(--bg-2); color:var(--text-dim); }
+  .bid-row.win{ color:var(--text); font-weight:700; }
+  .bid-row span:nth-child(2){ font-family:'IBM Plex Mono',monospace; text-align:end; }
+  .bid-tag{ grid-column:1/-1; font-size:11px; font-weight:400; color:var(--text-faint); }
+  .bids-note{ display:block; font-size:11px; color:var(--text-faint); margin-top:8px; }
   .price-tbl{ width:100%; border-collapse:collapse; font-size:12.5px; }
   .price-tbl td{ padding:6px 0; border-bottom:1px solid var(--bg-2); color:var(--text-dim); }
   .price-tbl td:last-child{ text-align:end; font-family:'IBM Plex Mono',monospace; white-space:nowrap; padding-inline-start:12px; }
@@ -9791,11 +9798,20 @@ function priceCardHTML(p){
   var works = g - feeV - feeL2 - custodian - contingency;
   var expert = Math.round(works * 0.4), solution = works - expert;
   var row = function(k, v, cls){ return '<tr' + (cls ? ' class="' + cls + '"' : '') + '><td>' + k + '</td><td>' + money(v) + '</td></tr>'; };
+  var winner = p.expertPartner ? p.expertPartner.name : p.org;
+  var bidRows = '';
+  for(var k = 0; k < bids; k++){
+    var amt = k === 0 ? g : Math.min(hi, Math.round(g * (1.03 + 0.045 * k) / 50) * 50);
+    bidRows += '<div class="bid-row' + (k === 0 ? ' win' : '') + '"><span>' + (k === 0 ? winner : 'Bidder ' + (k + 1) + ' &middot; name withheld') + '</span><span>' + money(amt) + '</span>' +
+      '<span class="bid-tag">' + (k === 0 ? 'Approved by the verifier &middot; reviewed by the second line' : 'Not selected') + '</span></div>';
+  }
   return head +
     '<p style="font-size:11.5px;color:var(--text-faint);margin:0 0 10px;">Sample figures on a demo request. The mechanism is the point: the bracket is set before anyone bids, and the verifier fees are fixed.</p>' +
     '<div class="price-meta"><div><b>' + money(lo) + ' &ndash; ' + money(hi) + '</b>Bracket set by the verifier at sign-off</div>' +
     '<div><b>' + bids + '</b>Eligible bids inside the bracket</div>' +
     '<div><b>' + money(g) + '</b>Winning bid, approved by the verifier and reviewed by the second line</div></div>' +
+    '<div class="bids"><b class="bids-h">' + bids + ' bids inside the bracket</b>' + bidRows +
+    '<span class="bids-note">Losing bidders stay unnamed. The winner is named only once the verifier has approved the bid.</span></div>' +
     '<table class="price-tbl"><tbody>' +
     row('Expert &mdash; labour, design and supervision', expert) +
     row('Solution &mdash; materials and works', solution) +
