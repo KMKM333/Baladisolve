@@ -1409,14 +1409,6 @@
     <button data-view="scoreboard" data-i18n>Scoreboard</button>
     <button data-view="trust" data-i18n>Trust</button>
     <button data-view="join" data-i18n>Join</button>
-    <div class="nav-more-wrap">
-      <button id="navMoreBtn" type="button" data-i18n>More ▾</button>
-      <div id="navMoreMenu" class="nav-more-menu">
-        <button data-goto="lead-list" data-i18n>Full Lead List</button>
-        <button data-goto="workflow-demo" data-i18n>Workflow Demo</button>
-        <button onclick="openAccountDemo('overview')" data-i18n>Account Dashboards</button>
-      </div>
-    </div>
   </nav>
   <div class="topnav-right">
     <button class="test-btn" type="button" data-goto="test" title="Temporary workflow mockups">TEST</button>
@@ -9572,11 +9564,6 @@ document.addEventListener('keydown', e=>{
 });
 
 // ---------- "More" nav dropdown ----------
-document.getElementById('navMoreBtn').addEventListener('click', (e)=>{
-  e.stopPropagation();
-  document.getElementById('navMoreMenu').classList.toggle('show');
-});
-document.addEventListener('click', ()=> document.getElementById('navMoreMenu').classList.remove('show'));
 
 // Safety net: if a section is still stuck at opacity:0 after 1.5s (observer never fired,
 // Motion failed silently, or the element was added/repositioned after initial setup),
