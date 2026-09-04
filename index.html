@@ -1256,6 +1256,7 @@
   .cs-mod p{ font-size:12.5px; color:var(--text-dim); line-height:1.6; margin:0 0 6px; }
   .cs-ex{ font-style:italic; }
   .cs-with span{ display:inline-block; font-size:9.5px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; background:var(--accent-soft); color:var(--accent); padding:2px 7px; border-radius:8px; margin-inline-end:6px; }
+  .hb-embed{ margin-top:10px; padding-top:6px; border-top:1px solid var(--border); }
   .hb-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:22px; }
   .hb-card h4{ margin:0 0 8px; font-size:14px; }
   .hb-card ul{ margin:0; padding-inline-start:18px; font-size:12.5px; color:var(--text-dim); line-height:1.65; }
@@ -2795,6 +2796,7 @@
       <div id="demoRoleMatch"></div>
       <h3 class="dash-section-title" id="demoActionsTitle">—</h3>
       <div class="dash-actions" id="demoActions"></div>
+      <div id="demoHandbook"></div>
     </div>
   </div>
 </section>
@@ -7732,6 +7734,7 @@ function renderGroupPage(groupId){
     <div class="light-grid" id="groupSubsectionGrid"></div>
     <div class="group-links">${(GROUP_LINKS[groupId] || []).map(l=>`<button class="role-jump" type="button" data-glink="${l[0]}" data-arg="${l[1]}">${l[2]} <span aria-hidden="true">&rarr;</span></button>`).join('')}</div>
     ${matchingHTML}
+    ${handbookEmbedHTML(groupId)}
   `;
   if(groupId === 'verifiers'){
     document.getElementById('groupSubsectionGrid').innerHTML = tierCardsHTML();
@@ -7749,6 +7752,7 @@ function renderGroupPage(groupId){
     });
   });
   document.querySelectorAll('#detailContent [data-group-switch]').forEach(b=> b.addEventListener('click', ()=> openGroupPage(b.dataset.groupSwitch)));
+  wireHandbookEmbed(document.getElementById('detailContent'));
   document.querySelectorAll('#detailContent [data-glink]').forEach(b=> b.addEventListener('click', ()=>{
     if(b.dataset.glink === 'goto') switchView(b.dataset.arg);
     else if(b.dataset.glink === 'handbook') openHandbook(b.dataset.arg);
@@ -8790,6 +8794,11 @@ function renderAccountDemo(optionKey){
   document.getElementById('demoActions').style.display = isOverview ? 'none' : (hasDash ? '' : 'none');
 
   renderBranchHeader(branch, isOverview);
+  var hbEl = document.getElementById('demoHandbook');
+  if(hbEl){
+    hbEl.innerHTML = (!isOverview && branch && HANDBOOKS[branch.id]) ? handbookEmbedHTML(branch.id) : '';
+    wireHandbookEmbed(hbEl);
+  }
   renderDemoNav(optionKey);
   document.getElementById('demoOptionPanel').innerHTML = isOverview ? '' : optionPanelHTML(optionKey, branch);
   wireOptionPanel();
@@ -9932,6 +9941,27 @@ function openHandbook(role){
   renderHandbookPage(role);
   switchView('detail');
 }
+function handbookGridHTML(role){
+  var h = HANDBOOKS[role]; if(!h) return '';
+  return '<div class="hb-grid">' + h.sections.map(function(sec){
+    return '<div class="light-card hb-card"><h4>' + sec.h + '</h4><ul>' + sec.items.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul></div>';
+  }).join('') + '</div>';
+}
+// The same handbook, embedded at the foot of a role's own pages.
+function handbookEmbedHTML(role){
+  var h = HANDBOOKS[role]; if(!h) return '';
+  return '<div class="hb-embed" id="hbEmbed">' +
+    '<h3 class="dash-section-title" style="margin-top:34px;">The ' + h.short.toLowerCase() + ' handbook</h3>' +
+    '<p style="font-size:13px;color:var(--text-dim);margin:0 0 4px;max-width:70ch;"><b>' + h.line + '</b></p>' +
+    handbookGridHTML(role) +
+    '<div class="group-links"><button class="role-jump" type="button" data-hb-open="' + role + '">Open the full handbook <span aria-hidden="true">&rarr;</span></button>' +
+    (role === 'verifiers' ? '<button class="role-jump" type="button" data-course="l1">L1 Verifier Course <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-course="l2">L2 Verifier Course <span aria-hidden="true">&rarr;</span></button>' : '') +
+    '</div></div>';
+}
+function wireHandbookEmbed(scope){
+  (scope || document).querySelectorAll('[data-hb-open]').forEach(function(b){ b.addEventListener('click', function(){ openHandbook(b.dataset.hbOpen); }); });
+  (scope || document).querySelectorAll('.hb-embed [data-course]').forEach(function(b){ b.addEventListener('click', function(){ openCourse(b.dataset.course); }); });
+}
 function renderHandbookPage(role){
   document.getElementById('mobilePledgeBar')?.classList.remove('show');
   var h = HANDBOOKS[role]; if(!h) return;
@@ -9942,9 +9972,7 @@ function renderHandbookPage(role){
     '<h1 class="detail-title">' + h.title + '</h1>' +
     '<div class="detail-desc" style="max-width:680px;"><b>' + h.line + '</b></div>' +
     '<div class="tier-switch">' + Object.keys(HANDBOOKS).map(function(k){ return '<button type="button" class="tier-switch-btn" data-handbook="' + k + '" aria-pressed="' + (k === role) + '">' + HANDBOOKS[k].short + '</button>'; }).join('') + '</div>' +
-    '<div class="hb-grid">' + h.sections.map(function(sec){
-      return '<div class="light-card hb-card"><h4>' + sec.h + '</h4><ul>' + sec.items.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul></div>';
-    }).join('') + '</div>' +
+    handbookGridHTML(role) +
     '<p class="hb-note">Every line above is checked against what the site does: the order of events, the attribute tables, the standing rules and the failure-stage table. If the site changes, the handbook changes with it.</p>' +
     (role === 'verifiers' ? '<div class="group-links"><button class="role-jump" type="button" data-course="l1">L1 Verifier Course <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-course="l2">L2 Verifier Course <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-hb-nav="register">See every verifier&rsquo;s record <span aria-hidden="true">&rarr;</span></button></div>'
                           : '<div class="group-links"><button class="role-jump" type="button" data-hb-nav="join">Join as ' + h.short.toLowerCase() + ' <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-hb-nav="when">When you step in, and why it matters <span aria-hidden="true">&rarr;</span></button></div>');
