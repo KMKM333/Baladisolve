@@ -336,6 +336,12 @@
   .pc-body{ padding:17px 19px; }
   .pc-status{ display:inline-block; font-size:9.5px; font-weight:700; text-transform:uppercase; letter-spacing:.03em;
     padding:3px 9px; border-radius:10px; margin-bottom:10px; }
+  .stage-pill{ display:inline-flex; align-items:center; gap:8px; font-size:10.5px; font-weight:700; color:var(--text-dim); margin-top:6px; white-space:nowrap; }
+  .stage-track{ display:inline-flex; gap:2px; }
+  .stage-track i{ display:block; width:11px; height:4px; border-radius:2px; background:var(--bg-2); }
+  .stage-track i.on{ background:var(--accent); }
+  .stage-pill.done .stage-track i.on{ background:var(--ok); }
+  .detail-tags .stage-pill{ margin-top:0; }
   .st-proposed{ background:var(--bg-2); color:var(--text-faint); }
   .st-funding{ background:var(--accent-soft); color:var(--accent); }
   .st-progress{ background:var(--warn-soft); color:var(--warn); }
@@ -6409,6 +6415,7 @@ function cardHTML(p, hideMoney){
     ${photoHTML}
     <div class="pc-body">
       <span class="pc-status ${statusClass[p.status]}">${statusLabel[p.status]}</span>${srcHTML}
+      ${stagePillHTML(p)}
       <h4>${p.title}</h4>
       <div class="pc-loc"${flatLoc ? ' style="margin-bottom:0;"' : ''}>${p.locality} · ${govName(p.gov)}</div>
       ${confirmHTML}
@@ -7305,6 +7312,7 @@ function renderDetail(){
     <div class="detail-tags">
       <span class="tag-pill ${p.urgency==='Critical'?'st-progress':p.urgency==='High'?'st-funding':'st-complete'}" style="background:${p.urgency==='Critical'?'var(--danger-soft)':p.urgency==='High'?'var(--warn-soft)':'var(--ok-soft)'};color:${p.urgency==='Critical'?'var(--danger)':p.urgency==='High'?'var(--warn)':'var(--ok)'};">${p.urgency}</span>
       <span class="tag-pill" style="background:${p.certStatus==='certified'?'var(--ok-soft)':'var(--bg-2)'};color:${p.certStatus==='certified'?'var(--ok)':'var(--text-faint)'};">${p.certStatus==='certified' ? '✓ certified — '+p.certifyingBody : 'pending certification'}</span>
+      ${stagePillHTML(p)}
     </div>
     ${originLine}
     <div class="detail-cols">
@@ -9746,6 +9754,21 @@ function verifierFor(p){
     });
   });
 })();
+
+// ---------- Stage: where a request sits in the six-step pipeline ----------
+// Derived from status and certification rather than stored, so it cannot
+// disagree with the badge next to it. Plain functions, no const, so the
+// cards can render at parse time whatever sits above or below.
+function stageNames(){ return ['Reported','Certified','Signed off & bids','Funding','In progress','Complete']; }
+function stageOf(p){
+  var i = p.status === 'complete' ? 6 : p.status === 'progress' ? 5 : p.status === 'funding' ? 4 : (p.certStatus === 'certified' ? 2 : 1);
+  return {i:i, label:stageNames()[i - 1]};
+}
+function stagePillHTML(p){
+  var st = stageOf(p), seg = '';
+  for(var k = 1; k <= 6; k++) seg += '<i class="' + (k <= st.i ? 'on' : '') + '"></i>';
+  return '<span class="stage-pill' + (st.i === 6 ? ' done' : '') + '" title="' + stageNames().join(' → ') + '"><span class="stage-track" aria-hidden="true">' + seg + '</span>Stage ' + st.i + ' of 6 · ' + st.label + '</span>';
+}
 
 // ---------- Training courses: one per line, run with project stakeholders ----------
 // The way back from a drop, and the way in for a new accreditation. Every
