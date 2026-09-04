@@ -2224,6 +2224,7 @@
       <div class="section-head"><h2>Find your way in</h2><p>Every option below is a different way to join the network — pick where you fit, then register in under a minute.</p></div>
 
       <div class="cta-panel">
+        <button class="btn btn-secondary" style="margin-bottom:18px;" onclick="openAccountDemo('overview')">See all dashboards &rarr;</button>
         <div class="cta-step-label"><span class="cta-step-num">1</span>Choose your category</div>
         <div class="join-cat-grid" id="joinCategoryNav">
           <div class="join-cat-card active" data-jcat="government"><div class="jc-icon">🏛️</div><div class="jc-title">Government</div><div class="jc-desc">Certifies compliance — ministries, governorates &amp; districts, municipalities.</div></div>
@@ -2247,8 +2248,7 @@
       </div>
     </div>
 
-    <div class="section" style="padding-top:0;">
-      <button class="btn btn-primary" style="margin-bottom:22px;" onclick="openAccountDemo('overview')">See the dashboard overview, all account types →</button>
+    <div class="section" id="joinUsSection" style="padding-top:0;display:none;">
       <div class="section-head" style="margin-top:34px;"><h2>Join us</h2><p>Four roles, four ways in. Pick the one you belong to and the account types underneath it open up.</p></div>
       <div class="role-btn-grid" id="audienceNav">
         <button class="role-btn" type="button" data-aud-role="government">
@@ -9086,7 +9086,8 @@ function openJoinAs(cat, sub){
   switchView('join');
   var card = document.querySelector('#joinCategoryNav .join-cat-card[data-jcat="' + cat + '"]');
   if(card) card.click();
-  openAudienceRole(cat, sub);
+  if(sub){ var chip = [].slice.call(document.querySelectorAll('#joinSubOptions .join-sub-chip')).find(function(c){ return c.dataset.sub === sub; }); if(chip) chip.click(); }
+  window.scrollTo(0, 0);
 }
 // The home form picks a role, takes the details, then hands both to Join rather
 // than making someone type them again. Selecting is the whole first step, so the
