@@ -1219,6 +1219,8 @@
   .tw-step:not(:last-child)::before{ content:''; position:absolute; left:10.5px; top:24px; bottom:-11px;
     width:1px; background:var(--border); }
   .rn-node-l2{ stroke-dasharray:4 3; }
+  .qa-example{ margin-top:14px; padding:10px 14px; border-inline-start:3px solid var(--accent); background:var(--bg-1); border-radius:0 8px 8px 0; }
+  .qa-example p{ font-size:12.5px; color:var(--text-dim); line-height:1.65; margin:4px 0 0; }
   .vr-rules{ border:1px solid var(--border); border-radius:12px; padding:14px 16px; margin:0 0 16px; font-size:12.5px; color:var(--text-dim); line-height:1.6; background:var(--bg-1); }
   .vr-rules ul{ margin:8px 0 0; padding-inline-start:18px; }
   .vr-rules li{ margin:4px 0; }
@@ -8262,7 +8264,8 @@ const QA_OPTIONS = {
     is: 'One page listing every accredited verifier side by side: how many milestones they passed, how many they rejected, how long they took, and how many of their decisions were later overturned. Sortable, public, no login.',
     catches: 'The verifier who never rejects anything. If everyone else turns down roughly one milestone in five and one person turns down none, that stands out the moment the numbers sit next to each other &mdash; and today nobody would ever notice.',
     costs: 'Almost nothing. No new checks, no new people, no extra work for anyone. It is a page, not a process.',
-    src: 'After a run of scandals, the largest carbon standard began publishing performance data on its auditors so that anyone choosing one could see their record first.'
+    src: 'After a run of scandals, the largest carbon standard began publishing performance data on its auditors so that anyone choosing one could see their record first.',
+    example: 'Koura&rsquo;s district engineer passed 14 Halba-type milestones and sent 3 back. The Batroun inspector passed 24 and sent back 1. Nobody is accused of anything, but the two numbers now sit side by side, and the one that never sends anything back is the one people ask about.'
   },
   b: {
     name: 'Re-check a sample of approvals',
@@ -8278,7 +8281,8 @@ const QA_OPTIONS = {
     is: 'Every request is signed off twice before it can take a pledge. The first-line verifier confirms scope, milestones and a cost bracket. A second-line verifier &mdash; appointed from the top of the register, not recruited &mdash; reviews that sign-off seeing the request and the reasoning but no names, and either confirms it or sends it back. The same pair approves any later change to cost or timeline. The second line&rsquo;s record is published under a stable pseudonym.',
     catches: 'A first-line verifier who waves a request through with milestones nobody could check, or a bracket set to suit a bidder. Because the second line never learns who the first was, and neither can contact the other, there is nothing to be friendly with. How often the two disagree is published as the agreement rate.',
     costs: 'A fixed fee per request, included in the published cost so it can never be inflated with the project. Reviewing a sign-off is desk work measured in days, not a site visit &mdash; which is why it runs on every request rather than a sample.',
-    src: 'Breast cancer screening: two radiologists read every scan independently and the disagreement rate is treated as a core quality measure of the readers. Blind peer review adds the other half &mdash; the reviewer who cannot see a name has nothing to favour.'
+    src: 'Breast cancer screening: two radiologists read every scan independently and the disagreement rate is treated as a core quality measure of the readers. Blind peer review adds the other half &mdash; the reviewer who cannot see a name has nothing to favour.',
+    example: 'Before Halba could take a single pledge, Koura&rsquo;s engineer signed off two milestones, the evidence each needs, and a bracket of $12,300 to $16,000. L2-0922 read that sign-off without knowing whose it was and confirmed it. When pipe prices rose 9%, both had to approve the change. Two people who cannot meet agreed before money was planned, and again before it was replanned.'
   },
   d: {
     name: 'Say what happens when one gets it wrong',
@@ -8286,7 +8290,8 @@ const QA_OPTIONS = {
     is: 'Written, published rules computed from the record rather than decided case by case. Five percent of decisions overturned, or a median over 21 days, puts a verifier on watch: every decision re-checked for the next ten. Ten percent overturned drops them a tier &mdash; no assignments &mdash; and the way back is a training course run with project stakeholders, then five decisions on watch. A second-line verifier whose agreement falls below 70% drops back to the first line. Rejection rate is never a trigger.',
     catches: 'Nothing directly &mdash; but it answers the first question a serious donor or a regulator asks, which is what happens to a verifier who gets it wrong. Right now the honest answer is: nothing.',
     costs: 'Policy to write, almost no code. Every verifier already carries a standing, a licence and an expiry date; this decides what moves them between states.',
-    src: 'Audit regulators give a firm twelve months to fix a finding before it is published, and require lead auditors to rotate off a client after five years and stay off for five. Grant verifiers at the Global Fund are contracted two years at a time, renewable only on performance. Ride-hailing apps do the same with ratings: fall below a city&rsquo;s line and the driver loses access, reinstated only after a quality course.'
+    src: 'Audit regulators give a firm twelve months to fix a finding before it is published, and require lead auditors to rotate off a client after five years and stay off for five. Grant verifiers at the Global Fund are contracted two years at a time, renewable only on performance. Ride-hailing apps do the same with ratings: fall below a city&rsquo;s line and the driver loses access, reinstated only after a quality course.',
+    example: 'The Batroun inspector carries 3 overturned decisions out of 25 &mdash; 12%, above the 10% line. So the register marks them dropped, no request will be assigned to them, and the way back is the training course with a municipality, an expert organisation, a sponsor and a residents&rsquo; group in the room.'
   }
 };
 function renderQaDetail(key){
@@ -8302,6 +8307,7 @@ function renderQaDetail(key){
       '<div><span class="qa-dl">What it would cost</span><p>' + d.costs + '</p></div>' +
       '<div><span class="qa-dl">Where the idea comes from</span><p>' + d.src + '</p></div>' +
     '</div>' +
+    (d.example ? '<div class="qa-example"><span class="qa-dl">On Halba, for example</span><p>' + d.example + '</p></div>' : '') +
     (key === 'b'
       ? '<p class="qa-src"><b>This one is built on the demo.</b> One verified release in ten carries a second-line re-check on its custody trail, sampled by reference so nobody can steer which ones, and the second line reviews every closing report. A disagreement would be an overturned decision on the register.</p>'
       : key === 'd'
