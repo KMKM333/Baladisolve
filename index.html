@@ -93,9 +93,9 @@
      the content-sized columns return, because equal ones would push the
      buttons under the nav before the 900px layout takes over. */
   @media (min-width:1250px){ .topnav{ grid-template-columns:minmax(0,1fr) minmax(0,auto) minmax(0,1fr); } }
-  /* Between 1250 and 1400 the sides are tight: a closer nav and no ⌘K hint
-     keep the buttons clear of the nav. */
-  @media (min-width:1250px) and (max-width:1399px){ .topnav nav{ gap:18px; } .topnav .cmd-kbd{ display:none; } }
+  /* Between 1250 and 1400 the sides are tight: a closer nav and an icon-only
+     search button keep the buttons clear of the nav. */
+  @media (min-width:1250px) and (max-width:1399px){ .topnav nav{ gap:16px; } .topnav .cmd-palette-btn span{ display:none; } .topnav .cmd-palette-btn{ min-width:0; padding:0 10px; } }
   .topnav-right{ grid-area:tools; justify-self:end; }
   .topnav .logo{ display:flex; align-items:center; gap:9px; font-weight:800; font-size:17px; cursor:pointer; flex-shrink:0; }
   .topnav .logo .mark{ width:28px; height:28px; border-radius:8px; background:var(--accent); color:var(--on-accent);
