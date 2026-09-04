@@ -2782,6 +2782,10 @@
       <h2 style="font-size:24px;margin:0 0 4px;" id="demoTitle">—</h2>
       <p style="font-size:13px;color:var(--text-dim);margin:0 0 20px;" id="demoSubtitle">—</p>
       <div class="dash-stats" id="demoStats"></div>
+      <div id="demoOverviewRoles" style="display:none;margin-bottom:28px;">
+        <h3 class="dash-section-title">Pick your account type</h3>
+        <div class="role-btn-grid" id="demoOverviewRoleGrid"></div>
+      </div>
       <div id="demoOverviewCTA" style="display:none;border:1px solid var(--border);border-radius:10px;padding:20px 22px;margin-bottom:28px;">
         <p style="font-size:13px;color:var(--text-dim);line-height:1.65;margin:0 0 16px;max-width:640px;">Every account type above works off the same public ledger — the same requests, the same escrow, the same verification. Pick the one that's you and register in under a minute; nothing to install, nothing to procure.</p>
         <button class="btn btn-primary" data-goto="join">Go to registration forms →</button>
@@ -8773,7 +8777,7 @@ function renderAccountDemo(optionKey){
     d.stats[0] = { num:String(waiting), lbl: waiting === 1 ? 'Awaiting your decision' : 'Awaiting your decision' };
   }
 
-  ['demoOverviewCTA'].forEach(function(id){
+  ['demoOverviewRoles','demoOverviewCTA'].forEach(function(id){
     document.getElementById(id).style.display = isOverview ? 'block' : 'none';
   });
   var hasDash = !!d;
@@ -8794,6 +8798,20 @@ function renderAccountDemo(optionKey){
     var totalRaised = PROJECTS.reduce(function(a,p){ return a + p.raised; }, 0);
     var govCount = new Set(PROJECTS.map(function(p){ return p.gov; })).size;
     document.getElementById('demoTitle').textContent = 'All account types, one ledger';
+    // Four big sections, one per account type, each opening that branch —
+    // the same cards the home page uses, so the two read as one system.
+    var grid = document.getElementById('demoOverviewRoleGrid');
+    var goText = { government:'3 kinds of government body', experts:'8 expert fields', sponsors:'5 kinds of sponsor', verifiers:'5 first-line types, plus an appointed second line' };
+    grid.innerHTML = GROUP_ORDER.map(function(id){
+      var g = GROUP_META[id];
+      var first = String(g.overview).split('. ')[0] + '.';
+      return '<button class="role-btn" type="button" data-demo-role="' + id + '">' +
+        '<span class="role-btn-role">' + g.role + '</span>' +
+        '<span class="role-btn-name">For ' + (id === 'government' ? 'government' : id) + '</span>' +
+        '<span class="role-btn-sub">' + first + '</span>' +
+        '<span class="role-btn-go">' + goText[id] + ' &rarr;</span></button>';
+    }).join('');
+    grid.querySelectorAll('[data-demo-role]').forEach(function(b){ b.addEventListener('click', function(){ openDemoBranch(b.dataset.demoRole); }); });
     document.getElementById('demoSubtitle').textContent = 'An aggregate view across every account type on Manara — sample dashboard, real platform figures.';
     document.getElementById('demoStats').innerHTML = [
       {num:String(PROJECTS.length), lbl:'Open & delivered requests'},
