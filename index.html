@@ -1219,6 +1219,14 @@
   .tw-step:not(:last-child)::before{ content:''; position:absolute; left:10.5px; top:24px; bottom:-11px;
     width:1px; background:var(--border); }
   .rn-node-l2{ stroke-dasharray:4 3; }
+  .vr-rules{ border:1px solid var(--border); border-radius:12px; padding:14px 16px; margin:0 0 16px; font-size:12.5px; color:var(--text-dim); line-height:1.6; background:var(--bg-1); }
+  .vr-rules ul{ margin:8px 0 0; padding-inline-start:18px; }
+  .vr-rules li{ margin:4px 0; }
+  .vr-rules-note{ display:block; margin-top:10px; font-size:11.5px; color:var(--text-faint); }
+  .vr-tag.st-active{ border-color:var(--ok); color:var(--ok); background:var(--ok-soft); }
+  .vr-tag.st-watch{ border-color:var(--warn); color:var(--warn); background:var(--warn-soft); }
+  .vr-tag.st-retraining{ border-color:var(--danger); color:var(--danger); background:var(--danger-soft); }
+  .vr-tag.st-lapsed{ border-color:var(--border); color:var(--text-faint); background:var(--bg-2); }
   .vr-link{ all:unset; cursor:pointer; color:var(--accent); font-weight:700; }
   .tier-role{ font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--accent); }
   .tier-go{ display:block; margin-top:10px; font-size:12px; font-weight:700; color:var(--accent); }
@@ -2102,7 +2110,7 @@
         <div class="qa-open-tag">Open question &mdash; partly closed</div>
         <h3>But who checks the verifier?</h3>
         <p>Everything above rests on one role. The verifier is the reason a certification can be believed, a sponsor&rsquo;s money is safe, and a finished wall is really finished. So it is fair to ask the obvious next question: <b>if the verifier checks everyone else, who checks them?</b></p>
-        <p>Now: <b>a second-line verifier.</b> Every first-line sign-off &mdash; the decision that lets a request open for pledges &mdash; is reviewed by a second, more senior verifier who sees the decision and the reasoning but no names. Every later change to cost or timeline goes through the same pair. Their record sits on the register under a pseudonym. Milestone releases are checked once by the first line, and <b>one in ten is re-checked</b> afterwards by the second line, which also reviews every closing report. What is still missing is written consequence: what happens to a verifier the sample catches.</p>
+        <p>Now: <b>a second-line verifier.</b> Every first-line sign-off &mdash; the decision that lets a request open for pledges &mdash; is reviewed by a second, more senior verifier who sees the decision and the reasoning but no names. Every later change to cost or timeline goes through the same pair. Their record sits on the register under a pseudonym. Milestone releases are checked once by the first line, and <b>one in ten is re-checked</b> afterwards by the second line, which also reviews every closing report. Consequences are written too: fall below a published line and you drop a tier, and the way back is a training course. What is not built yet is the course itself, and a handbook for each account type.</p>
       </div>
 
       <p style="font-size:13.5px;color:var(--text-dim);line-height:1.75;margin:26px 0 0;max-width:78ch;">This is not a hypothetical worry. The closest thing to Manāra that already exists at scale is the carbon credit market, where independent auditors sign off before money moves. It went wrong, and the numbers are public.</p>
@@ -2121,7 +2129,8 @@
         <div class="qa-cmp-row"><span>Who pays the verifier?</span><span>The party being checked</span><span class="qa-ok">Escrow, never the implementer</span></div>
         <div class="qa-cmp-row"><span>Who checks the verifier?</span><span>Nobody, until a whistleblower</span><span class="qa-ok">A second-line verifier, seeing no names</span></div>
         <div class="qa-cmp-row"><span>Who re-checks a release?</span><span>Nobody</span><span class="qa-ok">The second line, one release in ten, after the money moved</span></div>
-        <div class="qa-cmp-row gap"><span>What happens to a verifier who gets it wrong?</span><span>Nothing, usually</span><span>Not written down yet &mdash; this is the gap</span></div>
+        <div class="qa-cmp-row"><span>What happens to a verifier who gets it wrong?</span><span>Nothing, usually</span><span class="qa-ok">Dropped a tier at a published line; a course before re-entry</span></div>
+        <div class="qa-cmp-row gap"><span>Who runs the course?</span><span>&mdash;</span><span>Not built yet &mdash; course and handbooks to come</span></div>
       </div>
 
       <h3 style="font-size:19px;margin:34px 0 4px;">Four ways to close it</h3>
@@ -2150,7 +2159,7 @@
           <span class="qa-letter">D</span>
           <span class="qa-opt-name">Say what happens when one gets it wrong</span>
           <span class="qa-opt-one">Rotation limits, renewals, suspension, and where to complain.</span>
-          <span class="qa-opt-foot"><span class="qa-chip">Policy only</span><span class="qa-chip rec">Recommended</span></span>
+          <span class="qa-opt-foot"><span class="qa-chip">Policy only</span><span class="qa-chip built">Built</span></span>
         </button>
       </div>
       <div class="qa-detail" id="qaDetail"></div>
@@ -2387,6 +2396,7 @@
           <li>You are assigned at certification and sign off the request before it opens for pledges &mdash; so nobody being checked ever chose you, and no money is committed to a request you could not check.</li>
           <li>Your rejections are published next to your approvals. A reviewer who has never rejected anything is an unexamined one.</li>
           <li>Second-line verifiers are appointed from the register, not recruited &mdash; a current licence, thirty decisions, an overturn rate in the bottom half. They review your sign-offs without seeing your name, and you will not see theirs.</li>
+          <li>Fall below the published line &mdash; too many decisions overturned, or too slow &mdash; and you drop a tier. The way back is a training course with project stakeholders.</li>
         </ul>
         <button class="btn btn-secondary" style="margin-bottom:24px;" onclick="openAccountDemo('verifiers')">Preview the Verifier dashboard &rarr;</button>
         <h3 style="font-size:16px;">Join the movement</h3>
@@ -2687,6 +2697,7 @@
       </div>
       <div class="vr-strip" id="vrStrip"></div>
       <div class="vr-flag" id="vrFlag"></div>
+      <div class="vr-rules" id="vrRules"></div>
       <div class="vr-scroll"><table class="vr" id="vrTable"></table></div>
       <h3 style="font-size:17px;margin:34px 0 4px;">Second-line verifiers</h3>
       <p style="font-size:12.5px;color:var(--text-dim);line-height:1.65;margin:0 0 12px;max-width:78ch;">Appointed from the table above, not recruited: a current licence, at least thirty decisions, and an overturn rate in the bottom half. They review the first-line verifier&rsquo;s sign-off on every request before it opens for pledges, and every change to cost or timeline after &mdash; pseudonymously, seeing no names. The record is published under the pseudonym.</p>
@@ -2702,7 +2713,7 @@
         <div><b>Variances</b>Changes to a published cost or timeline this verifier approved. Many for one implementer is the thing to ask about.</div>
         <div><b>Agreement rate</b>Share of first-line sign-offs a second-line verifier confirmed rather than sent back. Same caveat as rejection rate: only a number far from the others means anything.</div>
       </div>
-      <p class="vr-note"><b>What this page does not do.</b> It publishes the record. The second-line table is where sign-offs and variances get a second opinion. Releases get one check, and one in ten gets a second afterwards. An outlier in the first table has no consequence attached to it yet &mdash; which is the remaining gap described on the <button style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;" data-goto="trust">Trust page</button>, and the reason this register is the first of four steps rather than the whole answer.</p>
+      <p class="vr-note"><b>What this page does not do.</b> It publishes the record. The second-line table is where sign-offs and variances get a second opinion. Releases get one check, and one in ten gets a second afterwards. An outlier in the first table now carries a consequence in the standing column, under the rules above. What is not built yet is the course itself, described on the <button style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;" data-goto="trust">Trust page</button>, and the reason this register is the first of four steps rather than the whole answer.</p>
     </div>
   </div>
 </section>
@@ -7785,7 +7796,7 @@ function getCategoryLeads(catId){
         v.record.overturned + ' decision' + (v.record.overturned === 1 ? '' : 's') + ' later overturned on appeal.',
         'Median ' + v.record.medianDays + ' days from evidence submitted to decision.'
       ],
-      additional: 'Standing: ' + v.standing + '. Refusals are published alongside approvals, because a reviewer who has never rejected anything is an unexamined one.'
+      additional: 'Standing: ' + verifierStanding(v).label + '. Refusals are published alongside approvals, because a reviewer who has never rejected anything is an unexamined one.'
     }));
   }
   const ORG_CATS = ['electricity','waste','water','publicland','environment','roads','sewage','ngoinit'];
@@ -8272,10 +8283,10 @@ const QA_OPTIONS = {
   d: {
     name: 'Say what happens when one gets it wrong',
     lead: 'On its own this catches nothing. It is what gives the other three consequences &mdash; without it, being caught means nothing happens.',
-    is: 'Written, published rules: how many times running a verifier may be assigned to the same implementing partner before rotating off, how often accreditation must be renewed, how long a verifier has to fix a problem before it becomes public, and who can suspend them. Complaints route to the oversight board, never back to the verifier being complained about.',
+    is: 'Written, published rules computed from the record rather than decided case by case. Five percent of decisions overturned, or a median over 21 days, puts a verifier on watch: every decision re-checked for the next ten. Ten percent overturned drops them a tier &mdash; no assignments &mdash; and the way back is a training course run with project stakeholders, then five decisions on watch. A second-line verifier whose agreement falls below 70% drops back to the first line. Rejection rate is never a trigger.',
     catches: 'Nothing directly &mdash; but it answers the first question a serious donor or a regulator asks, which is what happens to a verifier who gets it wrong. Right now the honest answer is: nothing.',
     costs: 'Policy to write, almost no code. Every verifier already carries a standing, a licence and an expiry date; this decides what moves them between states.',
-    src: 'Audit regulators give a firm twelve months to fix a finding before it is published, and require lead auditors to rotate off a client after five years and stay off for five. Grant verifiers at the Global Fund are contracted two years at a time, renewable only on performance.'
+    src: 'Audit regulators give a firm twelve months to fix a finding before it is published, and require lead auditors to rotate off a client after five years and stay off for five. Grant verifiers at the Global Fund are contracted two years at a time, renewable only on performance. Ride-hailing apps do the same with ratings: fall below a city&rsquo;s line and the driver loses access, reinstated only after a quality course.'
   }
 };
 function renderQaDetail(key){
@@ -8293,6 +8304,8 @@ function renderQaDetail(key){
     '</div>' +
     (key === 'b'
       ? '<p class="qa-src"><b>This one is built on the demo.</b> One verified release in ten carries a second-line re-check on its custody trail, sampled by reference so nobody can steer which ones, and the second line reviews every closing report. A disagreement would be an overturned decision on the register.</p>'
+      : key === 'd'
+      ? '<p class="qa-src"><b>This one is built.</b> <button type="button" class="qa-golink" data-goto="verifiers">See the rules and the standing column on the register &rarr;</button> &mdash; thresholds computed from the record, a standing for every verifier, and one record already dropped under them. The training course and the per-role handbooks are the part still to come.</p>'
       : key === 'c'
       ? '<p class="qa-src"><b>This one is built.</b> <button type="button" class="qa-golink" data-goto="verifiers">See the second-line table on the register &rarr;</button> &mdash; three second-line verifiers, pseudonymous, with their agreement rates. It checks sign-offs, variances and closing reports, and re-checks one release in ten, which is B.</p>'
       : key === 'a'
@@ -9573,7 +9586,7 @@ const STAKEHOLDER_CHAT = {
   14: [
     {author:'Beit Mery Municipality', role:'Government lead', text:'We are 40% funded. If we do not reach the threshold by 15 July the erosion work slips to autumn.', time:'21 Jun'},
     {author:'Mount Lebanon Heritage Circle — Mexico City', role:'Sponsor', text:'We can add 800 if the municipality matches it. Can the top-up be confirmed here?', time:'23 Jun'},
-    {author:'District engineer, Koura', role:'Verifier', text:'For the record: nothing is released until the threshold is met, whoever tops it up. The bracket stands.', time:'23 Jun'}
+    {author:'Inspection desk, Order of Engineers & Architects (Beirut)', role:'Verifier', text:'For the record: nothing is released until the threshold is met, whoever tops it up. The bracket stands.', time:'23 Jun'}
   ]
 };
 function verifierL2For(p){
@@ -9581,6 +9594,27 @@ function verifierL2For(p){
   return VERIFIERS_L2[(p.id * 7) % VERIFIERS_L2.length];
 }
 function l2AgreementRate(v){ return v.record.reviewed ? v.record.confirmed / v.record.reviewed : 0; }
+
+// ---------- Standing: the written consequences ----------
+// Thresholds are published and computed from the record, never decided case
+// by case. Rejection rate is deliberately not a trigger — a strict reviewer is
+// not a bad one. Overturns and slowness are. Modelled on how ride-hailing apps
+// treat ratings: fall below a published line, lose access, complete a course,
+// come back.
+const STANDING_RULES = { watchOverturn:0.05, dropOverturn:0.10, watchDays:21, l2DropAgreement:0.70, minDecisions:10 };
+function verifierStanding(v){
+  var r = v.record, n = r.verified + r.rejected, ov = n ? r.overturned / n : 0;
+  if(String(v.licenceExpiry) < new Date().toISOString().slice(0, 7)) return {tier:'lapsed', label:'Licence lapsed', reason:'Cannot be assigned until renewed.'};
+  if(n >= STANDING_RULES.minDecisions && ov >= STANDING_RULES.dropOverturn) return {tier:'retraining', label:'Dropped — retraining', reason:Math.round(ov * 100) + '% of decisions overturned, above the ' + (STANDING_RULES.dropOverturn * 100) + '% line. No assignments until the course is passed.'};
+  if(n >= STANDING_RULES.minDecisions && ov >= STANDING_RULES.watchOverturn) return {tier:'watch', label:'On watch', reason:Math.round(ov * 100) + '% overturned. Every decision re-checked for the next ten.'};
+  if(r.medianDays > STANDING_RULES.watchDays) return {tier:'watch', label:'On watch', reason:'Median ' + r.medianDays + ' days, above the ' + STANDING_RULES.watchDays + '-day line.'};
+  return {tier:'active', label:'Active', reason:''};
+}
+function l2Standing(v){
+  var a = l2AgreementRate(v);
+  if(v.record.reviewed >= STANDING_RULES.minDecisions && a < STANDING_RULES.l2DropAgreement) return {tier:'retraining', label:'Dropped to first line', reason:Math.round(a * 100) + '% agreement, below ' + (STANDING_RULES.l2DropAgreement * 100) + '%.'};
+  return {tier:'active', label:'Active', reason:''};
+}
 // Every certified request that reached pledges carries the two sign-offs that
 // let it open. They are synthesised from the assignment rather than stored, so
 // the trail can never name a different verifier from the card beside it.
@@ -9637,7 +9671,7 @@ function verifierIndependence(v, p){
 // after the work is finished is an examiner chosen by the party being examined.
 function verifierFor(p){
   var pool = VERIFIERS.filter(function(v){
-    return v.standing === 'active' &&
+    return ['active','watch'].indexOf(verifierStanding(v).tier) !== -1 &&
            v.govs.indexOf(p.gov) !== -1 &&
            verifierIndependence(v, p).pass;
   });
@@ -9711,14 +9745,20 @@ var VR_COLS = [
   {k:'overturned', label:'Overturned',     num:true},
   {k:'variances',  label:'Variances',      num:true},
   {k:'medianDays', label:'Median days',    num:true},
-  {k:'expiry',     label:'Licence',        num:false}
+  {k:'expiry',     label:'Licence',        num:false},
+  {k:'standing',   label:'Standing',       num:false}
 ];
 function vrValue(v, k){
   if(k === 'name')   return v.name.toLowerCase();
   if(k === 'rate')   return verifierRate(v);
   if(k === 'expiry') return v.licenceExpiry;
   if(k === 'variances') return variancesFor(v);
+  if(k === 'standing') return ['active','watch','retraining','lapsed'].indexOf(verifierStanding(v).tier);
   return v.record[k];
+}
+function standingCell(st){
+  return '<td><span class="vr-tag st-' + st.tier + '">' + st.label + '</span>' +
+    (st.reason ? '<span style="display:block;font-size:11px;color:var(--text-faint);margin-top:4px;max-width:200px;">' + st.reason + '</span>' : '') + '</td>';
 }
 function renderVerifierRegister(){
   var table = document.getElementById('vrTable');
@@ -9754,6 +9794,7 @@ function renderVerifierRegister(){
       '<td class="vr-num">' + v.record.medianDays + '</td>' +
       '<td>' + v.licence + '<span style="display:block;font-size:11px;color:var(--text-faint);margin-top:2px;">to ' +
         v.licenceExpiry + (vrExpiringSoon(v) ? '<span class="vr-tag exp">Lapsing soon</span>' : '') + '</span></td>' +
+      standingCell(verifierStanding(v)) +
       '</tr>';
   }).join('');
   table.innerHTML = '<thead><tr>' + head + '</tr></thead><tbody>' + body + '</tbody>';
@@ -9770,13 +9811,13 @@ function renderVerifierRegister(){
   var t2 = document.getElementById('vrTableL2');
   if(t2){
     var l2s = VERIFIERS_L2.slice().sort(function(a, b){ return l2AgreementRate(b) - l2AgreementRate(a); });
-    t2.innerHTML = '<thead><tr><th>Second-line verifier</th><th class="num">Reviews</th><th class="num">Confirmed</th><th class="num">Sent back</th><th class="num">Variances</th><th class="num">Agreement rate</th><th class="num">Median days</th><th>Licence</th></tr></thead><tbody>' +
+    t2.innerHTML = '<thead><tr><th>Second-line verifier</th><th class="num">Reviews</th><th class="num">Confirmed</th><th class="num">Sent back</th><th class="num">Variances</th><th class="num">Agreement rate</th><th class="num">Median days</th><th>Licence</th><th>Standing</th></tr></thead><tbody>' +
       l2s.map(function(v){
         return '<tr><td class="vr-who"><b>' + v.pseudonym + '</b><span>Pseudonymous · appointed from the register ' + v.appointed + '</span></td>' +
           '<td class="vr-num">' + v.record.reviewed + '</td><td class="vr-num">' + v.record.confirmed + '</td><td class="vr-num">' + v.record.sentBack + '</td>' +
           '<td class="vr-num">' + variancesFor(v) + '</td>' +
           '<td class="vr-num">' + pct(l2AgreementRate(v)) + '</td><td class="vr-num">' + v.record.medianDays + '</td>' +
-          '<td>Current<span style="display:block;font-size:11px;color:var(--text-faint);margin-top:2px;">to ' + v.licenceExpiry + '</span></td></tr>';
+          '<td>Current<span style="display:block;font-size:11px;color:var(--text-faint);margin-top:2px;">to ' + v.licenceExpiry + '</span></td>' + standingCell(l2Standing(v)) + '</tr>';
       }).join('') + '</tbody>';
   }
 
@@ -9808,7 +9849,19 @@ function renderVerifierRegister(){
     pct(1 - verifierRate(odd)) + ' of what they see, turns work around in a median of ' + odd.record.medianDays +
     ' days, and carries ' + odd.record.overturned + ' of the ' + overturned +
     ' overturned decisions on this page. None of that proves anything on its own &mdash; a fast, agreeable reviewer may simply be assigned easy work. ' +
-    'It is the kind of thing somebody should look at, and <b>today nobody does</b>.';
+    'The rules below do the looking: ' + (function(){
+      var st = verifierStanding(odd);
+      return st.tier === 'active' ? 'on the published thresholds this record still stands as <b>active</b>.'
+        : 'on the published thresholds this record is <b>' + st.label.toLowerCase() + '</b> &mdash; ' + st.reason;
+    })();
+  document.getElementById('vrRules').innerHTML =
+    '<span class="vr-flag-tag">The rules &mdash; what drops a verifier a tier</span>' +
+    '<ul>' +
+    '<li><b>On watch</b> &mdash; ' + (STANDING_RULES.watchOverturn * 100) + '% or more of decisions overturned, or a median over ' + STANDING_RULES.watchDays + ' days. Every decision is re-checked for the next ten.</li>' +
+    '<li><b>Dropped &mdash; retraining</b> &mdash; ' + (STANDING_RULES.dropOverturn * 100) + '% or more overturned. No assignments. The way back is a training course run with project stakeholders &mdash; a municipality, an expert organisation, a sponsor and a residents&rsquo; group &mdash; then five decisions on watch.</li>' +
+    '<li><b>Second line</b> &mdash; agreement below ' + (STANDING_RULES.l2DropAgreement * 100) + '% drops a second-line verifier back to the first line.</li>' +
+    '<li><b>Never a trigger:</b> rejection rate. A strict reviewer is not a bad one. Thresholds apply after ' + STANDING_RULES.minDecisions + ' decisions, and a lapsed licence stops assignments on its own.</li>' +
+    '</ul><span class="vr-rules-note">Modelled on how ride-hailing apps handle ratings: fall below a published line, lose access, complete a course, come back. The course itself and a handbook per account type are not built yet.</span>';
 }
 renderVerifierRegister();
 (function(){
