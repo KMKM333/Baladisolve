@@ -915,7 +915,9 @@
   .rw-steps{ display:grid; grid-template-columns:repeat(4,1fr); column-gap:26px; row-gap:30px; align-items:start; }
   .rw-steps.rw-3{ grid-template-columns:repeat(3,1fr); }
 .rw-steps.rw-5{ grid-template-columns:repeat(5,1fr); }
-.rw-steps.rw-6{ grid-template-columns:1fr; row-gap:0; max-width:820px; }
+.rw-steps.rw-6{ grid-template-columns:repeat(6,1fr); column-gap:18px; }
+.rw-steps.rw-6 .rw-title{ min-height:0; }
+.rw-steps.rw-6 .rw-body{ font-size:12px; }
   .rw-step{ position:relative; padding-top:38px; text-align:center; }
   .rw-step::before{ content:''; position:absolute; top:12px; left:50%; right:calc(-50% - 26px); height:2px; background:var(--border); }
   .rw-step:last-child::before{ display:none; }
@@ -930,7 +932,10 @@
   .rw-warn b{ color:var(--text); }
   /* Below this the four columns drop under ~30 characters a line. */
   @media (max-width:1180px){
-    .rw-steps, .rw-steps.rw-3,.rw-steps.rw-5,.rw-steps.rw-6{ grid-template-columns:1fr 1fr; }
+    .rw-steps, .rw-steps.rw-3,.rw-steps.rw-5{ grid-template-columns:1fr 1fr; }
+    .rw-steps.rw-6{ grid-template-columns:repeat(3,1fr); }
+    .rw-steps.rw-6 .rw-step:nth-child(2)::before{ display:block; }
+    .rw-steps.rw-6 .rw-step:nth-child(3)::before{ display:none; }
     .rw-step:nth-child(2)::before{ display:none; }
   }
   @media (max-width:620px){
@@ -938,16 +943,6 @@
     .rw-steps, .rw-steps.rw-3,.rw-steps.rw-5,.rw-steps.rw-6{ grid-template-columns:1fr; row-gap:24px; }
     .rw-step::before{ display:none; }
   }
-  /* The six-step strip reads as one vertical rail: number on the left, text to the right */
-  .rw-steps.rw-6{ grid-template-columns:1fr; row-gap:0; }
-  .rw-steps.rw-6 .rw-step{ display:grid; grid-template-columns:40px 1fr; column-gap:18px; padding:0 0 28px; text-align:start; align-items:start; }
-  .rw-steps.rw-6 .rw-step::before{ content:''; display:block; position:absolute; left:19px; top:44px; bottom:0; right:auto; width:2px; height:auto; background:var(--border); }
-  .rw-steps.rw-6 .rw-step:last-child{ padding-bottom:0; }
-  .rw-steps.rw-6 .rw-step:last-child::before{ display:none; }
-  .rw-steps.rw-6 .rw-n{ position:static; transform:none; grid-row:1 / span 3; width:40px; height:40px; font-size:14px; }
-  .rw-steps.rw-6 .rw-role{ grid-column:2; margin-top:2px; }
-  .rw-steps.rw-6 .rw-title{ grid-column:2; min-height:0; margin:2px 0 4px; font-size:15.5px; }
-  .rw-steps.rw-6 .rw-body{ grid-column:2; max-width:66ch; }
   /* ---------- Verifier register (Option A) ---------- */
   .vr-strip{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:20px; }
   .vr-stat{ border:1px solid var(--border); border-radius:12px; padding:16px 18px; background:var(--bg-1); }
@@ -1786,46 +1781,46 @@
       <div class="section-head"><h2>Who steps in, and when</h2><p>Every request below passes through the same four hands in the same order &mdash; and the order is the safeguard, not a formality.</p></div>
       <div class="rw">
         <div class="rw-head">When each role is brought in &mdash; and why the timing matters</div>
-        <p class="rw-lead">Three roles work directly on the project. The fourth works on the <b>process</b>, and is brought in before the first of them can start.</p>
+        <p class="rw-lead">It starts with residents. Three roles work on the project; the fourth works on the <b>process</b>, and is brought in before the first of them can start.</p>
         <div class="rw-steps rw-6">
           <div class="rw-step">
             <span class="rw-n">1</span>
             <span class="rw-role">Residents</span>
-            <span class="rw-title">Reported on Baladi Map, or filed here &mdash; then confirmed</span>
-            <p class="rw-body">A resident files the problem on Baladi Map, or a request is filed here directly; neighbours confirm it. Those confirmations are the affected group, which follows the request into its stakeholder chat and can say &ldquo;I&rsquo;ve been affected too&rdquo;.</p>
+            <span class="rw-title">Reported</span>
+            <p class="rw-body">On Baladi Map, or filed here. Neighbours confirm it.</p>
           </div>
           <div class="rw-step">
             <span class="rw-n">2</span>
             <span class="rw-role">Government</span>
-            <span class="rw-title">Certified before the request is public</span>
-            <p class="rw-body">Checked for jurisdiction, code and necessity before a request can open for pledges &mdash; so nobody is asked to fund what no authority has confirmed.</p>
+            <span class="rw-title">Certified</span>
+            <p class="rw-body">Real, lawful, in jurisdiction. Scope, never price.</p>
           </div>
           <div class="rw-step">
             <span class="rw-n">3</span>
             <span class="rw-role">Verifier</span>
-            <span class="rw-title">Signs off the request before it opens for pledges</span>
-            <p class="rw-body">Assigned at certification from the pool with no tie to this request. Confirms the milestones and evidence can be checked, and sets the cost bracket alone &mdash; government certifies scope, never price, so a municipality cannot inflate its own request. A second-line verifier reviews the bracket seeing no names. No sign-off, no pledges.</p>
+            <span class="rw-title">Signed off</span>
+            <p class="rw-body">Milestones, evidence, cost bracket. The second line reviews.</p>
           </div>
           <div class="rw-step">
             <span class="rw-n">4</span>
             <span class="rw-role">Experts</span>
-            <span class="rw-title">Bid inside the bracket</span>
-            <p class="rw-body">Attributes decide who may bid. Bids are ranked half on quality &mdash; the bidder&rsquo;s attribute score &mdash; and half on price, and government chooses from that ranking. The verifier approves the cost; the second line reviews it.</p>
+            <span class="rw-title">Bid</span>
+            <p class="rw-body">Ranked half on quality, half on price. Government picks.</p>
           </div>
           <div class="rw-step">
             <span class="rw-n">5</span>
             <span class="rw-role">Sponsors</span>
-            <span class="rw-title">Captured into escrow before work starts</span>
-            <p class="rw-body">Pledges are secured with an independent custodian before day one, so no implementer starts on a promise. Held, not spent.</p>
+            <span class="rw-title">Escrowed</span>
+            <p class="rw-body">Held by a custodian before work starts.</p>
           </div>
           <div class="rw-step">
             <span class="rw-n">6</span>
             <span class="rw-role">Verifier</span>
-            <span class="rw-title">Signs off every release</span>
-            <p class="rw-body">Already in place before day one, so the implementer knows who will check them and could not choose that person. No tranche moves without their sign-off, and any change to cost or timeline is approved by both verifiers against the published specs.</p>
+            <span class="rw-title">Released</span>
+            <p class="rw-body">Each milestone checked. Changes need both lines.</p>
           </div>
         </div>
-        <p class="rw-warn"><b>Change the order and each safeguard quietly stops working.</b> Certify after the pledges and funders are backing an unapproved request. Open bids before the bracket is set and the price is a negotiation rather than an estimate. Bring the verifier in after the money is committed and funders are backing a request nobody has confirmed can be checked; bring them in after the work is done and the party being checked is picking their own examiner. Each of these steps only does its job because of where it sits in the sequence &mdash; which is why the sequence is published rather than assumed.</p>
+        <p class="rw-warn"><b>Change the order and each safeguard stops working.</b> Certify after the pledges and funders back an unapproved request. Open bids before the bracket and the price is a negotiation. Bring the verifier in late and the party being checked picks its own examiner.</p>
       </div>
     </div>
 
