@@ -1094,10 +1094,14 @@
   .price-meta b{ display:block; font-size:15px; color:var(--text); font-family:'IBM Plex Mono',monospace; margin-bottom:2px; }
   .bids{ margin:0 0 14px; border:1px solid var(--border); border-radius:10px; padding:10px 12px; }
   .bids-h{ display:block; font-size:12px; margin-bottom:4px; }
-  .bid-row{ display:grid; grid-template-columns:1fr auto; gap:1px 12px; font-size:12.5px; padding:7px 0; border-top:1px solid var(--bg-2); color:var(--text-dim); }
-  .bid-row.win{ color:var(--text); font-weight:700; }
-  .bid-row span:nth-child(2){ font-family:'IBM Plex Mono',monospace; text-align:end; }
-  .bid-tag{ grid-column:1/-1; font-size:11px; font-weight:400; color:var(--text-faint); }
+  .bids-scroll{ overflow-x:auto; }
+  .bids-tbl{ width:100%; border-collapse:collapse; font-size:12.5px; margin-top:6px; min-width:480px; }
+  .bids-tbl th{ font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.03em; color:var(--text-faint); text-align:start; padding:4px 8px 6px 0; border-bottom:1px solid var(--border); }
+  .bids-tbl td{ padding:7px 8px 7px 0; border-top:1px solid var(--bg-2); color:var(--text-dim); vertical-align:top; }
+  .bids-tbl th:nth-child(n+3){ text-align:end; }
+  .bids-tbl td:nth-child(n+3){ text-align:end; font-family:'IBM Plex Mono',monospace; white-space:nowrap; }
+  .bids-tbl tr.win td{ color:var(--text); font-weight:700; }
+  .bid-tag{ display:block; font-size:11px; font-weight:400; color:var(--text-faint); margin-top:2px; }
   .bids-note{ display:block; font-size:11px; color:var(--text-faint); margin-top:8px; }
   .price-tbl{ width:100%; border-collapse:collapse; font-size:12.5px; }
   .price-tbl td{ padding:6px 0; border-bottom:1px solid var(--bg-2); color:var(--text-dim); }
@@ -1590,7 +1594,7 @@
 
   <div class="section reveal"><div class="wrap">
     <div class="section-head"><h2>How it works</h2><p>Nine steps from a filed request to money released &mdash; each one under the role that performs it.</p></div>
-    <div class="tw-lane"><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Certifies</span><span class="tw-name">Government</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">1</span><div><b>Request filed</b><span>A municipality, NGO or business submits scope, budget and timeline.</span></div></div><div class="tw-step"><span class="tw-dot">2</span><div><b>Certified</b><span>A government branch checks technical and regulatory compliance.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Solves</span><span class="tw-name">Experts</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">4</span><div><b>Eligible to bid</b><span>Attributes decide which organisations may bid on the request.</span></div></div><div class="tw-step"><span class="tw-dot">5</span><div><b>Bid inside the bracket</b><span>Price decides who wins; the verifier approves it and the second line reviews it.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Funds</span><span class="tw-name">Sponsors</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">6</span><div><b>Pledged</b><span>Sponsors commit funds, named or anonymous.</span></div></div><div class="tw-step"><span class="tw-dot">7</span><div><b>Escrow funded</b><span>Captured by an independent custodian. Held, not spent.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Checks</span><span class="tw-name">Verifier</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">3</span><div><b>Signs off the request</b><span>Scope with government, the cost bracket alone. A second-line verifier reviews it, seeing no names, before pledges open.</span></div></div><div class="tw-step"><span class="tw-dot">8</span><div><b>Verified</b><span>Each milestone&rsquo;s evidence checked before it counts.</span></div></div><div class="tw-step"><span class="tw-dot">9</span><div><b>Released &amp; tracked</b><span>Escrow releases the tranche. Every step stays on the ledger.</span></div></div></div></div></div>    <p class="tw-foot">Three roles work on the project; the fourth works on the process, and is brought in at certification &mdash; before any of them can start. <button type="button" class="tw-foot-link" data-goto="dashboard" data-scroll="roleWhen">Why the order matters &rarr;</button></p>
+    <div class="tw-lane"><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Certifies</span><span class="tw-name">Government</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">1</span><div><b>Request filed</b><span>A municipality, NGO or business submits scope, budget and timeline.</span></div></div><div class="tw-step"><span class="tw-dot">2</span><div><b>Certified</b><span>A government branch checks technical and regulatory compliance.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Solves</span><span class="tw-name">Experts</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">4</span><div><b>Eligible to bid</b><span>Attributes decide which organisations may bid on the request.</span></div></div><div class="tw-step"><span class="tw-dot">5</span><div><b>Bid inside the bracket</b><span>Ranked half on quality, half on price. Government chooses; the verifier approves the cost.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Funds</span><span class="tw-name">Sponsors</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">6</span><div><b>Pledged</b><span>Sponsors commit funds, named or anonymous.</span></div></div><div class="tw-step"><span class="tw-dot">7</span><div><b>Escrow funded</b><span>Captured by an independent custodian. Held, not spent.</span></div></div></div></div><div class="tw-arrow" aria-hidden="true">&rarr;</div><div class="tw-col"><div class="tw-col-head"><span class="tw-role">Checks</span><span class="tw-name">Verifier</span></div><div class="tw-steps"><div class="tw-step"><span class="tw-dot">3</span><div><b>Signs off the request</b><span>Scope with government, the cost bracket alone. A second-line verifier reviews it, seeing no names, before pledges open.</span></div></div><div class="tw-step"><span class="tw-dot">8</span><div><b>Verified</b><span>Each milestone&rsquo;s evidence checked before it counts.</span></div></div><div class="tw-step"><span class="tw-dot">9</span><div><b>Released &amp; tracked</b><span>Escrow releases the tranche. Every step stays on the ledger.</span></div></div></div></div></div>    <p class="tw-foot">Three roles work on the project; the fourth works on the process, and is brought in at certification &mdash; before any of them can start. <button type="button" class="tw-foot-link" data-goto="dashboard" data-scroll="roleWhen">Why the order matters &rarr;</button></p>
   </div></div>
 
   <div class="section reveal"><div class="wrap">
@@ -1663,7 +1667,7 @@
         <div class="light-card" data-cat="municipality"><b>Municipality</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Posts the request and delivers the work on the ground, once certified.</p></div>
       </div>
 
-      <div class="net-group"><div class="net-role">Solves</div><h3 data-group="experts" style="cursor:pointer;">Expert organisations</h3><p>Matched to a request by field — the specific technical knowledge a problem needs, distinct from who implements or who pays. Attributes decide who may bid on a request; price, inside the bracket the verifier set, decides who wins.</p><button class="role-jump" type="button" data-demo-jump="electricity">See the expert options <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button></div>
+      <div class="net-group"><div class="net-role">Solves</div><h3 data-group="experts" style="cursor:pointer;">Expert organisations</h3><p>Matched to a request by field — the specific technical knowledge a problem needs, distinct from who implements or who pays. Attributes decide who may bid on a request; bids inside the verifier's bracket are ranked half on quality, half on price, and government chooses from that ranking.</p><button class="role-jump" type="button" data-demo-jump="electricity">See the expert options <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button></div>
       <div class="field-grid" id="networkFieldGrid" style="margin-bottom:14px;"></div>
       <div style="font-size:12px;color:var(--text-faint);margin-bottom:34px;">Example on the ledger: <b style="color:var(--text-dim);">Cedar Engineers</b> — structural engineering — paired with Aley Union of Municipalities on the Wadi Faara retaining wall.</div>
 
@@ -1757,7 +1761,7 @@
             <span class="rw-n">4</span>
             <span class="rw-role">Experts</span>
             <span class="rw-title">Bid inside the bracket</span>
-            <p class="rw-body">Attributes decide who may bid; price decides who wins. The first-line verifier approves the winning bid and the second line reviews it. Government has no say on price.</p>
+            <p class="rw-body">Attributes decide who may bid. Bids are ranked half on quality &mdash; the bidder&rsquo;s attribute score &mdash; and half on price, and government chooses from that ranking. The verifier approves the cost; the second line reviews it.</p>
           </div>
           <div class="rw-step">
             <span class="rw-n">5</span>
@@ -2082,7 +2086,7 @@
         <div class="stage-row stage-head"><span>Stage</span><span>Where the money is</span><span>Can exit to</span></div>
         <div class="stage-row"><span>Submitted</span><span>Nothing pledged</span><span>Certified &amp; verifier assigned, or <b>refused</b></span></div>
         <div class="stage-row"><span>Certified</span><span>First- then second-line verifier review the request</span><span>Signed off twice &rarr; bids open, or <b>sent back</b></span></div>
-        <div class="stage-row"><span>Bids open</span><span>Nothing pledged; bracket published</span><span>Winner approved by the verifier, reviewed by the second line &rarr; open for pledges, or <b>no eligible bid &rarr; re-scoped</b></span></div>
+        <div class="stage-row"><span>Bids open</span><span>Nothing pledged; bracket published</span><span>Government picks from the 50/50 ranking, verifier approves the cost &rarr; open for pledges, or <b>no eligible bid &rarr; re-scoped</b></span></div>
         <div class="stage-row"><span>Open for pledges</span><span>Pledged, not captured</span><span>Threshold met, or <b>lapsed &rarr; refunded in full</b></span></div>
         <div class="stage-row"><span>Escrow funded</span><span>Held by the custodian, not releasable</span><span>Work starts &mdash; the verifier gates the first release, not the deposit</span></div>
         <div class="stage-row"><span>In progress</span><span>Held, released per verified milestone</span><span>Next milestone, or <b>stalled &rarr; balance returned</b></span></div>
@@ -7485,10 +7489,10 @@ const GROUP_META = {
   },
   experts: {
     name:'Expert organisations', role:'Solves',
-    overview:"A certified request needs someone who actually knows how to fix it. Expert organisations are matched to a request by field — the specific technical knowledge a problem calls for — which is a distinct role from who implements the work or who pays for it, even though the same organisation sometimes ends up doing more than one of those jobs. Attributes decide who is eligible to bid; the bid, inside the cost bracket the verifier set, decides who wins; the first-line verifier approves the winner and the second line reviews it. Government certifies scope, never price.",
+    overview:"A certified request needs someone who actually knows how to fix it. Expert organisations are matched to a request by field — the specific technical knowledge a problem calls for — which is a distinct role from who implements the work or who pays for it, even though the same organisation sometimes ends up doing more than one of those jobs. Attributes decide who is eligible to bid; bids inside the verifier's bracket are ranked half on quality, half on price; government chooses from that ranking; the verifier approves the cost and the second line reviews it.",
     subsections: ['electricity','waste','water','publicland','environment','roads','sewage','ngoinit'],
     matchingSystem: {
-      intro: "Proposed framework, not a live algorithm yet — this is the scoring model that would decide which experts are eligible to bid on a request once enough leads carry the underlying data. Attributes gate who may bid; price decides who wins. Each attribute scores 1–5; a composite match score is a weighted sum, not a simple average, since some attributes (Verification Confidence, Independence) should gate a match rather than just nudge it.",
+      intro: "Proposed framework, not a live algorithm yet — this is the scoring model that would decide which experts are eligible to bid on a request once enough leads carry the underlying data. Attributes gate who may bid and make up half of each bid's ranking; price is the other half. Each attribute scores 1–5; a composite match score is a weighted sum, not a simple average, since some attributes (Verification Confidence, Independence) should gate a match rather than just nudge it.",
       attributes: [
         {name:'Proximity & Coverage', low:'No real presence here', high:'Exact locality match'},
         {name:'Field Specificity', low:'Unrelated to their expertise', high:'This is their primary field'},
@@ -9893,20 +9897,32 @@ function priceCardHTML(p){
   var works = g - feeV - feeL2 - custodian - contingency;
   var expert = Math.round(works * 0.4), solution = works - expert;
   var row = function(k, v, cls){ return '<tr' + (cls ? ' class="' + cls + '"' : '') + '><td>' + k + '</td><td>' + money(v) + '</td></tr>'; };
+  // Bids are ranked half on quality (the bidder's attribute score) and half
+  // on price (cheapest scores 5, the rest in proportion). Government chooses
+  // from the ranking; the verifier approves the cost.
   var winner = p.expertPartner ? p.expertPartner.name : p.org;
-  var bidRows = '';
+  var q0 = 4.2 + ((p.id * 7) % 5) / 10;
+  var bidList = [];
   for(var k = 0; k < bids; k++){
     var amt = k === 0 ? g : Math.min(hi, Math.round(g * (1.03 + 0.045 * k) / 50) * 50);
-    bidRows += '<div class="bid-row' + (k === 0 ? ' win' : '') + '"><span>' + (k === 0 ? winner : 'Bidder ' + (k + 1) + ' &middot; name withheld') + '</span><span>' + money(amt) + '</span>' +
-      '<span class="bid-tag">' + (k === 0 ? 'Approved by the verifier &middot; reviewed by the second line' : 'Not selected') + '</span></div>';
+    var q = k === 0 ? q0 : Math.max(3.2, q0 - 0.3 - 0.25 * k - ((p.id + k) % 3) / 10);
+    var ps = 5 * g / amt;
+    bidList.push({name: k === 0 ? winner : 'Bidder ' + (k + 1) + ' &middot; name withheld', amt:amt, q:q, ps:ps, total:(q + ps) / 2, win:k === 0});
   }
+  bidList.sort(function(a, b){ return b.total - a.total; });
+  var bidRows = bidList.map(function(b, i){
+    return '<tr' + (b.win ? ' class="win"' : '') + '><td>' + (i + 1) + '</td><td>' + b.name +
+      (b.win ? '<span class="bid-tag">Chosen by government &middot; top of the ranking &middot; cost approved by the verifier, reviewed by the second line</span>' : '') +
+      '</td><td>' + money(b.amt) + '</td><td>' + b.q.toFixed(1) + '</td><td>' + b.ps.toFixed(1) + '</td><td>' + b.total.toFixed(2) + '</td></tr>';
+  }).join('');
   return head +
     '<p style="font-size:11.5px;color:var(--text-faint);margin:0 0 10px;">Sample figures on a demo request. The mechanism is the point: the bracket is set before anyone bids, and the verifier fees are fixed.</p>' +
     '<div class="price-meta"><div><b>' + money(lo) + ' &ndash; ' + money(hi) + '</b>Bracket set by the verifier at sign-off</div>' +
     '<div><b>' + bids + '</b>Eligible bids inside the bracket</div>' +
-    '<div><b>' + money(g) + '</b>Winning bid, approved by the verifier and reviewed by the second line</div></div>' +
-    '<div class="bids"><b class="bids-h">' + bids + ' bids inside the bracket</b>' + bidRows +
-    '<span class="bids-note">Losing bidders stay unnamed. The winner is named only once the verifier has approved the bid.</span></div>' +
+    '<div><b>' + money(g) + '</b>Winning bid &mdash; chosen by government from the ranking; cost approved by the verifier</div></div>' +
+    '<div class="bids"><b class="bids-h">' + bids + ' bids inside the bracket, ranked half on quality and half on price</b>' +
+    '<div class="bids-scroll"><table class="bids-tbl"><thead><tr><th>#</th><th>Bidder</th><th>Price</th><th>Quality /5</th><th>Price /5</th><th>Score</th></tr></thead><tbody>' + bidRows + '</tbody></table></div>' +
+    '<span class="bids-note">Quality is the bidder&rsquo;s attribute score. Price scores the cheapest bid 5 and the others in proportion. Government chooses from this ranking; picking below the top needs a written reason. Losing bidders stay unnamed.</span></div>' +
     '<table class="price-tbl"><tbody>' +
     row('Expert &mdash; labour, design and supervision', expert) +
     row('Solution &mdash; materials and works', solution) +
@@ -9916,7 +9932,7 @@ function priceCardHTML(p){
     row('Contingency (6%), released only against an approved variance', contingency) +
     row('Published cost', g, 'total') +
     '</tbody></table>' +
-    '<p style="font-size:12px;color:var(--text-dim);line-height:1.6;margin:10px 0 0;">Attributes decide who may bid; price decides who wins. Government certifies scope and never touches the price, so a municipality cannot inflate its own request. Three sources can meet the published cost: sponsors, a government top-up, and any discount the winning bidder offered &mdash; shown in the bid, never counted as a pledge. If things cost more or take longer, the change is approved by both verifiers against these figures and appears on the custody trail as a variance.</p></div>';
+    '<p style="font-size:12px;color:var(--text-dim);line-height:1.6;margin:10px 0 0;">Attributes decide who may bid. Government chooses the expert from the 50/50 ranking, but never sets the bracket or approves the cost, so a municipality cannot inflate its own request. Three sources can meet the published cost: sponsors, a government top-up, and any discount the winning bidder offered &mdash; shown in the bid, never counted as a pledge. If things cost more or take longer, the change is approved by both verifiers against these figures and appears on the custody trail as a variance.</p></div>';
 }
 
 // Every request says what becomes of the money if it does not finish. Without
