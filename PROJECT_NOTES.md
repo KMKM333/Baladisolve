@@ -230,9 +230,16 @@ as built: A (register), B (one release in ten re-checked by the second line,
 column on both register tables; the assignment pool excludes anyone
 dropped). Rejection rate is never a trigger.
 
-**Not built yet, user wants a reminder:** the training course a dropped
-verifier takes with project stakeholders before re-entry, and a model
-handbook for each account type.
+Handbooks (`HANDBOOKS`, one per role, `#/handbook/<role>`) and the two
+training courses (`COURSES`, `#/course/l1` and `#/course/l2`) are built and
+linked from the group pages, Join panes, account demo, tier pages, register
+and Trust. Both consts sit above the register block because the Join-pane
+wiring reads them at parse time. Every request carries a six-stage pill
+(`stageOf`).
+
+**Baladi Map partnership:** agreed (September 2026). The two stay separate,
+complementary brands; integrating together at launch is under discussion.
+Photo reuse is covered by the agreement.
 
 Project pages carry two chats: public (`p.comments`) and stakeholder
 (`p.stakeholderChat`, seeded from `STAKEHOLDER_CHAT` for ids 10, 13, 14).
