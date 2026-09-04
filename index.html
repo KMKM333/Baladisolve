@@ -290,16 +290,18 @@
   .network-motto{ font-size:20px; font-weight:800; text-align:center; padding:26px 20px; margin-top:28px; border-top:2px solid var(--text); letter-spacing:-0.01em; }
 
   /* ---------- Project cards ---------- */
-  .filters-bar{ display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:26px; }
-  .filters-search{ flex:2 1 0; min-width:180px; display:flex; align-items:center; gap:10px; border:1px solid var(--border); border-radius:10px; padding:8px 12px; background:var(--surface); cursor:text; }
+  .filters-bar{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin:18px 0 26px; }
+  .filters-meta{ display:flex; align-items:center; gap:14px; flex-shrink:0; }
+  .filters-meta .count{ font-size:12.5px; color:var(--text-faint); }
+  .filters-search{ grid-column:span 2; min-width:0; display:flex; align-items:center; gap:10px; border:1px solid var(--border); border-radius:10px; padding:8px 12px; background:var(--surface); cursor:text; }
   .filters-search input{ flex:1; min-width:0; border:0; outline:0; font:inherit; font-size:14px; background:transparent; color:var(--text); }
   .filters-search input::-webkit-search-cancel-button{ display:none; }
   .filters-search:focus-within{ border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-soft); }
   .filters-search button{ all:unset; cursor:pointer; font-size:12px; font-weight:700; color:var(--accent); }
   .filters-reset{ all:unset; cursor:pointer; font-size:12.5px; font-weight:700; color:var(--accent); padding:0 4px; align-self:center; }
   .filters-row{ display:contents; }
-  .filters-bar select{ flex:1 1 0; min-width:0; width:auto; font-size:12.5px; text-overflow:ellipsis; }
-  @media (max-width:900px){ .filters-bar select{ flex:1 1 44%; } .filters-search{ flex:1 1 100%; } }
+  .filters-bar select{ width:100%; min-width:0; font-size:13px; text-overflow:ellipsis; }
+  @media (max-width:760px){ .filters-bar{ grid-template-columns:1fr 1fr; } }
   .filters-row select{ font-family:inherit; font-size:13px; color:var(--text-dim); background:var(--surface);
     border:1px solid var(--border); border-radius:8px; padding:9px 14px; }
   .filters-row .count{ margin-inline-start:auto; align-self:center; font-size:12.5px; color:var(--text-faint); }
@@ -1775,7 +1777,10 @@
     </div>
 
     <div class="section" style="padding-top:28px;">
-      <div class="section-head"><h2>All projects</h2><p>Every open request. Search, or narrow by governorate, municipality, type, size, status and severity.</p></div>
+      <div class="section-head-row">
+        <div class="section-head" style="margin-bottom:0;"><h2>All projects</h2><p>Every open request. Search, or narrow by governorate, municipality, type, size, status and severity.</p></div>
+        <div class="filters-meta"><button type="button" class="filters-reset" id="fReset" hidden>Reset filters</button><span class="count" id="resultCount"></span></div>
+      </div>
       <div class="filters-bar">
         <label class="filters-search"><span aria-hidden="true">🔍</span><input type="search" id="fSearch" placeholder="Search a title, town, organisation or type" autocomplete="off"><button type="button" id="fClear" hidden>Clear</button></label>
         <div class="filters-row">
@@ -1785,8 +1790,6 @@
           <select id="fSize"><option value="">All sizes</option></select>
           <select id="fStatus"><option value="">All statuses</option></select>
           <select id="fUrgency"><option value="">All severities</option></select>
-          <button type="button" class="filters-reset" id="fReset" hidden>Reset filters</button>
-          <span class="count" id="resultCount"></span>
         </div>
       </div>
       <div class="proj-grid" id="projectGrid"></div>
