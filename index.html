@@ -1256,6 +1256,7 @@
   .cs-mod p{ font-size:12.5px; color:var(--text-dim); line-height:1.6; margin:0 0 6px; }
   .cs-ex{ font-style:italic; }
   .cs-with span{ display:inline-block; font-size:9.5px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; background:var(--accent-soft); color:var(--accent); padding:2px 7px; border-radius:8px; margin-inline-end:6px; }
+  .hb-row{ display:flex; gap:8px; flex-wrap:wrap; margin:0 0 22px; }
   .hb-embed{ margin-top:10px; padding-top:6px; border-top:1px solid var(--border); }
   .hb-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:22px; }
   .hb-card h4{ margin:0 0 8px; font-size:14px; }
@@ -8625,6 +8626,21 @@ function tunePane(pane, role, option){
     });
   }
 }
+// The handbook (and, for verifiers, the two courses) sit in one fixed row
+// under the bullets of whichever pane is open, for the role that opened it.
+function placeHandbookRow(pane, role){
+  pane.querySelectorAll('.hb-row').forEach(function(r){ r.remove(); });
+  if(!HANDBOOKS[role]) return;
+  var row = document.createElement('div'); row.className = 'hb-row';
+  var mk = function(label, fn){ var b = document.createElement('button'); b.type = 'button'; b.className = 'btn btn-secondary'; b.innerHTML = label; b.addEventListener('click', fn); return b; };
+  row.appendChild(mk('View the ' + HANDBOOKS[role].short + ' handbook &rarr;', function(){ openHandbook(role); }));
+  if(role === 'verifiers'){
+    row.appendChild(mk('L1 Verifier Course &rarr;', function(){ openCourse('l1'); }));
+    row.appendChild(mk('L2 Verifier Course &rarr;', function(){ openCourse('l2'); }));
+  }
+  var ul = pane.querySelector('.ov-bullets');
+  if(ul) ul.insertAdjacentElement('afterend', row); else pane.appendChild(row);
+}
 function openAudienceRole(role, preselect){
   document.querySelectorAll('#audienceNav .role-btn').forEach(b=>
     b.classList.toggle('picked', b.dataset.audRole === role));
@@ -8641,6 +8657,7 @@ function openAudienceRole(role, preselect){
     const pane = document.getElementById(id);
     if(!pane) return;
     tunePane(pane, role, o);
+    placeHandbookRow(pane, role);
     document.querySelectorAll('.audience-pane').forEach(p=> p.classList.remove('active'));
     pane.classList.add('active');
     row.querySelectorAll('.join-sub-chip').forEach(c=> c.classList.toggle('sel', c.dataset.sub === o));
@@ -10148,18 +10165,6 @@ function renderVerifierRegister(){
 }
 renderVerifierRegister();
 (function(){
-  document.querySelectorAll('.audience-pane').forEach(function(pane){
-    var role = pane.dataset.audRole; if(!HANDBOOKS[role]) return;
-    var anchor = pane.querySelector('button.btn-secondary');
-    var mk = function(label, fn){ var b = document.createElement('button'); b.type = 'button'; b.className = 'btn btn-secondary'; b.style.cssText = 'margin:0 0 24px 8px;'; b.innerHTML = label; b.addEventListener('click', fn); return b; };
-    var hb = mk('View the ' + HANDBOOKS[role].short + ' handbook &rarr;', function(){ openHandbook(role); });
-    if(anchor) anchor.insertAdjacentElement('afterend', hb); else pane.appendChild(hb);
-    if(role === 'verifiers'){
-      var c2 = mk('L2 Verifier Course &rarr;', function(){ openCourse('l2'); });
-      var c1 = mk('L1 Verifier Course &rarr;', function(){ openCourse('l1'); });
-      hb.insertAdjacentElement('afterend', c2); hb.insertAdjacentElement('afterend', c1);
-    }
-  });
   document.addEventListener('click', function(e){
     var b = e.target.closest('[data-branch-cta="handbook"]');
     if(b && HANDBOOKS[b.dataset.role]) openHandbook(b.dataset.role);
