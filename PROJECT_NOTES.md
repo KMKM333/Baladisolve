@@ -223,9 +223,16 @@ The pipeline a request follows, and where each piece lives in `index.html`:
    is a `Variance approved` ledger row, approved by both verifiers, paid
    from contingency (Halba, id 10, carries the example).
 
-The Trust page's "who checks the verifier" section treats Option C as built
-(the second line) and Option B (re-checking releases) as the remaining gap.
-The register has a second table, `#vrTableL2`, with agreement rates.
+The Trust page's "who checks the verifier" section treats all four options
+as built: A (register), B (one release in ten re-checked by the second line,
+`sampledForRecheck`), C (the second line), D (standing rules,
+`STANDING_RULES` / `verifierStanding` / `l2Standing`, shown as a Standing
+column on both register tables; the assignment pool excludes anyone
+dropped). Rejection rate is never a trigger.
+
+**Not built yet, user wants a reminder:** the training course a dropped
+verifier takes with project stakeholders before re-entry, and a model
+handbook for each account type.
 
 Project pages carry two chats: public (`p.comments`) and stakeholder
 (`p.stakeholderChat`, seeded from `STAKEHOLDER_CHAT` for ids 10, 13, 14).
