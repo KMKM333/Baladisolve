@@ -8826,7 +8826,7 @@ function renderAccountDemo(optionKey){
       {num:String(PROJECTS.length), lbl:'Open & delivered requests'},
       {num:money(totalRaised), lbl:'Mobilized platform-wide'},
       {num:String(govCount), lbl:'Governorates active'},
-      {num:'6', lbl:'Account types'}
+      {num:String(GROUP_ORDER.length), lbl:'Account types'}
     ].map(function(x){ return '<div class="stat"><span class="num">'+x.num+'</span><span class="lbl">'+x.lbl+'</span></div>'; }).join('');
     document.getElementById('demoTable').innerHTML = '';
     document.getElementById('demoRoleMatch').innerHTML = '';
