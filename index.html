@@ -7676,6 +7676,57 @@ const GROUP_LINKS = {
   sponsors:[['handbook','sponsors','View the handbook'],['demo','sponsors','See the sponsor options'],['when','','When they step in, and why it matters']],
   verifiers:[['handbook','verifiers','View the handbook'],['course','l1','L1 Verifier Course'],['course','l2','L2 Verifier Course'],['goto','verifiers','See every verifier&rsquo;s record'],['goto','trust','When they are assigned, and why it matters']]
 };
+// One table for every attribute list: the 1–5 scale with its anchors, gates
+// and scope chips. Used by the group pages and every account-type page.
+function attrTableHTML(attrs, heading, intro, note, noteTitle){
+  return `
+    <h3 style="font-size:16px;margin:44px 0 6px;">${heading}</h3>
+    ${intro ? `<p style="font-size:12.5px;color:var(--text-dim);max-width:720px;margin:0 0 16px;line-height:1.6;">${intro}</p>` : ''}
+    <div style="overflow-x:auto;margin-bottom:14px;">
+      <table style="width:100%;border-collapse:collapse;font-size:12.5px;min-width:600px;">
+        <thead><tr style="text-align:start;border-bottom:1.5px solid var(--border);">
+          <th style="padding:8px 10px 8px 0;color:var(--text-faint);font-size:11px;text-transform:uppercase;letter-spacing:.03em;">#</th>
+          <th style="padding:8px 10px;color:var(--text-faint);font-size:11px;text-transform:uppercase;letter-spacing:.03em;">Attribute</th>
+          <th style="padding:8px 10px;color:var(--text-faint);font-size:11px;text-transform:uppercase;letter-spacing:.03em;">${attrs.some(a=>a.scale===false) ? 'What it measures' : '1 means'}</th>
+          <th style="padding:8px 10px;color:var(--text-faint);font-size:11px;text-transform:uppercase;letter-spacing:.03em;">${attrs.some(a=>a.scale===false) ? 'What to ask about' : '5 means'}</th>
+        </tr></thead>
+        <tbody>
+          ${attrs.map((a,i)=>`<tr style="border-bottom:1px solid var(--bg-2);">
+            <td style="padding:8px 10px 8px 0;color:var(--text-faint);font-family:'IBM Plex Mono',monospace;">${i+1}</td>
+            <td style="padding:8px 10px;font-weight:700;">${a.name}${a.gate?' <span style="font-size:9.5px;font-weight:700;background:var(--warn-soft);color:var(--warn);padding:2px 6px;border-radius:8px;text-transform:uppercase;letter-spacing:.02em;">gate</span>':''}${a.scope?' <span style="font-size:9.5px;font-weight:700;background:var(--bg-2);color:var(--text-dim);padding:2px 6px;border-radius:8px;text-transform:uppercase;letter-spacing:.02em;">'+a.scope+'</span>':''}${a.isNew?' <span style="font-size:9.5px;font-weight:700;background:var(--ok-soft);color:var(--ok);padding:2px 6px;border-radius:8px;text-transform:uppercase;letter-spacing:.02em;">new</span>':''}</td>
+            <td style="padding:8px 10px;color:var(--text-dim);">${a.low}</td>
+            <td style="padding:8px 10px;color:var(--text-dim);">${a.high}</td>
+          </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+    ${note ? `<div class="light-card" style="max-width:720px;"><b style="font-size:12.5px;">${noteTitle || 'Note'}</b><p style="font-size:12.5px;color:var(--text-dim);margin:8px 0 0;line-height:1.6;">${note}</p></div>` : ''}
+  `;
+}
+// The verifier's attributes are a record, not a fit score: measured from
+// decisions, never rated. Shown on every verifier page in the same table.
+const VERIFIER_ATTRS = [
+  {name:'Rejection rate', scale:false, low:'Milestones sent back as a share of all decisions.', high:'A number far from every other verifier&rsquo;s, in either direction. Never a trigger on its own.'},
+  {name:'Passed / Rejected', scale:false, low:'Decisions made, split by outcome.', high:'A reviewer who has never rejected anything is an unexamined one.'},
+  {name:'Overturned', scale:false, low:'Decisions later found wrong: by the second-line sample, by appeal.', high:'5% puts a verifier on watch; 10% drops them a tier.'},
+  {name:'Variances approved', scale:false, low:'Changes to a published cost or timeline this verifier approved.', high:'Many for one implementer.'},
+  {name:'Median days', scale:false, low:'Evidence submitted to decision made.', high:'Over 21 days puts a verifier on watch. Fast is not free either.'},
+  {name:'Licence', scale:false, low:'Accreditation number and the date it lapses.', high:'Past that date, no assignments.'},
+  {name:'Standing', scale:false, low:'Active, on watch, dropped for retraining, or lapsed &mdash; computed from the rows above.', high:'The way back from a drop is the L1 Verifier Course.', gate:true},
+  {name:'Agreement rate', scale:false, scope:'Second line', low:'First-line sign-offs confirmed rather than sent back.', high:'Below 70% drops a second-line verifier back to the first line.'},
+  {name:'Independence tests', scale:false, low:'Not the implementer, not the certifier, no funding stake, not the same locality, accredited for the field.', high:'All five must pass before a request reaches you.', gate:true}
+];
+function attrSectionHTML(catId){
+  var meta = CATEGORY_META[catId]; if(!meta) return '';
+  if(catId.indexOf('v-') === 0 || catId.indexOf('l2-') === 0){
+    return attrTableHTML(VERIFIER_ATTRS, meta.name + ' attributes', 'A verifier is never scored on fit. These are the measures published about every verifier, computed from their decisions, and the lines that move their standing.', null);
+  }
+  var group = null;
+  Object.keys(GROUP_META).forEach(function(k){ if((GROUP_META[k].subsections || []).indexOf(catId) !== -1) group = k; });
+  var ms = group && GROUP_META[group].matchingSystem; if(!ms) return '';
+  var attrs = ms.attributes.filter(function(a){ return !a.scope || catId === 'municipality'; });
+  return attrTableHTML(attrs, meta.name + ' attributes', 'How a ' + meta.name.toLowerCase() + ' account is scored and gated. ' + ms.intro, ms.note, 'Why some attributes are marked "gate"');
+}
 function openGroupPage(groupId){
   setRoute('group/' + groupId);
   detailBackFn = ()=> switchView('network');
@@ -7689,29 +7740,8 @@ function renderGroupPage(groupId){
   const msHeading = groupId==='government' ? 'How government bodies get matched to certifications'
     : groupId==='sponsors' ? 'How sponsors get matched to requests'
     : 'How experts get matched to problems';
-  const matchingHTML = ms ? `
-    <h3 style="font-size:16px;margin:44px 0 6px;">🎯 ${msHeading}</h3>
-    <p style="font-size:12.5px;color:var(--text-dim);max-width:720px;margin:0 0 16px;line-height:1.6;">${ms.intro}</p>
-    <div style="overflow-x:auto;margin-bottom:14px;">
-      <table style="width:100%;border-collapse:collapse;font-size:12.5px;min-width:600px;">
-        <thead><tr style="text-align:start;border-bottom:1.5px solid var(--border);">
-          <th style="padding:8px 10px 8px 0;color:var(--text-faint);font-size:11px;text-transform:uppercase;letter-spacing:.03em;">#</th>
-          <th style="padding:8px 10px;color:var(--text-faint);font-size:11px;text-transform:uppercase;letter-spacing:.03em;">Attribute</th>
-          <th style="padding:8px 10px;color:var(--text-faint);font-size:11px;text-transform:uppercase;letter-spacing:.03em;">1 means</th>
-          <th style="padding:8px 10px;color:var(--text-faint);font-size:11px;text-transform:uppercase;letter-spacing:.03em;">5 means</th>
-        </tr></thead>
-        <tbody>
-          ${ms.attributes.map((a,i)=>`<tr style="border-bottom:1px solid var(--bg-2);">
-            <td style="padding:8px 10px 8px 0;color:var(--text-faint);font-family:'IBM Plex Mono',monospace;">${i+1}</td>
-            <td style="padding:8px 10px;font-weight:700;">${a.name}${a.gate?' <span style="font-size:9.5px;font-weight:700;background:var(--warn-soft);color:var(--warn);padding:2px 6px;border-radius:8px;text-transform:uppercase;letter-spacing:.02em;">gate</span>':''}${a.scope?' <span style="font-size:9.5px;font-weight:700;background:var(--bg-2);color:var(--text-dim);padding:2px 6px;border-radius:8px;text-transform:uppercase;letter-spacing:.02em;">'+a.scope+'</span>':''}${a.isNew?' <span style="font-size:9.5px;font-weight:700;background:var(--ok-soft);color:var(--ok);padding:2px 6px;border-radius:8px;text-transform:uppercase;letter-spacing:.02em;">new</span>':''}</td>
-            <td style="padding:8px 10px;color:var(--text-dim);">${a.low}</td>
-            <td style="padding:8px 10px;color:var(--text-dim);">${a.high}</td>
-          </tr>`).join('')}
-        </tbody>
-      </table>
-    </div>
-    <div class="light-card" style="max-width:720px;"><b style="font-size:12.5px;">Why two attributes are marked "gate"</b><p style="font-size:12.5px;color:var(--text-dim);margin:8px 0 0;line-height:1.6;">${ms.note}</p></div>
-  ` : '';
+  const matchingHTML = ms ? attrTableHTML(ms.attributes, '🎯 ' + msHeading, ms.intro, ms.note, 'Why two attributes are marked "gate"')
+    : (groupId === 'verifiers' ? attrTableHTML(VERIFIER_ATTRS, 'Verifier attributes', 'A verifier is never scored on fit. These are the measures published about every verifier, computed from their decisions, and the lines that move their standing.', null) : '');
   document.getElementById('detailContent').innerHTML = `
     <div style="font-size:12px;color:var(--text-faint);margin-bottom:12px;">
       <span style="cursor:pointer;" id="bcHomeGroup">Home</span> / <span style="cursor:pointer;" id="bcNetworkGroup">Network</span> / <span style="color:var(--text-dim);">${g.name}</span>
@@ -8184,6 +8214,7 @@ function renderCategoryPage(catId){
     ${isDiaspora ? `<div style="font-size:11.5px;color:var(--text-faint);margin-top:12px;">Same corridor data as the Corridors page — click one for its full country profile.</div>` : ''}
     ${isDistricts ? `<div style="font-size:11.5px;color:var(--text-faint);margin-top:4px;">Click a governorate name to see its own profile.</div>` : ''}
     ${meta.extra ? `<div class="light-card" style="margin-top:22px;max-width:720px;"><b>${meta.extra.title}</b><p style="font-size:12.5px;color:var(--text-dim);margin:8px 0 0;line-height:1.6;">${meta.extra.body}</p></div>` : ''}
+    ${attrSectionHTML(catId)}
   `;
   document.querySelectorAll('#detailContent [data-cat-switch]').forEach(b=> b.addEventListener('click', ()=> goToCat(b.dataset.catSwitch)));
   document.getElementById('bcHomeCat').addEventListener('click', ()=> switchView('home'));
