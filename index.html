@@ -8072,6 +8072,21 @@ function openCategoryPage(catId){
   renderCategoryPage(catId);
   switchView('detail');
 }
+// Every category page carries a switch across its siblings — the other
+// boxes in the same section — the way the verifier tier pages do.
+function siblingCats(catId){
+  if(catId.indexOf('v-') === 0) return VERIFIER_TIERS.first.boxes;
+  if(catId.indexOf('l2-') === 0) return VERIFIER_TIERS.second.boxes;
+  for(var k in GROUP_META){
+    if((GROUP_META[k].subsections || []).indexOf(catId) !== -1) return GROUP_META[k].subsections;
+  }
+  return [catId];
+}
+function goToCat(c){
+  if(c === 'municipality'){ switchView('municipalities'); renderMuniDirectory(); }
+  else if(c === 'diaspora'){ switchView('corridors'); }
+  else openCategoryPage(c);
+}
 function renderCategoryPage(catId){
   document.getElementById('mobilePledgeBar')?.classList.remove('show');
   const meta = CATEGORY_META[catId];
@@ -8091,6 +8106,7 @@ function renderCategoryPage(catId){
     <div class="detail-kicker">${meta.group}</div>
     <h1 class="detail-title">${meta.name}</h1>
     <div class="detail-desc">${meta.overview}</div>
+    <div class="tier-switch">${siblingCats(catId).map(c=>`<button type="button" class="tier-switch-btn" data-cat-switch="${c}" aria-pressed="${c===catId}">${(CATEGORY_META[c] || {}).name || c}</button>`).join('')}</div>
     <div class="light-card" style="max-width:720px;margin-bottom:26px;"><b>Where this fits in the system</b><p style="font-size:12.5px;color:var(--text-dim);margin:8px 0 0;line-height:1.6;">${meta.fit}</p></div>
     ${isMuni ? `<button class="btn btn-primary" id="openMuniDirectory" style="margin-bottom:22px;">Browse all 110 municipalities →</button>` : ''}
     <h3 style="font-size:16px;margin-bottom:12px;">${isMuni ? 'A few municipalities, for example' : (isDiaspora ? 'Sending countries' : (isDistricts ? 'All 26 districts, by governorate' : (isL2 ? 'The second line today' : 'Leads in this category')))}</h3>
@@ -8099,6 +8115,7 @@ function renderCategoryPage(catId){
     ${isDistricts ? `<div style="font-size:11.5px;color:var(--text-faint);margin-top:4px;">Click a governorate name to see its own profile.</div>` : ''}
     ${meta.extra ? `<div class="light-card" style="margin-top:22px;max-width:720px;"><b>${meta.extra.title}</b><p style="font-size:12.5px;color:var(--text-dim);margin:8px 0 0;line-height:1.6;">${meta.extra.body}</p></div>` : ''}
   `;
+  document.querySelectorAll('#detailContent [data-cat-switch]').forEach(b=> b.addEventListener('click', ()=> goToCat(b.dataset.catSwitch)));
   document.getElementById('bcHomeCat').addEventListener('click', ()=> switchView('home'));
   document.getElementById('bcNetworkCat').addEventListener('click', ()=> switchView('network'));
   if(isDiaspora){
