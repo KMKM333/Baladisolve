@@ -1242,6 +1242,19 @@
   .vr-link{ all:unset; cursor:pointer; color:var(--accent); font-weight:700; }
   .tier-role{ font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--accent); }
   .tier-go{ display:block; margin-top:10px; font-size:12px; font-weight:700; color:var(--accent); }
+  .cs-list{ display:grid; gap:12px; max-width:820px; }
+  .cs-mod{ display:grid; grid-template-columns:36px 1fr; gap:14px; padding:14px 16px; border:1px solid var(--border); border-radius:12px; background:var(--bg-1); }
+  .cs-n{ width:36px; height:36px; border-radius:50%; background:var(--accent); color:#fff; font-weight:800; font-size:13px; display:inline-flex; align-items:center; justify-content:center; }
+  .cs-mod b{ font-size:14px; display:block; margin-bottom:4px; }
+  .cs-mod p{ font-size:12.5px; color:var(--text-dim); line-height:1.6; margin:0 0 6px; }
+  .cs-ex{ font-style:italic; }
+  .cs-with span{ display:inline-block; font-size:9.5px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; background:var(--accent-soft); color:var(--accent); padding:2px 7px; border-radius:8px; margin-inline-end:6px; }
+  .hb-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:22px; }
+  .hb-card h4{ margin:0 0 8px; font-size:14px; }
+  .hb-card ul{ margin:0; padding-inline-start:18px; font-size:12.5px; color:var(--text-dim); line-height:1.65; }
+  .hb-card li{ margin:4px 0; }
+  .hb-note{ font-size:12px; color:var(--text-faint); line-height:1.6; margin:18px 0 0; max-width:78ch; }
+  @media (max-width:760px){ .hb-grid{ grid-template-columns:1fr; } }
   .group-links{ display:flex; gap:10px; flex-wrap:wrap; margin:18px 0 0; }
   .tier-switch{ display:flex; gap:8px; margin:0 0 22px; flex-wrap:wrap; }
   .tier-switch-btn{ all:unset; cursor:pointer; font-size:12.5px; font-weight:700; padding:7px 14px; border:1.5px solid var(--border); border-radius:20px; color:var(--text-dim); }
@@ -2122,7 +2135,7 @@
         <div class="qa-open-tag">Open question &mdash; partly closed</div>
         <h3>But who checks the verifier?</h3>
         <p>Everything above rests on one role. The verifier is the reason a certification can be believed, a sponsor&rsquo;s money is safe, and a finished wall is really finished. So it is fair to ask the obvious next question: <b>if the verifier checks everyone else, who checks them?</b></p>
-        <p>Now: <b>a second-line verifier.</b> Every first-line sign-off &mdash; the decision that lets a request open for pledges &mdash; is reviewed by a second, more senior verifier who sees the decision and the reasoning but no names. Every later change to cost or timeline goes through the same pair. Their record sits on the register under a pseudonym. Milestone releases are checked once by the first line, and <b>one in ten is re-checked</b> afterwards by the second line, which also reviews every closing report. Consequences are written too: fall below a published line and you drop a tier, and the way back is a training course. What is not built yet is the course itself, and a handbook for each account type.</p>
+        <p>Now: <b>a second-line verifier.</b> Every first-line sign-off &mdash; the decision that lets a request open for pledges &mdash; is reviewed by a second, more senior verifier who sees the decision and the reasoning but no names. Every later change to cost or timeline goes through the same pair. Their record sits on the register under a pseudonym. Milestone releases are checked once by the first line, and <b>one in ten is re-checked</b> afterwards by the second line, which also reviews every closing report. Consequences are written too: fall below a published line and you drop a tier, and the way back is a training course run with project stakeholders. The course exists for each line, and every role has a handbook.</p>
       </div>
 
       <p style="font-size:13.5px;color:var(--text-dim);line-height:1.75;margin:26px 0 0;max-width:78ch;">This is not a hypothetical worry. The closest thing to Manāra that already exists at scale is the carbon credit market, where independent auditors sign off before money moves. It went wrong, and the numbers are public.</p>
@@ -2142,7 +2155,8 @@
         <div class="qa-cmp-row"><span>Who checks the verifier?</span><span>Nobody, until a whistleblower</span><span class="qa-ok">A second-line verifier, seeing no names</span></div>
         <div class="qa-cmp-row"><span>Who re-checks a release?</span><span>Nobody</span><span class="qa-ok">The second line, one release in ten, after the money moved</span></div>
         <div class="qa-cmp-row"><span>What happens to a verifier who gets it wrong?</span><span>Nothing, usually</span><span class="qa-ok">Dropped a tier at a published line; a course before re-entry</span></div>
-        <div class="qa-cmp-row gap"><span>Who runs the course?</span><span>&mdash;</span><span>Not built yet &mdash; course and handbooks to come</span></div>
+        <div class="qa-cmp-row"><span>Who runs the course?</span><span>&mdash;</span><span class="qa-ok">Project stakeholders, in the room: an L1 and an L2 course</span></div>
+        <div class="qa-cmp-row gap"><span>Who accredits verifiers in the first place?</span><span>A professional body</span><span>Still a demo &mdash; no accrediting body has signed on yet</span></div>
       </div>
 
       <h3 style="font-size:19px;margin:34px 0 4px;">Four ways to close it</h3>
@@ -2725,7 +2739,7 @@
         <div><b>Variances</b>Changes to a published cost or timeline this verifier approved. Many for one implementer is the thing to ask about.</div>
         <div><b>Agreement rate</b>Share of first-line sign-offs a second-line verifier confirmed rather than sent back. Same caveat as rejection rate: only a number far from the others means anything.</div>
       </div>
-      <p class="vr-note"><b>What this page does not do.</b> It publishes the record. The second-line table is where sign-offs and variances get a second opinion. Releases get one check, and one in ten gets a second afterwards. An outlier in the first table now carries a consequence in the standing column, under the rules above. What is not built yet is the course itself, described on the <button style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;" data-goto="trust">Trust page</button>, and the reason this register is the first of four steps rather than the whole answer.</p>
+      <p class="vr-note"><b>What this page does not do.</b> It publishes the record. The second-line table is where sign-offs and variances get a second opinion. Releases get one check, and one in ten gets a second afterwards. An outlier in the first table now carries a consequence in the standing column, under the rules above. The way back from a drop is the course, linked above and described on the <button style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;" data-goto="trust">Trust page</button>, and the reason this register is the first of four steps rather than the whole answer.</p>
     </div>
   </div>
 </section>
@@ -7613,12 +7627,17 @@ function renderVerifierTierPage(tier){
       var m = CATEGORY_META[c];
       return '<div class="light-card" data-cat="' + c + '" style="cursor:pointer;"><b style="font-size:13.5px;">' + m.name + '</b><p style="font-size:12px;color:var(--text-dim);margin:6px 0 0;line-height:1.5;">' + m.overview + '</p></div>';
     }).join('') + '</div>' +
-    '<div style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap;">' + t.links.map(function(l){
+    '<div style="margin-top:22px;display:flex;gap:10px;flex-wrap:wrap;">' +
+    '<button class="role-jump" type="button" data-course="' + (tier === 'second' ? 'l2' : 'l1') + '">' + (tier === 'second' ? 'L2' : 'L1') + ' Verifier Course <span aria-hidden="true">&rarr;</span></button>' +
+    '<button class="role-jump" type="button" data-handbook="verifiers">Verifier handbook <span aria-hidden="true">&rarr;</span></button>' +
+    t.links.map(function(l){
       return '<button class="role-jump" type="button" data-goto="' + l[0] + '">' + l[1] + ' <span aria-hidden="true">&rarr;</span></button>';
     }).join('') + '</div>';
   var root = document.getElementById('detailContent');
   root.querySelectorAll('[data-cat]').forEach(function(el){ el.addEventListener('click', function(){ openCategoryPage(el.dataset.cat); }); });
   root.querySelectorAll('[data-goto]').forEach(function(el){ el.addEventListener('click', function(){ switchView(el.dataset.goto); }); });
+  root.querySelectorAll('[data-course]').forEach(function(el){ el.addEventListener('click', function(){ openCourse(el.dataset.course); }); });
+  root.querySelectorAll('[data-handbook]').forEach(function(el){ el.addEventListener('click', function(){ openHandbook(el.dataset.handbook); }); });
   wireTierCards(root);
   document.getElementById('bcHomeTier').addEventListener('click', ()=> switchView('home'));
   document.getElementById('bcNetworkTier').addEventListener('click', ()=> switchView('network'));
@@ -7630,10 +7649,10 @@ function renderVerifierTierPage(tier){
 const GROUP_ORDER = ['government','experts','sponsors','verifiers'];
 const GROUP_BOXES_HEADING = { government:'Three kinds of government body', experts:'Eight expert fields', sponsors:'Five kinds of sponsor', verifiers:'Two lines of verifier' };
 const GROUP_LINKS = {
-  government:[['demo','government','See the government options'],['when','','When they step in, and why it matters']],
-  experts:[['demo','experts','See the expert options'],['when','','When they step in, and why it matters']],
-  sponsors:[['demo','sponsors','See the sponsor options'],['when','','When they step in, and why it matters']],
-  verifiers:[['goto','verifiers','See every verifier&rsquo;s record'],['goto','trust','When they are assigned, and why it matters']]
+  government:[['handbook','government','View the handbook'],['demo','government','See the government options'],['when','','When they step in, and why it matters']],
+  experts:[['handbook','experts','View the handbook'],['demo','experts','See the expert options'],['when','','When they step in, and why it matters']],
+  sponsors:[['handbook','sponsors','View the handbook'],['demo','sponsors','See the sponsor options'],['when','','When they step in, and why it matters']],
+  verifiers:[['handbook','verifiers','View the handbook'],['course','l1','L1 Verifier Course'],['course','l2','L2 Verifier Course'],['goto','verifiers','See every verifier&rsquo;s record'],['goto','trust','When they are assigned, and why it matters']]
 };
 function openGroupPage(groupId){
   setRoute('group/' + groupId);
@@ -7705,6 +7724,8 @@ function renderGroupPage(groupId){
   document.querySelectorAll('#detailContent [data-group-switch]').forEach(b=> b.addEventListener('click', ()=> openGroupPage(b.dataset.groupSwitch)));
   document.querySelectorAll('#detailContent [data-glink]').forEach(b=> b.addEventListener('click', ()=>{
     if(b.dataset.glink === 'goto') switchView(b.dataset.arg);
+    else if(b.dataset.glink === 'handbook') openHandbook(b.dataset.arg);
+    else if(b.dataset.glink === 'course') openCourse(b.dataset.arg);
     else if(b.dataset.glink === 'when'){ switchView('dashboard'); const t = document.getElementById('roleWhen'); if(t) setTimeout(()=> t.scrollIntoView({behavior:'smooth', block:'start'}), 60); }
     else openAccountDemo(roleDashboardFor(b.dataset.arg) || 'overview');
   }));
@@ -8321,7 +8342,7 @@ function renderQaDetail(key){
     (key === 'b'
       ? '<p class="qa-src"><b>This one is built on the demo.</b> One verified release in ten carries a second-line re-check on its custody trail, sampled by reference so nobody can steer which ones, and the second line reviews every closing report. A disagreement would be an overturned decision on the register.</p>'
       : key === 'd'
-      ? '<p class="qa-src"><b>This one is built.</b> <button type="button" class="qa-golink" data-goto="verifiers">See the rules and the standing column on the register &rarr;</button> &mdash; thresholds computed from the record, a standing for every verifier, and one record already dropped under them. The training course and the per-role handbooks are the part still to come.</p>'
+      ? '<p class="qa-src"><b>This one is built.</b> <button type="button" class="qa-golink" data-goto="verifiers">See the rules and the standing column on the register &rarr;</button> &mdash; thresholds computed from the record, a standing for every verifier, and one record already dropped under them. The course exists for each line: <button type="button" class="qa-golink" data-course="l1">L1 Verifier Course</button> &middot; <button type="button" class="qa-golink" data-course="l2">L2 Verifier Course</button>.</p>'
       : key === 'c'
       ? '<p class="qa-src"><b>This one is built.</b> <button type="button" class="qa-golink" data-goto="verifiers">See the second-line table on the register &rarr;</button> &mdash; three second-line verifiers, pseudonymous, with their agreement rates. It checks sign-offs, variances and closing reports, and re-checks one release in ten, which is B.</p>'
       : key === 'a'
@@ -8329,8 +8350,9 @@ function renderQaDetail(key){
       : '<p class="qa-src">Not live yet. This section exists so the gap is stated in public while it is still open &mdash; a platform that only publishes the checks it has already passed is not being transparent, it is advertising.</p>');
   // This panel is rebuilt on every click, so it misses the parse-time [data-goto]
   // wiring and has to hook up its own link each time.
-  var go = el.querySelector('.qa-golink');
-  if(go) go.addEventListener('click', function(){ switchView(go.dataset.goto); });
+  el.querySelectorAll('.qa-golink').forEach(function(go){
+    go.addEventListener('click', function(){ if(go.dataset.course) openCourse(go.dataset.course); else switchView(go.dataset.goto); });
+  });
 }
 (function(){
   var row = document.getElementById('qaOptions');
@@ -8807,6 +8829,7 @@ function renderBranchHeader(branch, isOverview){
     '<div class="branch-cta">' +
       '<button class="btn btn-primary" data-branch-cta="join">Register as ' + branchArticle(branch.id) + ' &rarr;</button>' +
       '<button class="btn btn-secondary" data-branch-cta="network">See how the four roles fit together</button>' +
+      '<button class="btn btn-secondary" data-branch-cta="handbook" data-role="' + branch.id + '">View the handbook</button>' +
     '</div>' +
     '<div class="branch-optionlead">' + branch.subs.length + ' ways to take part &mdash; pick one:</div>';
 }
@@ -9724,6 +9747,150 @@ function verifierFor(p){
   });
 })();
 
+// ---------- Training courses: one per line, run with project stakeholders ----------
+// The way back from a drop, and the way in for a new accreditation. Every
+// module ends with a stakeholder in the room saying what they need from a
+// verifier, because the course is about the people being checked as much as
+// the checking.
+const COURSES = {
+  l1: { short:'L1 Verifier Course', title:'L1 Verifier Course', sub:'First line: checking the work', length:'Two days, in person',
+    who:'New first-line accreditations, and any verifier dropped for retraining. A dropped verifier retakes modules 3 and 5 and the assessment.',
+    room:'Run with project stakeholders: a municipality, an expert organisation, a sponsor and a residents&rsquo; group each take one session and say, plainly, what they need from a verifier and what a bad one costs them.',
+    modules:[
+      {n:1, h:'Where you sit in the sequence', what:'Why a verifier is assigned at certification and not at escrow; what breaks when the order changes; the five independence tests and what each one is for.', ex:'Exercise: take three real requests from the ledger and say, for each, whether you could be assigned and why not.', with:'Residents&rsquo; group: what it is like to wait on a signature nobody can see.'},
+      {n:2, h:'The sign-off', what:'Milestones that can actually be checked; the evidence each will need, named in advance; setting a cost bracket alone, and why government never touches it.', ex:'Exercise: draft a sign-off for a live Baladi Map report, bracket it, and defend the bracket.', with:'Municipality: the pressure to make the bracket fit, and how to say no to it.'},
+      {n:3, h:'Evidence', what:'What counts: originals, dated, located, third-party. What does not: a contractor&rsquo;s sign-off, a summary, a hand tally. The Tyre weighbridge ticket case.', ex:'Exercise: mark five evidence packs. Two are incomplete in ways that look complete.', with:'Expert organisation: what evidence costs to produce, and what is reasonable to ask for.'},
+      {n:4, h:'Bids and price', what:'The 50/50 ranking; approving the cost of the winning bid without choosing the bidder; what a bracket shaped to suit one bidder looks like.', ex:'Exercise: rank three bids and write the one sentence that approves the cost.', with:'Sponsor: what a funder reads on the price card, and what makes them walk away.'},
+      {n:5, h:'Releases, rejections and variances', what:'Sending a milestone back well: what to say, and what happens next. The Halba variance: price change or scope change, and who approves it.', ex:'Exercise: three milestones, one to pass, one to send back, one to escalate. Write each decision in a sentence a resident could read.', with:'Sponsor: what a refund demand looks like from the other side, and why holding through remediation matters.'},
+      {n:6, h:'Independence and the chat', what:'Speaking in the stakeholder chat where everyone can read you; what you may and may not say to an implementer; your own record and what moves it.', ex:'Exercise: answer a live thread in which a resident, a sponsor and the implementer all want something different from you.', with:'Residents&rsquo; group: closing session.'}
+    ],
+    pass:'Assessment: five mock decisions on anonymised evidence packs, marked by a second-line verifier. Pass is four of five confirmed. Then five live decisions on watch, every one re-checked.',
+    fail:'A second drop within twelve months means a year off the register.' },
+  l2: { short:'L2 Verifier Course', title:'L2 Verifier Course', sub:'Second line: checking the check', length:'One day, in person, plus ten anonymised reviews',
+    who:'Verifiers appointed from the register: a current licence, at least thirty decisions, an overturn rate in the bottom half. Nobody applies.',
+    room:'Run with the same four stakeholders as the first-line course, with one difference: they never learn which second-line verifier they met. Pseudonymity starts on day one.',
+    modules:[
+      {n:1, h:'What you review, and what you never see', what:'The sign-off, the bracket, the reasoning, the variance, the closing report. Never a name: not the first verifier&rsquo;s, not the implementer&rsquo;s, not the funder&rsquo;s.', ex:'Exercise: review a sign-off with the names blanked, then the same one with names. Notice what changed in your reading.', with:'Municipality: why a council would rather know who is reviewing them, and why it must not.'},
+      {n:2, h:'Reading a sign-off cold', what:'Milestones nobody could check; evidence lists that leave the important artefact out; brackets that only one bidder could win.', ex:'Exercise: six sign-offs, two of them shaped to suit somebody. Find them and write why in two sentences.', with:'Expert organisation: how a bracket looks from the bidding side.'},
+      {n:3, h:'Variances', what:'Price change or scope change; what the contingency line is for; when a variance is really a new request.', ex:'Exercise: the Halba 9% case and two invented ones. Approve, refuse or send back.', with:'Sponsor: what a funder needs to see before a variance stops looking like inflation.'},
+      {n:4, h:'The sample and the closure', what:'Re-checking one release in ten after the money moved; reviewing a closing report; when a disagreement becomes an overturned decision on the register.', ex:'Exercise: re-check three released milestones. One should be overturned.', with:'Residents&rsquo; group: what a closed project looks like from the street.'},
+      {n:5, h:'Your own record', what:'Agreement rate, and why a number far from the others in either direction is the one to ask about; what drops you back to the first line.', ex:'Exercise: read the second-line table and say which record you would ask about first.', with:'Closing session.'}
+    ],
+    pass:'Assessment: ten anonymised sign-offs reviewed alone, compared with a panel. Pass is agreement on eight of ten. Appointment lapses with the licence.',
+    fail:'Agreement below 70% on the register drops you back to the first line.' }
+};
+function openCourse(tier){
+  setRoute('course/' + tier);
+  detailBackFn = ()=> openVerifierTier(tier === 'l2' ? 'second' : 'first');
+  renderCoursePage(tier);
+  switchView('detail');
+}
+function renderCoursePage(tier){
+  document.getElementById('mobilePledgeBar')?.classList.remove('show');
+  var c = COURSES[tier]; if(!c) return;
+  document.getElementById('detailContent').innerHTML =
+    '<div style="font-size:12px;color:var(--text-faint);margin-bottom:12px;"><span style="cursor:pointer;" data-cs-nav="home">Home</span> / <span style="cursor:pointer;" data-cs-nav="network">Network</span> / <span style="cursor:pointer;" data-cs-nav="tier">' + (tier === 'l2' ? 'Second-line verifiers' : 'First-line verifiers') + '</span> / <span style="color:var(--text-dim);">Course</span></div>' +
+    '<button class="detail-back" id="detailBackBtn">&larr; Back</button>' +
+    '<div style="margin-bottom:2px;"><span style="font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--bg-2);color:var(--text-faint);padding:3px 9px;border-radius:10px;">Training course &middot; ' + c.length + '</span></div>' +
+    '<h1 class="detail-title">' + c.title + '</h1>' +
+    '<div class="detail-desc" style="max-width:680px;"><b>' + c.sub + '.</b> ' + c.room + '</div>' +
+    '<div class="tier-switch"><button type="button" class="tier-switch-btn" data-cs="l1" aria-pressed="' + (tier === 'l1') + '">L1 Verifier Course</button><button type="button" class="tier-switch-btn" data-cs="l2" aria-pressed="' + (tier === 'l2') + '">L2 Verifier Course</button></div>' +
+    '<div class="light-card" style="max-width:720px;margin-bottom:22px;"><b>Who takes it</b><p style="font-size:12.5px;color:var(--text-dim);margin:8px 0 0;line-height:1.6;">' + c.who + '</p></div>' +
+    '<h3 style="font-size:16px;margin-bottom:12px;">' + c.modules.length + ' modules</h3>' +
+    '<div class="cs-list">' + c.modules.map(function(m){
+      return '<div class="cs-mod"><span class="cs-n">' + m.n + '</span><div><b>' + m.h + '</b><p>' + m.what + '</p><p class="cs-ex">' + m.ex + '</p><p class="cs-with"><span>In the room</span>' + m.with + '</p></div></div>';
+    }).join('') + '</div>' +
+    '<div class="hb-grid" style="margin-top:22px;"><div class="light-card hb-card"><h4>How you pass</h4><p style="font-size:12.5px;color:var(--text-dim);line-height:1.65;margin:0;">' + c.pass + '</p></div><div class="light-card hb-card"><h4>If it goes wrong again</h4><p style="font-size:12.5px;color:var(--text-dim);line-height:1.65;margin:0;">' + c.fail + '</p></div></div>' +
+    '<div class="group-links"><button class="role-jump" type="button" data-cs-nav="handbook">Verifier handbook <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-cs-nav="register">The rules and the register <span aria-hidden="true">&rarr;</span></button></div>';
+  var root = document.getElementById('detailContent');
+  root.querySelectorAll('[data-cs]').forEach(function(b){ b.addEventListener('click', function(){ openCourse(b.dataset.cs); }); });
+  root.querySelectorAll('[data-cs-nav]').forEach(function(b){ b.addEventListener('click', function(){
+    var k = b.dataset.csNav;
+    if(k === 'home') switchView('home'); else if(k === 'network') switchView('network'); else if(k === 'tier') openVerifierTier(tier === 'l2' ? 'second' : 'first');
+    else if(k === 'handbook') openHandbook('verifiers'); else if(k === 'register') switchView('verifiers');
+  }); });
+  document.getElementById('detailBackBtn').addEventListener('click', ()=> detailBackFn());
+}
+
+// ---------- Handbooks: one per role, the rules of the platform from that seat ----------
+// Written from the mechanics on this page rather than as policy prose, so every
+// line can be checked against what the site actually does.
+const HANDBOOKS = {
+  government: { short:'Government', title:'Government handbook', tag:'Ministries, governorates & districts, municipalities',
+    line:'You certify that a request is real, lawful and within your jurisdiction. You never touch the money, and you never set the price.',
+    sections:[
+      {h:'What you do', items:['Certify scope, jurisdiction and necessity before a request can open for bids.','Post requests (municipalities) and confirm citizen reports coming from Baladi Map.','Choose the expert from the 50/50 ranking of bids. Picking below the top needs a written reason, published on the request.','Co-fund with a matching top-up if you wish; it is tracked like any pledge.','Answer residents and sponsors in the stakeholder chat. A silent council is visible.']},
+      {h:'What you cannot do', items:['Set or approve the cost bracket, or approve a bid&rsquo;s price. The verifier does both; the second line reviews them.','Release a tranche, pick the verifier, or edit the ledger.','Certify a request you filed yourself: a municipality posts, a ministry or district certifies.','Take a pledge before both verifier sign-offs are on the trail.']},
+      {h:'Your place in the order', items:['Step 2 of 6: after the residents&rsquo; report, before the verifier&rsquo;s sign-off.','Certify late and funders are already backing an unapproved request. That is the safeguard you carry.']},
+      {h:'What is published about you', items:['Jurisdictional match, certification turnaround, regulatory currency, track record, queue capacity, escalation path, process transparency (gate), conflict of interest (gate).','Municipalities also carry Report Responsiveness and Co-funding Follow-through: did you answer your residents, and did you pay the top-up you promised.']},
+      {h:'What moves your record', items:['Acknowledging a Baladi report and moving it to certification inside the published window.','Paying every matching pledge in full and on time.','A certification later found outside your jurisdiction lowers track record.']},
+      {h:'Before you certify: the checklist', items:['Jurisdiction confirmed in writing.','The standard or code the request must meet, cited.','Necessity evidenced: the report and its confirmations.','No stake declared by anyone signing.','Someone named to answer the stakeholder chat within five working days.']}
+    ]},
+  experts: { short:'Expert', title:'Expert organisation handbook', tag:'The eight fields',
+    line:'You bid for the work and deliver it, and you are paid only against evidence somebody else has verified.',
+    sections:[
+      {h:'What you do', items:['Register once per field and governorate; your attributes decide which requests you may bid on.','Bid inside the bracket the verifier set. Bids are ranked half on quality, half on price.','Deliver milestone by milestone and submit the evidence pack for each.','Remediate and resubmit when a milestone is sent back. A rejection is a return, not an ending.','Answer questions in the stakeholder chat, where the verifier can read them too.']},
+      {h:'What you cannot do', items:['Bid on a request you certified or funded, or one where your organisation is the certifying body.','Contact the verifier outside the stakeholder chat.','Change scope, cost or timeline without a variance approved by both verifiers against the published specs.','Count a discount as a pledge. A discount lives in your bid.']},
+      {h:'Your place in the order', items:['Step 4 of 6: after the request is signed off and the bracket is public, before sponsors are asked for money.']},
+      {h:'What is published about you', items:['Thirteen attributes, including Rejection Recovery (how you handled a send-back) and Evidence Quality (how much work your evidence gave the verifier).','Your completion rate and days-to-milestone on the Scoreboard, from verified data only.']},
+      {h:'What good evidence looks like', items:['Before-and-after photographs, dated and located.','Originals, not summaries: receipts, purchase orders, weighbridge tickets, test results.','Third-party records where the work is a service: attendance, delivery logs, tonnage.','A municipal engineer&rsquo;s sign-off is useful but is not an independent check. The verifier is.']},
+      {h:'Before you submit a milestone: the checklist', items:['Every artefact the sign-off named is attached.','Photographs carry a date and a place.','Spend reconciles to the published breakdown; anything over goes through a variance first.','The affected residents have been told, in the chat, what changed for them.']}
+    ]},
+  sponsors: { short:'Sponsor', title:'Sponsor handbook', tag:'Organisations, NGOs, embassies, diaspora, locals',
+    line:'You fund a certified request into escrow. Money leaves only against a milestone somebody independent has verified.',
+    sections:[
+      {h:'What you do', items:['Pledge, named or anonymous. Every pledge is tracked the same way.','Hold through remediation when a milestone is sent back. That is the model working, not failing.','Read the ledger you paid into: milestones, evidence, variances.','Ask questions in the public chat, or in the stakeholder chat once you have pledged.','Flag anything that does not add up. Flags go to the verifier, not to the implementer.']},
+      {h:'What you cannot do', items:['Ask for money to be released without a verified milestone. Escrow compliance is a gate.','Pick the expert or the verifier.','Fund a request you implement or certify.','Pay the implementer directly. Every lira goes through the custodian.']},
+      {h:'What happens to your money', items:['Pledged: promised, not taken.','Threshold met: captured and held by the custodian. Not releasable.','Released per verified milestone, one tranche at a time.','Stalled or lapsed: the unreleased balance comes back to you in full.']},
+      {h:'What is published about you', items:['Ten attributes, including Stall Behaviour (did you hold through a send-back) and Ledger Engagement (did you ever come back to read it).']},
+      {h:'What moves your record', items:['Disbursing in full and on time once the threshold is met.','Holding through remediation rather than demanding a refund at the first delay.','Reading milestones and asking questions. An engaged funder is a second set of eyes, for free.']},
+      {h:'Before you pledge: the checklist', items:['Both verifier sign-offs are on the custody trail.','The price card shows a bracket, the bids and the breakdown.','You have no tie to the implementer or the certifier.','You know what happens to the money if the request does not finish. It is written on every request.']}
+    ]},
+  verifiers: { short:'Verifier', title:'Verifier handbook', tag:'First line and second line',
+    line:'Yours is the only signature that moves money. The first line checks the work; the second line checks the check.',
+    sections:[
+      {h:'First line: what you do', items:['At certification: sign off the milestones, the evidence each will need, and set the cost bracket alone.','Approve the cost of the winning bid. Government chooses the expert; you approve the price.','Check every milestone&rsquo;s evidence before a tranche is released.','Approve variances against the published specs, together with the second line.','Close the ledger with a final report.']},
+      {h:'Second line: what you do', items:['Review every first-line sign-off and variance, seeing the request and the reasoning but no names.','Re-check one release in ten after the money has moved. You do not know which until it is picked.','Review every closing report.','Decisions are published under your pseudonym.']},
+      {h:'What you cannot do', items:['Take a request you certified, implemented or funded, or one in your own locality. Five tests run before it reaches you.','Talk to the implementer outside the stakeholder chat.','Sign on a summary. Originals only.','Learn who reviews you, or who you review, on the second line.']},
+      {h:'What is published about you', items:['Rejection rate, passed, rejected, overturned, variances approved, median days, licence, standing.','Second line: reviews, confirmed, sent back, agreement rate.','Rejection rate is never a trigger. Overturns and slowness are.']},
+      {h:'Standing: the rules', items:['5% of decisions overturned, or a median over 21 days: on watch, every decision re-checked for the next ten.','10% overturned: dropped a tier, no assignments, the L1 Verifier Course before re-entry, then five decisions on watch.','Second line below 70% agreement: back to the first line.','A lapsed licence stops assignments on its own.']},
+      {h:'Before you sign: the checklist', items:['Every artefact the sign-off named is present, dated and located.','The figures reconcile to the published breakdown.','Anything over or late has a variance, approved by both lines.','You have written why, in a sentence a resident could read.']}
+    ]}
+};
+function openHandbook(role){
+  setRoute('handbook/' + role);
+  detailBackFn = ()=> openGroupPage(role);
+  renderHandbookPage(role);
+  switchView('detail');
+}
+function renderHandbookPage(role){
+  document.getElementById('mobilePledgeBar')?.classList.remove('show');
+  var h = HANDBOOKS[role]; if(!h) return;
+  document.getElementById('detailContent').innerHTML =
+    '<div style="font-size:12px;color:var(--text-faint);margin-bottom:12px;"><span style="cursor:pointer;" data-hb-nav="home">Home</span> / <span style="cursor:pointer;" data-hb-nav="network">Network</span> / <span style="cursor:pointer;" data-hb-nav="group">' + GROUP_META[role].name + '</span> / <span style="color:var(--text-dim);">Handbook</span></div>' +
+    '<button class="detail-back" id="detailBackBtn">&larr; Back</button>' +
+    '<div style="margin-bottom:2px;"><span style="font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--bg-2);color:var(--text-faint);padding:3px 9px;border-radius:10px;">Handbook &middot; ' + h.tag + '</span></div>' +
+    '<h1 class="detail-title">' + h.title + '</h1>' +
+    '<div class="detail-desc" style="max-width:680px;"><b>' + h.line + '</b></div>' +
+    '<div class="tier-switch">' + Object.keys(HANDBOOKS).map(function(k){ return '<button type="button" class="tier-switch-btn" data-handbook="' + k + '" aria-pressed="' + (k === role) + '">' + HANDBOOKS[k].short + '</button>'; }).join('') + '</div>' +
+    '<div class="hb-grid">' + h.sections.map(function(sec){
+      return '<div class="light-card hb-card"><h4>' + sec.h + '</h4><ul>' + sec.items.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul></div>';
+    }).join('') + '</div>' +
+    '<p class="hb-note">Every line above is checked against what the site does: the order of events, the attribute tables, the standing rules and the failure-stage table. If the site changes, the handbook changes with it.</p>' +
+    (role === 'verifiers' ? '<div class="group-links"><button class="role-jump" type="button" data-course="l1">L1 Verifier Course <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-course="l2">L2 Verifier Course <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-hb-nav="register">See every verifier&rsquo;s record <span aria-hidden="true">&rarr;</span></button></div>'
+                          : '<div class="group-links"><button class="role-jump" type="button" data-hb-nav="join">Join as ' + h.short.toLowerCase() + ' <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-hb-nav="when">When you step in, and why it matters <span aria-hidden="true">&rarr;</span></button></div>');
+  var root = document.getElementById('detailContent');
+  root.querySelectorAll('[data-handbook]').forEach(function(b){ b.addEventListener('click', function(){ openHandbook(b.dataset.handbook); }); });
+  root.querySelectorAll('[data-course]').forEach(function(b){ b.addEventListener('click', function(){ openCourse(b.dataset.course); }); });
+  root.querySelectorAll('[data-hb-nav]').forEach(function(b){ b.addEventListener('click', function(){
+    var k = b.dataset.hbNav;
+    if(k === 'home') switchView('home'); else if(k === 'network') switchView('network'); else if(k === 'group') openGroupPage(role);
+    else if(k === 'register') switchView('verifiers'); else if(k === 'join') openJoinAs(role);
+    else if(k === 'when'){ switchView('dashboard'); var t = document.getElementById('roleWhen'); if(t) setTimeout(function(){ t.scrollIntoView({behavior:'smooth', block:'start'}); }, 60); }
+  }); });
+  document.getElementById('detailBackBtn').addEventListener('click', ()=> detailBackFn());
+}
+
 // ---------- Verifier register: every verifier's record, side by side ----------
 // Sits below VERIFIERS on purpose. Rates are derived, never stored, so the page
 // can never disagree with the numbers shown on an individual request.
@@ -9877,9 +10044,30 @@ function renderVerifierRegister(){
     '<li><b>Dropped &mdash; retraining</b> &mdash; ' + (STANDING_RULES.dropOverturn * 100) + '% or more overturned. No assignments. The way back is a training course run with project stakeholders &mdash; a municipality, an expert organisation, a sponsor and a residents&rsquo; group &mdash; then five decisions on watch.</li>' +
     '<li><b>Second line</b> &mdash; agreement below ' + (STANDING_RULES.l2DropAgreement * 100) + '% drops a second-line verifier back to the first line.</li>' +
     '<li><b>Never a trigger:</b> rejection rate. A strict reviewer is not a bad one. Thresholds apply after ' + STANDING_RULES.minDecisions + ' decisions, and a lapsed licence stops assignments on its own.</li>' +
-    '</ul><span class="vr-rules-note">Modelled on how ride-hailing apps handle ratings: fall below a published line, lose access, complete a course, come back. The course itself and a handbook per account type are not built yet.</span>';
+    '</ul><span class="vr-rules-note">Modelled on how ride-hailing apps handle ratings: fall below a published line, lose access, complete a course, come back. The course exists for each line: ' +
+    '<button type="button" class="vr-link" data-course="l1">L1 Verifier Course</button> &middot; <button type="button" class="vr-link" data-course="l2">L2 Verifier Course</button> &middot; <button type="button" class="vr-link" data-handbook="verifiers">Verifier handbook</button>.</span>';
+  document.querySelectorAll('#vrRules [data-course]').forEach(function(b){ b.addEventListener('click', function(){ openCourse(b.dataset.course); }); });
+  document.querySelectorAll('#vrRules [data-handbook]').forEach(function(b){ b.addEventListener('click', function(){ openHandbook(b.dataset.handbook); }); });
 }
 renderVerifierRegister();
+(function(){
+  document.querySelectorAll('.audience-pane').forEach(function(pane){
+    var role = pane.dataset.audRole; if(!HANDBOOKS[role]) return;
+    var anchor = pane.querySelector('button.btn-secondary');
+    var mk = function(label, fn){ var b = document.createElement('button'); b.type = 'button'; b.className = 'btn btn-secondary'; b.style.cssText = 'margin:0 0 24px 8px;'; b.innerHTML = label; b.addEventListener('click', fn); return b; };
+    var hb = mk('View the ' + HANDBOOKS[role].short + ' handbook &rarr;', function(){ openHandbook(role); });
+    if(anchor) anchor.insertAdjacentElement('afterend', hb); else pane.appendChild(hb);
+    if(role === 'verifiers'){
+      var c2 = mk('L2 Verifier Course &rarr;', function(){ openCourse('l2'); });
+      var c1 = mk('L1 Verifier Course &rarr;', function(){ openCourse('l1'); });
+      hb.insertAdjacentElement('afterend', c2); hb.insertAdjacentElement('afterend', c1);
+    }
+  });
+  document.addEventListener('click', function(e){
+    var b = e.target.closest('[data-branch-cta="handbook"]');
+    if(b && HANDBOOKS[b.dataset.role]) openHandbook(b.dataset.role);
+  });
+})();
 (function(){
   var el = document.getElementById('networkVerifierTiers');
   if(!el) return;
@@ -10628,6 +10816,12 @@ function routeToPath(path){
     if(GROUP_META[arg]){ openGroupPage(arg); return; }
   } else if(head === 'category'){
     if(CATEGORY_META[arg]){ openCategoryPage(arg); return; }
+  } else if(head === 'handbook'){
+    if(HANDBOOKS[arg]){ openHandbook(arg); return; }
+  } else if(head === 'course'){
+    if(COURSES[arg]){ openCourse(arg); return; }
+  } else if(head === 'verifiers' && arg && VERIFIER_TIERS[arg]){
+    openVerifierTier(arg); return;
   } else if(head === 'country'){
     var key = Object.keys(COUNTRY_META).find(function(c){ return routeSlug(c) === arg; });
     if(key){ openCountryPage(key); return; }
