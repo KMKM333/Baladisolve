@@ -1257,7 +1257,6 @@
   .cs-ex{ font-style:italic; }
   .cs-with span{ display:inline-block; font-size:9.5px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; background:var(--accent-soft); color:var(--accent); padding:2px 7px; border-radius:8px; margin-inline-end:6px; }
   .hb-row{ display:flex; gap:8px; flex-wrap:wrap; margin:0 0 22px; }
-  .hb-embed{ margin-top:10px; padding-top:6px; border-top:1px solid var(--border); }
   .hb-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; margin-top:22px; }
   .hb-card h4{ margin:0 0 8px; font-size:14px; }
   .hb-card ul{ margin:0; padding-inline-start:18px; font-size:12.5px; color:var(--text-dim); line-height:1.65; }
@@ -2799,7 +2798,6 @@
       <div id="demoRoleMatch"></div>
       <h3 class="dash-section-title" id="demoActionsTitle">—</h3>
       <div class="dash-actions" id="demoActions"></div>
-      <div id="demoHandbook"></div>
     </div>
   </div>
 </section>
@@ -7737,7 +7735,6 @@ function renderGroupPage(groupId){
     <div class="light-grid" id="groupSubsectionGrid"></div>
     <div class="group-links">${(GROUP_LINKS[groupId] || []).map(l=>`<button class="role-jump" type="button" data-glink="${l[0]}" data-arg="${l[1]}">${l[2]} <span aria-hidden="true">&rarr;</span></button>`).join('')}</div>
     ${matchingHTML}
-    ${handbookEmbedHTML(groupId)}
   `;
   if(groupId === 'verifiers'){
     document.getElementById('groupSubsectionGrid').innerHTML = tierCardsHTML();
@@ -7755,7 +7752,6 @@ function renderGroupPage(groupId){
     });
   });
   document.querySelectorAll('#detailContent [data-group-switch]').forEach(b=> b.addEventListener('click', ()=> openGroupPage(b.dataset.groupSwitch)));
-  wireHandbookEmbed(document.getElementById('detailContent'));
   document.querySelectorAll('#detailContent [data-glink]').forEach(b=> b.addEventListener('click', ()=>{
     if(b.dataset.glink === 'goto') switchView(b.dataset.arg);
     else if(b.dataset.glink === 'handbook') openHandbook(b.dataset.arg);
@@ -8635,7 +8631,7 @@ function placeHandbookRow(pane, role){
   if(!HANDBOOKS[role]) return;
   var row = document.createElement('div'); row.className = 'hb-row';
   var mk = function(label, fn){ var b = document.createElement('button'); b.type = 'button'; b.className = 'btn btn-secondary'; b.innerHTML = label; b.addEventListener('click', fn); return b; };
-  row.appendChild(mk('View the ' + HANDBOOKS[role].short + ' handbook &rarr;', function(){ openHandbook(role); }));
+  row.appendChild(mk('View the ' + HANDBOOKS[role].short + ' handbook &rarr;', function(){ openHandbook(role, 'join'); }));
   if(role === 'verifiers'){
     row.appendChild(mk('L1 Verifier Course &rarr;', function(){ openCourse('l1'); }));
     row.appendChild(mk('L2 Verifier Course &rarr;', function(){ openCourse('l2'); }));
@@ -8813,11 +8809,6 @@ function renderAccountDemo(optionKey){
   document.getElementById('demoActions').style.display = isOverview ? 'none' : (hasDash ? '' : 'none');
 
   renderBranchHeader(branch, isOverview);
-  var hbEl = document.getElementById('demoHandbook');
-  if(hbEl){
-    hbEl.innerHTML = (!isOverview && branch && HANDBOOKS[branch.id]) ? handbookEmbedHTML(branch.id) : '';
-    wireHandbookEmbed(hbEl);
-  }
   renderDemoNav(optionKey);
   document.getElementById('demoOptionPanel').innerHTML = isOverview ? '' : optionPanelHTML(optionKey, branch);
   wireOptionPanel();
@@ -9868,6 +9859,7 @@ function openCourse(tier){
   detailBackFn = ()=> openVerifierTier(tier === 'l2' ? 'second' : 'first');
   renderCoursePage(tier);
   switchView('detail');
+  window.scrollTo(0, 0);
 }
 function renderCoursePage(tier){
   document.getElementById('mobilePledgeBar')?.classList.remove('show');
@@ -9954,11 +9946,19 @@ const HANDBOOKS = {
       {h:'Before you sign: the checklist', items:['Every artefact the sign-off named is present, dated and located.','The figures reconcile to the published breakdown.','Anything over or late has a variance, approved by both lines.','You have written why, in a sentence a resident could read.']}
     ]}
 };
-function openHandbook(role){
+// The handbook lives on exactly one page per role, #/handbook/<role>. It is
+// never embedded anywhere else. Where it was opened from decides the crumbs
+// and the way back; it always opens at the top.
+var handbookOrigin = 'network';
+function openHandbook(role, origin){
+  handbookOrigin = origin || 'network';
   setRoute('handbook/' + role);
-  detailBackFn = ()=> openGroupPage(role);
+  detailBackFn = handbookOrigin === 'account' ? ()=> openDemoBranch(role)
+               : handbookOrigin === 'join' ? ()=> switchView('join')
+               : ()=> openGroupPage(role);
   renderHandbookPage(role);
   switchView('detail');
+  window.scrollTo(0, 0);
 }
 function handbookGridHTML(role){
   var h = HANDBOOKS[role]; if(!h) return '';
@@ -9966,27 +9966,16 @@ function handbookGridHTML(role){
     return '<div class="light-card hb-card"><h4>' + sec.h + '</h4><ul>' + sec.items.map(function(i){ return '<li>' + i + '</li>'; }).join('') + '</ul></div>';
   }).join('') + '</div>';
 }
-// The same handbook, embedded at the foot of a role's own pages.
-function handbookEmbedHTML(role){
-  var h = HANDBOOKS[role]; if(!h) return '';
-  return '<div class="hb-embed" id="hbEmbed">' +
-    '<h3 class="dash-section-title" style="margin-top:34px;">The ' + h.short.toLowerCase() + ' handbook</h3>' +
-    '<p style="font-size:13px;color:var(--text-dim);margin:0 0 4px;max-width:70ch;"><b>' + h.line + '</b></p>' +
-    handbookGridHTML(role) +
-    '<div class="group-links"><button class="role-jump" type="button" data-hb-open="' + role + '">Open the full handbook <span aria-hidden="true">&rarr;</span></button>' +
-    (role === 'verifiers' ? '<button class="role-jump" type="button" data-course="l1">L1 Verifier Course <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-course="l2">L2 Verifier Course <span aria-hidden="true">&rarr;</span></button>' : '') +
-    '</div></div>';
-}
-function wireHandbookEmbed(scope){
-  (scope || document).querySelectorAll('[data-hb-open]').forEach(function(b){ b.addEventListener('click', function(){ openHandbook(b.dataset.hbOpen); }); });
-  (scope || document).querySelectorAll('.hb-embed [data-course]').forEach(function(b){ b.addEventListener('click', function(){ openCourse(b.dataset.course); }); });
-}
 function renderHandbookPage(role){
   document.getElementById('mobilePledgeBar')?.classList.remove('show');
   var h = HANDBOOKS[role]; if(!h) return;
   document.getElementById('detailContent').innerHTML =
-    '<div style="font-size:12px;color:var(--text-faint);margin-bottom:12px;"><span style="cursor:pointer;" data-hb-nav="home">Home</span> / <span style="cursor:pointer;" data-hb-nav="network">Network</span> / <span style="cursor:pointer;" data-hb-nav="group">' + GROUP_META[role].name + '</span> / <span style="color:var(--text-dim);">Handbook</span></div>' +
-    '<button class="detail-back" id="detailBackBtn">&larr; Back</button>' +
+    '<div style="font-size:12px;color:var(--text-faint);margin-bottom:12px;"><span style="cursor:pointer;" data-hb-nav="home">Home</span> / ' +
+      (handbookOrigin === 'account' ? '<span style="cursor:pointer;" data-hb-nav="account">Account</span> / <span style="cursor:pointer;" data-hb-nav="back">For ' + (role === 'government' ? 'government' : role) + '</span>'
+       : handbookOrigin === 'join' ? '<span style="cursor:pointer;" data-hb-nav="back">Join</span>'
+       : '<span style="cursor:pointer;" data-hb-nav="network">Network</span> / <span style="cursor:pointer;" data-hb-nav="back">' + GROUP_META[role].name + '</span>') +
+      ' / <span style="color:var(--text-dim);">Handbook</span></div>' +
+    '<button class="detail-back" id="detailBackBtn">&larr; Back to ' + (handbookOrigin === 'account' ? 'your account' : handbookOrigin === 'join' ? 'Join' : GROUP_META[role].name) + '</button>' +
     '<div style="margin-bottom:2px;"><span style="font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--bg-2);color:var(--text-faint);padding:3px 9px;border-radius:10px;">Handbook &middot; ' + h.tag + '</span></div>' +
     '<h1 class="detail-title">' + h.title + '</h1>' +
     '<div class="detail-desc" style="max-width:680px;"><b>' + h.line + '</b></div>' +
@@ -10000,7 +9989,8 @@ function renderHandbookPage(role){
   root.querySelectorAll('[data-course]').forEach(function(b){ b.addEventListener('click', function(){ openCourse(b.dataset.course); }); });
   root.querySelectorAll('[data-hb-nav]').forEach(function(b){ b.addEventListener('click', function(){
     var k = b.dataset.hbNav;
-    if(k === 'home') switchView('home'); else if(k === 'network') switchView('network'); else if(k === 'group') openGroupPage(role);
+    if(k === 'home') switchView('home'); else if(k === 'network') switchView('network'); else if(k === 'account') openAccountDemo('overview');
+    else if(k === 'back') detailBackFn();
     else if(k === 'register') switchView('verifiers'); else if(k === 'join') openJoinAs(role);
     else if(k === 'when'){ switchView('dashboard'); var t = document.getElementById('roleWhen'); if(t) setTimeout(function(){ t.scrollIntoView({behavior:'smooth', block:'start'}); }, 60); }
   }); });
@@ -10169,7 +10159,7 @@ renderVerifierRegister();
 (function(){
   document.addEventListener('click', function(e){
     var b = e.target.closest('[data-branch-cta="handbook"]');
-    if(b && HANDBOOKS[b.dataset.role]) openHandbook(b.dataset.role);
+    if(b && HANDBOOKS[b.dataset.role]) openHandbook(b.dataset.role, 'account');
   });
 })();
 (function(){
