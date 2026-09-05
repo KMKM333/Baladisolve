@@ -1268,7 +1268,8 @@
   .hb-card li{ margin:4px 0; }
   .hb-note{ font-size:12px; color:var(--text-faint); line-height:1.6; margin:18px 0 0; max-width:78ch; }
   @media (max-width:760px){ .hb-grid{ grid-template-columns:1fr; } }
-  .net-group + .net-group{ border-top:1px solid var(--border); margin-top:38px; padding-top:38px; }
+  #view-network .net-group{ border-top:1px solid var(--border); margin-top:38px; padding-top:38px; }
+  #view-network #residentsGroup{ border-top:0; margin-top:0; padding-top:0; }
   .group-links{ display:flex; gap:10px; flex-wrap:wrap; margin:18px 0 0; }
   .tier-switch{ display:flex; gap:8px; margin:0 0 22px; flex-wrap:wrap; }
   .tier-switch-btn{ all:unset; cursor:pointer; font-size:12.5px; font-weight:700; padding:7px 14px; border:1.5px solid var(--border); border-radius:20px; color:var(--text-dim); }
@@ -1754,7 +1755,7 @@
         <div class="light-card" data-cat="locals"><b>Locals</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Residents pooling small amounts toward a nearby request.</p></div>
       </div>
 
-      <div class="net-group" id="verifierGroup" style="margin-top:34px;">
+      <div class="net-group" id="verifierGroup">
         <div class="net-role">Checks</div>
         <h3 data-group="verifiers" style="cursor:pointer;">Independent verifiers</h3>
         <p>The fourth role, and the reason the other three can be believed. A verifier signs off the request with government before it can take a pledge. A second-line verifier reviews that sign-off pseudonymously. The first then confirms that each milestone actually happened before any money moves — and is structurally barred from being the body that certified the request, the organisation doing the work, or anyone funding it.</p>
