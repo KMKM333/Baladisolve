@@ -109,12 +109,16 @@ async function enrichFromIssuePage(r) {
   const pm = buf.match(/"photos":(\[[^\]]*\])/);
   if (pm) { try { photos = JSON.parse(pm[1]).filter((u) => /^https?:/.test(u)); } catch { /* none */ } }
   const created = (buf.match(/"datePublished":"([^"]+)"/) || [])[1];
-  const fixedOn = (buf.match(/Confirmed fixed[^0-9]{0,160}?(\d{1,2} \w{3,9} \d{4})/) || [])[1]
-    || (buf.match(/(\d{1,2} \w{3,9} \d{4})[^0-9]{0,160}?Confirmed fixed/) || [])[1] || null;
+  // The date is the next text node after the "Confirmed fixed" label in the
+  // rendered timeline; class names in between carry digits, so match loosely.
+  const fixedOn = (buf.match(/"children":"Confirmed fixed"[\s\S]{0,400}?"children":"(\d{1,2} \w{3,9} \d{4})"/) || [])[1] || null;
   return { ...r, description: desc || r.description, photo_urls: photos, created_at: created || r.created_at, fixed_on: fixedOn,
     municipalities: { ...(r.municipalities || {}), governorate: govName || (r.municipalities || {}).governorate } };
 }
-for (const r of mapObjects.filter((x) => x.is_fixed && !reports.has(x.id))) reports.set(r.id, await enrichFromIssuePage(r));
+for (const r of mapObjects.filter((x) => x.is_fixed && !reports.has(x.id))) reports.set(r.id, r);
+// Every fixed report, from the list or the map, gets the page visit: the date it
+// was confirmed fixed lives only there.
+for (const r of [...reports.values()].filter((x) => x.is_fixed)) reports.set(r.id, await enrichFromIssuePage(r));
 
 // This reads a partner's HTML, not an API they promised to keep stable. If they
 // redesign, the pages still return 200 and the parser simply finds nothing —
