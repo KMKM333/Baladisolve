@@ -80,8 +80,41 @@ for (let p = 1; p <= PAGES; p++) {
   for (const r of objects(await flight(LIST(p)))) if (!reports.has(r.id)) reports.set(r.id, r);
 }
 // Coordinates only exist on the map page.
+const mapObjects = objects(await flight(MAP));
 const coords = new Map();
-for (const r of objects(await flight(MAP))) if (r.latitude) coords.set(r.id, [r.latitude, r.longitude]);
+for (const r of mapObjects) if (r.latitude) coords.set(r.id, [r.latitude, r.longitude]);
+
+// Baladi's list hides reports once they are fixed; the map still carries them,
+// without description, photos or dates. Take the fixed ones from the map and
+// fill in what the map lacks from each report's own page — two requests today.
+async function enrichFromIssuePage(r) {
+  const html = await fetch(`https://www.baladimap.com/en/issues/${r.id}`, { headers: UA }).then((x) => (x.ok ? x.text() : ''));
+  if (!html) return r;
+  const buf = [...html.matchAll(/self\.__next_f\.push\(\[1,("(?:[^"\\]|\\.)*")\]\)/g)].map((m) => JSON.parse(m[1])).join('');
+  const unesc = (t) => t.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&#x27;|&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+  const title = (html.match(/<title>([^<]*)<\/title>/) || [])[1] || '';
+  const govName = (title.split(' | ')[0].split(', ').pop() || '').trim();
+  const metaDesc = unesc((html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '');
+  // The meta description is a truncated summary; the full text sits in the
+  // payload under the same opening words.
+  let desc = '';
+  const head = metaDesc.slice(0, 40);
+  if (head) {
+    const lit = JSON.stringify(head).slice(1, -1).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const m = buf.match(new RegExp('"description":("' + lit + '(?:[^"\\\\]|\\\\.)*")'));
+    if (m) { try { desc = JSON.parse(m[1]); } catch { /* keep the summary */ } }
+  }
+  if (!desc) desc = metaDesc.replace(/\s*\d+ citizens? affected.*$/, '');
+  let photos = [];
+  const pm = buf.match(/"photos":(\[[^\]]*\])/);
+  if (pm) { try { photos = JSON.parse(pm[1]).filter((u) => /^https?:/.test(u)); } catch { /* none */ } }
+  const created = (buf.match(/"datePublished":"([^"]+)"/) || [])[1];
+  const fixedOn = (buf.match(/Confirmed fixed[^0-9]{0,160}?(\d{1,2} \w{3,9} \d{4})/) || [])[1]
+    || (buf.match(/(\d{1,2} \w{3,9} \d{4})[^0-9]{0,160}?Confirmed fixed/) || [])[1] || null;
+  return { ...r, description: desc || r.description, photo_urls: photos, created_at: created || r.created_at, fixed_on: fixedOn,
+    municipalities: { ...(r.municipalities || {}), governorate: govName || (r.municipalities || {}).governorate } };
+}
+for (const r of mapObjects.filter((x) => x.is_fixed && !reports.has(x.id))) reports.set(r.id, await enrichFromIssuePage(r));
 
 // This reads a partner's HTML, not an API they promised to keep stable. If they
 // redesign, the pages still return 200 and the parser simply finds nothing —
@@ -158,12 +191,12 @@ function toRecord(r, id) {
     + `${photo ? `\n   photo:'${photo}',` : ''}\n`
     + `   metrics:[{label:'Residents confirmed', value:${conf}}],\n`
     + (r.is_fixed
-        ? `   timeline:{start:'reported ${when}', target:'fixed on Baladi Map', schedule:'ontrack', scheduleLabel:'Fixed on Baladi Map'},\n`
+        ? `   timeline:{start:'reported ${when}', target:'fixed on Baladi Map${r.fixed_on ? ' ' + esc(r.fixed_on) : ''}', schedule:'ontrack', scheduleLabel:'Fixed on Baladi Map'},\n`
         : `   timeline:{start:'reported ${when}', target:'TBD — awaiting certification', schedule:'early', scheduleLabel:'Not yet certified'},\n`)
     + `   originReport:{ref:'${ref}', confirmed:${conf}}, beneficiaries:${conf}, daysToMilestone:null, interest:${conf}, interestable:true,\n`
     + `   desc:'${desc}',\n`
     + `   ledger:[{t:'Reported on Baladi Map', d:'${when}', meta:'${conf} resident${conf === 1 ? '' : 's'} confirmed${r.is_fixed ? '' : ' · not yet certified'}', ref:'${ref}', state:'${r.is_fixed ? 'verified' : 'pending'}'}`
-    + (r.is_fixed ? `, {t:'Fixed on Baladi Map', d:'later', meta:'The repair was reported and Baladi Map checked the photo. Not through this ledger — no escrow, no verifier, nothing released', ref:'${ref}-FIX', state:'verified'}` : '')
+    + (r.is_fixed ? `, {t:'Fixed on Baladi Map', d:'${r.fixed_on ? esc(r.fixed_on) : 'via Baladi Map'}', meta:'The repair was reported and Baladi Map checked the photo. Not through this ledger — no escrow, no verifier, nothing released', ref:'${ref}-FIX', state:'verified'}` : '')
     + `],\n`
     + `   donations:[],\n`
     + `   comments:[]},`;
