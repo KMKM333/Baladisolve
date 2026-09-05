@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <title>Manāra — Fund what your town needs, and watch it get checked</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2563EB">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Manāra">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
@@ -11204,5 +11210,14 @@ if(location.hash.length > 1){ applyRoute(); }
 
 </script>
 
+<script>
+// Installable web app: register the service worker once the page has loaded.
+// Guarded so a browser without it, or a failed registration, changes nothing.
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('/sw.js').catch(function () {});
+  });
+}
+</script>
 </body>
 </html>

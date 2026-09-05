@@ -1,0 +1,17 @@
+{
+  "name": "Manāra",
+  "short_name": "Manāra",
+  "description": "Certified municipal requests, matched to experts, funded into escrow, released only after independent verification.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563EB",
+  "lang": "en",
+  "dir": "auto",
+  "icons": [
+    { "src": "/images/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/images/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "/images/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
