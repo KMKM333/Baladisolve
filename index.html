@@ -2926,62 +2926,103 @@ const PROJECT_COORDS = {
   17:[33.1174,35.4361], 18:[34.3520,35.7217], 19:[34.0207,36.1137], 20:[33.9803,35.8373],
   21:[33.3630,35.5860], 22:[34.4500,36.0000],
 };
-// Only experts with a confidently-known, real, single physical base get a point marker.
-// Coverage-area organisations (regional water establishments, coastline-wide initiatives)
-// are deliberately excluded here rather than given a misleading single pin — see the
-// Service Area discussion for why a point marker would misrepresent what they actually cover.
+// A filled pin means the organisation has a published office address (its own site or
+// its Google listing), geocoded to the street or neighbourhood. Coverage-area bodies
+// such as the water establishments are pinned at their head office, not their area —
+// the popup says so. Organisations with no published address are in EXPERT_HQ_APPROX.
 const EXPERT_COORDS = {
-  'NAHNOO': [33.8938, 35.5018],
-  'YASA': [33.8869, 35.5131],
-  'Khatib & Alami': [33.8791, 35.5060],
-  'Beit el Baraka': [33.8820, 35.5250],
-  'Lebanese Center for Energy Conservation (LCEC)': [33.8712, 35.5100],
-  'Cedar Environmental': [33.9167, 35.6667],
-};// Every other expert organisation with a knowable base gets an office point too,
+  'NAHNOO': [33.87119, 35.52758],
+  'YASA': [33.85950, 35.53613],
+  'Khatib & Alami': [33.87438, 35.48672],
+  'Beit el Baraka': [33.89157, 35.53047],
+  'Lebanese Center for Energy Conservation (LCEC)': [33.88815, 35.53249],
+  'Cedar Environmental': [33.92000, 35.68360],
+  'Électricité du Liban (EDL)': [33.90128, 35.52405],
+  'Litani River Authority (LRA)': [33.88670, 35.50640],
+  'Électricité de Zahlé (EDZ)': [33.85663, 35.89925],
+  'Électricité de Kadicha': [34.43775, 35.83276],
+  'RAMCO': [33.89564, 35.48226],
+  'Averda': [33.89650, 35.50450],
+  'CityBlu': [33.89289, 35.50868],
+  'Live Love Recycle': [33.89033, 35.50392],
+  'Beirut and Mount Lebanon Water Establishment': [33.87196, 35.51691],
+  'North Lebanon Water Establishment': [34.43736, 35.83486],
+  'South Lebanon Water Establishment': [33.56473, 35.37498],
+  'Bekaa Water Establishment': [33.84771, 35.90250],
+  'Beirut Heritage Initiative': [33.88731, 35.52086],
+  'APSAD': [33.88800, 35.51900],
+  'Beirut Urban Lab (AUB)': [33.90003, 35.48238],
+  'AFDC': [33.89217, 35.57038],
+  'Jouzour Loubnan': [33.88500, 35.52050],
+  'SPNL': [33.89815, 35.48426],
+  'Operation Big Blue Association': [33.89170, 35.49384],
+  'Lebanese Environment Forum': [33.86521, 35.51798],
+  'Swiminitiative': [34.14213, 35.64655],
+  'Thegreenvanleb': [33.44344, 35.39950],
+  'Kunhadi': [33.85410, 35.53740],
+  'Council for Development and Reconstruction (CDR)': [33.89594, 35.50049],
+  'Order of Engineers and Architects, Beirut': [33.86927, 35.50221],
+  'arcenciel': [33.86608, 35.53152],
+  'Offre Joie': [33.89806, 35.48891],
+  'Live Love Lebanon': [33.89080, 35.50450],
+  'Ahla Fawda': [33.89600, 35.48350],
+};
+// The office address behind each confirmed pin, as published by the organisation
+// or shown on its Google listing. Pins sit at the street or neighbourhood.
+const EXPERT_ADDRESS = {
+  'NAHNOO': 'Salim Khoury St, Awwad Building, 1st floor, Furn el Chebbak',
+  'YASA': 'VG5P+RF6, Hazmieh (YASA International head quarters)',
+  'Khatib & Alami': 'K&A Building, Al Akhtal Assaghir St, Jnah, Beirut',
+  'Beit el Baraka': 'Sheikh El Ghabi St, Karm El Zeitoun, Achrafieh, Beirut',
+  'Lebanese Center for Energy Conservation (LCEC)': 'Ministry of Energy and Water, Corniche du Fleuve, 1st floor, Beirut',
+  'Cedar Environmental': 'Bikfaya, Metn (main facility)',
+  'Électricité du Liban (EDL)': 'EDL Building, Al Nahr St, Mar Mikhael, Beirut',
+  'Litani River Authority (LRA)': 'Ghannageh Building, 4th floor, Bechara El Khoury St, Beirut',
+  'Électricité de Zahlé (EDZ)': 'EDZ Building, Jisr St, Berbara, Zahlé',
+  'Électricité de Kadicha': 'Al Mina St (Mhatta St), Tripoli',
+  'RAMCO': 'Saroulla Building, 7th floor, Hamra St, Beirut',
+  'Averda': 'Averda House, 145 Abed Al Malak St, Beirut Central District',
+  'CityBlu': 'Burj El Ghazal, Saifi, Beirut',
+  'Live Love Recycle': 'Beirut Digital District, Bachoura, Beirut',
+  'Beirut and Mount Lebanon Water Establishment': 'Chedrawi Building, Sami Solh Avenue, Beirut',
+  'North Lebanon Water Establishment': 'Tarek Kabbara Building, Salaheddine Kabbara St, Tripoli',
+  'South Lebanon Water Establishment': 'Riad El Solh St, Bawaba El Fawqa, Saida',
+  'Bekaa Water Establishment': 'Abdel Dayem Building, Zahlé highway, Zahlé',
+  'Beirut Heritage Initiative': 'Notre Dame Building, 9th floor, Sassine Square, Achrafieh, Beirut',
+  'APSAD': 'Béchara Aoun Building, Rue Sursock, Achrafieh, Beirut',
+  'Beirut Urban Lab (AUB)': 'Raymond Ghosn Building, American University of Beirut',
+  'AFDC': 'Hikmeh St 7, 1st floor, Jdeideh, Metn',
+  'Jouzour Loubnan': 'Al Rehban Building, 7th floor, Adib Ishak St, Achrafieh, Beirut',
+  'SPNL': 'Awad Building, 6th floor, Abdel Aziz St, Hamra, Beirut',
+  'Operation Big Blue Association': 'Toufic Tabbarah Center, 4th floor, Toufic Tabbara St, Zarif, Beirut',
+  'Lebanese Environment Forum': 'Najjar Building, 2nd floor, Wadih Naim St, Chiyah',
+  'Swiminitiative': 'Amchit, Jbeil',
+  'Thegreenvanleb': 'The Green Van farm, Zefta, Nabatieh',
+  'Kunhadi': 'Feghali Building, 1st floor, Hazmieh Square, Damascus Road, Hazmieh',
+  'Council for Development and Reconstruction (CDR)': 'Tallet Al Serail, Riad El Solh, Beirut',
+  'Order of Engineers and Architects, Beirut': 'Bir Hassan, Beirut',
+  'arcenciel': 'Head office, Jisr El Bacha, Beirut',
+  'Offre Joie': 'Ecole des Filles de la Charité, Clemenceau, Beirut',
+  'Live Love Lebanon': 'Beirut Digital District 1079, 2nd floor, Beirut',
+  'Ahla Fawda': 'Youssef Assaf Building, 180 Hamra St, Ras Beirut',
+};
+// Every other expert organisation with a knowable base gets an office point too,
 // drawn hollow and labelled approximate: the town or neighbourhood of its head
 // office, placed by geocoding the place name, not a verified street address.
 // Organisations that describe themselves as nationwide with no stated base get
 // no pin at all rather than an invented one.
 const EXPERT_HQ_APPROX = {
-  'Électricité du Liban (EDL)': {coords:[33.9013, 35.5240], place:'Mar Mikhael, Beirut — head office'},
-  'Litani River Authority (LRA)': {coords:[33.8867, 35.5064], place:'Bechara El Khoury, Beirut'},
-  'Électricité de Zahlé (EDZ)': {coords:[33.8477, 35.9025], place:'Zahlé'},
-  'Électricité de Kadicha': {coords:[34.4374, 35.8349], place:'Tripoli'},
-  'RAMCO': {coords:[33.9388, 35.5912], place:'Dbayeh, Metn'},
-  'Averda': {coords:[33.8892, 35.5026], place:'Beirut — Lebanon office'},
-  'CityBlu': {coords:[33.8905, 35.5080], place:'Beirut'},
-  'Live Love Recycle': {coords:[33.8930, 35.4960], place:'Beirut'},
   'Ahmoudhassan496': {coords:[34.4374, 35.8349], place:'Tripoli'},
   'Jbs.community': {coords:[33.8541, 35.5374], place:'Hazmieh'},
-  'Beirut and Mount Lebanon Water Establishment': {coords:[33.8745, 35.5067], place:'Mazraa, Beirut'},
-  'North Lebanon Water Establishment': {coords:[34.4420, 35.8400], place:'Tripoli'},
-  'South Lebanon Water Establishment': {coords:[33.5647, 35.3750], place:'Saida'},
-  'Bekaa Water Establishment': {coords:[33.8500, 35.9060], place:'Zahlé'},
-  'Save Beirut Heritage': {coords:[33.8970, 35.5097], place:'Gemmayzeh, Beirut'},
-  'Beirut Heritage Initiative': {coords:[33.8985, 35.5130], place:'Gemmayzeh, Beirut'},
-  'APSAD': {coords:[33.8842, 35.5215], place:'Achrafieh, Beirut'},
-  'Beirut Urban Lab (AUB)': {coords:[33.9000, 35.4824], place:'American University of Beirut'},
+  'Save Beirut Heritage': {coords:[33.8970, 35.5097], place:'Beirut — no office address published'},
   'Mohamad.alomar1': {coords:[34.4340, 35.8300], place:'Tripoli'},
   'Tajrouba.leb': {coords:[34.4400, 35.8450], place:'Tripoli'},
-  'AFDC': {coords:[33.8860, 35.4990], place:'Beirut'},
-  'Jouzour Loubnan': {coords:[33.8840, 35.5100], place:'Beirut'},
-  'SPNL': {coords:[33.8967, 35.4830], place:'Hamra, Beirut'},
-  'Operation Big Blue Association': {coords:[33.8920, 35.5150], place:'Beirut'},
-  'Lebanese Environment Forum': {coords:[33.8800, 35.5000], place:'Beirut'},
-  'Swiminitiative': {coords:[33.8950, 35.4900], place:'Beirut'},
-  'Thegreenvanleb': {coords:[33.8870, 35.5180], place:'Beirut'},
   'Manateq_ (Dr. Youssef Touq)': {coords:[34.2507, 36.0100], place:'Bsharri'},
-  'Kunhadi': {coords:[33.8830, 35.5040], place:'Beirut'},
-  'Council for Development and Reconstruction (CDR)': {coords:[33.8959, 35.5005], place:'Tallet el Serail, Beirut'},
-  'Order of Engineers and Architects, Beirut': {coords:[33.8693, 35.5022], place:'Bir Hassan, Beirut'},
-  'Traintrainngo': {coords:[33.9020, 35.5255], place:'Mar Mikhael station, Beirut'},
-  'arcenciel': {coords:[33.8779, 35.5377], place:'Jisr el Wati / Sin el Fil'},
-  'Offre Joie': {coords:[33.8780, 35.5120], place:'Beirut'},
-  'Baytna Baytak': {coords:[33.8910, 35.5060], place:'Beirut'},
-  'Live Love Lebanon': {coords:[33.8940, 35.5000], place:'Beirut'},
-  'Ecocitizens.lb': {coords:[33.8860, 35.5140], place:'Beirut'},
-  'Ahla Fawda': {coords:[33.8890, 35.5200], place:'Beirut'},
+  'Traintrainngo': {coords:[33.9020, 35.5255], place:'Mar Mikhael station, Beirut — no office address published'},
+  'Baytna Baytak': {coords:[33.8910, 35.5060], place:'Beirut — no office address published'},
+  'Ecocitizens.lb': {coords:[33.8860, 35.5140], place:'Beirut — no office address published'},
 };
+
 
 // Real per-municipality coordinates, replacing an earlier version of this map that scattered
 // municipalities algorithmically around a governorate center — which produced visibly wrong
@@ -6985,17 +7026,19 @@ function ensureLeafletMap(){
       <div style="font-family:'Public Sans',sans-serif;min-width:160px;cursor:pointer;" onclick="event.stopPropagation(); window.__expandMapPopup('${mid}')">
         <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#7c3aed;margin-bottom:4px;">Expert organisation</div>
         <b style="font-size:13px;">${name}</b>
+        ${EXPERT_ADDRESS[name] ? `<div style="font-size:10.5px;color:#666;margin-top:4px;">${EXPERT_ADDRESS[name]}</div>` : ''}
         <div style="font-size:10.5px;color:#7c3aed;font-weight:600;margin-top:6px;">Tap for details →</div>
       </div>`;
     const stage2 = `
       <div onclick="event.stopPropagation();" style="font-family:'Public Sans',sans-serif;min-width:200px;">
         <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#7c3aed;margin-bottom:5px;">Expert organisation</div>
         <div onclick="event.stopPropagation(); window.__openExpertFromMap('${mid}')" style="cursor:pointer;color:#7c3aed;text-decoration:underline;font-size:15px;font-weight:700;">${name}</div>
+        ${EXPERT_ADDRESS[name] ? `<div style="font-size:10.5px;color:#666;margin-top:6px;">Office: ${EXPERT_ADDRESS[name]}. Pin at street or neighbourhood level.</div>` : ''}
         <div style="font-size:10.5px;color:#888;margin-top:8px;">Click the name above to view full details →</div>
       </div>`;
     const marker = L.marker(coords, { icon }).bindPopup(stage1).addTo(mapLayers.experts);
     window.__mapMarkerRegistry[mid] = { marker, stage2, name };
-    mapSearchIndex.push({ name, sub:'Expert organisation', type:'experts', coords, marker, iconNormal: icon, iconHighlight });
+    mapSearchIndex.push({ name, sub:'Expert organisation' + (EXPERT_ADDRESS[name] ? ' · ' + EXPERT_ADDRESS[name] : ''), type:'experts', coords, marker, iconNormal: icon, iconHighlight });
   });
 
   // ---- Municipalities (real per-town coordinates — see coverage note for sourcing) ----
@@ -7126,7 +7169,7 @@ function ensureLeafletMap(){
 
   const coverageNote = document.getElementById('leafletCoverageNote');
   if(coverageNote){
-    coverageNote.textContent = `${problemCount} of ${PROJECTS.length} projects mapped, ${Object.keys(EXPERT_COORDS).length + Object.keys(EXPERT_HQ_APPROX).filter(n=> !EXPERT_COORDS[n]).length} expert organisations (${Object.keys(EXPERT_COORDS).length} confirmed bases, the rest placed at their office's town or neighbourhood), and ${muniCount} municipalities. Project and municipality locations are individually researched — about a third of the municipalities are directly Wikipedia-sourced coordinates for that specific town, the rest are confident placements for well-documented Lebanese towns, not a single one is randomly scattered. Coverage-area organisations (regional water establishments, coastline-wide initiatives) aren't pinned as a single point, since that would misrepresent what they actually cover.`;
+    coverageNote.textContent = `${problemCount} of ${PROJECTS.length} projects mapped, ${Object.keys(EXPERT_COORDS).length + Object.keys(EXPERT_HQ_APPROX).filter(n=> !EXPERT_COORDS[n]).length} expert organisations (${Object.keys(EXPERT_COORDS).length} at a published office address, the rest placed at their town), and ${muniCount} municipalities. Project and municipality locations are individually researched — about a third of the municipalities are directly Wikipedia-sourced coordinates for that specific town, the rest are confident placements for well-documented Lebanese towns, not a single one is randomly scattered. Coverage-area organisations (regional water establishments, coastline-wide initiatives) aren't pinned as a single point, since that would misrepresent what they actually cover.`;
   }
 
   const listEl = document.getElementById('mapProjectsCarousel');
