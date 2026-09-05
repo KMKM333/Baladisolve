@@ -856,6 +856,7 @@
   }
   /* Home: the four roles as one choice, rather than four scroll-past sections. */
   .role-btn-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+  .role-btn-grid.five{ grid-template-columns:repeat(5,1fr); }
   .role-btn{ all:unset; box-sizing:border-box; cursor:pointer; display:flex; flex-direction:column; gap:7px;
     border:1px solid var(--border); border-radius:14px; padding:22px 20px; background:var(--bg-1);
     transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease; }
@@ -1508,7 +1509,14 @@
       <button class="btn-text" data-goto="network" style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;font-size:13.5px;">See the full network &rarr;</button>
     </div>
 
-    <div class="role-btn-grid">
+    <div class="role-btn-grid five">
+      <button class="role-btn" type="button" data-group="residents">
+        <span class="role-btn-role">Reports</span>
+        <span class="role-btn-name">Residents + Baladi Map</span>
+        <span class="role-btn-sub">Every request starts with a resident: a Baladi Map report, or one filed here, confirmed by neighbours.</span>
+        <span class="role-btn-when">The confirmations are the affected group. They follow the request into its chat and can say &ldquo;I&rsquo;ve been affected too&rdquo;.</span>
+        <span class="role-btn-go">Two ways to report &rarr;</span>
+      </button>
       <button class="role-btn" type="button" data-group="government">
         <span class="role-btn-head"><span class="role-btn-role">Certifies</span><span class="role-btn-step">1</span></span>
         <span class="role-btn-name">Government</span>
@@ -1713,6 +1721,13 @@
 
 
     <div class="section">
+      <div class="net-group" id="residentsGroup"><div class="net-role">Reports</div><h3 data-group="residents" style="cursor:pointer;">Residents + Baladi Map reports</h3><p>Every request starts with a resident. Most arrive as Baladi Map reports &mdash; a photo, a pin and the neighbours who confirmed it &mdash; synced daily under the partnership; the rest are filed here directly. The people who confirmed it are the affected group, with a seat in the request&rsquo;s chat.</p>
+        <div class="light-grid" style="margin-bottom:14px;">
+          <div class="light-card" data-cat="baladi-report"><b>Baladi Map</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Reported on Manāra&rsquo;s partner platform: photo, pin, category, confirmations. Synced every day, ids pinned.</p></div>
+          <div class="light-card" data-cat="direct-report"><b>Residents report</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Filed here directly, with the same shape. Confirm a report, join the affected group, say &ldquo;I&rsquo;ve been affected too&rdquo;.</p></div>
+        </div>
+        <button class="role-jump" type="button" data-reports="1">See the reports <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-attrs="residents">Attributes <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button>
+      </div>
       <div class="net-group"><div class="net-role">Certifies</div><h3 data-group="government" style="cursor:pointer;">Government</h3><p>Certifies compliance and runs the diaspora-welcome liaison desk. Never holds pledged funds.</p><button class="role-jump" type="button" data-demo-jump="ministry">See the government options <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-attrs="government">Attributes <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button></div>
       <div class="light-grid" style="margin-bottom:34px;">
         <div class="light-card" data-cat="ministry"><b>Ministry</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Certifies technical &amp; regulatory compliance nationally — the specific ministry depends on the request's field.</p></div>
@@ -7511,6 +7526,11 @@ function renderDetail(){
 // ===================== Category & Lead pages =====================
 // ===================== Network group pages (Government / Experts / Sponsors) =====================
 const GROUP_META = {
+  residents: {
+    name:'Residents + Baladi Map reports', role:'Reports',
+    overview:"Every request starts with a resident. Most arrive as Baladi Map reports — a photo, a pin, a category and the neighbours who confirmed it — synced to this ledger daily under a partnership between the two platforms. The rest are filed here directly. Either way, the people who confirmed it are the affected group: they follow the request into its stakeholder chat and can say “I've been affected too”. Residents hold no money and sign nothing; what they hold is the fact that the problem is real.",
+    subsections: ['baladi-report','direct-report']
+  },
   verifiers: {
     name:'Independent verifiers', role:'Checks',
     overview:"The fourth role, and the reason the other three can be believed. A verifier confirms that a milestone actually happened before any money moves, and is structurally barred from being the body that certified the request, the organisation doing the work, or anyone funding it. Independence here is not a box someone ticks: five tests run against the request's own records — not the implementer, not the certifying body, no funding stake, not based in the same locality, accredited for the field — and the result is stored with the decision, so the claim on the page can be checked rather than taken on trust. Verifiers are accredited engineers, district inspectors and programme auditors, licensed for specific fields and specific governorates. Every verifier's rejection count is published next to their approvals, because a reviewer who has never rejected anything is an unexamined one.",
@@ -7659,9 +7679,10 @@ function renderVerifierTierPage(tier){
 }
 // Every role's group page has the same shape as the verifier tier pages: a
 // switch across the four roles, a heading for the boxes, the boxes, the links.
-const GROUP_ORDER = ['government','experts','sponsors','verifiers'];
-const GROUP_BOXES_HEADING = { government:'Three kinds of government body', experts:'Eight expert fields', sponsors:'Five kinds of sponsor', verifiers:'Two lines of verifier' };
+const GROUP_ORDER = ['residents','government','experts','sponsors','verifiers'];
+const GROUP_BOXES_HEADING = { residents:'Two ways to report', government:'Three kinds of government body', experts:'Eight expert fields', sponsors:'Five kinds of sponsor', verifiers:'Two lines of verifier' };
 const GROUP_LINKS = {
+  residents:[['reports','','See the reports'],['attrs','residents','Attributes'],['when','','When they step in, and why it matters']],
   government:[['handbook','government','View the handbook'],['demo','government','See the government options'],['when','','When they step in, and why it matters']],
   experts:[['handbook','experts','View the handbook'],['demo','experts','See the expert options'],['when','','When they step in, and why it matters']],
   sponsors:[['handbook','sponsors','View the handbook'],['demo','sponsors','See the sponsor options'],['when','','When they step in, and why it matters']],
@@ -7707,8 +7728,22 @@ const VERIFIER_ATTRS = [
   {name:'Agreement rate', scale:false, scope:'Second line', low:'First-line sign-offs confirmed rather than sent back.', high:'Below 70% drops a second-line verifier back to the first line.'},
   {name:'Independence tests', scale:false, low:'Not the implementer, not the certifier, no funding stake, not the same locality, accredited for the field.', high:'All five must pass before a request reaches you.', gate:true}
 ];
+// A report is not scored either. These are the things every report carries,
+// and what each one does downstream.
+const RESIDENT_ATTRS = [
+  {name:'Confirmations', scale:false, low:'Neighbours who confirmed the report. They become the affected group.', high:'Fewer than three and certification waits for more.'},
+  {name:'Photo and pin', scale:false, low:'A photograph and a map location from the resident who filed it.', high:'A report without a pin does not appear on the live map and says so.'},
+  {name:'Category and severity', scale:false, low:'What kind of problem, and how urgent, as filed.', high:'Severity sets the order a council is expected to answer in.'},
+  {name:'Municipal response', scale:false, low:'Noted, in progress, fixed, or not yours to fix — on Baladi Map, in the council&rsquo;s name.', high:'Silence counts against the council&rsquo;s Report Responsiveness.'},
+  {name:'Stage', scale:false, low:'Reported, certified, signed off and bids, funding, in progress, complete.', high:'Reported for long with many confirmations and no certification is the thing to ask about.'},
+  {name:'Affected group', scale:false, low:'Everyone who confirmed, plus anyone who pressed “I&rsquo;ve been affected too”.', high:'They sit in the stakeholder chat with both verifiers.'},
+  {name:'Source', scale:false, low:'Baladi Map, or filed here directly.', high:'Both follow the same six stages; neither invents a cost.'}
+];
 function attrSectionHTML(catId){
   var meta = CATEGORY_META[catId]; if(!meta) return '';
+  if(catId === 'baladi-report' || catId === 'direct-report'){
+    return attrTableHTML(RESIDENT_ATTRS, meta.name + ' attributes', 'A report is never scored. These are the things every report carries, and what each one does downstream.', null);
+  }
   if(catId.indexOf('v-') === 0 || catId.indexOf('l2-') === 0){
     return attrTableHTML(VERIFIER_ATTRS, meta.name + ' attributes', 'A verifier is never scored on fit. These are the measures published about every verifier, computed from their decisions, and the lines that move their standing.', null);
   }
@@ -7717,6 +7752,12 @@ function attrSectionHTML(catId){
   var ms = group && GROUP_META[group].matchingSystem; if(!ms) return '';
   var attrs = ms.attributes.filter(function(a){ return !a.scope || catId === 'municipality'; });
   return attrTableHTML(attrs, meta.name + ' attributes', 'How a ' + meta.name.toLowerCase() + ' account is scored and gated. ' + ms.intro, ms.note, 'Why some attributes are marked "gate"');
+}
+function openReportedRequests(){
+  switchView('dashboard');
+  fSearch.value = ''; [fGov,fMuni,fType,fSize,fUrgency].forEach(function(el){ el.value = ''; }); fillMuniOptions();
+  fStatus.value = 'proposed'; renderGrid(true);
+  setTimeout(function(){ var g = document.getElementById('projectGrid'); if(g) g.scrollIntoView({behavior:'smooth', block:'start'}); }, 80);
 }
 function openGroupPage(groupId){
   setRoute('group/' + groupId);
@@ -7732,7 +7773,8 @@ function renderGroupPage(groupId){
     : groupId==='sponsors' ? 'How sponsors get matched to requests'
     : 'How experts get matched to problems';
   const matchingHTML = ms ? attrTableHTML(ms.attributes, '🎯 ' + msHeading, ms.intro, ms.note, 'Why two attributes are marked "gate"', 'groupAttrs')
-    : (groupId === 'verifiers' ? attrTableHTML(VERIFIER_ATTRS, 'Verifier attributes', 'A verifier is never scored on fit. These are the measures published about every verifier, computed from their decisions, and the lines that move their standing.', null, null, 'groupAttrs') : '');
+    : groupId === 'verifiers' ? attrTableHTML(VERIFIER_ATTRS, 'Verifier attributes', 'A verifier is never scored on fit. These are the measures published about every verifier, computed from their decisions, and the lines that move their standing.', null, null, 'groupAttrs')
+    : groupId === 'residents' ? attrTableHTML(RESIDENT_ATTRS, 'Report attributes', 'A report is never scored. These are the things every report carries, and what each one does downstream.', null, null, 'groupAttrs') : '';
   document.getElementById('detailContent').innerHTML = `
     <div style="font-size:12px;color:var(--text-faint);margin-bottom:12px;">
       <span style="cursor:pointer;" id="bcHomeGroup">Home</span> / <span style="cursor:pointer;" id="bcNetworkGroup">Network</span> / <span style="color:var(--text-dim);">${g.name}</span>
@@ -7767,6 +7809,8 @@ function renderGroupPage(groupId){
   document.querySelectorAll('#detailContent [data-group-switch]').forEach(b=> b.addEventListener('click', ()=> openGroupPage(b.dataset.groupSwitch)));
   document.querySelectorAll('#detailContent [data-glink]').forEach(b=> b.addEventListener('click', ()=>{
     if(b.dataset.glink === 'goto') switchView(b.dataset.arg);
+    else if(b.dataset.glink === 'reports') openReportedRequests();
+    else if(b.dataset.glink === 'attrs'){ var t = document.getElementById('groupAttrs'); if(t) t.scrollIntoView({behavior:'smooth', block:'start'}); }
     else if(b.dataset.glink === 'handbook') openHandbook(b.dataset.arg);
     else if(b.dataset.glink === 'course') openCourse(b.dataset.arg);
     else if(b.dataset.glink === 'when'){ switchView('dashboard'); const t = document.getElementById('roleWhen'); if(t) setTimeout(()=> t.scrollIntoView({behavior:'smooth', block:'start'}), 60); }
@@ -7793,6 +7837,12 @@ const CATEGORY_META = {
   'v-inspector': {name:'Independent inspector', group:'Verifiers',
     overview:"Accredited individuals and small firms taking assignments where no public body is both qualified and unconnected — the gap that otherwise leaves a request unverifiable.",
     fit:"You take the assignments nobody else can: right field, right governorate, no tie to the partner, the certifier or any funder."},
+  'baladi-report': {name:'Baladi Map report', group:'Residents + Baladi Map reports',
+    overview:"A problem reported on Baladi Map, Manāra's partner: a photo, a pin, a category and a severity, confirmed by neighbours. Reports sync to this ledger every day with their ids pinned, so a link never changes hands. The photo stays the resident's, credited to Baladi Map.",
+    fit:"A Baladi Map report is stage one of six. It becomes a Manāra request the moment a ministry or district certifies it; until then it is shown as reported, with no cost invented and no verifier named."},
+  'direct-report': {name:'Resident report filed here', group:'Residents + Baladi Map reports',
+    overview:"A request filed on Manāra directly by a resident, a community group or a council, with the same shape: what is wrong, where, a photo, and neighbours who confirm it. The affected group forms from those confirmations.",
+    fit:"Filed here, a report follows the same six stages as a Baladi Map report. Residents who confirm it get a seat in the stakeholder chat and can press “I've been affected too” on the request page."},
   'l2-appointment': {name:'How a second-line verifier is appointed', group:'Verifiers · Second line',
     overview:"Nobody applies to be a second-line verifier. They are appointed from the first-line register on three published conditions: a current licence, at least thirty milestone decisions, and an overturn rate in the bottom half of the register. Appointment lapses with the licence.",
     fit:"The second line is drawn from the people the first line has already tested — which is why the register comes first, and this tier cannot exist without it."},
@@ -7843,6 +7893,16 @@ function getCategoryLeads(catId){
   if(catId==='municipality') return GOVS.slice(0,6).map(g=>({name:MUNICIPALITIES[g.id][0], summary:`Municipality in ${g.name}.`, typeLabel:'Municipality', govId:g.id}));
   // The verifier register stands in for ALL_LEADS here, shaped the same way so
   // the existing category and lead pages render it without special-casing.
+  if(catId === 'baladi-report' || catId === 'direct-report'){
+    var pool = catId === 'baladi-report' ? PROJECTS.filter(p=> p.source === 'baladi').slice(0, 6) : PROJECTS.filter(p=> p.source !== 'baladi' && p.originReport).slice(0, 6);
+    return pool.map(p=>({
+      name: p.title, typeLabel: catId === 'baladi-report' ? 'Baladi Map report' : 'Report filed here',
+      summary: p.locality + ' · ' + (p.originReport ? p.originReport.confirmed + ' residents confirmed' : 'confirmed by residents') + ' · ' + stageOf(p).label + '.',
+      whatTheyDo: p.desc, wherePrevalent: p.locality + ', ' + govName(p.gov) + '.',
+      examples: [ 'Stage ' + stageOf(p).i + ' of 6: ' + stageOf(p).label + '.', (p.originReport ? p.originReport.confirmed : 0) + ' residents in the affected group.' ],
+      additional: catId === 'baladi-report' ? 'Photo and report by the resident, via Baladi Map — Manāra\'s partner.' : 'Filed on Manāra. Follows the same six stages as a Baladi Map report.'
+    }));
+  }
   if(catId.indexOf('l2-') === 0){
     return VERIFIERS_L2.map(v=>({
       name: v.pseudonym,
@@ -10176,6 +10236,7 @@ renderVerifierRegister();
   });
 })();
 (function(){
+  document.querySelectorAll('[data-reports]').forEach(function(b){ b.addEventListener('click', openReportedRequests); });
   // "Attributes" on each Network section opens that role's page at its table.
   document.querySelectorAll('[data-attrs]').forEach(function(b){
     b.addEventListener('click', function(){
