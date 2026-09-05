@@ -910,7 +910,7 @@
     #view-home .role-btn-when{ display:none; }
     #view-home .role-btn-grid{ grid-template-rows:repeat(4,auto); }
     #view-home .role-btn{ grid-row:span 4; }
-    .tw-step div span{ display:none; }
+    #view-home .tw-lane .tw-step > div > span{ display:none; }
     .tw-foot{ display:none; }
     .rn-cap{ display:none; }
     .rn-cap-m{ display:block; }
@@ -969,7 +969,7 @@
   @media (max-width:620px){
     .rw{ padding:22px 20px 24px; }
     .rw-steps, .rw-steps.rw-3,.rw-steps.rw-5,.rw-steps.rw-6{ grid-template-columns:1fr; row-gap:24px; }
-    .rw-step::before, .rw-steps.rw-6 .rw-step::before{ display:none; }
+    .rw-step::before, .rw-steps.rw-6 .rw-step:nth-child(n)::before{ display:none; }
   }
   /* ---------- Verifier register (Option A) ---------- */
   .vr-strip{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:20px; }
