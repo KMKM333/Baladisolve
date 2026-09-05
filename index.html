@@ -11219,5 +11219,53 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
+<script>
+// Database. Fill these in after creating the Supabase project (supabase/README.md).
+// Until both are set the site runs on the data built into this file; once set
+// it reads requests, the custody trail, pledges and both chats from the
+// database and falls back to the built-in data if anything fails.
+window.MANARA_SUPABASE = { url: '', anonKey: '' };
+(function(){
+  var cfg = window.MANARA_SUPABASE;
+  if(!cfg || !cfg.url || !cfg.anonKey) return;
+  function fail(why, e){ console.warn('Manāra: database unavailable, using built-in data —', why, e || ''); }
+  var tag = document.createElement('script');
+  tag.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
+  tag.onerror = function(){ fail('client script did not load'); };
+  tag.onload = function(){
+    var db;
+    try { db = window.supabase.createClient(cfg.url, cfg.anonKey); } catch(e){ return fail('bad configuration', e); }
+    window.manaraDb = db;
+    Promise.all([
+      db.from('requests').select('*').order('id'),
+      db.from('stage_events').select('*').order('request_id').order('ord'),
+      db.from('pledges_public').select('*').order('id'),
+      db.from('messages').select('*').order('id')
+    ]).then(function(res){
+      var bad = res.find(function(r){ return r.error; });
+      if(bad) return fail('query failed', bad.error.message);
+      var rows = res[0].data || []; if(!rows.length) return fail('no requests in the database yet');
+      var ev = {}, pl = {}, msg = {};
+      (res[1].data || []).forEach(function(e){ (ev[e.request_id] = ev[e.request_id] || []).push({t:e.title, d:e.shown_date, meta:e.meta, ref:e.ref, state:e.state}); });
+      (res[2].data || []).forEach(function(d){ (pl[d.request_id] = pl[d.request_id] || []).push({type:d.kind, name:d.sponsor_name, amount:Number(d.amount), date:d.shown_date}); });
+      (res[3].data || []).forEach(function(m){ var k = m.request_id + ':' + m.channel; (msg[k] = msg[k] || []).push({author:m.author_name, role:m.role, text:m.body, time:m.shown_date}); });
+      var mapped = rows.map(function(r){
+        return { id:r.id, title:r.title, type:r.type, gov:r.gov, locality:r.locality, size:r.size, goal:r.goal == null ? null : Number(r.goal), raised:Number(r.raised || 0),
+          status:r.status, urgency:r.urgency, partner:r.partner, org:r.org, corridor:r.corridor, audienceTags:r.source === 'baladi' ? ['locals'] : ['municipality','organisation','locals'],
+          certifyingBody:r.certifying_body, certStatus:r.cert_status, source:r.source || undefined, sourceId:r.source_id || undefined, sourceUrl:r.source_url || undefined,
+          coords:(r.lat != null && r.lng != null) ? [r.lat, r.lng] : null, photo:r.photo || undefined, desc:r.description || '',
+          timeline:{start:r.timeline_start, target:r.timeline_target, schedule:r.schedule, scheduleLabel:r.schedule_label},
+          originReport:r.origin_ref ? {ref:r.origin_ref, confirmed:r.confirmed || 0} : undefined, beneficiaries:r.beneficiaries, daysToMilestone:null,
+          metrics:r.metrics || [], expertPartner:r.expert_partner || undefined,
+          ledger:ev[r.id] || [], donations:pl[r.id] || [], comments:msg[r.id + ':public'] || [], stakeholderChat:msg[r.id + ':stake'] || [] };
+      });
+      PROJECTS.splice(0, PROJECTS.length); mapped.forEach(function(p){ PROJECTS.push(p); });
+      try { if(typeof fillMuniOptions === 'function') fillMuniOptions(); renderGrid(true); renderHome(); renderStats(); } catch(e){ fail('re-render after load', e); return; }
+      console.info('Manāra: ' + mapped.length + ' requests loaded from the database');
+    }).catch(function(e){ fail('request failed', e); });
+  };
+  document.head.appendChild(tag);
+})();
+</script>
 </body>
 </html>
