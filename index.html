@@ -2936,7 +2936,52 @@ const EXPERT_COORDS = {
   'Beit el Baraka': [33.8820, 35.5250],
   'Lebanese Center for Energy Conservation (LCEC)': [33.8712, 35.5100],
   'Cedar Environmental': [33.9167, 35.6667],
+};// Every other expert organisation with a knowable base gets an office point too,
+// drawn hollow and labelled approximate: the town or neighbourhood of its head
+// office, placed by geocoding the place name, not a verified street address.
+// Organisations that describe themselves as nationwide with no stated base get
+// no pin at all rather than an invented one.
+const EXPERT_HQ_APPROX = {
+  'Électricité du Liban (EDL)': {coords:[33.9013, 35.5240], place:'Mar Mikhael, Beirut — head office'},
+  'Litani River Authority (LRA)': {coords:[33.8867, 35.5064], place:'Bechara El Khoury, Beirut'},
+  'Électricité de Zahlé (EDZ)': {coords:[33.8477, 35.9025], place:'Zahlé'},
+  'Électricité de Kadicha': {coords:[34.4374, 35.8349], place:'Tripoli'},
+  'RAMCO': {coords:[33.9388, 35.5912], place:'Dbayeh, Metn'},
+  'Averda': {coords:[33.8892, 35.5026], place:'Beirut — Lebanon office'},
+  'CityBlu': {coords:[33.8905, 35.5080], place:'Beirut'},
+  'Live Love Recycle': {coords:[33.8930, 35.4960], place:'Beirut'},
+  'Ahmoudhassan496': {coords:[34.4374, 35.8349], place:'Tripoli'},
+  'Jbs.community': {coords:[33.8541, 35.5374], place:'Hazmieh'},
+  'Beirut and Mount Lebanon Water Establishment': {coords:[33.8745, 35.5067], place:'Mazraa, Beirut'},
+  'North Lebanon Water Establishment': {coords:[34.4420, 35.8400], place:'Tripoli'},
+  'South Lebanon Water Establishment': {coords:[33.5647, 35.3750], place:'Saida'},
+  'Bekaa Water Establishment': {coords:[33.8500, 35.9060], place:'Zahlé'},
+  'Save Beirut Heritage': {coords:[33.8970, 35.5097], place:'Gemmayzeh, Beirut'},
+  'Beirut Heritage Initiative': {coords:[33.8985, 35.5130], place:'Gemmayzeh, Beirut'},
+  'APSAD': {coords:[33.8842, 35.5215], place:'Achrafieh, Beirut'},
+  'Beirut Urban Lab (AUB)': {coords:[33.9000, 35.4824], place:'American University of Beirut'},
+  'Mohamad.alomar1': {coords:[34.4340, 35.8300], place:'Tripoli'},
+  'Tajrouba.leb': {coords:[34.4400, 35.8450], place:'Tripoli'},
+  'AFDC': {coords:[33.8860, 35.4990], place:'Beirut'},
+  'Jouzour Loubnan': {coords:[33.8840, 35.5100], place:'Beirut'},
+  'SPNL': {coords:[33.8967, 35.4830], place:'Hamra, Beirut'},
+  'Operation Big Blue Association': {coords:[33.8920, 35.5150], place:'Beirut'},
+  'Lebanese Environment Forum': {coords:[33.8800, 35.5000], place:'Beirut'},
+  'Swiminitiative': {coords:[33.8950, 35.4900], place:'Beirut'},
+  'Thegreenvanleb': {coords:[33.8870, 35.5180], place:'Beirut'},
+  'Manateq_ (Dr. Youssef Touq)': {coords:[34.2507, 36.0100], place:'Bsharri'},
+  'Kunhadi': {coords:[33.8830, 35.5040], place:'Beirut'},
+  'Council for Development and Reconstruction (CDR)': {coords:[33.8959, 35.5005], place:'Tallet el Serail, Beirut'},
+  'Order of Engineers and Architects, Beirut': {coords:[33.8693, 35.5022], place:'Bir Hassan, Beirut'},
+  'Traintrainngo': {coords:[33.9020, 35.5255], place:'Mar Mikhael station, Beirut'},
+  'arcenciel': {coords:[33.8779, 35.5377], place:'Jisr el Wati / Sin el Fil'},
+  'Offre Joie': {coords:[33.8780, 35.5120], place:'Beirut'},
+  'Baytna Baytak': {coords:[33.8910, 35.5060], place:'Beirut'},
+  'Live Love Lebanon': {coords:[33.8940, 35.5000], place:'Beirut'},
+  'Ecocitizens.lb': {coords:[33.8860, 35.5140], place:'Beirut'},
+  'Ahla Fawda': {coords:[33.8890, 35.5200], place:'Beirut'},
 };
+
 // Real per-municipality coordinates, replacing an earlier version of this map that scattered
 // municipalities algorithmically around a governorate center — which produced visibly wrong
 // placements (some landed in the sea). These are individual, name-by-name placements instead.
@@ -6898,7 +6943,38 @@ function ensureLeafletMap(){
       iconSize: [9,9], iconAnchor:[4.5,4.5]
     });
   }
-  // ---- Experts (confirmed single-location only) ----
+  function expertIconApprox(borderWidth){
+    return L.divIcon({
+      className: '',
+      html: `<div style="width:9px;height:9px;background:#fff;border:2px solid #0d9488;outline:${borderWidth}px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.3);"></div>`,
+      iconSize: [9,9], iconAnchor:[4.5,4.5]
+    });
+  }
+  // ---- Experts: approximate office points (hollow), then confirmed bases (filled) ----
+  Object.entries(EXPERT_HQ_APPROX).forEach(([name, hq])=>{
+    if(EXPERT_COORDS[name]) return;
+    const coords = hq.coords;
+    const icon = expertIconApprox(0);
+    const iconHighlight = expertIconApprox(2.5);
+    const mid = 'exp_'+name.replace(/[^a-zA-Z0-9]/g,'_');
+    const stage1 = `
+      <div style="font-family:'Public Sans',sans-serif;min-width:160px;cursor:pointer;" onclick="event.stopPropagation(); window.__expandMapPopup('${mid}')">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#7c3aed;margin-bottom:4px;">Expert organisation</div>
+        <b style="font-size:13px;">${name}</b>
+        <div style="font-size:10.5px;color:#666;margin-top:4px;">Office: ${hq.place} &middot; approximate</div>
+        <div style="font-size:10.5px;color:#7c3aed;font-weight:600;margin-top:6px;">Tap for details →</div>
+      </div>`;
+    const stage2 = `
+      <div onclick="event.stopPropagation();" style="font-family:'Public Sans',sans-serif;min-width:200px;">
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;color:#7c3aed;margin-bottom:5px;">Expert organisation</div>
+        <div onclick="event.stopPropagation(); window.__openExpertFromMap('${mid}')" style="cursor:pointer;color:#7c3aed;text-decoration:underline;font-size:15px;font-weight:700;">${name}</div>
+        <div style="font-size:10.5px;color:#666;margin-top:6px;">Office: ${hq.place}. Placed at the town or neighbourhood, not a verified street address.</div>
+        <div style="font-size:10.5px;color:#888;margin-top:8px;">Click the name above to view full details →</div>
+      </div>`;
+    const marker = L.marker(coords, { icon }).bindPopup(stage1).addTo(mapLayers.experts);
+    window.__mapMarkerRegistry[mid] = { marker, stage2, name };
+    mapSearchIndex.push({ name, sub:'Expert organisation · office, approximate', type:'experts', coords, marker, iconNormal: icon, iconHighlight });
+  });
   Object.entries(EXPERT_COORDS).forEach(([name, coords])=>{
     const icon = expertIcon(0);
     const iconHighlight = expertIcon(2.5);
