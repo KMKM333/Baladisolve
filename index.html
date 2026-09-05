@@ -7361,7 +7361,12 @@ function renderDetail(){
     {label:'Resolved', date: resolved ? p.timeline.target : null, reached:resolved, desc: resolved ? 'Delivered.' : 'Not resolved yet.'},
     {label:'Verified', date:null, reached: resolved && lastVerified, desc: (resolved && lastVerified) ? 'Independently verified.' : 'Awaiting verification.'},
   ];
-  const statusTimelineHTML = stages.map(s=>`<li><span class="t-dot ${s.reached?'verified':''}"></span><div class="t-title">${s.label}</div><div class="t-meta">${s.date?s.date+' — ':''}${s.desc}</div></li>`).join('');
+  // A report fixed on Baladi Map never entered this ledger's stages; showing
+  // them as "awaiting" would contradict the badge beside them.
+  const stagesShown = p.status === 'fixed'
+    ? [stages[0], {label:'Fixed on Baladi Map', date:(p.ledger.find(l=> /^Fixed on Baladi Map/.test(l.t)) || {}).d || null, reached:true, desc:'Repaired and checked on Baladi Map. Never certified, funded or verified here.'}]
+    : stages;
+  const statusTimelineHTML = stagesShown.map(s=>`<li><span class="t-dot ${s.reached?'verified':''}"></span><div class="t-title">${s.label}</div><div class="t-meta">${s.date?s.date+' — ':''}${s.desc}</div></li>`).join('');
 
   // ---- Funding momentum ----
   const recentN = Math.min(3, p.donations.length);

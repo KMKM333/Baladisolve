@@ -196,6 +196,14 @@ leaderboards, `size` is null until something is costed, and the 19 reports
 filed without a pin carry a note on their page and do not appear on the live
 map. The import prints these flags on every run.
 
+Reports Baladi marks fixed get `status:'fixed'` ("Fixed on Baladi Map"), a
+status of their own so they are never mistaken for a Manāra delivery: no
+verifier, no bracket, no pledge, no chat, and excluded from featured
+projects, case studies and demo picks. Baladi's list hides fixed reports, so
+the import takes them from `/en/map` and fills description, photos, filing
+date and the confirmed-fixed date from each report's own page
+(`enrichFromIssuePage`).
+
 `.github/workflows/sync-baladi.yml` re-runs the import daily at 05:00 UTC and
 commits if anything moved; that push is what deploys. It runs
 `check-html.mjs` itself, because the pre-commit hook is local git config and
