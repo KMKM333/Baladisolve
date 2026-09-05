@@ -291,7 +291,18 @@
   .net-models{ display:grid; grid-template-columns:repeat(5,1fr); gap:16px; }
   /* Below this the four columns fall under about 20 characters a line, so the
      diagram keeps its width and the container scrolls under it. */
-  @media (max-width:980px){ .net-models{ min-width:940px; } }
+  @media (min-width:761px) and (max-width:980px){ .net-models{ min-width:940px; } }
+  /* Phones: the five models read top to bottom — Report, its card; Solve, its
+     three; Check, its one — instead of a five-column strip that has to scroll. */
+  @media (max-width:760px){
+    .net-models-scroll{ overflow:visible; }
+    .net-models{ grid-template-columns:1fr; gap:10px; min-width:0; }
+    .net-models > *{ grid-column:auto !important; }
+    .net-models > .network-group-label{ text-align:start !important; margin-top:8px; }
+    .net-models > .report{ order:1; } .net-models > div:nth-of-type(4){ order:2; }
+    .net-models > .solve{ order:3; } .net-models > div:nth-of-type(5){ order:4; } .net-models > div:nth-of-type(6){ order:5; } .net-models > div:nth-of-type(7){ order:6; }
+    .net-models > .check{ order:7; } .net-models > div:nth-of-type(8){ order:8; }
+  }
   .network-group-label.report{ color:#2563EB; }
   .network-group-label.solve{ color:#16A34A; }
   .light-card[data-cat]:hover, .light-card[style*="cursor:pointer"]:hover{ border-color:var(--accent); transform:translateY(-3px); box-shadow:0 10px 24px rgba(15,23,42,0.08); }
