@@ -1960,6 +1960,7 @@
           <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#EAB308;margin-inline-end:5px;"></span>Funding</span>
           <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#16A34A;margin-inline-end:5px;"></span>In progress</span>
           <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#2563EB;margin-inline-end:5px;"></span>Complete</span>
+          <span><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#15803D;margin-inline-end:5px;"></span>Fixed on Baladi Map</span>
         </div>
 
         <div id="worldFilterRow" style="display:none;">
@@ -7042,7 +7043,8 @@ function ensureLeafletMap(){
   });
   document.querySelectorAll('[data-count]').forEach(el=>{
     const key = el.dataset.count;
-    const counts = { problems: problemCount, experts: Object.keys(EXPERT_COORDS).length, municipalities: muniCount };
+    const expertTotal = Object.keys(EXPERT_COORDS).length + Object.keys(EXPERT_HQ_APPROX).filter(n=> !EXPERT_COORDS[n]).length;
+    const counts = { problems: problemCount, experts: expertTotal, municipalities: muniCount };
     el.textContent = '(' + counts[key] + ')';
   });
 
@@ -7123,7 +7125,7 @@ function ensureLeafletMap(){
 
   const coverageNote = document.getElementById('leafletCoverageNote');
   if(coverageNote){
-    coverageNote.textContent = `${problemCount} of ${PROJECTS.length} projects mapped, ${Object.keys(EXPERT_COORDS).length} expert organisations with a confirmed physical base, and ${muniCount} municipalities. Project and municipality locations are individually researched — about a third of the municipalities are directly Wikipedia-sourced coordinates for that specific town, the rest are confident placements for well-documented Lebanese towns, not a single one is randomly scattered. Coverage-area organisations (regional water establishments, coastline-wide initiatives) aren't pinned as a single point, since that would misrepresent what they actually cover.`;
+    coverageNote.textContent = `${problemCount} of ${PROJECTS.length} projects mapped, ${Object.keys(EXPERT_COORDS).length + Object.keys(EXPERT_HQ_APPROX).filter(n=> !EXPERT_COORDS[n]).length} expert organisations (${Object.keys(EXPERT_COORDS).length} confirmed bases, the rest placed at their office's town or neighbourhood), and ${muniCount} municipalities. Project and municipality locations are individually researched — about a third of the municipalities are directly Wikipedia-sourced coordinates for that specific town, the rest are confident placements for well-documented Lebanese towns, not a single one is randomly scattered. Coverage-area organisations (regional water establishments, coastline-wide initiatives) aren't pinned as a single point, since that would misrepresent what they actually cover.`;
   }
 
   const listEl = document.getElementById('mapProjectsCarousel');
