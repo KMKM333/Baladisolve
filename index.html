@@ -2219,7 +2219,7 @@
       <div class="section-head"><h2>Find your way in</h2><p>Every option below is a different way to join the network — pick where you fit, then register in under a minute.</p></div>
 
       <div class="cta-panel">
-        <button class="btn btn-secondary" style="margin-bottom:18px;" onclick="openAccountDemo('overview')">See all dashboards &rarr;</button>
+        <button class="btn btn-primary" style="margin-bottom:18px;" onclick="openAccountDemo('overview')">See all dashboards &rarr;</button>
         <div class="cta-step-label"><span class="cta-step-num">1</span>Choose your category</div>
         <div class="join-cat-grid" id="joinCategoryNav">
           <div class="join-cat-card active" data-jcat="government"><div class="jc-icon">🏛️</div><div class="jc-title">Government</div><div class="jc-desc">Certifies compliance — ministries, governorates &amp; districts, municipalities.</div></div>
@@ -9017,6 +9017,9 @@ function wireOptionPanel(){
   });
 }
 function openAccountDemo(type){
+  // There is no overview page: the account area opens on a role, government
+  // first, and the four tabs at the top switch between them.
+  if(type === 'overview'){ openDemoBranch('government'); return; }
   // switchView writes its own route for the view it opens, so the role route has
   // to be set after it or it gets overwritten with the generic #/account.
   switchView('account-demo');
