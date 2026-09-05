@@ -1567,14 +1567,15 @@
 
       <div class="rn-wrap">
         <svg class="rn-svg" viewBox="0 0 940 360" role="img" aria-labelledby="rnTitle rnDesc">
-          <title id="rnTitle">How the four roles connect</title>
-          <desc id="rnDesc">Government, experts and sponsors all connect to the request itself. The first-line verifier signs off the request, gates each release and closes the ledger. The second-line verifier checks the first: every sign-off, one release in ten, every closure.</desc>
+          <title id="rnTitle">How the five roles connect</title>
+          <desc id="rnDesc">A Baladi Map request reaches government first, and only government. Government, experts and sponsors all connect to the request itself. The first-line verifier signs off the request, gates each release and closes the ledger. The second-line verifier checks the first: every sign-off, one release in ten, every closure.</desc>
           <defs>
             <marker id="rnArrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M0,0 L8,4 L0,8 z" fill="var(--border)"/>
             </marker>
           </defs>
 
+          <path class="rn-link" marker-end="url(#rnArrow)" d="M105,116 L105,146"/>
           <path class="rn-link" marker-end="url(#rnArrow)" d="M200,176 C292,176 292,240 372,240"/>
           <path class="rn-link" marker-end="url(#rnArrow)" d="M200,240 L372,240"/>
           <path class="rn-link" marker-end="url(#rnArrow)" d="M200,304 C292,304 292,240 372,240"/>
@@ -1593,6 +1594,7 @@
           <text class="rn-lbl" x="742" y="170">CLOSES</text>
           <text class="rn-lbl" x="654" y="78">CHECKS THE CHECK</text>
 
+          <rect class="rn-node" x="10" y="60" width="190" height="56" rx="11"/><text class="rn-role" x="26" y="84">RESIDENTS REPORT</text><text class="rn-name" x="26" y="106">Baladi Map request</text>
           <rect class="rn-node" x="10" y="148" width="190" height="56" rx="11"/><text class="rn-role" x="26" y="172">CERTIFIES</text><text class="rn-name" x="26" y="194">Government</text>
           <rect class="rn-node" x="10" y="212" width="190" height="56" rx="11"/><text class="rn-role" x="26" y="236">SOLVES</text><text class="rn-name" x="26" y="258">Experts</text>
           <rect class="rn-node" x="10" y="276" width="190" height="56" rx="11"/><text class="rn-role" x="26" y="300">FUNDS</text><text class="rn-name" x="26" y="322">Sponsors</text>
@@ -1608,47 +1610,49 @@
           <text class="rn-name" x="830" y="238" text-anchor="middle">Escrow releases</text>
           <text class="rn-sub" x="830" y="257" text-anchor="middle">one tranche</text>
         </svg>
-        <svg class="rn-svg-m" viewBox="0 0 380 560" role="img" aria-labelledby="rnTitleM rnDescM">
-          <title id="rnTitleM">How the four roles connect</title>
-          <desc id="rnDescM">Government, experts and sponsors all feed into the request. The first-line verifier signs off the request, gates each release and closes the ledger. The second-line verifier checks the first.</desc>
+        <svg class="rn-svg-m" viewBox="0 0 380 630" role="img" aria-labelledby="rnTitleM rnDescM">
+          <title id="rnTitleM">How the five roles connect</title>
+          <desc id="rnDescM">A Baladi Map request reaches government first, and only government. Government, experts and sponsors all feed into the request. The first-line verifier signs off the request, gates each release and closes the ledger. The second-line verifier checks the first.</desc>
           <defs>
             <marker id="rnArrowM" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-              <path d="M0,0 L8,4 L0,8 z" fill="var(--border)"/>
+              <path d="M0,70 L8,74 L0,78 z" fill="var(--border)"/>
             </marker>
           </defs>
 
-          <path class="rn-link" d="M204,37 L250,37"/>
-          <path class="rn-link" d="M204,105 L250,105"/>
-          <path class="rn-link" d="M204,173 L250,173"/>
-          <path class="rn-link" d="M250,37 L250,208"/>
-          <path class="rn-link" marker-end="url(#rnArrowM)" d="M250,208 C250,230 190,222 190,232"/>
-          <path class="rn-link" marker-end="url(#rnArrowM)" d="M190,312 L190,484"/>
+          <path class="rn-link" d="M204,107 L250,107"/>
+          <path class="rn-link" d="M204,175 L250,175"/>
+          <path class="rn-link" d="M204,243 L250,243"/>
+          <path class="rn-link" d="M250,107 L250,278"/>
+          <path class="rn-link" marker-end="url(#rnArrowM)" d="M250,278 C250,300 190,292 190,302"/>
+          <path class="rn-link" marker-end="url(#rnArrowM)" d="M190,382 L190,554"/>
 
-          <path class="rn-link-check" d="M289,380 L289,396"/>
-          <circle class="rn-gate" cx="289" cy="396" r="4"/>
-          <path class="rn-link-check" d="M250,396 C250,372 262,344 262,322"/>
-          <circle class="rn-gate" cx="262" cy="320" r="5.5"/>
-          <path class="rn-link-check" d="M212,430 C202,430 190,434 190,440"/>
-          <circle class="rn-gate" cx="190" cy="440" r="5.5"/>
-          <path class="rn-link-check" d="M280,452 C280,468 270,470 270,482"/>
-          <circle class="rn-gate" cx="270" cy="482" r="5.5"/>
+          <path class="rn-link-check" d="M289,450 L289,466"/>
+          <circle class="rn-gate" cx="289" cy="466" r="4"/>
+          <path class="rn-link-check" d="M250,466 C250,442 262,414 262,392"/>
+          <circle class="rn-gate" cx="262" cy="390" r="5.5"/>
+          <path class="rn-link-check" d="M212,500 C202,500 190,504 190,510"/>
+          <circle class="rn-gate" cx="190" cy="510" r="5.5"/>
+          <path class="rn-link-check" d="M280,522 C280,538 270,540 270,552"/>
+          <circle class="rn-gate" cx="270" cy="552" r="5.5"/>
 
-          <rect class="rn-node" x="14" y="10" width="190" height="54" rx="11"/><text class="rn-role" x="30" y="32">CERTIFIES</text><text class="rn-name" x="30" y="53">Government</text>
-          <rect class="rn-node" x="14" y="78" width="190" height="54" rx="11"/><text class="rn-role" x="30" y="100">SOLVES</text><text class="rn-name" x="30" y="121">Experts</text>
-          <rect class="rn-node" x="14" y="146" width="190" height="54" rx="11"/><text class="rn-role" x="30" y="168">FUNDS</text><text class="rn-name" x="30" y="189">Sponsors</text>
+          <rect class="rn-node" x="14" y="10" width="190" height="54" rx="11"/><text class="rn-role" x="30" y="32">RESIDENTS REPORT</text><text class="rn-name" x="30" y="53">Baladi Map request</text>
+          <path class="rn-link" marker-end="url(#rnArrowM)" d="M109,64 L109,78"/>
+          <rect class="rn-node" x="14" y="80" width="190" height="54" rx="11"/><text class="rn-role" x="30" y="102">CERTIFIES</text><text class="rn-name" x="30" y="123">Government</text>
+          <rect class="rn-node" x="14" y="148" width="190" height="54" rx="11"/><text class="rn-role" x="30" y="170">SOLVES</text><text class="rn-name" x="30" y="191">Experts</text>
+          <rect class="rn-node" x="14" y="216" width="190" height="54" rx="11"/><text class="rn-role" x="30" y="238">FUNDS</text><text class="rn-name" x="30" y="259">Sponsors</text>
 
-          <rect class="rn-node" x="95" y="236" width="190" height="76" rx="11"/>
-          <text class="rn-name" x="190" y="270" text-anchor="middle">The request</text>
-          <text class="rn-sub" x="190" y="291" text-anchor="middle">certified &#183; scoped &#183; funded</text>
+          <rect class="rn-node" x="95" y="306" width="190" height="76" rx="11"/>
+          <text class="rn-name" x="190" y="340" text-anchor="middle">The request</text>
+          <text class="rn-sub" x="190" y="361" text-anchor="middle">certified &#183; scoped &#183; funded</text>
 
-          <rect class="rn-node rn-node-l2" x="212" y="330" width="154" height="50" rx="11"/><text class="rn-role" x="228" y="350">SECOND LINE</text><text class="rn-name" x="228" y="371">Verifier L2</text>
-          <rect class="rn-node" x="212" y="396" width="154" height="56" rx="11"/><text class="rn-role" x="228" y="418">FIRST LINE</text><text class="rn-name" x="228" y="440">Verifier L1</text>
+          <rect class="rn-node rn-node-l2" x="212" y="400" width="154" height="50" rx="11"/><text class="rn-role" x="228" y="420">SECOND LINE</text><text class="rn-name" x="228" y="441">Verifier L2</text>
+          <rect class="rn-node" x="212" y="466" width="154" height="56" rx="11"/><text class="rn-role" x="228" y="488">FIRST LINE</text><text class="rn-name" x="228" y="510">Verifier L1</text>
 
-          <rect class="rn-node" x="95" y="490" width="190" height="60" rx="11"/>
-          <text class="rn-name" x="190" y="518" text-anchor="middle">Escrow releases</text>
-          <text class="rn-sub" x="190" y="538" text-anchor="middle">one tranche</text>
+          <rect class="rn-node" x="95" y="560" width="190" height="60" rx="11"/>
+          <text class="rn-name" x="190" y="588" text-anchor="middle">Escrow releases</text>
+          <text class="rn-sub" x="190" y="608" text-anchor="middle">one tranche</text>
         </svg>
-        <p class="rn-cap"><b>Read the lines, not the boxes.</b> Three roles connect to the request &mdash; they certify it, build it and pay for it. The first-line verifier touches it only as a gate, three times: it signs off the request before a single pledge is taken, it gates every release, and it closes the ledger. Above it sits the second line, which checks the first: every sign-off, one release in ten, every closure &mdash; seeing no names. Neither certifies, builds or pays, and that is why they can be believed about work they had no part in.</p>
+        <p class="rn-cap"><b>Read the lines, not the boxes.</b> A Baladi Map request, confirmed by residents, goes to government and nowhere else until it is certified. Three roles then connect to the request &mdash; they certify it, build it and pay for it. The first-line verifier touches it only as a gate, three times: it signs off the request before a single pledge is taken, it gates every release, and it closes the ledger. Above it sits the second line, which checks the first: every sign-off, one release in ten, every closure &mdash; seeing no names. Neither certifies, builds or pays, and that is why they can be believed about work they had no part in.</p>
       </div>
 
     <p class="role-flow-note">Nothing here is released on a claim. A milestone stays &ldquo;submitted&rdquo; until someone with no stake in it confirms it happened.</p>
