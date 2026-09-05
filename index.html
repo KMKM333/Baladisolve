@@ -2966,6 +2966,9 @@ const EXPERT_COORDS = {
   'Offre Joie': [33.89806, 35.48891],
   'Live Love Lebanon': [33.89080, 35.50450],
   'Ahla Fawda': [33.89600, 35.48350],
+  'Recyco_wwt': [33.89650, 35.54100],
+  'Hawa.agri': [33.98040, 35.61780],
+  'CARE Lebanon': [33.87170, 35.51650],
 };
 // The office address behind each confirmed pin, as published by the organisation
 // or shown on its Google listing. Pins sit at the street or neighbourhood.
@@ -3005,6 +3008,9 @@ const EXPERT_ADDRESS = {
   'Offre Joie': 'Ecole des Filles de la Charité, Clemenceau, Beirut',
   'Live Love Lebanon': 'Beirut Digital District 1079, 2nd floor, Beirut',
   'Ahla Fawda': 'Youssef Assaf Building, 180 Hamra St, Ras Beirut',
+  'Recyco_wwt': 'Sea Side Road, Bourj Hammoud',
+  'Hawa.agri': 'Ets. George Hawa, Jounieh main street, next to St John Church',
+  'CARE Lebanon': 'Serhal Building, 4th floor, Sami El Solh Avenue, Badaro, Beirut',
 };
 // Every other expert organisation with a knowable base gets an office point too,
 // drawn hollow and labelled approximate: the town or neighbourhood of its head
@@ -3016,11 +3022,15 @@ const EXPERT_HQ_APPROX = {
   'Jbs.community': {coords:[33.8541, 35.5374], place:'Hazmieh'},
   'Save Beirut Heritage': {coords:[33.8970, 35.5097], place:'Beirut — no office address published'},
   'Mohamad.alomar1': {coords:[34.4340, 35.8300], place:'Tripoli'},
-  'Tajrouba.leb': {coords:[34.4400, 35.8450], place:'Tripoli'},
+  'Tajrouba.leb': {coords:[34.4345, 35.8305], place:'Tripoli (same organiser as Mohamad.alomar1)'},
   'Manateq_ (Dr. Youssef Touq)': {coords:[34.2507, 36.0100], place:'Bsharri'},
   'Traintrainngo': {coords:[33.9020, 35.5255], place:'Mar Mikhael station, Beirut — no office address published'},
   'Baytna Baytak': {coords:[33.8910, 35.5060], place:'Beirut — no office address published'},
   'Ecocitizens.lb': {coords:[33.8860, 35.5140], place:'Beirut — no office address published'},
+  'Greentrack.lb': {coords:[34.4164, 35.8659], place:'Majdlaya, Zgharta (registered base; collection rounds run in Tripoli)'},
+  'Mandrglobalservices': {coords:[34.1533, 35.6636], place:'Gherfine, Jbeil'},
+  'Kabeela.community': {coords:[34.0684, 35.8537], place:'Kabeela Farm, Lassa, Jbeil'},
+  'Sohamneimneh': {coords:[33.8796, 35.5407], place:'Individual researcher — lectures at ALBA, Sin el Fil; no office'},
 };
 
 
@@ -3430,7 +3440,7 @@ const ALL_LEADS = [
     summary:'Door-to-door waste sorting and collection service.',
     overview:'A waste-sorting service that collects pre-sorted recyclables directly from households, part of the growing door-to-door collection model that has emerged as municipal sorting infrastructure remains limited.',
     whatTheyDo:'Collects sorted household waste directly from residents\' doors.',
-    wherePrevalent:'Lebanon (specific service area not detailed in source notes).',
+    wherePrevalent:'Based in Majdlaya, Zgharta; door-to-door collection rounds in Tripoli, including Jabal Mohsen.',
     examples:['Offers a door-to-door collection model for sorted household waste.'],
     additional:'Community-sourced lead — based on notes provided rather than independently verified reporting.'
   },
@@ -3440,7 +3450,7 @@ const ALL_LEADS = [
     summary:'Recycling service working directly with municipalities.',
     overview:'A recycling-focused service that partners with municipalities on waste handling, positioning itself as a contractor-style partner to local government rather than a purely grassroots initiative.',
     whatTheyDo:'Provides recycling services in partnership with municipal authorities.',
-    wherePrevalent:'Lebanon (specific municipalities not detailed in source notes).',
+    wherePrevalent:'Gherfine, Jbeil district.',
     examples:['Works directly with municipal partners on recycling delivery.'],
     additional:'Community-sourced lead — based on notes provided rather than independently verified reporting.'
   },
@@ -3570,7 +3580,7 @@ const ALL_LEADS = [
     summary:'Architect and reporter covering Lebanese urbanism.',
     overview:'An architect and reporter whose work covers Lebanese urbanism — how the country\'s cities are planned, built and lived in — bringing a design and journalism lens to public conversations about urban space.',
     whatTheyDo:'Reports on and analyzes Lebanese urbanism and city planning.',
-    wherePrevalent:'Lebanon, likely concentrated on Beirut given where most urbanism discourse centers.',
+    wherePrevalent:'Beirut — lecturer at ALBA and researcher at Beirut Urban Lab.',
     examples:['Covers Lebanese urbanism topics from a combined architecture and journalism perspective.'],
     additional:'Community-sourced lead — based on notes provided rather than independently verified reporting.'
   },
@@ -3670,7 +3680,7 @@ const ALL_LEADS = [
     summary:'Agriculture-focused initiative.',
     overview:'An agriculture-focused account/initiative in Lebanon, part of the broader push to strengthen local food production and farming practices amid national food-security concerns since the economic crisis.',
     whatTheyDo:'Promotes and supports agricultural activity in Lebanon.',
-    wherePrevalent:'Lebanon (specific region not detailed in source notes).',
+    wherePrevalent:'Jounieh, Keserwan (Ets. George Hawa, established 1986; serves farmers nationwide).',
     examples:['Focuses on agricultural activity and practices as its core theme.'],
     additional:'Community-sourced lead — based on notes provided rather than independently verified reporting.'
   },
@@ -3740,7 +3750,7 @@ const ALL_LEADS = [
     summary:'Wastewater treatment solutions provider.',
     overview:'A wastewater-treatment-focused initiative or company offering solutions for wastewater management in Lebanon, an area where national treatment capacity has long lagged behind population and industrial growth.',
     whatTheyDo:'Provides wastewater treatment solutions.',
-    wherePrevalent:'Lebanon (specific service area not detailed in source notes).',
+    wherePrevalent:'Bourj Hammoud (Sea Side Road); serves clients across Lebanon.',
     examples:['Focuses specifically on wastewater treatment solutions as its core offering.'],
     additional:'Community-sourced lead — based on notes provided rather than independently verified reporting.'
   },
@@ -3823,6 +3833,26 @@ const ALL_LEADS = [
     wherePrevalent:'Lebanon-wide.',
     examples:['Combines cultural/artistic community projects with humanitarian assistance to poverty-affected communities.'],
     additional:'One of the few entries in this batch with independent confirmation — Ahla Fawda appears in prior public-interest directories as a registered Lebanese community-development NGO.'
+  },
+  {
+    name:'CARE Lebanon',
+    tags:['ngoinit'],
+    summary:'Country office of the international NGO CARE, running humanitarian and community programmes across Lebanon.',
+    overview:'CARE International has worked in Lebanon since 2006, with programmes in emergency response, water and sanitation, shelter rehabilitation, livelihoods and protection, delivered with local partners and municipalities.',
+    whatTheyDo:'Funds and delivers humanitarian and community-development programmes, often through local partner organisations.',
+    wherePrevalent:'Lebanon-wide; country office in Badaro, Beirut.',
+    examples:['Runs water, sanitation and shelter-rehabilitation programmes with municipalities in the north and the Bekaa.'],
+    additional:'Community-sourced lead confirmed against the organisation\'s published office address (Serhal Building, Sami El Solh Avenue, Badaro).'
+  },
+  {
+    name:'Kabeela.community',
+    tags:['environment'],
+    summary:'Regenerative farming community built around Kabeela Farm in Lassa, Jbeil.',
+    overview:'A community account around Kabeela Farm, a roughly 40-hectare regenerative farm developed from scratch in Lassa in the Jbeil highlands, sharing sustainable and green practice with a wider audience.',
+    whatTheyDo:'Demonstrates and promotes regenerative agriculture and sustainable living from the farm.',
+    wherePrevalent:'Lassa, Jbeil district.',
+    examples:['The farm itself is the example: a large-scale regenerative project in the Jbeil highlands, designed with The Green Van Lebanon.'],
+    additional:'Community-sourced lead — the farm\'s location comes from The Green Van Lebanon\'s published project list; the account\'s own base is not stated.'
   },
   {
     name:'Chamber of Commerce, Industry & Agriculture of Beirut and Mount Lebanon',
