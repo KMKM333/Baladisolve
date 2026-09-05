@@ -6944,11 +6944,12 @@ function ensureLeafletMap(){
       iconSize: [9,9], iconAnchor:[4.5,4.5]
     });
   }
-  function expertIconApprox(borderWidth){
+  // Same triangle as a confirmed base, hollow: an office placed at its town.
+  function expertIconApprox(strokeWidth){
     return L.divIcon({
       className: '',
-      html: `<div style="width:9px;height:9px;background:#fff;border:2px solid #0d9488;outline:${borderWidth}px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.3);"></div>`,
-      iconSize: [9,9], iconAnchor:[4.5,4.5]
+      html: `<svg width="16" height="15" viewBox="0 0 16 15" style="overflow:visible;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.35));"><polygon points="8,1 15,13.5 1,13.5" fill="#fff" stroke="#7c3aed" stroke-width="${2 + strokeWidth}"/></svg>`,
+      iconSize: [16,15], iconAnchor:[8,11]
     });
   }
   // ---- Experts: approximate office points (hollow), then confirmed bases (filled) ----
