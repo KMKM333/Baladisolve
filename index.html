@@ -1409,6 +1409,9 @@
   .footer-bottom{ margin-top:34px; padding-top:20px; border-top:1px solid var(--border); font-size:11.5px; color:var(--text-faint);
     display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
   @media (max-width:800px){ .footer-grid{ grid-template-columns:1fr 1fr; } }
+
+.intl-chip{ all:unset; cursor:pointer; font-size:12px; line-height:1.3; padding:4px 9px; border-radius:999px; border:1px solid var(--border); background:var(--bg-1); color:var(--text); }
+.intl-chip:hover, .intl-chip:focus-visible{ border-color:var(--accent); color:var(--accent); outline:none; }
 </style>
 <script>
   // Stamp the saved theme before first paint, so a dark-mode reader never sees
@@ -2098,6 +2101,12 @@
       <div class="section-head" style="margin-top:2px;"><p>The same corridor that funds a project can be a stepping stone to real connections and partnerships — most of them costing nothing but a conversation. Click one to see how it would actually work. <b>None of it passes through escrow or verification.</b> These sit beside the ledger, not on it, so the trust argument on every project page stays about projects.</p></div>
       <div class="light-grid" id="corridorFeatureGrid"></div>
       <div style="font-size:11.5px;color:var(--text-faint);margin-top:16px;margin-bottom:8px;">These five are illustrative — the point isn't that Manāra runs a courier service or job board itself, but that a verified diaspora-hometown corridor is infrastructure other kinds of connection can be built on top of, not just a funding pipe. Courier groups in particular carry a line of policy before they go live: no cash, no restricted goods, the traveller stays responsible for what they carry under customs law, and every group has a named account holder as admin.</div>
+    </div>
+
+    <div class="section">
+      <div class="section-head"><h2>Based abroad, working in Lebanon</h2><p>Organisations on this ledger whose head office is in another country &mdash; international NGOs, UN agencies, development agencies and companies. Grouped by home country, so a reader abroad can see who from their country is already here.</p></div>
+      <div class="light-grid" id="intlBasedGrid"></div>
+      <div style="font-size:11.5px;color:var(--text-faint);margin-top:14px;">Home country is where the organisation is headquartered, not where it works. Each name opens the same page as on the Network and the Map.</div>
     </div>
 
     <div class="section">
@@ -3109,6 +3118,59 @@ const EXPERT_ADDRESS = {
 // office, placed by geocoding the place name, not a verified street address.
 // Organisations that describe themselves as nationwide with no stated base get
 // no pin at all rather than an invented one.
+// Organisations on the ledger whose head office is outside Lebanon. The Diaspora
+// page lists them by home country, so a reader abroad can see who from their
+// country already works here. Declared above the init sequence on purpose.
+const INTL_BASED = [
+  {name:'ACTED Lebanon', country:'France', hq:'Paris', kind:'International NGO'},
+  {name:'pS-Eau – LEWAP', country:'France', hq:'Paris', kind:'Sector network'},
+  {name:'Solidarités International Lebanon', country:'France', hq:'Clichy, near Paris', kind:'International NGO'},
+  {name:'IECD Lebanon', country:'France', hq:'Paris', kind:'Development institute'},
+  {name:'SUEZ Lebanon (Degrémont)', country:'France', hq:'Paris', kind:'Utility company'},
+  {name:'Humanity & Inclusion Lebanon', country:'France', hq:'Lyon', kind:'International NGO'},
+  {name:'Embassy of France — via AFD', country:'France', hq:'Paris', kind:'Development agency'},
+  {name:'Evenements Libanais a Paris', country:'France', hq:'Paris', kind:'Diaspora association'},
+  {name:'Action Against Hunger Lebanon', country:'Spain', hq:'Madrid (Acción contra el Hambre runs the Lebanon mission)', kind:'International NGO'},
+  {name:'Embassy of Spain — via AECID', country:'Spain', hq:'Madrid', kind:'Development agency'},
+  {name:'CatalyticAction', country:'United Kingdom', hq:'London', kind:'Registered charity'},
+  {name:'Oxfam Lebanon', country:'United Kingdom', hq:'Oxford', kind:'International NGO'},
+  {name:'Save the Children Lebanon', country:'United Kingdom', hq:'London', kind:'International NGO'},
+  {name:'Islamic Relief Lebanon', country:'United Kingdom', hq:'Birmingham', kind:'International NGO'},
+  {name:'Embassy of the United Kingdom — via FCDO', country:'United Kingdom', hq:'London', kind:'Development agency'},
+  {name:'World Vision Lebanon', country:'United States', hq:'Monrovia, California', kind:'International NGO'},
+  {name:'Mercy Corps Lebanon', country:'United States', hq:'Portland, Oregon', kind:'International NGO'},
+  {name:'Anera', country:'United States', hq:'Washington, DC', kind:'International NGO'},
+  {name:'International Rescue Committee Lebanon', country:'United States', hq:'New York', kind:'International NGO'},
+  {name:'UNICEF Lebanon (WASH)', country:'United States', hq:'New York', kind:'UN agency'},
+  {name:'UNDP Lebanon', country:'United States', hq:'New York', kind:'UN agency'},
+  {name:'UNDP CEDRO', country:'United States', hq:'New York (UNDP)', kind:'UN programme'},
+  {name:'UNDP Live Lebanon (Ensa Joura)', country:'United States', hq:'New York (UNDP)', kind:'UN programme'},
+  {name:'GEF Small Grants Programme Lebanon', country:'United States', hq:'Washington, DC (GEF)', kind:'Multilateral fund'},
+  {name:'Lebanon Financing Facility (3RF)', country:'United States', hq:'Washington, DC (World Bank)', kind:'Multilateral fund'},
+  {name:'Embassy of the United States — via USAID historic programs', country:'United States', hq:'Washington, DC', kind:'Development agency'},
+  {name:'CARE Lebanon', country:'Switzerland', hq:'Geneva (CARE International)', kind:'International NGO'},
+  {name:'ILO Lebanon', country:'Switzerland', hq:'Geneva', kind:'UN agency'},
+  {name:'Embassy of Switzerland — via SDC', country:'Switzerland', hq:'Bern', kind:'Development agency'},
+  {name:'Norwegian Refugee Council Lebanon', country:'Norway', hq:'Oslo', kind:'International NGO'},
+  {name:'Embassy of Norway', country:'Norway', hq:'Oslo', kind:'Government donor'},
+  {name:'Concern Worldwide Lebanon', country:'Ireland', hq:'Dublin', kind:'International NGO'},
+  {name:'Danish Refugee Council Lebanon', country:'Denmark', hq:'Copenhagen', kind:'International NGO'},
+  {name:'COOPI Lebanon', country:'Italy', hq:'Milan', kind:'International NGO'},
+  {name:'Terre des Hommes Italia Lebanon', country:'Italy', hq:'Milan', kind:'International NGO'},
+  {name:'Embassy of Italy — via AICS', country:'Italy', hq:'Rome', kind:'Development agency'},
+  {name:'Greenpeace Mediterranean – Lebanon', country:'Netherlands', hq:'Amsterdam (Greenpeace International)', kind:'Campaign organisation'},
+  {name:'Embassy of the Netherlands', country:'Netherlands', hq:'The Hague', kind:'Government donor'},
+  {name:'UN-Habitat Lebanon', country:'Kenya', hq:'Nairobi', kind:'UN agency'},
+  {name:'IWMI – ReWater MENA (Lebanon)', country:'Sri Lanka', hq:'Colombo (MENA office in Cairo)', kind:'Research institute'},
+  {name:'Embassy of Germany — via GIZ', country:'Germany', hq:'Bonn and Eschborn', kind:'Development agency'},
+  {name:'Embassy of Japan — via JICA', country:'Japan', hq:'Tokyo', kind:'Development agency'},
+  {name:'Delegation of the European Union', country:'Belgium', hq:'Brussels', kind:'Multilateral donor'},
+  {name:'Embassy of Australia — Direct Aid Program', country:'Australia', hq:'Canberra', kind:'Government donor'},
+  {name:'Embassy of Canada — Canada Fund for Local Initiatives', country:'Canada', hq:'Ottawa', kind:'Government donor'},
+  {name:'Embassy of Kuwait — via Kuwait Fund', country:'Kuwait', hq:'Kuwait City', kind:'Development fund'},
+  {name:'Embassy of Korea — via KOICA', country:'South Korea', hq:'Seongnam', kind:'Development agency'},
+  {name:'Averda', country:'United Arab Emirates', hq:'Dubai', kind:'Waste company'},
+];
 const EXPERT_HQ_APPROX = {
   'Ahmoudhassan496': {coords:[34.4374, 35.8349], place:'Tripoli'},
   'Jbs.community': {coords:[33.8541, 35.5374], place:'Hazmieh'},
@@ -8567,6 +8629,39 @@ function renderCorridors(){
   document.querySelectorAll('#corridorList [data-country]').forEach(el=>{
     el.addEventListener('click', ()=> openCountryPage(el.dataset.country));
   });
+  renderIntlBased();
+}
+// Head offices abroad, grouped by country. Countries that are also diaspora
+// sending countries link through to their country page.
+function intlBasedByCountry(){
+  const by = {};
+  INTL_BASED.forEach(x=>{ (by[x.country] = by[x.country] || []).push(x); });
+  return Object.keys(by).sort((a,b)=> by[b].length - by[a].length || a.localeCompare(b)).map(c=>({ country:c, items:by[c] }));
+}
+function intlChipHTML(x){
+  return `<button class="intl-chip" data-lead="${x.name.replace(/"/g,'&quot;')}" title="${x.kind} · HQ ${x.hq.replace(/"/g,'&quot;')}">${x.name}</button>`;
+}
+function wireIntlChips(root){
+  root.querySelectorAll('.intl-chip').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      const lead = ALL_LEADS.find(l=> l.name === b.dataset.lead);
+      if(lead) openLeadPage(lead.tags[0], lead, ()=> switchView('corridors'), 'the Diaspora page');
+    });
+  });
+}
+function renderIntlBased(){
+  const el = document.getElementById('intlBasedGrid');
+  if(!el) return;
+  el.innerHTML = intlBasedByCountry().map(g=>{
+    const linked = !!COUNTRY_META[g.country];
+    return `<div class="light-card">
+      <b style="font-size:13.5px;${linked?'cursor:pointer;color:var(--accent);':''}" ${linked?`data-country="${g.country}"`:''}>${g.country}</b>
+      <span style="font-size:11.5px;color:var(--text-faint);margin-inline-start:6px;">${g.items.length}</span>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;">${g.items.map(intlChipHTML).join('')}</div>
+    </div>`;
+  }).join('');
+  el.querySelectorAll('[data-country]').forEach(b=> b.addEventListener('click', ()=> openCountryPage(b.dataset.country)));
+  wireIntlChips(el);
 }
 
 // ---------- Corridor feature pages (More than money) ----------
@@ -9760,12 +9855,16 @@ function renderCountryPage(country){
     <h3 style="font-size:16px;margin-bottom:12px;">Lebanese initiatives from ${country}</h3>
     ${c.initiatives.length ? `<ul class="ov-bullets" style="max-width:680px;">${c.initiatives.map(i=>`<li>${i}</li>`).join('')}</ul>` : ''}
     ${pendingBlock}
+    ${INTL_BASED.some(x=>x.country===country) ? `<h3 style="font-size:16px;margin:26px 0 12px;">Headquartered in ${country}, working in Lebanon</h3>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;max-width:680px;" id="countryIntlChips">${INTL_BASED.filter(x=>x.country===country).map(intlChipHTML).join('')}</div>` : ''}
     <h3 style="font-size:16px;margin:26px 0 12px;">Projects funded from ${country}</h3>
     <div class="proj-grid" id="countryProjectGrid"></div>
   `;
   document.getElementById('bcHomeCountry').addEventListener('click', ()=> switchView('home'));
   document.getElementById('bcCorridorsCountry').addEventListener('click', ()=> switchView('corridors'));
   document.getElementById('detailBackBtn').addEventListener('click', ()=> detailBackFn());
+  const intlEl = document.getElementById('countryIntlChips');
+  if(intlEl) wireIntlChips(intlEl);
   const gridEl = document.getElementById('countryProjectGrid');
   gridEl.innerHTML = projects.map(cardHTML).join('') || '<div style="color:var(--text-faint);font-size:13px;">No projects yet from this country.</div>';
   attachCardEvents(gridEl);
