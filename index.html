@@ -354,6 +354,7 @@
   .st-funding{ background:var(--accent-soft); color:var(--accent); }
   .st-progress{ background:var(--warn-soft); color:var(--warn); }
   .st-complete{ background:var(--ok-soft); color:var(--ok); }
+  .st-fixed{ background:var(--ok-soft); color:var(--ok); outline:1.5px dashed var(--ok); outline-offset:-1.5px; }
   .st-returned{ background:var(--warn-soft); color:var(--warn); }
   .st-refused{ background:var(--danger-soft); color:var(--danger); }
   .proj-card h4{ font-size:15.5px; font-weight:700; margin:0 0 4px; line-height:1.3; }
@@ -5457,17 +5458,17 @@ const PROJECTS = [
    ledger:[{t:'Reported on Baladi Map', d:'30 Aug', meta:'2 residents confirmed · not yet certified', ref:'BM-D3ED1716', state:'pending'}],
    donations:[],
    comments:[]},
-  {id:1112, title:'Sewage whole completely open', type:'Public Roads', gov:'north', locality:'El Mina', size:null, goal:null, raised:0, status:'proposed', urgency:'Critical',
+  {id:1112, title:'Sewage whole completely open', type:'Public Roads', gov:'north', locality:'El Mina', size:null, goal:null, raised:0, status:'fixed', urgency:'Critical',
    partner:'Not yet assigned', org:'El Mina — reporting community', corridor:null, audienceTags:['locals'],
    certifyingBody:null, certStatus:'pending', source:'baladi', sourceId:'2ab1ff3c-7959-4dc0-ba82-de6f22c2f409',
    sourceUrl:'https://www.baladimap.com/en/issues/2ab1ff3c-7959-4dc0-ba82-de6f22c2f409',
    coords:[34.4421979726459,35.8238744394058],
    photo:'https://nwqypuvekrsuvbypydjb.supabase.co/storage/v1/object/public/issue-photos/00118190-2924-4ccf-b841-a4b44bc0d0b6/1787856923398.jpg?v=1787856945224',
    metrics:[{label:'Residents confirmed', value:1}],
-   timeline:{start:'reported 27 Aug', target:'TBD — awaiting certification', schedule:'early', scheduleLabel:'Not yet certified'},
+   timeline:{start:'reported 27 Aug', target:'fixed on Baladi Map', schedule:'ontrack', scheduleLabel:'Fixed on Baladi Map'},
    originReport:{ref:'BM-2AB1FF3C', confirmed:1}, beneficiaries:1, daysToMilestone:null, interest:1, interestable:true,
-   desc:'There is a sewage whole completely open on the maarad main highway and it imposes high accident risks especially at night. Reported on Baladi Map from El Mina, and confirmed by 1 resident. Not yet certified, costed or open for funding.',
-   ledger:[{t:'Reported on Baladi Map', d:'27 Aug', meta:'1 resident confirmed · not yet certified', ref:'BM-2AB1FF3C', state:'pending'}],
+   desc:'There is a sewage whole completely open on the maarad main highway and it imposes high accident risks especially at night. Reported on Baladi Map from El Mina, and confirmed by 1 resident. Fixed on Baladi Map: the repair was reported and checked there. Nothing was certified, costed or funded here.',
+   ledger:[{t:'Reported on Baladi Map', d:'27 Aug', meta:'1 resident confirmed', ref:'BM-2AB1FF3C', state:'verified'}, {t:'Fixed on Baladi Map', d:'later', meta:'The repair was reported and Baladi Map checked the photo. Not through this ledger — no escrow, no verifier, nothing released', ref:'BM-2AB1FF3C-FIX', state:'verified'}],
    donations:[],
    comments:[]},
   {id:1113, title:'Motorcycle quad bike rental to children.', type:'Public Roads', gov:'mtlebanon', locality:'Jbeil', size:null, goal:null, raised:0, status:'proposed', urgency:'Critical',
@@ -6190,6 +6191,120 @@ const PROJECTS = [
    ledger:[{t:'Reported on Baladi Map', d:'25 Aug', meta:'1 resident confirmed · not yet certified', ref:'BM-C402CD6F', state:'pending'}],
    donations:[],
    comments:[]},
+  {id:1173, title:'Blocked Dangerous turn', type:'Public Space & Land Use', gov:'mtlebanon', locality:'Bsalim - Mezher - Majzoub', size:null, goal:null, raised:0, status:'proposed', urgency:'Critical',
+   partner:'Not yet assigned', org:'Bsalim - Mezher - Majzoub — reporting community', corridor:null, audienceTags:['locals'],
+   certifyingBody:null, certStatus:'pending', source:'baladi', sourceId:'8b6bc5e9-dda1-4e21-a95a-ce2f7dbeac5f',
+   sourceUrl:'https://www.baladimap.com/en/issues/8b6bc5e9-dda1-4e21-a95a-ce2f7dbeac5f',
+   coords:[33.9047562487894,35.5991168082166],
+   photo:'https://nwqypuvekrsuvbypydjb.supabase.co/storage/v1/object/public/issue-photos/2ba879b3-16da-48aa-87c6-50c4231da4d4/1788261704817.jpg?v=1788261726007',
+   metrics:[{label:'Residents confirmed', value:4}],
+   timeline:{start:'reported 1 Sept', target:'TBD — awaiting certification', schedule:'early', scheduleLabel:'Not yet certified'},
+   originReport:{ref:'BM-8B6BC5E9', confirmed:4}, beneficiaries:4, daysToMilestone:null, interest:4, interestable:true,
+   desc:'We asked the municipality to put blocks on a strong left turn كوع cause the cars of the building are parked always عالكوع not even before knowing there is space before and they have a parking. Now with the winter and school buses coming it’s catastrophic Reported on Baladi Map from Bsalim - Mezher - Majzoub, and confirmed by 4 residents. Not yet certified, costed or open for funding.',
+   ledger:[{t:'Reported on Baladi Map', d:'1 Sept', meta:'4 residents confirmed · not yet certified', ref:'BM-8B6BC5E9', state:'pending'}],
+   donations:[],
+   comments:[]},
+  {id:1174, title:'أسفلت متآكل وحفرة في شارع 55', type:'Public Roads', gov:'mtlebanon', locality:'Beit Ech-Chaar - Mazraat El Hdaira', size:null, goal:null, raised:0, status:'proposed', urgency:'Medium',
+   partner:'Not yet assigned', org:'Beit Ech-Chaar - Mazraat El Hdaira — reporting community', corridor:null, audienceTags:['locals'],
+   certifyingBody:null, certStatus:'pending', source:'baladi', sourceId:'350ee11e-8dfb-4b15-a655-1c115f63c3bd',
+   sourceUrl:'https://www.baladimap.com/en/issues/350ee11e-8dfb-4b15-a655-1c115f63c3bd',
+   coords:[33.933730584197,35.6082627808445],
+   photo:'https://nwqypuvekrsuvbypydjb.supabase.co/storage/v1/object/public/issue-photos/b5782a2b-0d29-4262-87ea-904d0b54b060/1788240529006.jpg?v=1788240556612',
+   metrics:[{label:'Residents confirmed', value:2}],
+   timeline:{start:'reported 1 Sept', target:'TBD — awaiting certification', schedule:'early', scheduleLabel:'Not yet certified'},
+   originReport:{ref:'BM-350EE11E', confirmed:2}, beneficiaries:2, daysToMilestone:null, interest:2, interestable:true,
+   desc:'طرقات بلدية بيت الشعار لا تصلح للاستخدام البشري Reported on Baladi Map from Beit Ech-Chaar - Mazraat El Hdaira, and confirmed by 2 residents. Not yet certified, costed or open for funding.',
+   ledger:[{t:'Reported on Baladi Map', d:'1 Sept', meta:'2 residents confirmed · not yet certified', ref:'BM-350EE11E', state:'pending'}],
+   donations:[],
+   comments:[]},
+  {id:1175, title:'Trash in sou2 baalbeck', type:'Environment & Waste', gov:'baalbek', locality:'Baalbek', size:null, goal:null, raised:0, status:'proposed', urgency:'Medium',
+   partner:'Not yet assigned', org:'Baalbek — reporting community', corridor:null, audienceTags:['locals'],
+   certifyingBody:null, certStatus:'pending', source:'baladi', sourceId:'257e17f1-fc4c-435c-9423-819b334e5011',
+   sourceUrl:'https://www.baladimap.com/en/issues/257e17f1-fc4c-435c-9423-819b334e5011',
+   coords:[34.0052316970671,36.208108426492],
+   photo:'https://nwqypuvekrsuvbypydjb.supabase.co/storage/v1/object/public/issue-photos/e6304081-eeac-4d47-875d-73647c11e713/1788363712023.jpg?v=1788363734198',
+   metrics:[{label:'Residents confirmed', value:4}],
+   timeline:{start:'reported 2 Sept', target:'TBD — awaiting certification', schedule:'early', scheduleLabel:'Not yet certified'},
+   originReport:{ref:'BM-257E17F1', confirmed:4}, beneficiaries:4, daysToMilestone:null, interest:4, interestable:true,
+   desc:'Unattended trash cans this issue has been here a long time Reported on Baladi Map from Baalbek, and confirmed by 4 residents. Not yet certified, costed or open for funding.',
+   ledger:[{t:'Reported on Baladi Map', d:'2 Sept', meta:'4 residents confirmed · not yet certified', ref:'BM-257E17F1', state:'pending'}],
+   donations:[],
+   comments:[]},
+  {id:1176, title:'Risky tables on sehet lnour', type:'Public Space & Land Use', gov:'north', locality:'Tripoli', size:null, goal:null, raised:0, status:'proposed', urgency:'Critical',
+   partner:'Not yet assigned', org:'Tripoli — reporting community', corridor:null, audienceTags:['locals'],
+   certifyingBody:null, certStatus:'pending', source:'baladi', sourceId:'2f8d0c23-9a46-45b8-bdb1-17a1317edb50',
+   sourceUrl:'https://www.baladimap.com/en/issues/2f8d0c23-9a46-45b8-bdb1-17a1317edb50',
+   coords:[34.4347688905035,35.8364677407266],
+   metrics:[{label:'Residents confirmed', value:1}],
+   timeline:{start:'reported 1 Sept', target:'TBD — awaiting certification', schedule:'early', scheduleLabel:'Not yet certified'},
+   originReport:{ref:'BM-2F8D0C23', confirmed:1}, beneficiaries:1, daysToMilestone:null, interest:1, interestable:true,
+   desc:'Tables of a restaurant sits on the opposite side of the road, customers constantly crossing the road. Reported on Baladi Map from Tripoli, and confirmed by 1 resident. Not yet certified, costed or open for funding.',
+   ledger:[{t:'Reported on Baladi Map', d:'1 Sept', meta:'1 resident confirmed · not yet certified', ref:'BM-2F8D0C23', state:'pending'}],
+   donations:[],
+   comments:[]},
+  {id:1177, title:'Barriers block on road', type:'Public Roads', gov:'mtlebanon', locality:'Araya', size:null, goal:null, raised:0, status:'proposed', urgency:'Critical',
+   partner:'Not yet assigned', org:'Araya — reporting community', corridor:null, audienceTags:['locals'],
+   certifyingBody:null, certStatus:'pending', source:'baladi', sourceId:'61ea0d53-33ad-48a2-a60f-f3a18f10b829',
+   sourceUrl:'https://www.baladimap.com/en/issues/61ea0d53-33ad-48a2-a60f-f3a18f10b829',
+   coords:[33.8268851561731,35.5873489379883],
+   photo:'https://nwqypuvekrsuvbypydjb.supabase.co/storage/v1/object/public/issue-photos/fde8100d-af87-4531-8b8f-19d906ba94cc/1788346418761.jpg?v=1788346444170',
+   metrics:[{label:'Residents confirmed', value:2}],
+   timeline:{start:'reported 2 Sept', target:'TBD — awaiting certification', schedule:'early', scheduleLabel:'Not yet certified'},
+   originReport:{ref:'BM-61EA0D53', confirmed:2}, beneficiaries:2, daysToMilestone:null, interest:2, interestable:true,
+   desc:'Cement block barrier on road (2) 1 on kahaleh near karma resto and the other aley near al abdallah Reported on Baladi Map from Araya, and confirmed by 2 residents. Not yet certified, costed or open for funding.',
+   ledger:[{t:'Reported on Baladi Map', d:'2 Sept', meta:'2 residents confirmed · not yet certified', ref:'BM-61EA0D53', state:'pending'}],
+   donations:[],
+   comments:[]},
+  {id:1178, title:'Garbage all over the streets for weeks', type:'Environment & Waste', gov:'baalbek', locality:'Baalbek', size:null, goal:null, raised:0, status:'proposed', urgency:'Critical',
+   partner:'Not yet assigned', org:'Baalbek — reporting community', corridor:null, audienceTags:['locals'],
+   certifyingBody:null, certStatus:'pending', source:'baladi', sourceId:'76a0a2fe-9c1b-4f37-8174-a5b2c431f193',
+   sourceUrl:'https://www.baladimap.com/en/issues/76a0a2fe-9c1b-4f37-8174-a5b2c431f193',
+   coords:[34.018359977439,36.2229054135519],
+   photo:'https://nwqypuvekrsuvbypydjb.supabase.co/storage/v1/object/public/issue-photos/46c3bd43-d88e-46df-8d60-958ba16edfbb/1788282781307.jpg?v=1788282798599',
+   metrics:[{label:'Residents confirmed', value:3}],
+   timeline:{start:'reported 1 Sept', target:'TBD — awaiting certification', schedule:'early', scheduleLabel:'Not yet certified'},
+   originReport:{ref:'BM-76A0A2FE', confirmed:3}, beneficiaries:3, daysToMilestone:null, interest:3, interestable:true,
+   desc:'The garbage and wastes haven’t been removed in several weeks, they only take the trash for people who pay to them Reported on Baladi Map from Baalbek, and confirmed by 3 residents. Not yet certified, costed or open for funding.',
+   ledger:[{t:'Reported on Baladi Map', d:'1 Sept', meta:'3 residents confirmed · not yet certified', ref:'BM-76A0A2FE', state:'pending'}],
+   donations:[],
+   comments:[]},
+  {id:1179, title:'تزفيت الطريق', type:'Public Roads', gov:'mtlebanon', locality:'Haret Hreik', size:null, goal:null, raised:0, status:'proposed', urgency:'Medium',
+   partner:'Not yet assigned', org:'Haret Hreik — reporting community', corridor:null, audienceTags:['locals'],
+   certifyingBody:null, certStatus:'pending', source:'baladi', sourceId:'7a3a01e8-47e6-4bab-8ec6-5969a49729d3',
+   sourceUrl:'https://www.baladimap.com/en/issues/7a3a01e8-47e6-4bab-8ec6-5969a49729d3',
+   coords:[33.8552406461976,35.5205798149109],
+   photo:'https://nwqypuvekrsuvbypydjb.supabase.co/storage/v1/object/public/issue-photos/ce184c51-3cd4-4150-8f0b-8e076b238f7d/1788260106568.jpg?v=1788260189516',
+   metrics:[{label:'Residents confirmed', value:2}],
+   timeline:{start:'reported 1 Sept', target:'TBD — awaiting certification', schedule:'early', scheduleLabel:'Not yet certified'},
+   originReport:{ref:'BM-7A3A01E8', confirmed:2}, beneficiaries:2, daysToMilestone:null, interest:2, interestable:true,
+   desc:'منذ الحرب أتوا عمال لإنتشال الرمد الناتج من تحطيم الأبنية المجاورة لمدخل المفرق و أصبحت الأرض وحل و يجب معالجتها قبل الشتاء و شكراً.م Reported on Baladi Map from Haret Hreik, and confirmed by 2 residents. Not yet certified, costed or open for funding.',
+   ledger:[{t:'Reported on Baladi Map', d:'1 Sept', meta:'2 residents confirmed · not yet certified', ref:'BM-7A3A01E8', state:'pending'}],
+   donations:[],
+   comments:[]},
+  {id:1180, title:'Big pothole on tabarja safra highway', type:'Public Roads', gov:'mtlebanon', locality:'Tabarja - Kfar Yassine', size:null, goal:null, raised:0, status:'proposed', urgency:'High',
+   partner:'Not yet assigned', org:'Tabarja - Kfar Yassine — reporting community', corridor:null, audienceTags:['locals'],
+   certifyingBody:null, certStatus:'pending', source:'baladi', sourceId:'b6d5ddd9-da07-478e-aea5-4f582cccbb9c',
+   sourceUrl:'https://www.baladimap.com/en/issues/b6d5ddd9-da07-478e-aea5-4f582cccbb9c',
+   coords:[34.0262196175385,35.6308735520575],
+   metrics:[{label:'Residents confirmed', value:3}],
+   timeline:{start:'reported 1 Sept', target:'TBD — awaiting certification', schedule:'early', scheduleLabel:'Not yet certified'},
+   originReport:{ref:'BM-B6D5DDD9', confirmed:3}, beneficiaries:3, daysToMilestone:null, interest:3, interestable:true,
+   desc:'There\'s a very big pothole on the highway going from jounieh to jbeil. Located between safra and Tabarja in the left lane. Reported on Baladi Map from Tabarja - Kfar Yassine, and confirmed by 3 residents. Not yet certified, costed or open for funding.',
+   ledger:[{t:'Reported on Baladi Map', d:'1 Sept', meta:'3 residents confirmed · not yet certified', ref:'BM-B6D5DDD9', state:'pending'}],
+   donations:[],
+   comments:[]},
+  {id:1181, title:'Road is very bad a lot of holes and not safe', type:'Public Roads', gov:'mtlebanon', locality:'Lassa', size:null, goal:null, raised:0, status:'proposed', urgency:'Low',
+   partner:'Not yet assigned', org:'Lassa — reporting community', corridor:null, audienceTags:['locals'],
+   certifyingBody:null, certStatus:'pending', source:'baladi', sourceId:'fe32f3e6-1c82-4eec-9004-87a2a1997b65',
+   sourceUrl:'https://www.baladimap.com/en/issues/fe32f3e6-1c82-4eec-9004-87a2a1997b65',
+   coords:[34.0572105135103,35.8511352539063],
+   metrics:[{label:'Residents confirmed', value:2}],
+   timeline:{start:'reported 2 Sept', target:'TBD — awaiting certification', schedule:'early', scheduleLabel:'Not yet certified'},
+   originReport:{ref:'BM-FE32F3E6', confirmed:2}, beneficiaries:2, daysToMilestone:null, interest:2, interestable:true,
+   desc:'The road is very bad needs new asphalt Reported on Baladi Map from Lassa, and confirmed by 2 residents. Not yet certified, costed or open for funding.',
+   ledger:[{t:'Reported on Baladi Map', d:'2 Sept', meta:'2 residents confirmed · not yet certified', ref:'BM-FE32F3E6', state:'pending'}],
+   donations:[],
+   comments:[]},
   /* ===== BALADI IMPORT END ===== */
 ];
 
@@ -6309,9 +6424,9 @@ function donationHash(projectId, idx, d){ return 'DN-' + simpleHash(projectId+'|
 // The four happy-path statuses plus the three ways a request can end without
 // finishing. A model that cannot express failure cannot answer the first
 // question a donor asks: what happens to my money if this doesn't work.
-const statusLabel = {proposed:'Proposed', funding:'Funding', progress:'In progress', complete:'Verified complete',
+const statusLabel = {proposed:'Proposed', funding:'Funding', progress:'In progress', complete:'Verified complete', fixed:'Fixed on Baladi Map',
   lapsed:'Funding lapsed — refunded', stalled:'Stalled — balance returned', refused:'Certification refused'};
-const statusClass = {proposed:'st-proposed', funding:'st-funding', progress:'st-progress', complete:'st-complete',
+const statusClass = {proposed:'st-proposed', funding:'st-funding', progress:'st-progress', complete:'st-complete', fixed:'st-fixed',
   lapsed:'st-returned', stalled:'st-returned', refused:'st-refused'};
 const schedClass = {ontrack:'sched-ontrack', atrisk:'sched-atrisk', early:'sched-early'};
 
@@ -6595,7 +6710,7 @@ const EXPERT_FIELDS = [
 function renderHome(){
   renderFieldGrid('networkFieldGrid');
 
-  const featured = PROJECTS.filter(p=>p.status!=='proposed').slice(0,8);
+  const featured = PROJECTS.filter(p=>p.status!=='proposed' && p.status!=='fixed').slice(0,8);
   document.getElementById('featuredGrid').innerHTML = featured.map(cardHTML).join('');
   attachCardEvents(document.getElementById('featuredGrid'));
   initCarouselControls('featuredGrid', 'featuredCarouselWrap');
@@ -6686,9 +6801,9 @@ function ensureLeafletMap(){
   // bar collapsing, safe-area insets settling) happened right after we checked.
   setTimeout(()=> leafletMapInstance && leafletMapInstance.invalidateSize(), 300);
 
-  const statusColor = { proposed:'#DC2626', funding:'#EAB308', progress:'#16A34A', complete:'#2563EB' };
-  const statusBorder = { proposed:'#fff', funding:'#fff', progress:'#fff', complete:'#fff' };
-  const statusTextColor = { proposed:'#DC2626', funding:'#CA8A04', progress:'#16A34A', complete:'#2563EB' };
+  const statusColor = { proposed:'#DC2626', funding:'#EAB308', progress:'#16A34A', complete:'#2563EB', fixed:'#15803D' };
+  const statusBorder = { proposed:'#fff', funding:'#fff', progress:'#fff', complete:'#fff', fixed:'#fff' };
+  const statusTextColor = { proposed:'#DC2626', funding:'#CA8A04', progress:'#16A34A', complete:'#2563EB', fixed:'#15803D' };
   mapLayers = { problems: L.layerGroup(), experts: L.layerGroup(), municipalities: L.layerGroup() };
   mapSearchIndex = []; // { name, sub, type, coords, marker }
 
@@ -7285,7 +7400,7 @@ function renderDetail(){
   const chatTab = p._chatTab || 'public';
   p.stakeholderChat = p.stakeholderChat || (STAKEHOLDER_CHAT[p.id] || []).slice();
   const stakeRows = p.stakeholderChat.length ? p.stakeholderChat.map(msgHTML).join('') : `<div class="chat-empty">No messages yet.</div>`;
-  const v1 = p.status==='proposed' ? null : verifierFor(p), v2 = verifierL2For(p);
+  const v1 = (p.status==='proposed' || p.status==='fixed') ? null : verifierFor(p), v2 = verifierL2For(p);
   const chatMembers = [
     ['Government lead', muniEntity || p.certifyingBody || 'not yet certified'],
     ['Expert', p.expertPartner ? p.expertPartner.name : (orgEntity || 'not yet bid')],
@@ -7364,7 +7479,7 @@ function renderDetail(){
           ${chatTab==='public' ? `<div class="chat-list">${commentRows}</div>` : `
             <div class="chat-room">${chatMembers}</div>
             <p class="chat-note">Verifiers sit in this chat on purpose: a signature everyone is waiting on is visible to the people waiting on it. Bottlenecks and pressure happen in the open.</p>
-            ${p.certStatus==='certified' ? `<div class="chat-list">${stakeRows}</div>` : `<div class="chat-closed">Opens when this request is certified.${p.originReport || p.source==='baladi' ? ' The ' + affectedCount + ' residents who confirmed it on Baladi Map form the affected group and get a seat here automatically.' : ''}</div>`}
+            ${p.certStatus==='certified' ? `<div class="chat-list">${stakeRows}</div>` : p.status==='fixed' ? `<div class="chat-closed">Fixed on Baladi Map before it was certified here, so no stakeholder chat opened on this ledger.</div>` : `<div class="chat-closed">Opens when this request is certified.${p.originReport || p.source==='baladi' ? ' The ' + affectedCount + ' residents who confirmed it on Baladi Map form the affected group and get a seat here automatically.' : ''}</div>`}
             <div class="chat-join">${p._joined ? '<b>You are in the affected group.</b> Your posts here are seen by everyone on the request.' : `<button type="button" class="btn btn-secondary" id="joinAffected">I&rsquo;ve been affected too</button><span>${affectedCount} in the group so far${p.originReport || p.source==='baladi' ? ' — seeded from Baladi Map confirmations' : ''}.</span>`}</div>`}
           <div class="comment-form chat-composer">
             <span class="msg-av ${chatRoleClass(currentRole)}" aria-hidden="true">${initials(currentRole)}</span>
@@ -8518,7 +8633,7 @@ function renderMuniDirectory(){
 document.querySelectorAll('.rc-preview').forEach(btn=>{
   btn.addEventListener('click', ()=>{
     currentRole = btn.dataset.role;
-    const firstOpen = PROJECTS.find(p=>p.status!=='proposed');
+    const firstOpen = PROJECTS.find(p=>p.status!=='proposed' && p.status!=='fixed');
     if(firstOpen){ openDetail(firstOpen.id); }
   });
 });
@@ -8533,7 +8648,7 @@ function renderVerifierCases(){
   if(!grid || grid.dataset.filled) return;
   grid.dataset.filled = '1';
   var rows = PROJECTS.map(function(p){ return {p:p, v:verifierFor(p)}; })
-    .filter(function(x){ return x.v && x.p.status !== 'proposed'; }).slice(0,3);
+    .filter(function(x){ return x.v && x.p.status !== 'proposed' && x.p.status !== 'fixed'; }).slice(0,3);
   grid.innerHTML = rows.map(function(x){
     return '<div class="case-card" data-id="' + x.p.id + '">' +
       '<div class="cc-org">' + x.v.org + '</div><h4>' + x.p.title + '</h4>' +
@@ -9104,7 +9219,7 @@ function caseHeadline(p, tag){
 function renderCaseStudies(){
   ['municipalities','organisations','locals','diaspora'].forEach(page=>{
     const tag = page==='municipalities' ? 'municipality' : (page==='organisations' ? 'organisation' : page);
-    const list = PROJECTS.filter(p => p.audienceTags && p.audienceTags.includes(tag) && p.status!=='proposed').slice(0,3);
+    const list = PROJECTS.filter(p => p.audienceTags && p.audienceTags.includes(tag) && p.status!=='proposed' && p.status!=='fixed').slice(0,3);
     const grid = document.getElementById('case-'+page);
     grid.innerHTML = list.map(p=>`<div class="case-card" data-id="${p.id}">
         <div class="cc-org">${p.org}</div><h4>${p.title}</h4>
@@ -9890,6 +10005,7 @@ function verifierFor(p){
 // cards can render at parse time whatever sits above or below.
 function stageNames(){ return ['Reported','Certified','Signed off & bids','Funding','In progress','Complete']; }
 function stageOf(p){
+  if(p.status === 'fixed') return {i:6, label:'Fixed on Baladi Map'};
   var i = p.status === 'complete' ? 6 : p.status === 'progress' ? 5 : p.status === 'funding' ? 4 : (p.certStatus === 'certified' ? 2 : 1);
   return {i:i, label:stageNames()[i - 1]};
 }
@@ -10261,6 +10377,12 @@ renderVerifierRegister();
 // as "independent", because a reader can only take a claim seriously if they can
 // see what was actually checked.
 function verifierCardHTML(p){
+  if(p.status === 'fixed'){
+    return '<div class="light-card" style="margin-bottom:16px;">' +
+      '<b style="font-size:13px;display:block;margin-bottom:10px;">Independent verifier</b>' +
+      '<div class="vf-none"><b>None &mdash; fixed outside this ledger</b>' +
+      '<span>This was repaired and checked on Baladi Map before it was ever certified here. Nothing on Manāra was pledged, released or verified, so no verifier was assigned.</span></div></div>';
+  }
   if(p.status === 'proposed'){
     return '<div class="light-card" style="margin-bottom:16px;">' +
       '<b style="font-size:13px;display:block;margin-bottom:10px;">Independent verifier</b>' +
@@ -10324,6 +10446,9 @@ function initials(name){
 // has no goal, so it says so instead of inventing one.
 function priceCardHTML(p){
   var head = '<div class="detail-block"><h3 style="font-size:16px;margin:0 0 6px;">How the price is set</h3>';
+  if(p.status === 'fixed'){
+    return head + '<p style="font-size:12.5px;color:var(--text-dim);line-height:1.6;margin:0;">Never costed here. The repair happened through Baladi Map and the municipality, outside this ledger, so there was no bracket, no bid and no published cost.</p></div>';
+  }
   if(!p.goal){
     return head + '<p style="font-size:12.5px;color:var(--text-dim);line-height:1.6;margin:0;">No cost bracket yet. At certification the first-line verifier sets a bracket, eligible expert organisations bid inside it, and government and the verifier approve the winner. Nothing on this request is costed until then &mdash; and nothing here is invented to fill the gap.</p></div>';
   }
@@ -10389,6 +10514,9 @@ function refundPolicyHTML(p){
     body = 'Funds are released one verified milestone at a time. If work stops, the unreleased balance is ' +
            'returned to sponsors rather than held — and a rejected milestone releases nothing at all.';
     tone = 'warn';
+  } else if(p.status === 'fixed'){
+    body = 'Fixed on Baladi Map before any pledge was taken here. Nothing was held, so nothing is owed.';
+    tone = 'neutral';
   } else if(p.status === 'complete'){
     body = 'Fully released against verified milestones. Nothing is outstanding and nothing is owed back.';
   } else {

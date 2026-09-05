@@ -145,20 +145,26 @@ function toRecord(r, id) {
   const desc = (r.description ? esc(r.description) + ' ' : '')
     + `Reported on Baladi Map from ${esc(locality)}`
     + (conf ? `, and confirmed by ${conf} resident${conf === 1 ? '' : 's'}` : '')
-    + '. Not yet certified, costed or open for funding.';
+    + (r.is_fixed
+        ? '. Fixed on Baladi Map: the repair was reported and checked there. Nothing was certified, costed or funded here.'
+        : '. Not yet certified, costed or open for funding.');
   const photo = r.photo_urls && r.photo_urls[0];
   return `  {id:${id}, title:'${esc(r.title)}', type:'${TYPE[r.category] || TYPE.other}', gov:'${gov}', `
-    + `locality:'${esc(locality)}', size:null, goal:null, raised:0, status:'proposed', urgency:'${URGENCY[r.severity] || 'Medium'}',\n`
+    + `locality:'${esc(locality)}', size:null, goal:null, raised:0, status:'${r.is_fixed ? 'fixed' : 'proposed'}', urgency:'${URGENCY[r.severity] || 'Medium'}',\n`
     + `   partner:'Not yet assigned', org:'${esc(locality)} — reporting community', corridor:null, audienceTags:['locals'],\n`
     + `   certifyingBody:null, certStatus:'pending', source:'baladi', sourceId:'${r.id}',\n`
     + `   sourceUrl:'https://www.baladimap.com/en/issues/${r.id}',\n`
     + (xy ? `   coords:[${xy[0]},${xy[1]}],` : `   coords:null, /* no pin on Baladi Map — cannot be placed on the map */`)
     + `${photo ? `\n   photo:'${photo}',` : ''}\n`
     + `   metrics:[{label:'Residents confirmed', value:${conf}}],\n`
-    + `   timeline:{start:'reported ${when}', target:'TBD — awaiting certification', schedule:'early', scheduleLabel:'Not yet certified'},\n`
+    + (r.is_fixed
+        ? `   timeline:{start:'reported ${when}', target:'fixed on Baladi Map', schedule:'ontrack', scheduleLabel:'Fixed on Baladi Map'},\n`
+        : `   timeline:{start:'reported ${when}', target:'TBD — awaiting certification', schedule:'early', scheduleLabel:'Not yet certified'},\n`)
     + `   originReport:{ref:'${ref}', confirmed:${conf}}, beneficiaries:${conf}, daysToMilestone:null, interest:${conf}, interestable:true,\n`
     + `   desc:'${desc}',\n`
-    + `   ledger:[{t:'Reported on Baladi Map', d:'${when}', meta:'${conf} resident${conf === 1 ? '' : 's'} confirmed · not yet certified', ref:'${ref}', state:'pending'}],\n`
+    + `   ledger:[{t:'Reported on Baladi Map', d:'${when}', meta:'${conf} resident${conf === 1 ? '' : 's'} confirmed${r.is_fixed ? '' : ' · not yet certified'}', ref:'${ref}', state:'${r.is_fixed ? 'verified' : 'pending'}'}`
+    + (r.is_fixed ? `, {t:'Fixed on Baladi Map', d:'later', meta:'The repair was reported and Baladi Map checked the photo. Not through this ledger — no escrow, no verifier, nothing released', ref:'${ref}-FIX', state:'verified'}` : '')
+    + `],\n`
     + `   donations:[],\n`
     + `   comments:[]},`;
 }
@@ -225,4 +231,4 @@ console.log('  FLAGS:');
 console.log(`    ${unmapped.length} report(s) have no pin on Baladi Map and will not appear on the map`);
 console.log(`    ${otherCat.length} report(s) are category "other" on Baladi — shown under Public Space & Land Use as a best fit, not a real classification`);
 console.log(`    ${chosen.filter((x) => !x.photo_urls?.length).length} report(s) have no photo (placeholder shown, never generated)`);
-console.log(`    ${chosen.filter((x) => x.is_fixed).length} report(s) are marked fixed on Baladi — still shown as proposed here, since Manara has not certified or funded anything`);
+console.log(`    ${chosen.filter((x) => x.is_fixed).length} report(s) are marked fixed on Baladi — shown here as "Fixed on Baladi Map", outside this ledger`);
