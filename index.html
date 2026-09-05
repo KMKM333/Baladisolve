@@ -1268,6 +1268,7 @@
   .hb-card li{ margin:4px 0; }
   .hb-note{ font-size:12px; color:var(--text-faint); line-height:1.6; margin:18px 0 0; max-width:78ch; }
   @media (max-width:760px){ .hb-grid{ grid-template-columns:1fr; } }
+  .net-group + .net-group{ border-top:1px solid var(--border); margin-top:38px; padding-top:38px; }
   .group-links{ display:flex; gap:10px; flex-wrap:wrap; margin:18px 0 0; }
   .tier-switch{ display:flex; gap:8px; margin:0 0 22px; flex-wrap:wrap; }
   .tier-switch-btn{ all:unset; cursor:pointer; font-size:12.5px; font-weight:700; padding:7px 14px; border:1.5px solid var(--border); border-radius:20px; color:var(--text-dim); }
@@ -1733,18 +1734,18 @@
         </div>
         <button class="role-jump" type="button" data-reports="1">See the reports <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-attrs="residents">Attributes <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button>
       </div>
-      <div class="net-group"><div class="net-role">Certifies</div><h3 data-group="government" style="cursor:pointer;">Government</h3><p>Certifies compliance and runs the diaspora-welcome liaison desk. Never holds pledged funds.</p><button class="role-jump" type="button" data-demo-jump="ministry">See the government options <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-attrs="government">Attributes <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button></div>
+      <div class="net-group"><div class="net-role">Certifies</div><h3 data-group="government" style="cursor:pointer;">Government</h3><p>Certifies compliance and runs the diaspora-welcome liaison desk. Never holds pledged funds.</p><button class="role-jump" type="button" data-demo-jump="ministry">See the government options <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-attrs="government">Attributes <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-handbook="government">Handbook <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button></div>
       <div class="light-grid" style="margin-bottom:34px;">
         <div class="light-card" data-cat="ministry"><b>Ministry</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Certifies technical &amp; regulatory compliance nationally — the specific ministry depends on the request's field.</p></div>
         <div class="light-card" data-cat="districts"><b>Governorates &amp; Districts</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Lebanon's nine governorates and the 26 districts within them. Coordinates across municipalities in its region — read-only on funds and certification.</p></div>
         <div class="light-card" data-cat="municipality"><b>Municipality</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Posts the request and delivers the work on the ground, once certified.</p></div>
       </div>
 
-      <div class="net-group"><div class="net-role">Solves</div><h3 data-group="experts" style="cursor:pointer;">Expert organisations</h3><p>Matched to a request by field — the specific technical knowledge a problem needs, distinct from who implements or who pays. Attributes decide who may bid on a request; bids inside the verifier's bracket are ranked half on quality, half on price, and government chooses from that ranking.</p><button class="role-jump" type="button" data-demo-jump="electricity">See the expert options <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-attrs="experts">Attributes <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button></div>
+      <div class="net-group"><div class="net-role">Solves</div><h3 data-group="experts" style="cursor:pointer;">Expert organisations</h3><p>Matched to a request by field — the specific technical knowledge a problem needs, distinct from who implements or who pays. Attributes decide who may bid on a request; bids inside the verifier's bracket are ranked half on quality, half on price, and government chooses from that ranking.</p><button class="role-jump" type="button" data-demo-jump="electricity">See the expert options <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-attrs="experts">Attributes <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-handbook="experts">Handbook <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button></div>
       <div class="field-grid" id="networkFieldGrid" style="margin-bottom:14px;"></div>
       <div style="font-size:12px;color:var(--text-faint);margin-bottom:34px;">Example on the ledger: <b style="color:var(--text-dim);">Cedar Engineers</b> — structural engineering — paired with Aley Union of Municipalities on the Wadi Faara retaining wall.</div>
 
-      <div class="net-group"><div class="net-role">Funds</div><h3 data-group="sponsors" style="cursor:pointer;">Sponsors</h3><p>Five kinds of funders, one ledger. Every pledge is tracked the same way — named or anonymous, escrowed, released only against verified evidence.</p><button class="role-jump" type="button" data-demo-jump="orgbiz">See the sponsor options <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-attrs="sponsors">Attributes <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button></div>
+      <div class="net-group"><div class="net-role">Funds</div><h3 data-group="sponsors" style="cursor:pointer;">Sponsors</h3><p>Five kinds of funders, one ledger. Every pledge is tracked the same way — named or anonymous, escrowed, released only against verified evidence.</p><button class="role-jump" type="button" data-demo-jump="orgbiz">See the sponsor options <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-attrs="sponsors">Attributes <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-handbook="sponsors">Handbook <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button></div>
       <div class="light-grid">
         <div class="light-card" data-cat="orgbiz"><b>Organisations &amp; Businesses</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Local companies and civic groups funding a specific request.</p></div>
         <div class="light-card" data-cat="sponsorngo"><b>NGOs</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Mission-driven nonprofits, often funding within their own focus area.</p></div>
@@ -1759,7 +1760,7 @@
         <p>The fourth role, and the reason the other three can be believed. A verifier signs off the request with government before it can take a pledge. A second-line verifier reviews that sign-off pseudonymously. The first then confirms that each milestone actually happened before any money moves — and is structurally barred from being the body that certified the request, the organisation doing the work, or anyone funding it.</p>
 
         <div class="light-grid" style="margin-bottom:14px;" id="networkVerifierTiers"></div>
-        <button class="role-jump" type="button" data-demo-jump="v-district">See the verifier dashboard <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-attrs="verifiers">Attributes <span aria-hidden="true">&rarr;</span></button>
+        <button class="role-jump" type="button" data-demo-jump="v-district">See the verifier dashboard <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-attrs="verifiers">Attributes <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-handbook="verifiers">Handbook <span aria-hidden="true">&rarr;</span></button>
         <button class="role-jump" type="button" data-goto="trust">When they are assigned, and why it matters <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="verifiers">See every verifier&rsquo;s record <span aria-hidden="true">&rarr;</span></button>
       </div>
     </div>
@@ -7876,6 +7877,21 @@ const RESIDENT_ATTRS = [
   {name:'Affected group', scale:false, low:'Everyone who confirmed, plus anyone who pressed “I&rsquo;ve been affected too”.', high:'They sit in the stakeholder chat with both verifiers.'},
   {name:'Source', scale:false, low:'Baladi Map, or filed here directly.', high:'Both follow the same six stages; neither invents a cost.'}
 ];
+// The role behind an option page: ministry → government, water → experts, …
+function roleOfCat(catId){
+  if(catId.indexOf('v-') === 0 || catId.indexOf('l2-') === 0) return 'verifiers';
+  var role = null;
+  Object.keys(GROUP_META).forEach(function(k){ if((GROUP_META[k].subsections || []).indexOf(catId) !== -1) role = k; });
+  return role;
+}
+function handbookSectionHTML(catId){
+  var role = roleOfCat(catId); var h = HANDBOOKS[role]; if(!h) return '';
+  return '<div class="hb-section">' +
+    '<h3 style="font-size:16px;margin:44px 0 6px;">' + h.title + '</h3>' +
+    '<p style="font-size:12.5px;color:var(--text-dim);max-width:720px;margin:0 0 4px;line-height:1.6;"><b>' + h.line + '</b></p>' +
+    handbookGridHTML(role) +
+    '<div class="group-links"><button class="role-jump" type="button" data-hb-open="' + role + '">Open the handbook on its own page <span aria-hidden="true">&rarr;</span></button></div></div>';
+}
 function attrSectionHTML(catId){
   var meta = CATEGORY_META[catId]; if(!meta) return '';
   if(catId === 'baladi-report' || catId === 'direct-report'){
@@ -8403,8 +8419,10 @@ function renderCategoryPage(catId){
     ${isDistricts ? `<div style="font-size:11.5px;color:var(--text-faint);margin-top:4px;">Click a governorate name to see its own profile.</div>` : ''}
     ${meta.extra ? `<div class="light-card" style="margin-top:22px;max-width:720px;"><b>${meta.extra.title}</b><p style="font-size:12.5px;color:var(--text-dim);margin:8px 0 0;line-height:1.6;">${meta.extra.body}</p></div>` : ''}
     ${attrSectionHTML(catId)}
+    ${handbookSectionHTML(catId)}
   `;
   document.querySelectorAll('#detailContent [data-cat-switch]').forEach(b=> b.addEventListener('click', ()=> goToCat(b.dataset.catSwitch)));
+  document.querySelectorAll('#detailContent [data-hb-open]').forEach(b=> b.addEventListener('click', ()=> openHandbook(b.dataset.hbOpen, 'network')));
   document.getElementById('bcHomeCat').addEventListener('click', ()=> switchView('home'));
   document.getElementById('bcNetworkCat').addEventListener('click', ()=> switchView('network'));
   if(isDiaspora){
@@ -10375,6 +10393,7 @@ renderVerifierRegister();
 })();
 (function(){
   document.querySelectorAll('[data-reports]').forEach(function(b){ b.addEventListener('click', openReportedRequests); });
+  document.querySelectorAll('#view-network [data-handbook]').forEach(function(b){ b.addEventListener('click', function(){ openHandbook(b.dataset.handbook, 'network'); }); });
   // "Attributes" on each Network section opens that role's page at its table.
   document.querySelectorAll('[data-attrs]').forEach(function(b){
     b.addEventListener('click', function(){
