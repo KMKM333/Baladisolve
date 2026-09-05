@@ -841,6 +841,7 @@
   .rn-link{ stroke:var(--border); stroke-width:2; fill:none; }
   .rn-link-check{ stroke:var(--accent); stroke-width:2; fill:none; stroke-dasharray:7 5; animation:rn-dash 2.4s linear infinite; }
   .rn-gate{ fill:var(--accent); }
+  .rn-cap-m{ display:none; }
   .rn-lbl{ fill:var(--text-faint); font-size:8.5px; font-weight:800; letter-spacing:.09em; }
   .rn-cap{ font-size:12.5px; color:var(--text-dim); line-height:1.7; margin:16px 0 0; max-width:86ch; }
   .rn-cap b{ color:var(--text); }
@@ -897,12 +898,23 @@
   .role-flow-step > span:last-child{ font-size:12px; color:var(--text-dim); line-height:1.55; }
   .role-flow-arrow{ display:flex; align-items:center; justify-content:center; color:var(--text-faint); font-size:15px; }
   .role-flow-note{ font-size:12.5px; color:var(--text-dim); line-height:1.65; margin:16px 0 14px; max-width:74ch; }
-  @media (max-width:1000px){ .role-btn-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:1000px){ .role-btn-grid, .role-btn-grid.five{ grid-template-columns:repeat(2,1fr); } }
   @media (max-width:900px){
     .role-flow{ grid-template-columns:1fr; gap:8px; }
     .role-flow-arrow{ transform:rotate(90deg); height:18px; }
   }
-  @media (max-width:560px){ .role-btn-grid{ grid-template-columns:1fr; } }
+  @media (max-width:560px){ .role-btn-grid, .role-btn-grid.five{ grid-template-columns:1fr; } }
+  /* Phones: fewer words. Each role card keeps its name, one line and its link;
+     the How it works strip keeps numbered titles; the diagram gets a one-line caption. */
+  @media (max-width:560px){
+    #view-home .role-btn-when{ display:none; }
+    #view-home .role-btn-grid{ grid-template-rows:repeat(4,auto); }
+    #view-home .role-btn{ grid-row:span 4; }
+    .tw-step div span{ display:none; }
+    .tw-foot{ display:none; }
+    .rn-cap{ display:none; }
+    .rn-cap-m{ display:block; }
+  }
   /* The one paragraph that says how all four roles line up, before the page
      starts describing them one at a time. */
   .net-overview{ border:1px solid var(--border); border-inline-start:3px solid var(--accent);
@@ -1662,6 +1674,7 @@
           <text class="rn-sub" x="190" y="608" text-anchor="middle">one tranche</text>
         </svg>
         <p class="rn-cap"><b>Read the lines, not the boxes.</b> A Baladi Map request, confirmed by residents, goes to government and nowhere else until it is certified. Three roles then connect to the request &mdash; they certify it, build it and pay for it. The first-line verifier touches it only as a gate, three times: it signs off the request before a single pledge is taken, it gates every release, and it closes the ledger. Above it sits the second line, which checks the first: every sign-off, one release in ten, every closure &mdash; seeing no names. Neither certifies, builds or pays, and that is why they can be believed about work they had no part in.</p>
+        <p class="rn-cap rn-cap-m"><b>Read the lines, not the boxes.</b> A Baladi Map request goes to government first. Three roles connect to the request; the first-line verifier gates it three times; the second line checks the first, seeing no names.</p>
       </div>
 
     <p class="role-flow-note">Nothing here is released on a claim. A milestone stays &ldquo;submitted&rdquo; until someone with no stake in it confirms it happened.</p>
