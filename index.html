@@ -1649,59 +1649,59 @@
           <text class="rn-name" x="1015" y="238" text-anchor="middle">Escrow releases</text>
           <text class="rn-sub" x="1015" y="258" text-anchor="middle">one tranche</text>
         </svg>
-        <svg class="rn-svg-m" viewBox="0 0 572 470" role="img" aria-labelledby="rnTitleM rnDescM">
+        <svg class="rn-svg-m" viewBox="0 0 570 440" role="img" aria-labelledby="rnTitleM rnDescM">
           <title id="rnTitleM">How the five roles connect</title>
-          <desc id="rnDescM">The same drawing as on a wide screen, folded for a phone. A Baladi Map report reaches government first, and only government; government certifies it into a request. Experts and sponsors feed the project, which sits under the request and releases escrow one tranche at a time. Above the request sit the two verifiers: the first line signs off the request, gates each release of the project and closes the escrow; the second line checks the first, seeing no names.</desc>
+          <desc id="rnDescM">A vertical spine: a Baladi Map report at the top goes to government, which certifies it into a request; the request becomes a project, and the project releases escrow one tranche at a time. Experts and sponsors, on the left, feed the project. On the right sit the two verifiers: the first line signs off the request, gates each release of the project and closes the escrow; the second line checks the first, seeing no names.</desc>
           <defs>
             <marker id="rnArrowM" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
               <path d="M0,0 L8,4 L0,8 z" fill="var(--border)"/>
             </marker>
           </defs>
 
-          <!-- Baladi Map -> Government -> The request -->
-          <path class="rn-link" marker-end="url(#rnArrowM)" d="M135,226 L148,226"/>
-          <path class="rn-link" marker-end="url(#rnArrowM)" d="M290,226 L318,226"/>
+          <!-- the spine: Baladi Map -> Government -> The request -> The project -> Escrow releases -->
+          <path class="rn-link" marker-end="url(#rnArrowM)" d="M270,66 L270,88"/>
+          <path class="rn-link" marker-end="url(#rnArrowM)" d="M270,146 L270,168"/>
+          <path class="rn-link" marker-end="url(#rnArrowM)" d="M270,246 L270,268"/>
+          <path class="rn-link" marker-end="url(#rnArrowM)" d="M270,346 L270,368"/>
           <!-- Experts + Sponsors -> The project (one bus) -->
-          <path class="rn-link" d="M290,318 L305,318"/>
-          <path class="rn-link" d="M290,386 L305,386"/>
-          <path class="rn-link" d="M305,386 L305,318"/>
-          <path class="rn-link" marker-end="url(#rnArrowM)" d="M305,326 L318,326"/>
-          <!-- The request -> The project -> Escrow releases -->
-          <path class="rn-link" marker-end="url(#rnArrowM)" d="M425,262 L425,288"/>
-          <path class="rn-link" marker-end="url(#rnArrowM)" d="M360,362 L360,398"/>
+          <path class="rn-link" d="M150,278 L160,278"/>
+          <path class="rn-link" d="M150,344 L160,344"/>
+          <path class="rn-link" d="M160,344 L160,278"/>
+          <path class="rn-link" marker-end="url(#rnArrowM)" d="M160,308 L168,308"/>
 
-          <path class="rn-link-check" d="M425,66 L425,90"/>
-          <circle class="rn-gate" cx="425" cy="90" r="4"/>
-          <path class="rn-link-check" d="M425,146 L425,178"/>
-          <circle class="rn-gate" cx="425" cy="184" r="5.5"/>
-          <path class="rn-link-check" d="M515,118 L544,118 L544,428 L541,428"/>
-          <path class="rn-link-check" d="M544,326 L541,326"/>
-          <circle class="rn-gate" cx="537" cy="326" r="5.5"/>
-          <circle class="rn-gate" cx="537" cy="428" r="5.5"/>
-          <text class="rn-lbl" x="432" y="82">CHECKS THE CHECK</text>
-          <text class="rn-lbl" x="432" y="170">SIGNS OFF</text>
-          <text class="rn-lbl" x="552" y="150" transform="rotate(90 552 150)">GATES EACH RELEASE</text>
-          <text class="rn-lbl" x="552" y="350" transform="rotate(90 552 350)">CLOSES</text>
+          <!-- the first line gates the request, the project and the escrow from one stub -->
+          <path class="rn-link-check" d="M390,208 L380,208"/>
+          <path class="rn-link-check" d="M380,208 L380,398"/>
+          <circle class="rn-gate" cx="377" cy="208" r="5.5"/>
+          <circle class="rn-gate" cx="377" cy="308" r="5.5"/>
+          <circle class="rn-gate" cx="377" cy="398" r="5.5"/>
+          <path class="rn-link-check" d="M545,136 L545,180"/>
+          <circle class="rn-gate" cx="545" cy="180" r="4"/>
+          <text class="rn-lbl" x="538" y="163" text-anchor="end">CHECKS THE CHECK</text>
+          <text class="rn-lbl" x="396" y="254">SIGNS OFF</text>
+          <text class="rn-lbl" x="396" y="312">GATES EACH RELEASE</text>
+          <text class="rn-lbl" x="396" y="402">CLOSES</text>
 
-          <rect class="rn-node rn-node-l2" x="335" y="10" width="180" height="56" rx="11"/><text class="rn-role" x="351" y="32">SECOND LINE</text><text class="rn-name" x="351" y="54">Verifier L2</text>
-          <rect class="rn-node" x="335" y="90" width="180" height="56" rx="11"/><text class="rn-role" x="351" y="112">FIRST LINE</text><text class="rn-name" x="351" y="134">Verifier L1</text>
+          <rect class="rn-node" x="170" y="10" width="200" height="56" rx="11"/><text class="rn-role" x="186" y="32">REPORTS</text><text class="rn-name" x="186" y="54">Baladi Map</text>
+          <rect class="rn-node" x="170" y="90" width="200" height="56" rx="11"/><text class="rn-role" x="186" y="112">CERTIFIES</text><text class="rn-name" x="186" y="134">Government</text>
 
-          <rect class="rn-node" x="10" y="190" width="125" height="72" rx="11"/><text class="rn-role" x="24" y="218">REPORTS</text><text class="rn-name" x="24" y="240">Baladi Map</text>
-          <rect class="rn-node" x="150" y="190" width="140" height="72" rx="11"/><text class="rn-role" x="166" y="218">CERTIFIES</text><text class="rn-name" x="166" y="240">Government</text>
-          <rect class="rn-node" x="150" y="290" width="140" height="56" rx="11"/><text class="rn-role" x="166" y="312">SOLVES</text><text class="rn-name" x="166" y="334">Experts</text>
-          <rect class="rn-node" x="150" y="358" width="140" height="56" rx="11"/><text class="rn-role" x="166" y="380">FUNDS</text><text class="rn-name" x="166" y="402">Sponsors</text>
+          <rect class="rn-node" x="170" y="170" width="200" height="76" rx="11"/>
+          <text class="rn-name" x="270" y="204" text-anchor="middle">The request</text>
+          <text class="rn-sub" x="270" y="225" text-anchor="middle">certified &#183; signed off</text>
 
-          <rect class="rn-node" x="320" y="190" width="210" height="72" rx="11"/>
-          <text class="rn-name" x="425" y="224" text-anchor="middle">The request</text>
-          <text class="rn-sub" x="425" y="245" text-anchor="middle">certified &#183; signed off</text>
+          <rect class="rn-node" x="170" y="270" width="200" height="76" rx="11"/>
+          <text class="rn-name" x="270" y="304" text-anchor="middle">The project</text>
+          <text class="rn-sub" x="270" y="325" text-anchor="middle">expert chosen &#183; funded</text>
 
-          <rect class="rn-node" x="320" y="290" width="210" height="72" rx="11"/>
-          <text class="rn-name" x="425" y="324" text-anchor="middle">The project</text>
-          <text class="rn-sub" x="425" y="345" text-anchor="middle">expert chosen &#183; funded</text>
+          <rect class="rn-node" x="170" y="370" width="200" height="56" rx="11"/>
+          <text class="rn-name" x="270" y="394" text-anchor="middle">Escrow releases</text>
+          <text class="rn-sub" x="270" y="414" text-anchor="middle">one tranche</text>
 
-          <rect class="rn-node" x="320" y="400" width="210" height="56" rx="11"/>
-          <text class="rn-name" x="425" y="424" text-anchor="middle">Escrow releases</text>
-          <text class="rn-sub" x="425" y="444" text-anchor="middle">one tranche</text>
+          <rect class="rn-node" x="10" y="250" width="140" height="56" rx="11"/><text class="rn-role" x="26" y="272">SOLVES</text><text class="rn-name" x="26" y="294">Experts</text>
+          <rect class="rn-node" x="10" y="316" width="140" height="56" rx="11"/><text class="rn-role" x="26" y="338">FUNDS</text><text class="rn-name" x="26" y="360">Sponsors</text>
+
+          <rect class="rn-node rn-node-l2" x="390" y="80" width="170" height="56" rx="11"/><text class="rn-role" x="406" y="102">SECOND LINE</text><text class="rn-name" x="406" y="124">Verifier L2</text>
+          <rect class="rn-node" x="390" y="180" width="170" height="56" rx="11"/><text class="rn-role" x="406" y="202">FIRST LINE</text><text class="rn-name" x="406" y="224">Verifier L1</text>
         </svg>
         <p class="rn-cap"><b>Read the lines, not the boxes.</b> A Baladi Map report, confirmed by residents, goes to government and nowhere else. Government certifies it into a request. Experts and sponsors never touch the request &mdash; they connect to the project: the expert government chose builds it, sponsors fund it, and the project releases escrow one tranche at a time. The first-line verifier touches all three only as a gate: it signs off the request before a single pledge is taken, it gates every release of the project, and it closes the escrow. Above it sits the second line, which checks the first &mdash; every sign-off, one release in ten, every closure &mdash; seeing no names. Neither certifies, builds or pays, and that is why they can be believed about work they had no part in.</p>
         <p class="rn-cap rn-cap-m"><b>Read the lines, not the boxes.</b> A Baladi Map report goes to government, which certifies it into a request. Experts and sponsors connect to the project, which releases escrow. The first-line verifier gates all three; the second line checks the first, seeing no names.</p>
