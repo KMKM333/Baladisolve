@@ -1984,7 +1984,7 @@
   <div class="wrap">
     <div class="section" style="padding-top:44px;">
       <button class="detail-back" id="muniDirBack">← Back to Network</button>
-      <div class="section-head"><h2>Municipality directory</h2><p>All 150 municipalities across Lebanon's nine governorates — illustrative list, filterable by region.</p></div>
+      <div class="section-head"><h2>Municipality directory</h2><p>All 200 municipalities across Lebanon's nine governorates — illustrative list, filterable by region.</p></div>
       <div class="light-card" style="max-width:720px;margin-bottom:26px;"><b>Where this fits in the system</b><p style="font-size:12.5px;color:var(--text-dim);margin:8px 0 0;line-height:1.6;">The default implementing partner where a council is sitting. Submits milestone evidence and may co-fund as a matching sponsor.</p></div>
       <div class="filters-row">
         <select id="muniDirFilter"><option value="">All governorates</option></select>
@@ -3733,6 +3733,12 @@ const MUNI_COORDS = {
     'Bire':[34.6226,36.0587],
     'Aakkar el-Atika':[34.5325,36.2453],
     'Mhammara':[34.5084,35.9698],
+    'Beino':[34.5477,36.1767],
+    'Akroum':[34.5441,36.3637],
+    'Qarqaf':[34.4924,36.0140],
+    'Cheikh Mohammad':[34.5539,36.0824],
+    'Tleil':[34.5955,36.1371],
+    'Chadra':[34.6189,36.3202],
   },
   north: {
     'Tripoli':[34.4367,35.8497], 'Zgharta':[34.3986,35.8964], 'Batroun':[34.2553,35.6581],
@@ -3746,6 +3752,12 @@ const MUNI_COORDS = {
     'Sir el Danniyeh':[34.3819,36.0268],
     'Bakhaoun':[34.4146,36.0135],
     'Deddeh':[34.3770,35.7980],
+    'Kfar Aabida':[34.2221,35.6541],
+    'Hamat':[34.2937,35.6882],
+    'Miziara':[34.3322,35.9317],
+    'Bkeftine':[34.3885,35.8603],
+    'Ras Maska':[34.3833,35.8333],
+    'Kfar Sghab':[34.3382,35.9038],
   },
   keserwan: {
     'Jounieh':[33.9808,35.6178], 'Byblos (Jbeil)':[34.1232,35.6519], 'Ghazir':[34.0178,35.6639],
@@ -3760,6 +3772,12 @@ const MUNI_COORDS = {
     'Jeita':[33.9488,35.6454],
     'Kfardebian':[34.0024,35.8339],
     'Qartaba':[34.0977,35.8368],
+    'Aaqoura':[34.1212,35.9030],
+    'Bouar':[34.0458,35.6422],
+    'Tabarja':[34.0300,35.6355],
+    'Reyfoun':[33.9783,35.7026],
+    'Nahr Ibrahim':[34.0760,35.7550],
+    'Annaya':[34.1164,35.7540],
   },
   baalbek: {
     'Baalbek':[34.0063,36.2073], 'Hermel':[34.3931,36.3844], 'Britel':[34.0167,36.1167],
@@ -3770,6 +3788,12 @@ const MUNI_COORDS = {
     'Labweh':[34.1931,36.3459],
     'Ras Baalbek':[34.2598,36.4200],
     'Qaa':[34.3408,36.4800],
+    'Bednayel':[33.9138,36.0069],
+    'Chaat':[34.1419,36.2318],
+    'Talia':[33.9354,36.0978],
+    'Qsarnaba':[33.9130,35.9907],
+    'Hadath Baalbek':[34.0010,36.0281],
+    'Ainata':[34.1868,36.0817],
   },
   beirut: {
     'Achrafieh':[33.8869,35.5131], 'Ras Beirut':[33.8996,35.4784], 'Hamra':[33.8959,35.4794],
@@ -3798,6 +3822,12 @@ const MUNI_COORDS = {
     'Barouk':[33.7041,35.6812],
     'Damour':[33.7308,35.4555],
     'Hazmieh':[33.8541,35.5374],
+    'Baakline':[33.6774,35.5635],
+    'Kahale':[33.8217,35.5829],
+    'Ain Saadeh':[33.8685,35.5833],
+    'Souk el Gharb':[33.7909,35.5725],
+    'Jal el Dib':[33.9054,35.5829],
+    'Mtein':[33.8931,35.7437],
   },
   bekaa: {
     'Zahlé':[33.8463,35.9019], 'Chtaura':[33.8158,35.8536], 'Rayak':[33.8500,36.0167],
@@ -3808,6 +3838,12 @@ const MUNI_COORDS = {
     'Sohmor':[33.5192,35.6908],
     'Anjar':[33.7324,35.9335],
     'Kfar Zabad':[33.7583,35.9672],
+    'Ablah':[33.8640,35.9705],
+    'Niha':[33.8882,35.9641],
+    'Ali el Nahri':[33.8583,36.0306],
+    'Ghazze':[33.6712,35.8277],
+    'Lala':[33.6009,35.7629],
+    'Terbol':[33.8131,35.9903],
   },
   nabatieh: {
     'Nabatieh':[33.3789,35.4839], 'Bint Jbeil':[33.1214,35.4331], 'Marjeyoun':[33.3600,35.5900],
@@ -3818,6 +3854,12 @@ const MUNI_COORDS = {
     'Kfar Kila':[33.2789,35.5556],
     'Ain Ebel':[33.1075,35.4015],
     'Arnoun':[33.3340,35.5273],
+    'Chebaa':[33.3445,35.7494],
+    'Aitaroun':[33.1164,35.4715],
+    'Yaroun':[33.0836,35.4167],
+    'Kfar Sir':[33.3156,35.3966],
+    'Kfar Hamam':[33.3432,35.6780],
+    'Doueir':[33.3839,35.4155],
   },
   south: {
     'Sidon (Saida)':[33.5606,35.3719], 'Tyre (Sour)':[33.2704,35.2038], 'Jezzine':[33.5406,35.5875],
@@ -3828,6 +3870,14 @@ const MUNI_COORDS = {
     'Maghdouche':[33.5202,35.3863],
     'Abra':[33.5648,35.3984],
     'Kfar Hatta':[33.5057,35.4517],
+    'Ain Baal':[33.2388,35.2488],
+    'Tayr Debba':[33.2741,35.2772],
+    'Bourj el Chemali':[33.2631,35.2389],
+    'Srifa':[33.2822,35.4019],
+    'Kfar Melki':[33.5013,35.4808],
+    'Jbaa':[33.4833,35.5167],
+    'Roum':[33.5514,35.5281],
+    'Ansar':[33.3833,35.3500],
   },
 };
 
@@ -3871,19 +3921,19 @@ const CITIES = {
 const DEFAULT_CITIES = ['Beirut', 'Tripoli', 'Sidon (Saida)', 'Zahlé', 'Tyre (Sour)'];
 
 const MUNICIPALITIES = {
-  akkar: ['Halba','Qoubaiyat','Bebnine','Aabdeh','Berqayel','Rahbe','Andaket','Kouachra','Miniara','Tikrit','Fnaideq','Michmich','Bire','Aakkar el-Atika','Mhammara'],
+  akkar: ['Halba','Qoubaiyat','Bebnine','Aabdeh','Berqayel','Rahbe','Andaket','Kouachra','Miniara','Tikrit','Fnaideq','Michmich','Bire','Aakkar el-Atika','Mhammara','Beino','Akroum','Qarqaf','Cheikh Mohammad','Tleil','Chadra'],
   north: ['Tripoli','Zgharta','Batroun','Amioun','Minyeh','Bcharre','Chekka','Kousba','Ehden','Kfarhazir',
-    'El Mina','Beqaa Safreen','Bsarma','Anfeh','Qalamoun','Sir el Danniyeh','Bakhaoun','Deddeh'],
+    'El Mina','Beqaa Safreen','Bsarma','Anfeh','Qalamoun','Sir el Danniyeh','Bakhaoun','Deddeh','Kfar Aabida','Hamat','Miziara','Bkeftine','Ras Maska','Kfar Sghab'],
   keserwan: ['Jounieh','Byblos (Jbeil)','Ghazir','Ghosta','Zouk Mosbeh','Kaslik','Harissa','Faraya','Ajaltoun','Sarba',
-    'Zouk Mikael','Qlaiaat Kesrouane','Blat - Qartaboun - Mastita','Ashqout','Amchit','Adma','Jeita','Kfardebian','Qartaba'],
-  baalbek: ['Baalbek','Hermel','Britel','Douris','Nabi Chit','Iaat','Chmestar','Younine','Al-Ain','Fakiha','Deir el Ahmar','Arsal','Labweh','Ras Baalbek','Qaa'],
+    'Zouk Mikael','Qlaiaat Kesrouane','Blat - Qartaboun - Mastita','Ashqout','Amchit','Adma','Jeita','Kfardebian','Qartaba','Aaqoura','Bouar','Tabarja','Reyfoun','Nahr Ibrahim','Annaya'],
+  baalbek: ['Baalbek','Hermel','Britel','Douris','Nabi Chit','Iaat','Chmestar','Younine','Al-Ain','Fakiha','Deir el Ahmar','Arsal','Labweh','Ras Baalbek','Qaa','Bednayel','Chaat','Talia','Qsarnaba','Hadath Baalbek','Ainata'],
   beirut: ['Achrafieh','Ras Beirut','Hamra','Verdun','Mazraa','Gemmayze','Downtown','Mar Mikhael','Zuqaq al-Blat','Ain el-Mreisseh',
     'Beirut'],
   mtlebanon: ['Baabda','Aley','Beiteddine','Deir el Qamar','Broummana','Jdeideh','Dbayeh','Antelias','Sin El Fil','Choueifat',
-    'Dekwaneh - Mar Roukoz - Dahr El Hossein','Menqlet Mezher','Fanar','Mansouriye - Mkalless - Daychouniye','Beit Meri','Sibline','Chiyah','Boutchai - Merdache','Jdaide - Baouchriye - Sad el Baouchriye','Bourj Hammoud','Beit Chebab - Chaouiye - Qnaitra','Qornet El Hamra','Bikfaya','Bhamdoun','Barouk','Damour','Hazmieh'],
-  bekaa: ['Zahlé','Chtaura','Rayak','Bar Elias','Taalabaya','Ferzol','Qab Elias','Saadnayel','Jdita','Mouallaqa','Joub Jannine','Machghara','Sohmor','Anjar','Kfar Zabad'],
-  nabatieh: ['Nabatieh','Bint Jbeil','Marjeyoun','Hasbaya','Kfar Roummane','Deir Kifa','Zawtar','Kfar Tebnit','Khiam','Ibl es-Saqi','Rmeish','Tebnine','Kfar Kila','Ain Ebel','Arnoun'],
-  south: ['Sidon (Saida)','Tyre (Sour)','Jezzine','Ghazieh','Zahrani','Qana','Bazouriye','Jwaya','Kfarfalous','Aanqoun','Sarafand','Adloun','Maghdouche','Abra','Kfar Hatta'],
+    'Dekwaneh - Mar Roukoz - Dahr El Hossein','Menqlet Mezher','Fanar','Mansouriye - Mkalless - Daychouniye','Beit Meri','Sibline','Chiyah','Boutchai - Merdache','Jdaide - Baouchriye - Sad el Baouchriye','Bourj Hammoud','Beit Chebab - Chaouiye - Qnaitra','Qornet El Hamra','Bikfaya','Bhamdoun','Barouk','Damour','Hazmieh','Baakline','Kahale','Ain Saadeh','Souk el Gharb','Jal el Dib','Mtein'],
+  bekaa: ['Zahlé','Chtaura','Rayak','Bar Elias','Taalabaya','Ferzol','Qab Elias','Saadnayel','Jdita','Mouallaqa','Joub Jannine','Machghara','Sohmor','Anjar','Kfar Zabad','Ablah','Niha','Ali el Nahri','Ghazze','Lala','Terbol'],
+  nabatieh: ['Nabatieh','Bint Jbeil','Marjeyoun','Hasbaya','Kfar Roummane','Deir Kifa','Zawtar','Kfar Tebnit','Khiam','Ibl es-Saqi','Rmeish','Tebnine','Kfar Kila','Ain Ebel','Arnoun','Chebaa','Aitaroun','Yaroun','Kfar Sir','Kfar Hamam','Doueir'],
+  south: ['Sidon (Saida)','Tyre (Sour)','Jezzine','Ghazieh','Zahrani','Qana','Bazouriye','Jwaya','Kfarfalous','Aanqoun','Sarafand','Adloun','Maghdouche','Abra','Kfar Hatta','Ain Baal','Tayr Debba','Bourj el Chemali','Srifa','Kfar Melki','Jbaa','Roum','Ansar'],
 };
 
 const TYPES = ['Water & Sanitation','Public Roads','Environment & Waste','Public Lighting','Education','Health','Public Space & Land Use'];
@@ -10307,7 +10357,7 @@ function renderCategoryPage(catId){
     <div class="detail-desc">${meta.overview}</div>
     <div class="tier-switch">${siblingCats(catId).map(c=>`<button type="button" class="tier-switch-btn" data-cat-switch="${c}" aria-pressed="${c===catId}">${(CATEGORY_META[c] || {}).name || c}</button>`).join('')}</div>
     <div class="light-card" style="max-width:720px;margin-bottom:26px;"><b>Where this fits in the system</b><p style="font-size:12.5px;color:var(--text-dim);margin:8px 0 0;line-height:1.6;">${meta.fit}</p></div>
-    ${isMuni ? `<button class="btn btn-primary" id="openMuniDirectory" style="margin-bottom:22px;">Browse all 150 municipalities →</button>` : ''}
+    ${isMuni ? `<button class="btn btn-primary" id="openMuniDirectory" style="margin-bottom:22px;">Browse all 200 municipalities →</button>` : ''}
     <h3 style="font-size:16px;margin-bottom:12px;">${isMuni ? 'A few municipalities, for example' : (isDiaspora ? 'Sending countries' : (isDistricts ? 'All 26 districts, by governorate' : (isL2 ? 'The second line today' : 'Leads in this category')))}</h3>
     <div id="catLeadsGrid" class="${(isDiaspora || isDistricts) ? '' : 'light-grid'}"></div>
     ${isDiaspora ? `<div style="font-size:11.5px;color:var(--text-faint);margin-top:12px;">Same corridor data as the Corridors page — click one for its full country profile.</div>` : ''}
