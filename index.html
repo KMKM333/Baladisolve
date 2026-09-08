@@ -1239,6 +1239,14 @@
   .test-src a{ color:var(--text-dim); }
   .test-warn{ border:1px dashed #dc2626; background:rgba(220,38,38,0.07); color:#b91c1c;
   .test-mock{ border:1px solid var(--border); border-radius:12px; padding:20px 22px; background:var(--bg-1); margin:12px 0 4px; }
+  .net-problem-box{ border:1px solid var(--border); border-radius:14px; padding:18px 20px 16px; background:var(--bg-1); margin:14px 0 34px; }
+  .net-problem-box h4{ font-size:16px; margin:8px 0 8px; }
+  .net-problem-box .np-tag{ display:inline-block; font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; background:var(--accent); color:#fff; padding:3px 10px; border-radius:999px; }
+  .net-problem-box .np-problem{ font-size:13.5px; line-height:1.7; max-width:70ch; margin:0 0 12px; color:var(--text-dim); }
+  .net-problem-box .np-problem b{ color:var(--text); }
+  .net-problem-box .np-head{ font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--text-faint); margin:0 0 6px; }
+  .net-problem-box .np-row{ display:flex; gap:12px; align-items:flex-start; margin:7px 0; font-size:12.5px; color:var(--text-dim); line-height:1.6; }
+  .net-problem-box .np-row .tw-pill{ flex:0 0 auto; min-width:96px; text-align:center; }
   .test-ins{ background:rgba(37,99,235,.12); border-radius:4px; padding:1px 4px; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
   .test-ph{ display:inline-block; border:1px dashed var(--border); border-radius:8px; padding:6px 10px; color:var(--text-faint); font-size:12.5px; line-height:1.55; font-style:italic; }
     border-radius:10px; padding:14px 18px; font-size:12.5px; line-height:1.6; margin-bottom:30px; }
@@ -1791,6 +1799,7 @@
           <div class="light-card" data-cat="direct-report"><b>Residents report</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Filed here directly, with the same shape. Confirm a report, join the affected group, say &ldquo;I&rsquo;ve been affected too&rdquo;.</p></div>
         </div>
         <button class="role-jump" type="button" data-reports="1">See the reports <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-attrs="residents">Attributes <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button>
+        <div data-problem="residents"></div>
       </div>
       <div class="net-group"><div class="net-role">Certifies</div><h3 data-group="government" style="cursor:pointer;">Government</h3><p>Certifies compliance and runs the diaspora-welcome liaison desk. Never holds pledged funds.</p><button class="role-jump" type="button" data-demo-jump="ministry">See the government options <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-attrs="government">Attributes <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-handbook="government">Handbook <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button></div>
       <div class="light-grid" style="margin-bottom:34px;">
@@ -1798,10 +1807,12 @@
         <div class="light-card" data-cat="districts"><b>Governorates &amp; Districts</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Lebanon's nine governorates and the 26 districts within them. Coordinates across municipalities in its region — read-only on funds and certification.</p></div>
         <div class="light-card" data-cat="municipality"><b>Municipality</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Posts the request and delivers the work on the ground, once certified.</p></div>
       </div>
+      <div data-problem="government" style="margin-top:-20px;"></div>
 
       <div class="net-group"><div class="net-role">Solves</div><h3 data-group="experts" style="cursor:pointer;">Expert organisations</h3><p>Matched to a request by field — the specific technical knowledge a problem needs, distinct from who implements or who pays. Attributes decide who may bid on a request; bids inside the verifier's bracket are ranked half on quality, half on price, and government chooses from that ranking.</p><button class="role-jump" type="button" data-demo-jump="electricity">See the expert options <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-attrs="experts">Attributes <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-handbook="experts">Handbook <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button></div>
       <div class="field-grid" id="networkFieldGrid" style="margin-bottom:14px;"></div>
       <div style="font-size:12px;color:var(--text-faint);margin-bottom:34px;">Example on the ledger: <b style="color:var(--text-dim);">Cedar Engineers</b> — structural engineering — paired with Aley Union of Municipalities on the Wadi Faara retaining wall.</div>
+      <div data-problem="experts" style="margin-top:-20px;"></div>
 
       <div class="net-group"><div class="net-role">Funds</div><h3 data-group="sponsors" style="cursor:pointer;">Sponsors</h3><p>Five kinds of funders, one ledger. Every pledge is tracked the same way — named or anonymous, escrowed, released only against verified evidence.</p><button class="role-jump" type="button" data-demo-jump="orgbiz">See the sponsor options <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-attrs="sponsors">Attributes <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-handbook="sponsors">Handbook <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="dashboard" data-scroll="roleWhen">When they step in, and why it matters <span aria-hidden="true">&rarr;</span></button></div>
       <div class="light-grid">
@@ -1811,6 +1822,7 @@
         <div class="light-card" data-cat="diaspora"><b>Diaspora</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Individuals and diaspora associations funding their hometowns.</p></div>
         <div class="light-card" data-cat="locals"><b>Locals</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;">Residents pooling small amounts toward a nearby request.</p></div>
       </div>
+      <div data-problem="sponsors"></div>
 
       <div class="net-group" id="verifierGroup">
         <div class="net-role">Checks</div>
@@ -1820,6 +1832,7 @@
         <div class="light-grid" style="margin-bottom:14px;" id="networkVerifierTiers"></div>
         <button class="role-jump" type="button" data-demo-jump="v-district">See the verifier dashboard <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-attrs="verifiers">Attributes <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-handbook="verifiers">Handbook <span aria-hidden="true">&rarr;</span></button>
         <button class="role-jump" type="button" data-goto="trust">When they are assigned, and why it matters <span aria-hidden="true">&rarr;</span></button><button class="role-jump" type="button" data-goto="verifiers">See every verifier&rsquo;s record <span aria-hidden="true">&rarr;</span></button>
+        <div data-problem="verifiers"></div>
       </div>
     </div>
 
@@ -2965,7 +2978,7 @@
         </div>
 
         <div class="section-head" style="margin-top:34px;"><h2>The problem, stakeholder by stakeholder</h2><p>One box per role, in the same shape as the founder&rsquo;s notes: what breaks for that role today, then what the other four gain from having it in the room once the request runs through Man&#257;ra. Wording tightened; structure kept.</p></div>
-<div class="test-opt" style="margin-top:14px;"><div class="test-opt-tag">Report</div><h3>Residents, through Baladi Map</h3><p style="font-size:13.5px;line-height:1.7;max-width:70ch;margin:0 0 12px;"><b>The problem.</b> Baladi Map surfaces problems and stops there. A resident who already knows the state is not providing enough learns nothing about who will fix the problem, by when, or what it costs. The finding is free; the fixing has no path.</p><p style="font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--text-faint);margin:0 0 6px;">How Man&#257;ra solves it &mdash; who gains from having this role in the room</p><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Residents</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">See who is fixing their report, on what timeline, at what cost, and sit in the request&rsquo;s chat once they confirm it.</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Government</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Receives a queue of confirmed, photographed problems instead of cold calls and personal contacts.</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Experts</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Sign off a request that residents have already confirmed on the ground, so the scope starts from evidence.</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Sponsors</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Find demand mapped by field and locality, with the problem already documented.</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Verifiers</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Fund something specific, with the people affected visible from the first day.</span></div></div></div><div class="test-opt" style="margin-top:14px;"><div class="test-opt-tag">Certify</div><h3>Government</h3><p style="font-size:13.5px;line-height:1.7;max-width:70ch;margin:0 0 12px;"><b>The problem.</b> Every sector carries a reputation for corruption and mismanagement; that reputation is why Baladi Map and this site exist. Distrust of public infrastructure and the economy is the biggest reason people leave. For five decades the state has offloaded public responsibility and spending onto private individuals, through informal remittances and aid, an endless band-aid, before counting outright theft.</p><p style="font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--text-faint);margin:0 0 6px;">How Man&#257;ra solves it &mdash; who gains from having this role in the room</p><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Residents</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Get their problem found and fixed without the state having to pay for the finding.</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Government</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Keeps the two things only it can do, certification and choosing the expert, and drops the two that destroy trust: it never sets the price and never holds the money. Approvals and licensing become one streamlined step, and sponsors&rsquo; money cuts what the state has to spend.</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Experts</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Confirm the budget and every milestone, so the institution is trusted for a checked result rather than a promise.</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Sponsors</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Are contracted to solve public problems at scale, a circular economy that hires more local contractors than the state does today.</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Verifiers</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Gain a transparent channel to a local problem, which raises trust, involvement and funding, local and abroad.</span></div></div></div><div class="test-opt" style="margin-top:14px;"><div class="test-opt-tag">Solve</div><h3>Expert organisations</h3><p style="font-size:13.5px;line-height:1.7;max-width:70ch;margin:0 0 12px;"><b>The problem.</b> Hundreds of independent contractors and initiatives with no link to the clients who need them, above all government at public scale. There is no regulated market for public work, so the capable ones clear the same administrative and corruption hurdles alone, project after project.</p><p style="font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--text-faint);margin:0 0 6px;">How Man&#257;ra solves it &mdash; who gains from having this role in the room</p><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Residents</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Know which local expert is working on their problem, and see the evidence they submit.</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Government</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Licenses a regulated supply market for public goods: problems posted, experts bidding, the winner chosen on half quality and half price, the work subsidised by sponsors rather than the treasury.</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Experts</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Confirm approved costs, budgets, timelines and milestones before anyone starts, so there is nothing left to inflate.</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Sponsors</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Get a new market for jobs, taken on their own schedule, paid against verified evidence, with a public track record that wins the next bid.</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Verifiers</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Know exactly who is doing the work they fund, and fund as much or as little of it as they choose.</span></div></div></div><div class="test-opt" style="margin-top:14px;"><div class="test-opt-tag">Fund</div><h3>Sponsors, local and diaspora</h3><p style="font-size:13.5px;line-height:1.7;max-width:70ch;margin:0 0 12px;"><b>The problem.</b> There is no channel from a sponsor to a specific local problem with any transparency. The distrust that empties the country of people also empties it of contributions: money sent home stays in one household because there is nowhere accountable to send it further.</p><p style="font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--text-faint);margin:0 0 6px;">How Man&#257;ra solves it &mdash; who gains from having this role in the room</p><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Residents</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">See progress on the problem they reported, on Baladi Map and here, paid for by people who chose it.</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Government</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Gets public projects funded by sponsors and the public, crowdfunding-style, with full transparency and oversight of the whole project.</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Experts</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Price the request and control the escrow, so money leaves one verified milestone at a time and comes back in full if the request stalls.</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Sponsors</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Earn direct revenue for delivering public projects, as they would in any normal market, from a source that did not exist before.</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Verifiers</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Send money or support to the exact project they want to back, named or anonymous, and follow every dollar to a step on the ledger.</span></div></div></div><div class="test-opt" style="margin-top:14px;"><div class="test-opt-tag">Check</div><h3>Verifiers, first and second line</h3><p style="font-size:13.5px;line-height:1.7;max-width:70ch;margin:0 0 12px;"><b>The problem.</b> Lack of oversight is how public money is embezzled: projects overpriced, underdelivered, and the difference split between the people who signed. Nobody independent checks the price, the milestones or the evidence, so nobody outside can believe the result.</p><p style="font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--text-faint);margin:0 0 6px;">How Man&#257;ra solves it &mdash; who gains from having this role in the room</p><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Residents</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Know their reported problem is priced properly, with corruption and embezzlement designed out of the process.</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Government</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Gets third-party approvers who align the state&rsquo;s and the expert&rsquo;s prices with the scope, and confirm costs, budgets, timelines and milestones.</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Experts</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Work inside a two-layer system of trust: the first line confirms every fact on the project, the second line, seeing no names, checks the first, and both records are public.</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Sponsors</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Work only on clean, approved projects: government-certified, verifier-priced, with a structured route to income for doing public good.</span></div></div><div style="display:flex;gap:12px;align-items:flex-start;margin:7px 0;"><span class="tw-pill uniq" style="flex:0 0 auto;min-width:96px;text-align:center;">Verifiers</span><div><span style="font-size:12.5px;color:var(--text-dim);line-height:1.6;">Trust that their support cannot be wasted or diverted, which is what brings the next contribution.</span></div></div></div>
+        <div id="testStakeholderBoxes"></div>
       </div>
 
       <div class="test-panel" data-testpanel="5" hidden>
@@ -3471,6 +3484,65 @@ const INTL_BASED = [
   {name:'Embassy of Korea — via KOICA', country:'South Korea', hq:'Seongnam', kind:'Development agency'},
   {name:'Averda', country:'United Arab Emirates', hq:'Dubai', kind:'Waste company'},
 ];
+// The problem, stakeholder by stakeholder: what breaks for each role today and
+// what each of the five gains from having that role in the room. Drawn on the
+// Network page under each section, on every group page, and on TEST Page 4.
+// Every gain is written to fit on one line. Declared above the init sequence.
+const STAKEHOLDER_PROBLEMS = {
+  residents: { verb:'Report', title:'Residents, through Baladi Map',
+    problem:'Baladi Map surfaces problems and stops there. A resident who already knows the state is not providing enough learns nothing about who will fix the problem, by when, or what it costs. The finding is free; the fixing has no path.',
+    gains:['See who is fixing their report, on what timeline and at what cost.',
+           'Gets a queue of confirmed, photographed problems instead of cold calls.',
+           'Find demand mapped by field and locality, with the problem documented.',
+           'Fund something specific, with the people affected visible from day one.',
+           'Sign off a request that residents have already confirmed on the ground.'] },
+  government: { verb:'Certify', title:'Government',
+    problem:'Every sector carries a reputation for corruption and mismanagement; that reputation is why Baladi Map and this site exist. Distrust of public infrastructure and the economy is the biggest reason people leave. For five decades the state has offloaded public responsibility and spending onto private individuals, through informal remittances and aid, an endless band-aid, before counting outright theft.',
+    gains:['Get their problem found and fixed without the state paying to find it.',
+           'Certifies and picks the expert; never sets the price, never holds the money.',
+           'Are contracted to solve public problems at scale, a market that hires locally.',
+           'Gain a transparent channel to a local problem, so trust and funding rise.',
+           'Confirm the budget and every milestone, so a result is trusted, not a promise.'] },
+  experts: { verb:'Solve', title:'Expert organisations',
+    problem:'Hundreds of independent contractors and initiatives with no link to the clients who need them, above all government at public scale. There is no regulated market for public work, so the capable ones clear the same administrative and corruption hurdles alone, project after project.',
+    gains:['Know which local expert is working on their problem and see its evidence.',
+           'Licenses a regulated market for public work; sponsors fund what it cannot.',
+           'Bid on their own schedule, get paid against evidence, build a public record.',
+           'Know exactly who does the work they fund, and fund as much as they choose.',
+           'Approve costs, timelines and milestones before work starts; nothing to inflate.'] },
+  sponsors: { verb:'Fund', title:'Sponsors, local and diaspora',
+    problem:'There is no channel from a sponsor to a specific local problem with any transparency. The distrust that empties the country of people also empties it of contributions: money sent home stays in one household because there is nowhere accountable to send it further.',
+    gains:['See progress on the problem they reported, paid for by people who chose it.',
+           'Gets public projects funded by sponsors, with full transparency and oversight.',
+           'Earn direct revenue for public work, from a source that did not exist before.',
+           'Back the exact project they want, named or anonymous, and follow every dollar.',
+           'Price the request and control the escrow: one verified milestone at a time.'] },
+  verifiers: { verb:'Check', title:'Verifiers, first and second line',
+    problem:'Lack of oversight is how public money is embezzled: projects overpriced, underdelivered, and the difference split between the people who signed. Nobody independent checks the price, the milestones or the evidence, so nobody outside can believe the result.',
+    gains:['Know their problem is priced properly, with embezzlement designed out.',
+           'Gets independent approvers who match prices to scope and confirm milestones.',
+           'Work only on clean, approved projects, with a structured route to income.',
+           'Trust that their money cannot be wasted or diverted, and give again.',
+           'Work in two layers: the first checks every fact, the second checks the first.'] }
+};
+const STAKEHOLDER_ROLE_LABELS = ['Residents','Government','Experts','Sponsors','Verifiers'];
+function stakeholderBoxHTML(key){
+  const d = STAKEHOLDER_PROBLEMS[key];
+  if(!d) return '';
+  const rows = d.gains.map((g,i)=> `<div class="np-row"><span class="tw-pill uniq">${STAKEHOLDER_ROLE_LABELS[i]}</span><span>${g}</span></div>`).join('');
+  return `<div class="net-problem-box">
+    <div class="np-tag">${d.verb}</div>
+    <h4>${d.title}</h4>
+    <p class="np-problem"><b>The problem.</b> ${d.problem}</p>
+    <div class="np-head">How Man&#257;ra solves it &mdash; who gains from having this role in the room</div>
+    ${rows}
+  </div>`;
+}
+function renderStakeholderProblems(){
+  document.querySelectorAll('[data-problem]').forEach(el=>{ el.innerHTML = stakeholderBoxHTML(el.dataset.problem); });
+  const t = document.getElementById('testStakeholderBoxes');
+  if(t) t.innerHTML = Object.keys(STAKEHOLDER_PROBLEMS).map(stakeholderBoxHTML).join('');
+}
 const EXPERT_HQ_APPROX = {
   'Ahmoudhassan496': {coords:[34.4374, 35.8349], place:'Tripoli'},
   'Jbs.community': {coords:[33.8541, 35.5374], place:'Hazmieh'},
@@ -8302,6 +8374,7 @@ const EXPERT_FIELDS = [
 ];
 function renderHome(){
   renderFieldGrid('networkFieldGrid');
+  renderStakeholderProblems();
 
   const featured = PROJECTS.filter(p=>p.status!=='proposed' && p.status!=='fixed').slice(0,8);
   document.getElementById('featuredGrid').innerHTML = featured.map(cardHTML).join('');
@@ -9589,6 +9662,7 @@ function renderGroupPage(groupId){
     <h3 style="font-size:16px;margin-bottom:12px;">${GROUP_BOXES_HEADING[groupId] || 'Subsections'}</h3>
     <div class="light-grid" id="groupSubsectionGrid"></div>
     <div class="group-links">${(GROUP_LINKS[groupId] || []).map(l=>`<button class="role-jump" type="button" data-glink="${l[0]}" data-arg="${l[1]}">${l[2]} <span aria-hidden="true">&rarr;</span></button>`).join('')}</div>
+    ${stakeholderBoxHTML(groupId)}
     ${matchingHTML}
   `;
   if(groupId === 'verifiers'){
