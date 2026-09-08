@@ -1248,6 +1248,8 @@
   .net-problem-box .np-head{ font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--text-faint); margin:0 0 6px; }
   .net-problem-box .np-row{ display:flex; gap:12px; align-items:flex-start; margin:7px 0; font-size:12.5px; color:var(--text-dim); line-height:1.6; }
   .net-problem-box .np-row .tw-pill{ flex:0 0 auto; min-width:96px; text-align:center; }
+  .net-problem-box.np-inline{ border:0; border-top:1px solid var(--border); border-radius:0; background:transparent; padding:18px 0 0; margin:18px 0 34px; }
+  .net-problem-box.np-inline .np-problem{ margin-top:0; }
   .test-ins{ background:rgba(37,99,235,.12); border-radius:4px; padding:1px 4px; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
   .test-ph{ display:inline-block; border:1px dashed var(--border); border-radius:8px; padding:6px 10px; color:var(--text-faint); font-size:12.5px; line-height:1.55; font-style:italic; }
   .test-opt{ border:1px solid var(--border); border-radius:16px; padding:26px 26px 28px; margin-bottom:26px; background:var(--bg); }
@@ -3526,20 +3528,21 @@ const STAKEHOLDER_PROBLEMS = {
            'Work in two layers: the first checks every fact, the second checks the first.'] }
 };
 const STAKEHOLDER_ROLE_LABELS = ['Residents','Government','Experts','Sponsors','Verifiers'];
-function stakeholderBoxHTML(key){
+// inline = inside a Network section that already carries the role's tag and
+// title, so the box repeats neither and sits flush with the section.
+function stakeholderBoxHTML(key, inline){
   const d = STAKEHOLDER_PROBLEMS[key];
   if(!d) return '';
   const rows = d.gains.map((g,i)=> `<div class="np-row"><span class="tw-pill uniq">${STAKEHOLDER_ROLE_LABELS[i]}</span><span>${g}</span></div>`).join('');
-  return `<div class="net-problem-box">
-    <div class="np-tag">${d.verb}</div>
-    <h4>${d.title}</h4>
+  return `<div class="net-problem-box${inline ? ' np-inline' : ''}">
+    ${inline ? '' : `<div class="np-tag">${d.verb}</div>\n    <h4>${d.title}</h4>`}
     <p class="np-problem"><b>The problem.</b> ${d.problem}</p>
     <div class="np-head">How Man&#257;ra solves it &mdash; who gains from having this role in the room</div>
     ${rows}
   </div>`;
 }
 function renderStakeholderProblems(){
-  document.querySelectorAll('[data-problem]').forEach(el=>{ el.innerHTML = stakeholderBoxHTML(el.dataset.problem); });
+  document.querySelectorAll('[data-problem]').forEach(el=>{ el.innerHTML = stakeholderBoxHTML(el.dataset.problem, true); });
   const t = document.getElementById('testStakeholderBoxes');
   if(t) t.innerHTML = Object.keys(STAKEHOLDER_PROBLEMS).map(stakeholderBoxHTML).join('');
 }
@@ -9662,7 +9665,7 @@ function renderGroupPage(groupId){
     <h3 style="font-size:16px;margin-bottom:12px;">${GROUP_BOXES_HEADING[groupId] || 'Subsections'}</h3>
     <div class="light-grid" id="groupSubsectionGrid"></div>
     <div class="group-links">${(GROUP_LINKS[groupId] || []).map(l=>`<button class="role-jump" type="button" data-glink="${l[0]}" data-arg="${l[1]}">${l[2]} <span aria-hidden="true">&rarr;</span></button>`).join('')}</div>
-    ${stakeholderBoxHTML(groupId)}
+    ${stakeholderBoxHTML(groupId, true)}
     ${matchingHTML}
   `;
   if(groupId === 'verifiers'){
