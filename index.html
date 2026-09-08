@@ -1250,6 +1250,31 @@
   .net-problem-box .np-row .tw-pill{ flex:0 0 auto; min-width:96px; text-align:center; }
   .net-problem-box.np-inline{ border:0; border-radius:0; background:transparent; padding:0; margin:14px 0 26px; }
   .net-problem-box.np-inline .np-problem{ margin-top:0; }
+  .sh-matrix{ border-collapse:separate; border-spacing:4px; font-size:12px; min-width:760px; }
+  .sh-matrix th{ text-align:start; padding:4px 6px; font-weight:700; }
+  .sh-matrix .sh-corner{ font-size:10px; color:var(--text-faint); text-transform:uppercase; letter-spacing:.04em; line-height:1.3; }
+  .sh-matrix td{ background:var(--bg-1); border:1px solid var(--border); border-radius:8px; padding:8px 10px; color:var(--text-dim); line-height:1.4; vertical-align:top; cursor:help; }
+  .sh-matrix td.sh-self{ background:rgba(37,99,235,.07); }
+  .sh-ring-wrap{ display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:20px; align-items:start; }
+  .sh-ring{ display:block; width:100%; height:auto; max-width:480px; }
+  .sh-arc{ fill:none; stroke-width:2; opacity:.38; transition:opacity .2s, stroke-width .2s; }
+  .sh-arc.dim{ opacity:.06; }
+  .sh-arc.lit{ opacity:.95; stroke-width:3; }
+  .sh-node.sel circle{ stroke-width:4; }
+  .sh-ring-side{ font-size:12.5px; color:var(--text-dim); line-height:1.6; }
+  .sh-ring-side > b{ display:block; font-size:13.5px; margin-bottom:8px; }
+  .sh-ring-side > span{ display:block; color:var(--text-faint); }
+  .sh-side-row{ display:flex; gap:10px; align-items:flex-start; margin:6px 0; }
+  .sh-side-row .tw-pill{ flex:0 0 auto; min-width:90px; text-align:center; }
+  .sh-side-self{ opacity:.7; }
+  .sh-gg{ display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:12px; }
+  .sh-gg-card{ border:1px solid var(--border); border-radius:12px; padding:14px 16px; background:var(--bg-1); }
+  .sh-gg-name{ font-size:14px; display:block; margin-bottom:8px; }
+  .sh-gg-cols{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .sh-gg-h{ font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--text-faint); margin-bottom:6px; }
+  .sh-gg-row{ display:flex; gap:8px; align-items:flex-start; margin:5px 0; font-size:11.5px; color:var(--text-dim); line-height:1.45; }
+  .sh-gg-row .tw-pill{ flex:0 0 auto; min-width:78px; text-align:center; font-size:10.5px; }
+  @media (max-width:700px){ .sh-ring-wrap{ grid-template-columns:1fr; } .sh-gg-cols{ grid-template-columns:1fr; } }
   .test-ins{ background:rgba(37,99,235,.12); border-radius:4px; padding:1px 4px; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
   .test-ph{ display:inline-block; border:1px dashed var(--border); border-radius:8px; padding:6px 10px; color:var(--text-faint); font-size:12.5px; line-height:1.55; font-style:italic; }
   .test-opt{ border:1px solid var(--border); border-radius:16px; padding:26px 26px 28px; margin-bottom:26px; background:var(--bg); }
@@ -2679,6 +2704,7 @@
         <button class="test-tab" type="button" role="tab" aria-selected="false" data-testpage="3">Page 3 &middot; The problem</button>
         <button class="test-tab" type="button" role="tab" aria-selected="false" data-testpage="4">Page 4 &middot; The problem 2</button>
         <button class="test-tab" type="button" role="tab" aria-selected="false" data-testpage="5">Page 5 &middot; Dawlati</button>
+        <button class="test-tab" type="button" role="tab" aria-selected="false" data-testpage="6">Page 6 &middot; One graphic</button>
       </div>
       <div class="test-warn"><b>Temporary page.</b> Not linked from the footer, not translated, not in the main nav &mdash; only the red TEST button. It exists so the three workflow options can be looked at side by side, and should be reverted once one is chosen.</div>
 
@@ -3107,6 +3133,48 @@
           <div class="test-verdict"><div class="test-gain"><b>If we go ahead:</b> two commits. First the field and the three project-page lines (a, b, e). Then the certify form and the bids line with the handbook and course text. Do it after the Problem page is live, so the government step is explained before it grows.</div></div>
         </div>
       </div>
+
+      <div class="test-panel" data-testpanel="6" hidden>
+        <div class="section-head"><h2>One graphic for all five &ldquo;who gains&rdquo; tables</h2><p>The Network page shows the same five-by-five idea five times, once per section. Three ways to draw all twenty-five gains at once. All three read the same data as the sections, so they stay in step.</p></div>
+
+        <div class="test-opt">
+          <div class="test-opt-tag">Option A &mdash; the matrix</div>
+          <h3>Five by five: who is in the room, down the side; who gains, across the top</h3>
+          <p>Every cell is one gain, in its short form. Hover a cell for the full sentence. The diagonal is what a role gets from its own presence. Read a row to see what one role brings to the other four; read a column to see everything one role receives.</p>
+          <div class="test-mock" style="padding:14px 16px;"><div id="shMatrix" style="overflow-x:auto;"></div></div>
+          <div class="test-verdict"><div class="test-gain"><b>Reads as:</b> a scoreboard of the network. <b>Best for:</b> the Trust page, or the top of the Network page above the five sections. <b>Cost:</b> dense on a phone; it scrolls sideways there.</div></div>
+        </div>
+
+        <div class="test-opt">
+          <div class="test-opt-tag">Option B &mdash; the ring</div>
+          <h3>Five roles on a ring, twenty arcs between them</h3>
+          <p>Each role sits on a circle; each arc is one gain, coloured by the role that gives it. Click a role to keep only what it gives, and the five lines appear beside the ring. Click again to release.</p>
+          <div class="test-mock" style="padding:14px 16px;"><div id="shRing" class="sh-ring-wrap"></div></div>
+          <div class="test-verdict"><div class="test-gain"><b>Reads as:</b> a network, which is the point of the page. <b>Best for:</b> the home page&rsquo;s &ldquo;How the five fit together&rdquo; block or the Network page opener. <b>Cost:</b> needs the click to be legible; static it is a pretty knot.</div></div>
+        </div>
+
+        <div class="test-opt">
+          <div class="test-opt-tag">Option C &mdash; give and get</div>
+          <h3>One card per role: what it gives the other four, and what it gets from them</h3>
+          <p>The same twenty-five gains regrouped by beneficiary. The left column of each card is that role&rsquo;s row from the matrix; the right column is its column. Nothing to hover or click.</p>
+          <div class="test-mock" style="padding:14px 16px;"><div id="shGiveGet" class="sh-gg"></div></div>
+          <div class="test-verdict"><div class="test-gain"><b>Reads as:</b> five fair trades. <b>Best for:</b> the Join page, where each role decides whether to sign up. <b>Cost:</b> longest of the three; five cards of ten lines.</div></div>
+        </div>
+
+        <div class="test-opt">
+          <div class="test-opt-tag">Side by side</div>
+          <div style="overflow-x:auto;"><table class="bids-tbl">
+            <thead><tr><th></th><th>A &middot; Matrix</th><th>B &middot; Ring</th><th>C &middot; Give and get</th></tr></thead>
+            <tbody>
+              <tr><td>Shows all 25 at once</td><td>Yes</td><td>Yes, as arcs; text on click</td><td>Yes</td></tr>
+              <tr><td>Works on a phone</td><td>Sideways scroll</td><td>Yes</td><td>Yes, long</td></tr>
+              <tr><td>Interaction needed</td><td>Hover for full text</td><td>Click a role</td><td>None</td></tr>
+              <tr><td>Where it fits</td><td>Trust or Network top</td><td>Home or Network opener</td><td>Join</td></tr>
+              <tr><td>Recommendation</td><td>Network page, above the sections</td><td>Home page, beside the diagram</td><td>Only if Join needs it</td></tr>
+            </tbody>
+          </table></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -3498,28 +3566,32 @@ const STAKEHOLDER_PROBLEMS = {
            'Gets a queue of confirmed, photographed problems instead of cold calls.',
            'Find demand mapped by field and locality, with the problem documented.',
            'Fund something specific, with the people affected visible from day one.',
-           'Sign off a request that residents have already confirmed on the ground.'] },
+           'Sign off a request that residents have already confirmed on the ground.'],
+    short:['Sees who fixes it, and when','Confirmed problems, not cold calls','Demand mapped by locality','A specific thing to fund','Evidence to sign off against'] },
   government: { verb:'Certify', title:'Government',
     problem:'Every sector carries a reputation for corruption and mismanagement; that reputation is why Baladi Map and this site exist. Distrust of public infrastructure and the economy is the biggest reason people leave. For five decades the state has offloaded public responsibility and spending onto private individuals, through informal remittances and aid, an endless band-aid, before counting outright theft.',
     gains:['Get their problem found and fixed without the state paying to find it.',
            'Certifies and picks the expert; never sets the price, never holds the money.',
            'Are contracted to solve public problems at scale, a market that hires locally.',
            'Gain a transparent channel to a local problem, so trust and funding rise.',
-           'Confirm the budget and every milestone, so a result is trusted, not a promise.'] },
+           'Confirm the budget and every milestone, so a result is trusted, not a promise.'],
+    short:['Fixed at no finding cost','Certifies and picks; holds no money','Contracted at public scale','A transparent channel','Budget and milestones confirmed'] },
   experts: { verb:'Solve', title:'Expert organisations',
     problem:'Hundreds of independent contractors and initiatives with no link to the clients who need them, above all government at public scale. There is no regulated market for public work, so the capable ones clear the same administrative and corruption hurdles alone, project after project.',
     gains:['Know which local expert is working on their problem and see its evidence.',
            'Licenses a regulated market for public work; sponsors fund what it cannot.',
            'Bid on their own schedule, get paid against evidence, build a public record.',
            'Know exactly who does the work they fund, and fund as much as they choose.',
-           'Approve costs, timelines and milestones before work starts; nothing to inflate.'] },
+           'Approve costs, timelines and milestones before work starts; nothing to inflate.'],
+    short:['Knows the local expert','A regulated market for public work','Bids, paid on evidence','Knows who does the work','Prices approved up front'] },
   sponsors: { verb:'Fund', title:'Sponsors, local and diaspora',
     problem:'There is no channel from a sponsor to a specific local problem with any transparency. The distrust that empties the country of people also empties it of contributions: money sent home stays in one household because there is nowhere accountable to send it further.',
     gains:['See progress on the problem they reported, paid for by people who chose it.',
            'Gets public projects funded by sponsors, with full transparency and oversight.',
            'Earn direct revenue for public work, from a source that did not exist before.',
            'Back the exact project they want, named or anonymous, and follow every dollar.',
-           'Price the request and control the escrow: one verified milestone at a time.'] },
+           'Price the request and control the escrow: one verified milestone at a time.'],
+    short:['Sees funded progress','Projects funded transparently','Direct revenue for public work','Backs the exact project','Escrow, one milestone at a time'] },
   verifiers: { verb:'Check', title:'Verifiers, first and second line',
     problem:'Lack of oversight is how public money is embezzled: projects overpriced, underdelivered, and the difference split between the people who signed. Nobody independent checks the price, the milestones or the evidence, so nobody outside can believe the result.',
     gains:['Know their problem is priced properly, with embezzlement designed out.',
@@ -3546,6 +3618,59 @@ function renderStakeholderProblems(){
   document.querySelectorAll('[data-problem]').forEach(el=>{ el.innerHTML = stakeholderBoxHTML(el.dataset.problem, true); });
   const t = document.getElementById('testStakeholderBoxes');
   if(t) t.innerHTML = Object.keys(STAKEHOLDER_PROBLEMS).map(stakeholderBoxHTML).join('');
+  renderStakeholderGraphics();
+}
+// Three drawings of the same 25 gains (TEST Page 6). Keys in the order the
+// labels use; STAKEHOLDER_PROBLEMS[k].gains[i] is what role k gives role i.
+const SH_KEYS = ['residents','government','experts','sponsors','verifiers'];
+const SH_COLORS = ['#0d9488','#2563eb','#7c3aed','#d97706','#dc2626'];
+function shLabel(i){ return STAKEHOLDER_ROLE_LABELS[i]; }
+function renderStakeholderGraphics(){
+  const mx = document.getElementById('shMatrix');
+  if(mx){
+    mx.innerHTML = `<table class="sh-matrix"><thead><tr><th class="sh-corner">gives &rarr;<br>gets &darr;</th>${SH_KEYS.map((k,i)=>`<th><span class="tw-pill uniq">${shLabel(i)}</span></th>`).join('')}</tr></thead>
+      <tbody>${SH_KEYS.map((k,i)=>`<tr><th><span class="tw-pill uniq">${shLabel(i)}</span></th>${SH_KEYS.map((k2,j)=>{
+        const d = STAKEHOLDER_PROBLEMS[k];
+        return `<td class="${i===j?'sh-self':''}" style="border-left:3px solid ${SH_COLORS[i]}" title="${d.gains[j].replace(/"/g,'&quot;')}">${d.short[j]}</td>`;
+      }).join('')}</tr>`).join('')}</tbody></table>
+      <p style="font-size:11.5px;color:var(--text-faint);margin:8px 0 0;">Row: what the role on the left gives to each column. Hover a cell for the full line. Shaded cells are what a role gets from its own presence.</p>`;
+  }
+  const ring = document.getElementById('shRing');
+  if(ring){
+    const W=460, H=420, cx=230, cy=210, R=150;
+    const pos = SH_KEYS.map((k,i)=>{ const a = -Math.PI/2 + i*2*Math.PI/5; return {x:cx+R*Math.cos(a), y:cy+R*Math.sin(a)}; });
+    let arcs='';
+    SH_KEYS.forEach((k,i)=> SH_KEYS.forEach((k2,j)=>{
+      if(i===j) return;
+      const a=pos[i], b=pos[j];
+      // bow each arc a little off the chord so i->j and j->i do not overlap
+      const mx=(a.x+b.x)/2, my=(a.y+b.y)/2, dx=b.x-a.x, dy=b.y-a.y, len=Math.hypot(dx,dy);
+      const nx=-dy/len, ny=dx/len, k3=28;
+      arcs += `<path class="sh-arc" data-from="${i}" data-to="${j}" d="M${a.x},${a.y} Q${mx+nx*k3},${my+ny*k3} ${b.x},${b.y}" stroke="${SH_COLORS[i]}"><title>${shLabel(i)} &rarr; ${shLabel(j)}: ${STAKEHOLDER_PROBLEMS[k].gains[j]}</title></path>`;
+    }));
+    const nodes = pos.map((p,i)=>`<g class="sh-node" data-i="${i}" style="cursor:pointer;"><circle cx="${p.x}" cy="${p.y}" r="34" fill="var(--bg-1)" stroke="${SH_COLORS[i]}" stroke-width="2.5"/><text x="${p.x}" y="${p.y+4}" text-anchor="middle" style="font-size:11px;font-weight:800;fill:${SH_COLORS[i]};letter-spacing:.02em;">${shLabel(i)}</text></g>`).join('');
+    ring.innerHTML = `<svg viewBox="0 0 ${W} ${H}" class="sh-ring" role="img" aria-label="Five roles on a ring; each arc is one gain, coloured by the role that gives it">${arcs}${nodes}</svg><div class="sh-ring-side" id="shRingSide"><b>Click a role</b><span>to keep only what it gives the other four.</span></div>`;
+    const side = ring.querySelector('#shRingSide');
+    let active = null;
+    ring.querySelectorAll('.sh-node').forEach(n=> n.addEventListener('click', ()=>{
+      const i = +n.dataset.i;
+      active = active===i ? null : i;
+      ring.querySelectorAll('.sh-arc').forEach(a=>{ a.classList.toggle('dim', active!==null && +a.dataset.from!==active); a.classList.toggle('lit', active!==null && +a.dataset.from===active); });
+      ring.querySelectorAll('.sh-node').forEach(m=> m.classList.toggle('sel', active!==null && +m.dataset.i===active));
+      if(active===null){ side.innerHTML = '<b>Click a role</b><span>to keep only what it gives the other four.</span>'; return; }
+      const d = STAKEHOLDER_PROBLEMS[SH_KEYS[active]];
+      side.innerHTML = `<b style="color:${SH_COLORS[active]}">${shLabel(active)} gives</b>` + SH_KEYS.map((k,j)=> j===active ? '' : `<div class="sh-side-row"><span class="tw-pill uniq">${shLabel(j)}</span><span>${d.gains[j]}</span></div>`).join('') + `<div class="sh-side-row sh-side-self"><span class="tw-pill uniq">${shLabel(active)}</span><span>${d.gains[active]}</span></div>`;
+    }));
+  }
+  const gg = document.getElementById('shGiveGet');
+  if(gg){
+    gg.innerHTML = SH_KEYS.map((k,i)=>{
+      const gives = SH_KEYS.map((k2,j)=> j===i ? '' : `<div class="sh-gg-row"><span class="tw-pill uniq">${shLabel(j)}</span><span>${STAKEHOLDER_PROBLEMS[k].short[j]}</span></div>`).join('');
+      const gets  = SH_KEYS.map((k2,j)=> j===i ? '' : `<div class="sh-gg-row"><span class="tw-pill uniq">${shLabel(j)}</span><span>${STAKEHOLDER_PROBLEMS[k2].short[i]}</span></div>`).join('');
+      return `<div class="sh-gg-card" style="border-top:3px solid ${SH_COLORS[i]}"><b class="sh-gg-name" style="color:${SH_COLORS[i]}">${shLabel(i)}</b>
+        <div class="sh-gg-cols"><div><div class="sh-gg-h">Gives</div>${gives}</div><div><div class="sh-gg-h">Gets</div>${gets}</div></div></div>`;
+    }).join('');
+  }
 }
 const EXPERT_HQ_APPROX = {
   'Ahmoudhassan496': {coords:[34.4374, 35.8349], place:'Tripoli'},
@@ -8054,7 +8179,8 @@ function switchView(view){
       next.classList.add('page-visible'); // safety net if the animate() call below ever throws
       window.scrollTo({top:0, behavior:'instant'});
       try{
-        settle(M.animate(next, { opacity:[0,1], y:[isDrawer?22:10, 0] }, { type:'spring', stiffness:280, damping:28, mass:0.9 }),
+        settle(M.animate(next, { opacity:[0,1], y:[isDrawer?22:10, 0],
+    short:['Priced properly','Independent approvers','Only clean projects','Money cannot be diverted','Two layers, each checked'] }, { type:'spring', stiffness:280, damping:28, mass:0.9 }),
           ()=>{ next.style.transform = ''; }, 900); // a transform left on .page — even translateY(0) — breaks
           // position:sticky for every element inside it, since it creates a new containing block.
           // Clearing it once the entrance finishes keeps the slide-in effect without leaving that behind.
