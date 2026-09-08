@@ -3598,7 +3598,8 @@ const STAKEHOLDER_PROBLEMS = {
            'Gets independent approvers who match prices to scope and confirm milestones.',
            'Work only on clean, approved projects, with a structured route to income.',
            'Trust that their money cannot be wasted or diverted, and give again.',
-           'Work in two layers: the first checks every fact, the second checks the first.'] }
+           'Work in two layers: the first checks every fact, the second checks the first.'],
+    short:['Priced properly','Independent approvers','Only clean projects','Money cannot be diverted','Two layers, each checked'] }
 };
 const STAKEHOLDER_ROLE_LABELS = ['Residents','Government','Experts','Sponsors','Verifiers'];
 // inline = inside a Network section that already carries the role's tag and
@@ -8179,8 +8180,7 @@ function switchView(view){
       next.classList.add('page-visible'); // safety net if the animate() call below ever throws
       window.scrollTo({top:0, behavior:'instant'});
       try{
-        settle(M.animate(next, { opacity:[0,1], y:[isDrawer?22:10, 0],
-    short:['Priced properly','Independent approvers','Only clean projects','Money cannot be diverted','Two layers, each checked'] }, { type:'spring', stiffness:280, damping:28, mass:0.9 }),
+        settle(M.animate(next, { opacity:[0,1], y:[isDrawer?22:10, 0] }, { type:'spring', stiffness:280, damping:28, mass:0.9 }),
           ()=>{ next.style.transform = ''; }, 900); // a transform left on .page — even translateY(0) — breaks
           // position:sticky for every element inside it, since it creates a new containing block.
           // Clearing it once the entrance finishes keeps the slide-in effect without leaving that behind.
