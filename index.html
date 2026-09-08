@@ -1238,6 +1238,8 @@
   .test-src{ font-size:11.5px; color:var(--text-faint); line-height:1.7; margin:22px 0 0; padding-top:14px; border-top:1px solid var(--border); }
   .test-src a{ color:var(--text-dim); }
   .test-warn{ border:1px dashed #dc2626; background:rgba(220,38,38,0.07); color:#b91c1c;
+  .test-mock{ border:1px solid var(--border); border-radius:12px; padding:20px 22px; background:var(--bg-1); margin:12px 0 4px; }
+  .test-ph{ display:inline-block; border:1px dashed var(--border); border-radius:8px; padding:6px 10px; color:var(--text-faint); font-size:12.5px; line-height:1.55; font-style:italic; }
     border-radius:10px; padding:14px 18px; font-size:12.5px; line-height:1.6; margin-bottom:30px; }
   .test-opt{ border:1px solid var(--border); border-radius:16px; padding:26px 26px 28px; margin-bottom:26px; background:var(--bg); }
   .test-opt-tag{ display:inline-block; font-size:10.5px; font-weight:800; letter-spacing:.09em; text-transform:uppercase;
@@ -2657,6 +2659,7 @@
       <div class="test-tabs" role="tablist" aria-label="Test pages">
         <button class="test-tab" type="button" role="tab" aria-selected="true" data-testpage="1">Page 1 &middot; Graphs &amp; workflow</button>
         <button class="test-tab" type="button" role="tab" aria-selected="false" data-testpage="2">Page 2 &middot; Account types</button>
+        <button class="test-tab" type="button" role="tab" aria-selected="false" data-testpage="3">Page 3 &middot; The problem</button>
       </div>
       <div class="test-warn"><b>Temporary page.</b> Not linked from the footer, not translated, not in the main nav &mdash; only the red TEST button. It exists so the three workflow options can be looked at side by side, and should be reverted once one is chosen.</div>
 
@@ -2811,6 +2814,49 @@
         </div>
 
         <p class="test-src">Sources: <a href="https://www.zeffy.com/blog/nonprofit-organization-transparency" target="_blank" rel="noopener">Zeffy on nonprofit transparency</a> &middot; <a href="https://www.casebook.net/blog/nonprofit-impact-reports-how-to-communicate-outcomes-effectively/" target="_blank" rel="noopener">Casebook on impact reports</a> &middot; <a href="https://www.hublead.io/blog/hubspot-dashboard-examples" target="_blank" rel="noopener">HubSpot dashboard patterns</a> &middot; <a href="https://www.72technologies.com/blog/empty-states-as-onboarding-surface" target="_blank" rel="noopener">Empty states as onboarding</a> &middot; <a href="https://www.eleken.co/blog-posts/profile-page-design" target="_blank" rel="noopener">Profile page design</a></p>
+      </div>
+
+      <div class="test-panel" data-testpanel="3" hidden>
+        <div class="section-head"><h2>The problem &mdash; what Man&#257;ra is solving</h2><p>Two placements, agreed: a short block on the home page and a full page of its own, linked both ways. The notes are still to come, so both drafts below are skeletons with the slots marked. Paste the notes in and the copy gets written into these shapes.</p></div>
+
+        <div class="test-opt">
+          <div class="test-opt-tag">Placement 1 &mdash; home page</div>
+          <h3>A short block between the headline and the five role cards</h3>
+          <p>The first thing a visitor reads after the headline: why this exists, in under 120 words, before the site asks them to pick a role. Three cards or three short paragraphs, then one link to the full page.</p>
+          <div class="test-mock">
+            <div class="section-head"><h2>The problem</h2><p><div class="test-ph">One sentence that names the failure, in plain words. From the notes.</div></p></div>
+            <div class="light-grid">
+              <div class="light-card"><b style="font-size:13.5px;">What residents live with</b><p style="font-size:12.5px;color:var(--text-dim);margin:8px 0 0;line-height:1.6;"><div class="test-ph">Two lines: the daily reality a report on Baladi Map describes.</div></p></div>
+              <div class="light-card"><b style="font-size:13.5px;">Why it stays unfixed</b><p style="font-size:12.5px;color:var(--text-dim);margin:8px 0 0;line-height:1.6;"><div class="test-ph">Two lines: the gap between a municipality knowing and a municipality doing.</div></p></div>
+              <div class="light-card"><b style="font-size:13.5px;">Why money does not solve it</b><p style="font-size:12.5px;color:var(--text-dim);margin:8px 0 0;line-height:1.6;"><div class="test-ph">Two lines: funds exist, trust does not; nobody can prove the work happened.</div></p></div>
+            </div>
+            <button class="btn-text" type="button" style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;font-size:13.5px;margin-top:14px;">Read the full problem &rarr;</button>
+          </div>
+          <div class="test-verdict"><div class="test-gain"><b>Rule for this block.</b> No numbers unless one of them changes what the reader does next; those go on the full page with their sources. Every card ends on the thing the network fixes, so the role cards below read as the answer.</div></div>
+        </div>
+
+        <div class="test-opt">
+          <div class="test-opt-tag">Placement 2 &mdash; its own page</div>
+          <h3>A full page at <code>#/problem</code>, in the Trust page format, with &ldquo;Problem&rdquo; in the nav between Home and Network</h3>
+          <p>Room for the whole argument with sources. Same skeleton as the Trust page so it reads as part of the site: a heading, an intro, four short sections with subheads, one figure or map where there is a real number, and a sources list at the end.</p>
+          <div class="test-mock">
+            <div style="font-size:12px;color:var(--text-faint);margin-bottom:12px;">Home / The problem</div>
+            <span style="font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--bg-2);color:var(--text-faint);padding:3px 9px;border-radius:10px;">Why Man&#257;ra exists</span>
+            <h1 class="detail-title" style="margin-top:10px;">The problem</h1>
+            <div class="detail-desc" style="max-width:680px;"><div class="test-ph">Intro, three or four sentences: the failure, who it lands on, and the one line about what a working system would look like.</div></div>
+            <h3 style="font-size:16px;margin:26px 0 8px;">1. What residents live with</h3>
+            <div class="test-ph">The reports themselves: what kinds of problems, how long they sit, what people do instead. Baladi Map figures can go here with a date.</div>
+            <h3 style="font-size:16px;margin:26px 0 8px;">2. What a municipality can and cannot do</h3>
+            <div class="test-ph">Mandate, budget, staff, procurement rules. Where the will exists and the means do not.</div>
+            <h3 style="font-size:16px;margin:26px 0 8px;">3. Where the money goes today</h3>
+            <div class="test-ph">Diaspora remittances, donor programmes, NGO grants: how much reaches a specific street, and why funders stopped trusting the channel.</div>
+            <h3 style="font-size:16px;margin:26px 0 8px;">4. Why nobody can prove the work happened</h3>
+            <div class="test-ph">The verification gap: no independent check, no public ledger, no consequence. This section hands over to the Network and Trust pages.</div>
+            <h3 style="font-size:16px;margin:26px 0 8px;">Sources</h3>
+            <div class="test-ph">Numbered list, one line each, with links. Anything without a source stays on the home block as a statement, not a figure.</div>
+          </div>
+          <div class="test-verdict"><div class="test-gain"><b>Wiring when it goes live.</b> Nav order becomes Home, Problem, Network, Projects, Map, Diaspora, Scoreboard, Trust, Join. The home block links here; this page ends with one button to the Network page. English first, Arabic and French topped up afterwards as usual.</div></div>
+        </div>
       </div>
     </div>
   </div>
