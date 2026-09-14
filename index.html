@@ -1275,6 +1275,7 @@
   .sh-gg-row{ display:flex; gap:8px; align-items:flex-start; margin:5px 0; font-size:11.5px; color:var(--text-dim); line-height:1.45; }
   .sh-gg-row .tw-pill{ flex:0 0 auto; min-width:78px; text-align:center; font-size:10.5px; }
   @media (max-width:700px){ .sh-ring-wrap{ grid-template-columns:1fr; } .sh-gg-cols{ grid-template-columns:1fr; } }
+  .crm-swipe td, .crm-swipe th{ font-family:inherit !important; text-align:start !important; white-space:normal !important; font-variant-numeric:normal; min-width:120px; }
   .crm-board{ display:grid; grid-auto-flow:column; grid-auto-columns:minmax(190px,1fr); gap:10px; overflow-x:auto; padding-bottom:6px; }
   .crm-col{ background:var(--bg-2); border-radius:12px; padding:10px; min-height:120px; }
   .crm-col-h{ display:flex; justify-content:space-between; font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--text-faint); margin-bottom:8px; }
@@ -3237,7 +3238,7 @@
             <li><b>Rebuild it in our components on our data.</b> If the pattern survives being drawn with Man&#257;ra&rsquo;s cards, pills and figures, it belongs. If it needs the other app&rsquo;s data to look good, it does not.</li>
             <li><b>Keep a swipe file.</b> One row per borrowed pattern: which screen here, which app there, what we keep, what we drop. The one below starts it.</li>
           </ol>
-          <div style="overflow-x:auto;"><table class="bids-tbl">
+          <div style="overflow-x:auto;"><table class="bids-tbl crm-swipe">
   <thead><tr><th>Man&#257;ra screen</th><th>Reference</th><th>Pattern borrowed</th><th>Keep</th><th>Drop</th></tr></thead>
   <tbody>
     <tr><td>Projects list</td><td>Pipedrive, HubSpot deals</td><td>Stage board</td><td>Columns, days-in-stage</td><td>Drag to change stage (only the process moves a request)</td></tr>
