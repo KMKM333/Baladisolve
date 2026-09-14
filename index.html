@@ -1275,6 +1275,53 @@
   .sh-gg-row{ display:flex; gap:8px; align-items:flex-start; margin:5px 0; font-size:11.5px; color:var(--text-dim); line-height:1.45; }
   .sh-gg-row .tw-pill{ flex:0 0 auto; min-width:78px; text-align:center; font-size:10.5px; }
   @media (max-width:700px){ .sh-ring-wrap{ grid-template-columns:1fr; } .sh-gg-cols{ grid-template-columns:1fr; } }
+  .crm-board{ display:grid; grid-auto-flow:column; grid-auto-columns:minmax(190px,1fr); gap:10px; overflow-x:auto; padding-bottom:6px; }
+  .crm-col{ background:var(--bg-2); border-radius:12px; padding:10px; min-height:120px; }
+  .crm-col-h{ display:flex; justify-content:space-between; font-size:11px; font-weight:700; letter-spacing:.04em; text-transform:uppercase; color:var(--text-faint); margin-bottom:8px; }
+  .crm-card{ background:var(--bg-1); border:1px solid var(--border); border-radius:10px; padding:10px 11px; margin-bottom:8px; font-size:12px; }
+  .crm-card b{ display:block; font-size:12.5px; margin-bottom:2px; }
+  .crm-card > span{ color:var(--text-faint); font-size:11px; }
+  .crm-card-foot{ display:flex; justify-content:space-between; margin-top:8px; font-size:11.5px; color:var(--text-dim); }
+  .crm-days{ font-weight:700; }
+  .crm-record{ display:grid; grid-template-columns:minmax(0,1.4fr) minmax(0,1fr); gap:22px; }
+  .crm-h{ font-size:10.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--text-faint); margin-bottom:10px; }
+  .crm-ev{ display:flex; gap:10px; align-items:flex-start; margin:0 0 12px; font-size:12.5px; }
+  .crm-ev b{ display:block; }
+  .crm-ev span:last-child{ color:var(--text-faint); font-size:11.5px; }
+  .crm-dot{ flex:0 0 auto; width:9px; height:9px; border-radius:50%; background:var(--border); margin-top:5px; }
+  .crm-prop{ display:flex; justify-content:space-between; gap:10px; padding:7px 0; border-bottom:1px solid var(--bg-2); font-size:12.5px; }
+  .crm-prop span{ color:var(--text-faint); }
+  .crm-more{ margin-top:8px; font-size:12px; color:var(--text-faint); }
+  .crm-more summary{ cursor:pointer; color:var(--accent); font-weight:700; }
+  .crm-row{ display:flex; gap:12px; align-items:center; padding:10px 0; border-bottom:1px solid var(--bg-2); font-size:12.5px; }
+  .crm-row > div{ flex:1; min-width:0; }
+  .crm-row b{ display:block; }
+  .crm-row span:not(.crm-pri){ color:var(--text-faint); font-size:11.5px; }
+  .crm-row .role-jump{ margin:0; flex:0 0 auto; }
+  .crm-pri{ flex:0 0 auto; width:10px; height:10px; border-radius:50%; }
+  .crm-view{ border:1px solid var(--border); border-radius:999px; padding:4px 11px; color:var(--text-dim); }
+  .crm-view.sel{ background:var(--accent); color:#fff; border-color:var(--accent); }
+  .crm-health{ display:flex; gap:12px; align-items:center; padding:8px 0; border-bottom:1px solid var(--bg-2); font-size:12.5px; }
+  .crm-health span:last-child{ color:var(--text-faint); font-size:11.5px; }
+  .crm-hp{ flex:0 0 auto; min-width:70px; text-align:center; font-size:11px; font-weight:700; border-radius:999px; padding:3px 9px; }
+  .crm-track{ display:grid; gap:0; }
+  .crm-step{ position:relative; padding:0 0 14px 22px; font-size:12.5px; }
+  .crm-step::before{ content:''; position:absolute; left:4px; top:5px; width:9px; height:9px; border-radius:50%; background:var(--border); }
+  .crm-step::after{ content:''; position:absolute; left:8px; top:16px; bottom:-2px; width:1px; background:var(--border); }
+  .crm-step:last-child::after{ display:none; }
+  .crm-step.done::before{ background:var(--ok); }
+  .crm-step.now::before{ background:var(--accent); box-shadow:0 0 0 4px rgba(37,99,235,.15); }
+  .crm-step b{ display:block; }
+  .crm-step span{ color:var(--text-faint); font-size:11.5px; }
+  .crm-rate{ display:grid; grid-template-columns:auto 1fr; gap:24px; align-items:start; }
+  .crm-phone{ width:250px; border:1px solid var(--border); border-radius:22px; overflow:hidden; background:var(--bg-1); }
+  .crm-phone-body{ height:150px; display:flex; align-items:center; justify-content:center; color:var(--text-faint); font-size:12px; background:var(--bg-2); }
+  .crm-tabbar{ display:grid; grid-template-columns:repeat(5,1fr); border-top:1px solid var(--border); padding:8px 0 10px; font-size:9.5px; text-align:center; color:var(--text-faint); }
+  .crm-tabbar div{ position:relative; }
+  .crm-tabbar span{ display:block; font-size:17px; line-height:1.1; }
+  .crm-tabbar .sel{ color:var(--accent); font-weight:700; }
+  .crm-tabbar i{ position:absolute; top:-4px; right:14px; background:#dc2626; color:#fff; font-style:normal; font-size:9px; font-weight:700; border-radius:999px; padding:1px 5px; }
+  @media (max-width:700px){ .crm-record, .crm-rate{ grid-template-columns:1fr; } }
   .test-ins{ background:rgba(37,99,235,.12); border-radius:4px; padding:1px 4px; box-decoration-break:clone; -webkit-box-decoration-break:clone; }
   .test-ph{ display:inline-block; border:1px dashed var(--border); border-radius:8px; padding:6px 10px; color:var(--text-faint); font-size:12.5px; line-height:1.55; font-style:italic; }
   .test-opt{ border:1px solid var(--border); border-radius:16px; padding:26px 26px 28px; margin-bottom:26px; background:var(--bg); }
@@ -2705,6 +2752,7 @@
         <button class="test-tab" type="button" role="tab" aria-selected="false" data-testpage="4">Page 4 &middot; The problem 2</button>
         <button class="test-tab" type="button" role="tab" aria-selected="false" data-testpage="5">Page 5 &middot; Dawlati</button>
         <button class="test-tab" type="button" role="tab" aria-selected="false" data-testpage="6">Page 6 &middot; One graphic</button>
+        <button class="test-tab" type="button" role="tab" aria-selected="false" data-testpage="7">Page 7 &middot; CRM patterns</button>
       </div>
       <div class="test-warn"><b>Temporary page.</b> Not linked from the footer, not translated, not in the main nav &mdash; only the red TEST button. It exists so the three workflow options can be looked at side by side, and should be reverted once one is chosen.</div>
 
@@ -3173,6 +3221,156 @@
               <tr><td>Recommendation</td><td>Network page, above the sections</td><td>Home page, beside the diagram</td><td>Only if Join needs it</td></tr>
             </tbody>
           </table></div>
+        </div>
+      </div>
+
+      <div class="test-panel" data-testpanel="7" hidden>
+        <div class="section-head"><h2>Borrowing from the apps people already trust</h2><p>Man&#257;ra is closer to a CRM than to a campaign page: records that move through stages, several people with a stake in each, money attached, and a queue of things to do. The apps below solved those exact problems for millions of users. Each tip names the pattern, why it works, and shows it drawn in Man&#257;ra&rsquo;s own components on Man&#257;ra&rsquo;s own data.</p></div>
+
+        <div class="test-opt">
+          <div class="test-opt-tag">Method</div>
+          <h3>How to mine other apps without copying them</h3>
+          <ol style="font-size:13.5px;line-height:1.75;max-width:72ch;padding-inline-start:20px;margin:0 0 14px;">
+            <li><b>Start from a job, not a screen.</b> Write the sentence a user would say: &ldquo;I need to see what is waiting for me&rdquo;, &ldquo;I need to know where my money is&rdquo;. Then find the app that is famous for that job.</li>
+            <li><b>Look at flows, not pages.</b> Pattern libraries such as Mobbin, Page Flows and Refero record whole sequences of real apps; a single screenshot hides the part that made it work.</li>
+            <li><b>Name the pattern in one line.</b> &ldquo;Stage board with days-in-stage&rdquo; can be rebuilt; &ldquo;looks like Pipedrive&rdquo; cannot.</li>
+            <li><b>Rebuild it in our components on our data.</b> If the pattern survives being drawn with Man&#257;ra&rsquo;s cards, pills and figures, it belongs. If it needs the other app&rsquo;s data to look good, it does not.</li>
+            <li><b>Keep a swipe file.</b> One row per borrowed pattern: which screen here, which app there, what we keep, what we drop. The one below starts it.</li>
+          </ol>
+          <div style="overflow-x:auto;"><table class="bids-tbl">
+  <thead><tr><th>Man&#257;ra screen</th><th>Reference</th><th>Pattern borrowed</th><th>Keep</th><th>Drop</th></tr></thead>
+  <tbody>
+    <tr><td>Projects list</td><td>Pipedrive, HubSpot deals</td><td>Stage board</td><td>Columns, days-in-stage</td><td>Drag to change stage (only the process moves a request)</td></tr>
+    <tr><td>Project page</td><td>HubSpot record, Attio</td><td>Activity + properties</td><td>One timeline, one panel</td><td>Nine separate cards</td></tr>
+    <tr><td>Account dashboards</td><td>Linear, Superhuman</td><td>Triage inbox</td><td>Expiry-sorted rows, one action each</td><td>Widgets before the queue</td></tr>
+    <tr><td>Projects filters</td><td>Notion, Airtable, Linear</td><td>Chips and saved views</td><td>Shareable view links</td><td>Nested filter builders</td></tr>
+    <tr><td>Cards, rows, headers</td><td>Asana, Monday</td><td>Health pill</td><td>Computed from the standing rules</td><td>Anything typed by hand</td></tr>
+    <tr><td>Sponsor pledge</td><td>Wise, Stripe</td><td>Money tracker</td><td>Per-step timestamps, fee line</td><td>Marketing progress bars</td></tr>
+    <tr><td>Attributes</td><td>Uber, Airbnb</td><td>Score with reasons</td><td>Reasons that link to requests</td><td>Star widgets without evidence</td></tr>
+    <tr><td>Phone navigation</td><td>Instagram, Uber</td><td>Bottom tab bar</td><td>Five tabs, one badge</td><td>Hamburger menus</td></tr>
+  </tbody>
+</table></div>
+        </div>
+        
+        <div class="test-opt">
+          <div class="test-opt-tag">Tip 1 &middot; from Pipedrive and HubSpot</div>
+          <h3>A stage board of every request</h3>
+          <p style="font-size:13.5px;line-height:1.7;max-width:72ch;margin:0 0 10px;">A sales pipeline is six columns and a card per deal, and everyone reads it in a second: how much is where, and what has stalled. The site already has six stages and a status pill; the board is the same information turned sideways, with the day count that a list hides.</p>
+          <div class="test-mock" style="padding:16px 18px;"><div class="crm-board"><div class="crm-col"><div class="crm-col-h">Reported<span>173</span></div><div class="crm-card"><b>No streetlights, Blaybel</b><span>Baabda &middot; 5 confirmed</span><div class="crm-card-foot"><span style="font-family:'IBM Plex Mono',monospace;">&mdash;</span><span class="crm-days" style="color:var(--text-dim)">3 d</span></div></div><div class="crm-card"><b>Half-standing building</b><span>Tallet Khayyat &middot; 28 confirmed</span><div class="crm-card-foot"><span style="font-family:'IBM Plex Mono',monospace;">&mdash;</span><span class="crm-days" style="color:var(--text-dim)">9 d</span></div></div></div><div class="crm-col"><div class="crm-col-h">Certified<span>6</span></div><div class="crm-card"><b>Halba water network</b><span>Akkar &middot; Ministry of Energy</span><div class="crm-card-foot"><span style="font-family:'IBM Plex Mono',monospace;">$14,000</span><span class="crm-days" style="color:var(--text-dim)">2 d</span></div></div></div><div class="crm-col"><div class="crm-col-h">Signed off & bids<span>4</span></div><div class="crm-card"><b>Riverside park, Bebnine</b><span>Akkar &middot; 3 bids</span><div class="crm-card-foot"><span style="font-family:'IBM Plex Mono',monospace;">$3,000</span><span class="crm-days" style="color:var(--text-dim)">6 d</span></div></div><div class="crm-card"><b>Well rehabilitation, Britel</b><span>Baalbek &middot; 2 bids</span><div class="crm-card-foot"><span style="font-family:'IBM Plex Mono',monospace;">$12,000</span><span class="crm-days" style="color:#b45309">24 d</span></div></div></div><div class="crm-col"><div class="crm-col-h">Funding<span>5</span></div><div class="crm-card"><b>Composting hub, Marjayoun</b><span>South &middot; 62%</span><div class="crm-card-foot"><span style="font-family:'IBM Plex Mono',monospace;">$4,400</span><span class="crm-days" style="color:var(--text-dim)">11 d</span></div></div></div><div class="crm-col"><div class="crm-col-h">In progress<span>3</span></div><div class="crm-card"><b>Pedestrian crossing, Hamra</b><span>Beirut &middot; milestone 2 of 3</span><div class="crm-card-foot"><span style="font-family:'IBM Plex Mono',monospace;">$5,000</span><span class="crm-days" style="color:var(--text-dim)">8 d</span></div></div></div><div class="crm-col"><div class="crm-col-h">Complete<span>12</span></div><div class="crm-card"><b>Recycling pilot, Jounieh</b><span>Keserwan &middot; closed</span><div class="crm-card-foot"><span style="font-family:'IBM Plex Mono',monospace;">$5,200</span><span class="crm-days" style="color:var(--ok)">&#10003;</span></div></div></div></div><p style="font-size:11.5px;color:var(--text-faint);margin:10px 0 0;">Same six stages the site already has, drawn as columns. Amber days mean the request has sat in its stage past the 21-day watch line.</p></div>
+          <div class="test-verdict"><div class="test-gain"><b>Lands on:</b> Projects, as a second view beside the list, with the same filters. <b>Effort:</b> one render function; the data is there. <b>Rule:</b> no dragging; a request moves only when the process moves it.</div></div>
+        </div>
+        
+        <div class="test-opt">
+          <div class="test-opt-tag">Tip 2 &middot; from HubSpot records and Attio</div>
+          <h3>One timeline and one properties panel on the project page</h3>
+          <p style="font-size:13.5px;line-height:1.7;max-width:72ch;margin:0 0 10px;">A CRM record page is two things: everything that happened, in order, and everything that is true right now, in a panel. Man&#257;ra&rsquo;s project page carries nine sidebar cards; a reader hunts. The record layout folds them into one properties panel with the rarely-needed parts a click away.</p>
+          <div class="test-mock" style="padding:16px 18px;"><div class="crm-record">
+  <div>
+    <div class="crm-h">Activity</div>
+    <div class="crm-ev"><span class="crm-dot" style="background:var(--ok)"></span><div><b>Milestone 1 verified</b><span>Nadia Haddad (first line) &middot; evidence: 6 photos, 1 invoice &middot; 2 h ago</span></div></div>
+    <div class="crm-ev"><span class="crm-dot" style="background:var(--accent)"></span><div><b>$2,100 released from escrow</b><span>Tranche 1 of 3 &middot; custodian ref ESC-9931 &middot; 2 h ago</span></div></div>
+    <div class="crm-ev"><span class="crm-dot"></span><div><b>Resident comment</b><span>&ldquo;The east side is done, west side still open&rdquo; &middot; affected group &middot; yesterday</span></div></div>
+    <div class="crm-ev"><span class="crm-dot"></span><div><b>Bid accepted</b><span>Compost Baladi &middot; ranked 1 of 3 (88) &middot; chosen by Marjayoun Municipal Council &middot; 12 Aug</span></div></div>
+    <div class="crm-ev"><span class="crm-dot"></span><div><b>Signed off</b><span>Scope, milestones, bracket $4,000&ndash;$5,100 &middot; second line agreed &middot; 9 Aug</span></div></div>
+  </div>
+  <div>
+    <div class="crm-h">Properties</div>
+    <div class="crm-prop"><span>Stage</span><b>In progress &middot; 2 of 3</b></div>
+    <div class="crm-prop"><span>Certified by</span><b>Ministry of Environment</b></div>
+    <div class="crm-prop"><span>Municipality</span><b>Marjayoun</b></div>
+    <div class="crm-prop"><span>Expert</span><b>Compost Baladi</b></div>
+    <div class="crm-prop"><span>Verifier</span><b>N. Haddad &middot; L2 appointed</b></div>
+    <div class="crm-prop"><span>Escrow</span><b>$4,400 held &middot; $2,100 released</b></div>
+    <div class="crm-prop"><span>Next milestone</span><b>West side, due 28 Sep</b></div>
+    <div class="crm-prop"><span>Affected</span><b>14 residents</b></div>
+    <details class="crm-more"><summary>Bids, variances, refund policy, chat</summary><span>Folded until needed, one line each.</span></details>
+  </div>
+</div></div>
+          <div class="test-verdict"><div class="test-gain"><b>Lands on:</b> the project page. <b>Effort:</b> a day; the nine cards become rows. <b>Note:</b> this is the sidebar-density decision flagged earlier; it stays yours.</div></div>
+        </div>
+        
+        <div class="test-opt">
+          <div class="test-opt-tag">Tip 3 &middot; from Linear and Superhuman</div>
+          <h3>A triage inbox at the top of every dashboard</h3>
+          <p style="font-size:13.5px;line-height:1.7;max-width:72ch;margin:0 0 10px;">The best work tools open on a short list sorted by what expires first, each row ending in its one action. Users clear it, then browse. Man&#257;ra&rsquo;s dashboards have the material for this queue but show widgets first.</p>
+          <div class="test-mock" style="padding:16px 18px;"><div class="crm-h">Needs you now &middot; Marjayoun Municipal Council</div>
+<div class="crm-row"><span class="crm-pri" style="background:#dc2626"></span><div><b>Certify: Pothole cluster, Ras el Ein road</b><span>Baladi report &middot; 9 confirmations &middot; in your queue 6 days &middot; turnaround window closes tomorrow</span></div><button class="role-jump" type="button">Certify &rarr;</button></div>
+<div class="crm-row"><span class="crm-pri" style="background:#d97706"></span><div><b>Choose the expert: Composting hub</b><span>3 bids ranked &middot; top score 88 &middot; bracket confirmed by the verifier</span></div><button class="role-jump" type="button">Open ranking &rarr;</button></div>
+<div class="crm-row"><span class="crm-pri" style="background:var(--border)"></span><div><b>Reply on Baladi Map: Broken bench, public garden</b><span>Marked Noted 12 days ago &middot; residents are asking for an update</span></div><button class="role-jump" type="button">Reply &rarr;</button></div>
+<p style="font-size:11.5px;color:var(--text-faint);margin:10px 0 0;">One list, sorted by what expires first, each row ending in the one action it needs. Everything else on the dashboard sits below it.</p></div>
+          <div class="test-verdict"><div class="test-gain"><b>Lands on:</b> all four account dashboards, above the record and the money. <b>Effort:</b> half a day per role. <b>Attribute tie-in:</b> Certification Turnaround is the inbox&rsquo;s own clock.</div></div>
+        </div>
+        
+        <div class="test-opt">
+          <div class="test-opt-tag">Tip 4 &middot; from Notion, Airtable and Linear</div>
+          <h3>Filter chips and saved views</h3>
+          <p style="font-size:13.5px;line-height:1.7;max-width:72ch;margin:0 0 10px;">Filters that are chips can be removed one at a time and read as a sentence. Saving a combination as a named view, with a shareable link, turns a filter into a place people return to. Baladi partners and journalists would use &ldquo;Awaiting certification&rdquo; every week.</p>
+          <div class="test-mock" style="padding:16px 18px;"><div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+  <span class="tw-pill uniq">Akkar &times;</span><span class="tw-pill uniq">Water &amp; Sanitation &times;</span><span class="tw-pill uniq">Stage: Funding &times;</span>
+  <button class="role-jump" type="button" style="margin:0;">+ Filter</button><span style="flex:1"></span><button class="role-jump" type="button" style="margin:0;">Save as view</button>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;font-size:12.5px;">
+  <span class="crm-view sel">All requests</span><span class="crm-view">Awaiting certification &middot; 173</span><span class="crm-view">Funding this week &middot; 5</span><span class="crm-view">Stalled &gt; 21 days &middot; 2</span><span class="crm-view">Mine &middot; 4</span>
+</div>
+<p style="font-size:11.5px;color:var(--text-faint);margin:10px 0 0;">Filters become chips that can be removed one at a time, and any combination can be saved and shared as a link. The site&rsquo;s search and municipality filter stay; they become two of the chips.</p></div>
+          <div class="test-verdict"><div class="test-gain"><b>Lands on:</b> Projects, on top of the existing search and municipality filter. <b>Effort:</b> a day, views stored in the URL first, in Supabase later.</div></div>
+        </div>
+        
+        <div class="test-opt">
+          <div class="test-opt-tag">Tip 5 &middot; from Asana and Monday</div>
+          <h3>A health pill computed from the rules</h3>
+          <p style="font-size:13.5px;line-height:1.7;max-width:72ch;margin:0 0 10px;">Project tools show On track, At risk, Off track on every row, and the colour carries the meaning. Man&#257;ra can do better than they do: its standing rules are published, so the pill is computed from days in stage and never typed by a human.</p>
+          <div class="test-mock" style="padding:16px 18px;"><div class="crm-health"><span class="crm-hp" style="background:rgba(21,128,61,.12);color:#15803d">On track</span><b>Pedestrian crossing, Hamra</b><span>milestone 2 of 3 &middot; 8 days in stage</span></div>
+<div class="crm-health"><span class="crm-hp" style="background:rgba(217,119,6,.14);color:#b45309">At risk</span><b>Well rehabilitation, Britel</b><span>24 days awaiting bids &middot; watch line is 21</span></div>
+<div class="crm-health"><span class="crm-hp" style="background:rgba(220,38,38,.12);color:#b91c1c">Stalled</span><b>Mountain road, Faraya</b><span>41 days in funding &middot; refund window opens at 60</span></div>
+<p style="font-size:11.5px;color:var(--text-faint);margin:10px 0 0;">Computed, never typed: days in the current stage against the standing rules the site already publishes. The pill goes on the card, the list row and the page header.</p></div>
+          <div class="test-verdict"><div class="test-gain"><b>Lands on:</b> cards, list rows, page headers, the board. <b>Effort:</b> one function, reused everywhere. <b>Honesty:</b> the rule that produced the colour is one hover away.</div></div>
+        </div>
+        
+        <div class="test-opt">
+          <div class="test-opt-tag">Tip 6 &middot; from Wise and Stripe</div>
+          <h3>Follow your own money step by step</h3>
+          <p style="font-size:13.5px;line-height:1.7;max-width:72ch;margin:0 0 10px;">Wise shows a transfer as a vertical tracker with a timestamp at each step, and people trust it because nothing is vague. A sponsor on Man&#257;ra should see their own pledge the same way: held, released, how much of each release was theirs, what is next.</p>
+          <div class="test-mock" style="padding:16px 18px;"><div class="crm-track">
+  <div class="crm-step done"><b>Pledged</b><span>$150 &middot; 3 Aug &middot; named</span></div>
+  <div class="crm-step done"><b>In escrow</b><span>Custodian ref ESC-9931 &middot; 3 Aug</span></div>
+  <div class="crm-step done"><b>Milestone 1 verified</b><span>Your share released: $72 &middot; 14 Sep</span></div>
+  <div class="crm-step now"><b>Milestone 2</b><span>West side &middot; due 28 Sep</span></div>
+  <div class="crm-step"><b>Closed</b><span>Ledger closed by the verifier</span></div>
+</div>
+<p style="font-size:11.5px;color:var(--text-faint);margin:10px 0 0;">A sponsor&rsquo;s own money, followed step by step, with the share of each release shown in their currency. Fees and the custodian&rsquo;s cut appear as a line, never hidden.</p></div>
+          <div class="test-verdict"><div class="test-gain"><b>Lands on:</b> the sponsor dashboard and the pledge receipt. <b>Effort:</b> a day; the ledger has the events. <b>Rule:</b> the custodian fee and the 1% appear as a line on the tracker.</div></div>
+        </div>
+        
+        <div class="test-opt">
+          <div class="test-opt-tag">Tip 7 &middot; from Uber and Airbnb</div>
+          <h3>A score that shows its reasons</h3>
+          <p style="font-size:13.5px;line-height:1.7;max-width:72ch;margin:0 0 10px;">Ratings people accept are the ones that explain themselves: Uber shows the compliments, Airbnb shows the categories. Man&#257;ra&rsquo;s attribute set is richer than either; showing the top reasons and the things that lowered the score, each linked to a request, turns the number into evidence.</p>
+          <div class="test-mock" style="padding:16px 18px;"><div class="crm-rate">
+  <div><div style="font-size:30px;font-weight:800;line-height:1;">4.8</div><span style="font-size:11.5px;color:var(--text-faint);">rated by 12 municipalities</span></div>
+  <div>
+    <div class="crm-h" style="margin-bottom:6px;">Why the score</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;"><span class="tw-pill uniq">On time &middot; 11</span><span class="tw-pill uniq">Evidence complete &middot; 12</span><span class="tw-pill uniq">Clean invoices &middot; 10</span><span class="tw-pill uniq">Answered residents &middot; 9</span></div>
+    <div class="crm-h" style="margin:12px 0 6px;">What lowered it</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;"><span class="tw-pill dupe">Late once &middot; Britel well</span><span class="tw-pill dupe">One variance over 10%</span></div>
+  </div>
+</div>
+<p style="font-size:11.5px;color:var(--text-faint);margin:10px 0 0;">A number nobody can argue with because the reasons sit next to it, good and bad, each one a link to the request it came from. Same treatment for verifiers and municipalities.</p></div>
+          <div class="test-verdict"><div class="test-gain"><b>Lands on:</b> expert, verifier and municipality pages, next to the attribute table. <b>Effort:</b> a day. <b>Rule:</b> every chip links to the request it came from.</div></div>
+        </div>
+        
+        <div class="test-opt">
+          <div class="test-opt-tag">Tip 8 &middot; from Instagram and Uber</div>
+          <h3>A bottom tab bar on phones</h3>
+          <p style="font-size:13.5px;line-height:1.7;max-width:72ch;margin:0 0 10px;">Every successful phone app puts its five destinations under the thumb and puts a count on the one that needs attention. Man&#257;ra is installable already; a tab bar is what makes it feel installed.</p>
+          <div class="test-mock" style="padding:16px 18px;"><div class="crm-phone">
+  <div class="crm-phone-body"><span>page content</span></div>
+  <div class="crm-tabbar">
+    <div class="sel"><span>&#8962;</span>Home</div><div><span>&#9776;</span>Projects</div><div><span>&#9673;</span>Map</div><div><span>&#9993;</span>Inbox <i>3</i></div><div><span>&#9787;</span>Account</div>
+  </div>
+</div>
+<p style="font-size:11.5px;color:var(--text-faint);margin:10px 0 0;">Five destinations reachable with a thumb, the inbox carrying a count. The top navigation stays for laptops; on phones it collapses into this.</p></div>
+          <div class="test-verdict"><div class="test-gain"><b>Lands on:</b> every page under 700 px. <b>Effort:</b> a day, including the inbox count. <b>Keeps:</b> the top navigation on laptops, unchanged.</div></div>
         </div>
       </div>
     </div>
