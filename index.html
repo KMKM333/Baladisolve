@@ -1240,6 +1240,25 @@
   .test-warn{ border:1px dashed #dc2626; background:rgba(220,38,38,0.07); color:#b91c1c;
     border-radius:10px; padding:14px 18px; font-size:12.5px; line-height:1.6; margin-bottom:30px; }
   .test-mock{ border:1px solid var(--border); border-radius:12px; padding:20px 22px; background:var(--bg-1); margin:12px 0 4px; }
+  /* Problem page */
+  .pb-summary{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:6px; }
+  .pb-summary > div{ border:1px solid var(--border); border-radius:12px; padding:14px 16px; background:var(--bg-1); }
+  .pb-summary b{ display:block; font-size:13.5px; margin-bottom:4px; }
+  .pb-summary span{ font-size:12.5px; color:var(--text-dim); line-height:1.55; }
+  .pb-block{ border-top:1px solid var(--border); padding-top:36px; margin-top:12px; }
+  .pb-steps{ display:grid; gap:10px; max-width:760px; }
+  .pb-step{ display:flex; gap:14px; align-items:flex-start; border:1px solid var(--border); border-radius:12px; padding:14px 16px; background:var(--bg-1); }
+  .pb-n{ flex:0 0 auto; width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; font-weight:800; font-size:13px; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+  .pb-step b{ display:block; font-size:14px; margin-bottom:4px; }
+  .pb-step p{ margin:0; font-size:13px; color:var(--text-dim); line-height:1.6; }
+  .pb-roles, .pb-wps{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:12px; }
+  .pb-role, .pb-wp{ border:1px solid var(--border); border-radius:12px; padding:14px 16px; background:var(--bg-1); }
+  .pb-role b, .pb-wp > b{ display:block; font-size:14px; margin:6px 0 8px; }
+  .pb-role p, .pb-wp p{ margin:0 0 8px; font-size:12.5px; color:var(--text-dim); line-height:1.55; }
+  .pb-role p:last-child, .pb-wp p:last-child{ margin-bottom:0; }
+  .pb-k{ display:block; font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--text-faint); margin-bottom:2px; }
+  .pb-sources summary{ cursor:pointer; font-weight:700; font-size:14px; color:var(--accent); }
+  .pb-sources ol{ font-size:12.5px; line-height:1.7; color:var(--text-dim); max-width:70ch; padding-inline-start:20px; margin-top:10px; }
   .net-problem-box{ border:1px solid var(--border); border-radius:14px; padding:18px 20px 16px; background:var(--bg-1); margin:14px 0 34px; }
   .net-problem-box h4{ font-size:16px; margin:8px 0 8px; }
   .net-problem-box .np-tag{ display:inline-block; font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; background:var(--accent); color:#fff; padding:3px 10px; border-radius:999px; }
@@ -2210,55 +2229,67 @@
   <div class="wrap">
     <div class="section" style="padding-top:44px;">
       <div style="margin-bottom:2px;"><span style="font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--bg-2);color:var(--text-faint);padding:3px 9px;border-radius:10px;">Why Man&#257;ra exists</span></div>
-      <div class="section-head"><h2>The problem</h2><p style="max-width:70ch;">Every piece of Man&#257;ra answers a specific failure someone met in person. This page keeps those failures in view: first as the story they were met in, then as each of the five roles experiences them, then as the wider argument about remittances, public goods and trust that the story sits inside. Read it as the brief the site was built against.</p></div>
+      <div class="section-head"><h2>The problem</h2><p style="max-width:66ch;">Lebanon has people who want things fixed and money to fix them. It has no way to connect the two that anyone can check. Here is how we found that out, who it hurts, and what the numbers say.</p></div>
 
-            
+      <div class="pb-summary">
+        <div><b>Residents report, then wait</b><span>A report goes on the map. Then nothing: no owner, no date, no answer.</span></div>
+        <div><b>Municipalities know, and cannot act</b><span>No budget, no expert, no one whose job it is to finish.</span></div>
+        <div><b>Money arrives, and stops</b><span>Family money holds the country up and rarely reaches the street outside.</span></div>
+      </div>
+    </div>
 
-            <h3 style="font-size:16px;margin:26px 0 8px;">1. The story</h3>
-            <p style="font-size:13.5px;line-height:1.7;max-width:70ch;margin:0 0 10px;"><b>A plot of public land.</b> Rubbish collecting near home. Cleaning it by hand twice a week did not scale, and the photos taken to the municipality went nowhere: cold calls, confusion over who was responsible, a board reached only through a personal contact, and a meeting that ended in argument. No oversight, no expertise, no funding.</p>
-            <p style="font-size:13.5px;line-height:1.7;max-width:70ch;margin:0 0 10px;"><b>A missing feedback loop.</b> A think-tank idea, Project Pulse, would sit twenty people a week with a minister on one issue. It is a sensor between people and government. What was missing was a way to act on what the sensor reports.</p>
-            <p style="font-size:13.5px;line-height:1.7;max-width:70ch;margin:0 0 10px;"><b>A political session.</b> Headlines argued with emotion and no next step, and one fact that kept returning: remittances of about $5.8 billion a year, a third of the economy at the height of the crisis, hold the country up with no oversight, flowing to one household and stopping there. The thought on the way home: let code, not promises, make these parties trust each other.</p>
-            <p style="font-size:13.5px;line-height:1.7;max-width:70ch;margin:0 0 10px;"><b>A pioneer carrying too much.</b> Someone who has spent years building recycling and circular economies here clears the same administrative and corruption hurdles on every project. Many independent efforts, nothing that aligns them at a scale where they gain money, lobbying and a network.</p>
-            <p style="font-size:13.5px;line-height:1.7;max-width:70ch;margin:0 0 10px;"><b>Baladi Map.</b> Excellent at finding problems and bringing people onto one platform; silent on what happens next. A supply-side demo was built to show the founder. The two are now partners: Baladi Map is where a problem enters, Man&#257;ra is what happens after.</p>
-            <p style="font-size:13.5px;line-height:1.7;max-width:70ch;margin:0 0 10px;"><b>The pattern.</b> Good intent, then a stalled project, every time for the same reason: hand-offs nobody owns and nobody can see. Make each hand-off visible and results and trust follow.</p>
+    <div class="section pb-block">
+      <div class="section-head"><h2>1. How we found out</h2><p>Six things that happened, in order.</p></div>
+      <div class="pb-steps">
+        <div class="pb-step"><span class="pb-n">1</span><div><b>A dirty plot of land</b><p>Rubbish piled up on public land near home. We cleaned it by hand, twice a week, and took photos to the municipality. Nobody knew whose job it was. We only reached the board through a friend. The meeting was an argument. No budget, no expert, no plan.</p></div></div>
+        <div class="pb-step"><span class="pb-n">2</span><div><b>No way to be heard</b><p>A think-tank idea, Project Pulse, would put twenty people in a room with a minister each week. Good for listening. But listening does nothing on its own; someone still has to act.</p></div></div>
+        <div class="pb-step"><span class="pb-n">3</span><div><b>One number that kept coming back</b><p>At a political event, one fact stood out: Lebanese abroad send home about $5.8 billion a year. That money keeps the country going. It goes to one family and stops. Nobody tracks what it does. The idea on the way home: let a public record, not a promise, make people trust each other.</p></div></div>
+        <div class="pb-step"><span class="pb-n">4</span><div><b>One person doing too much</b><p>A recycling pioneer told us what every clean project costs him: the same paperwork and the same corruption, every time. Lebanon has hundreds of small good efforts and nothing that joins them up.</p></div></div>
+        <div class="pb-step"><span class="pb-n">5</span><div><b>Baladi Map</b><p>Baladi Map is very good at finding problems and getting people onto one map. It is silent on what happens next. We built a demo of the &ldquo;next&rdquo; and showed the founder. We are now partners: a problem enters on Baladi Map, and Man&#257;ra is what happens after.</p></div></div>
+        <div class="pb-step"><span class="pb-n">6</span><div><b>The pattern</b><p>Good intent, then a stalled project, every time. The cause is always the same: a hand-off nobody owns and nobody can see. Make every hand-off visible and the work gets done.</p></div></div>
+      </div>
+    </div>
 
-            <h3 style="font-size:16px;margin:26px 0 8px;">2. The problem, role by role</h3>
-            <p style="font-size:13.5px;line-height:1.7;max-width:70ch;margin:0 0 10px;">Man&#257;ra has five roles because the failure has five faces. Each card says what breaks for that role today and what changes when the request runs through the network.</p>
-            <div class="light-card" style="margin-bottom:10px;"><b style="font-size:13.5px;">Residents, through Baladi Map</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;line-height:1.6;"><b style="color:var(--text);">The problem.</b> Reports surface problems and stop there. A resident who already knows government is not providing enough learns nothing about who will fix it, by when, or what it costs. The finding is free; the fixing has no path.</p><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;line-height:1.6;"><b style="color:var(--text);">What Man&#257;ra changes.</b> A Baladi Map report becomes a certified request with a named expert, a verifier, a budget and a timeline, and the reporters who confirm it get a seat in the request&rsquo;s chat. Finding the problem stays free; the next steps become visible.</p></div>
-            <div class="light-card" style="margin-bottom:10px;"><b style="font-size:13.5px;">Government</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;line-height:1.6;"><b style="color:var(--text);">The problem.</b> Every sector is associated with corruption and mismanagement, which is the reason Baladi Map and this site exist at all. Distrust of public infrastructure and the economy is the biggest driver pushing people out of the country. For five decades public responsibility and spending have been offloaded onto private individuals through informal remittances and aid, an endless band-aid, before counting outright theft.</p><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;line-height:1.6;"><b style="color:var(--text);">What Man&#257;ra changes.</b> Government keeps the two things only it can do, certifying that a request is real and lawful and choosing the expert from a ranking, and gives up the two that destroy trust: it never sets the price and never holds the money. Approvals and licensing for public work become a streamlined step, and sponsors&rsquo; money reduces what the state has to spend.</p></div>
-            <div class="light-card" style="margin-bottom:10px;"><b style="font-size:13.5px;">Expert organisations</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;line-height:1.6;"><b style="color:var(--text);">The problem.</b> Hundreds of independent contractors and initiatives with no link to the clients who need them most, above all government at public scale. No regulated market for public work, so the capable ones fight the same administrative and corruption hurdles alone, project after project.</p><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;line-height:1.6;"><b style="color:var(--text);">What Man&#257;ra changes.</b> Problems are posted, experts bid inside a verifier-set bracket, government picks the winner on half quality and half price, and the work is funded by direct sponsorship. A regulated supply market for public goods, extra jobs on their own schedule, payment against verified evidence, and a track record that is public.</p></div>
-            <div class="light-card" style="margin-bottom:10px;"><b style="font-size:13.5px;">Sponsors, local and diaspora</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;line-height:1.6;"><b style="color:var(--text);">The problem.</b> No channel to a specific local problem with any transparency. The same distrust that empties the country of people also empties it of contributions: money sent home stays in one household because there is nowhere accountable to send it further.</p><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;line-height:1.6;"><b style="color:var(--text);">What Man&#257;ra changes.</b> A sponsor funds a named request into escrow. The verifier prices it, money leaves one verified milestone at a time, and it comes back in full if the request stalls. Named or anonymous, local or abroad, every dollar is traceable to a step on the ledger.</p></div>
-            <div class="light-card" style="margin-bottom:10px;"><b style="font-size:13.5px;">Verifiers, first and second line</b><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;line-height:1.6;"><b style="color:var(--text);">The problem.</b> Lack of oversight is how public money is embezzled: projects overpriced, underdelivered, the difference split between the people who signed. Nobody independent checks the price, the milestones or the evidence, so nobody outside can believe the result.</p><p style="font-size:12.5px;color:var(--text-dim);margin:6px 0 0;line-height:1.6;"><b style="color:var(--text);">What Man&#257;ra changes.</b> A first-line verifier signs off the request before a pledge is taken, sets the cost bracket, gates every release and closes the ledger; a second line, seeing no names, checks the first. Costs, budgets, timelines and milestones are confirmed by someone with no stake, and the record of every verifier is public.</p></div>
+    <div class="section pb-block">
+      <div class="section-head"><h2>2. Who it hurts</h2><p>Five roles, five versions of the same problem.</p></div>
+      <div class="pb-roles">
+        <div class="pb-role"><span class="np-tag">Report</span><b>Residents</b><p><span class="pb-k">Today</span>A report goes up. Nobody says who will fix it, by when, or what it costs.</p><p><span class="pb-k">With Man&#257;ra</span>The report becomes a request with a named expert, a checker, a budget and a date. The people who confirmed it get a seat in the request&rsquo;s chat.</p></div>
+        <div class="pb-role"><span class="np-tag">Certify</span><b>Government</b><p><span class="pb-k">Today</span>Everyone assumes the worst of it. For fifty years it has pushed public costs onto private people.</p><p><span class="pb-k">With Man&#257;ra</span>It keeps the two jobs only it can do: say the request is real, and pick the expert. It never sets the price and never holds the money.</p></div>
+        <div class="pb-role"><span class="np-tag">Solve</span><b>Experts</b><p><span class="pb-k">Today</span>Hundreds of good contractors with no way to reach public work, and the same hurdles on every job.</p><p><span class="pb-k">With Man&#257;ra</span>Problems are posted. Experts bid inside a checked price range. The best bid wins on half quality, half price. Payment follows proof.</p></div>
+        <div class="pb-role"><span class="np-tag">Fund</span><b>Sponsors</b><p><span class="pb-k">Today</span>No way to pay for one specific thing back home and see it happen. So the money stays with family.</p><p><span class="pb-k">With Man&#257;ra</span>A sponsor funds a named request. Money sits in escrow and leaves one checked step at a time. If the request stalls, it all comes back.</p></div>
+        <div class="pb-role"><span class="np-tag">Check</span><b>Verifiers</b><p><span class="pb-k">Today</span>Nobody independent checks the price, the steps or the proof. So nobody outside can believe the result.</p><p><span class="pb-k">With Man&#257;ra</span>An independent checker approves the request before any money is taken, sets the price range, and signs each step. A second checker, who sees no names, checks the first.</p></div>
+      </div>
+    </div>
 
-            <h3 style="font-size:16px;margin:26px 0 8px;">3. What the white paper adds</h3>
-            <p style="font-size:13.5px;line-height:1.7;max-width:70ch;margin:0 0 10px;">The white paper written after that session is mostly about politics. Five of its arguments are the ground this site stands on.</p>
-            <h4 style="font-size:13.5px;margin:18px 0 6px;">Remittances stop at the first household</h4>
-            <p style="font-size:13.5px;line-height:1.7;max-width:70ch;margin:0 0 10px;">A diaspora of some 14 million sends about $6 billion a year, one of the highest shares of GDP in the world, and since the 2019 banking collapse it moves outside the formal system. It runs on love and obligation, so it stops at the first household: no institution carries it further. The fix the paper proposes is this site: map the sending cities, let municipalities post specific work, let funders commit directly with full visibility, and take the commitment up front, which cuts fudging.</p>
-            <h4 style="font-size:13.5px;margin:18px 0 6px;">Public goods have been pushed onto private individuals</h4>
-            <p style="font-size:13.5px;line-height:1.7;max-width:70ch;margin:0 0 10px;">Private generators instead of a grid, private gardens instead of parks: once a public good is something only the affluent reach, it becomes a marker of inequality. Man&#257;ra routes private money into public goods through a public process and pays local experts, so the money turns over at home.</p>
-            <h4 style="font-size:13.5px;margin:18px 0 6px;">The good actors are not coordinated</h4>
-            <p style="font-size:13.5px;line-height:1.7;max-width:70ch;margin:0 0 10px;">Lebanon does not need new institutions; it needs a network connecting the ones it has. People default to fragmentation because nobody built the easier, shared default. That is the Network page and its 181 organisations.</p>
-            <h4 style="font-size:13.5px;margin:18px 0 6px;">Trust comes back through delivery, not words</h4>
-            <p style="font-size:13.5px;line-height:1.7;max-width:70ch;margin:0 0 10px;">The public is anchored to 2019, and every promise is discounted against it until repeated, checkable results move the anchor. Being observed reduces cheating more than being punished. Small finishable projects, delivered on a public timeline with published figures, then a track record: the ledger, the verifier register and the scoreboard are that prescription as software.</p>
-            <h4 style="font-size:13.5px;margin:18px 0 6px;">Institutionalise the feedback loop</h4>
-            <p style="font-size:13.5px;line-height:1.7;max-width:70ch;margin:0 0 10px;">One evening of listening is a moment, not a mechanism. The request ledger is the standing tracker of what was heard and what was done, and the affected residents sit in each request&rsquo;s chat.</p>
+    <div class="section pb-block">
+      <div class="section-head"><h2>3. What the numbers say</h2><p>Five findings from the white paper, and what each one changed in the design.</p></div>
+      <div class="pb-wps">
+        <div class="pb-wp"><b>Money from abroad stops at the first door</b><p><span class="pb-k">What is wrong</span>About 14 million Lebanese abroad send home around $6 billion a year, among the highest shares of any economy. Since the banks failed in 2019 it moves outside the system. It is sent out of love, so it stops at one household.</p><p><span class="pb-k">What we do</span>Map the cities the money comes from. Let towns post exact jobs. Let senders back one job and watch it. Take the commitment first, which cuts cheating.</p></div>
+        <div class="pb-wp"><b>Public things became private</b><p><span class="pb-k">What is wrong</span>A generator instead of a grid. A private garden instead of a park. When only the rich can reach a public good, it stops being public.</p><p><span class="pb-k">What we do</span>Put private money into public things through a public process, and pay local experts so the money stays in the country.</p></div>
+        <div class="pb-wp"><b>Good people are not joined up</b><p><span class="pb-k">What is wrong</span>Lebanon does not need new organisations. It needs the ones it has to work together. They stay apart because nobody built the easy way to join.</p><p><span class="pb-k">What we do</span>The Network page: 181 organisations, five roles, one process.</p></div>
+        <div class="pb-wp"><b>Trust comes from results, not words</b><p><span class="pb-k">What is wrong</span>People remember 2019. They discount every promise until they see results they can check. Being watched stops cheating better than being punished.</p><p><span class="pb-k">What we do</span>Small projects, finished on a public timeline, with the figures published. The ledger, the checker register and the scoreboard do exactly this.</p></div>
+        <div class="pb-wp"><b>Listening once is not a system</b><p><span class="pb-k">What is wrong</span>One good evening of listening is a moment. It needs a record of what was heard and what was done.</p><p><span class="pb-k">What we do</span>The request ledger is that record, and the affected residents sit in every request&rsquo;s chat.</p></div>
+      </div>
+    </div>
 
-            <h3 style="font-size:16px;margin:26px 0 8px;">Sources</h3>
-            <ol style="font-size:12.5px;line-height:1.7;color:var(--text-dim);max-width:70ch;padding-inline-start:20px;">
-              <li>Founder&rsquo;s notes on the origin of Man&#257;ra, September 2026 (the story above).</li>
-              <li>White paper written after a political movement&rsquo;s public session, 2026, in two versions: an open letter and a referenced essay. Sections on the diaspora, public goods, coordination and trust.</li>
-              <li>World Bank, personal remittances received as a share of GDP, Lebanon: <a href="https://tradingeconomics.com/lebanon/workers-remittances-and-compensation-of-employees-received-percent-of-gdp-wb-data.html" target="_blank" rel="noopener">Trading Economics series</a> and <a href="https://data.worldbank.org/indicator/BX.TRF.PWKR.DT.GD.ZS?locations=LB" target="_blank" rel="noopener">World Bank data</a>.</li>
-              <li>L&rsquo;Orient Today, <a href="https://today.lorientlejour.com/article/1449753/world-bank-lebanon-received-58-billion-in-remittances-in-2024.html" target="_blank" rel="noopener">World Bank: Lebanon received $5.8 billion in remittances in 2024</a>, 17.7% of GDP, 17th highest in the world.</li>
-              <li>BLOMINVEST, <a href="https://blog.blominvestbank.com/lebanon-ranked-12th-worldwide-in-remittance-received-per-gdp/" target="_blank" rel="noopener">Lebanon ranked 12th worldwide in remittances received per GDP</a>: 27.6% of GDP in 2023, 32.1% in 2021.</li>
-              <li>Blog Baladi, <a href="https://blogbaladi.com/remittances-make-up-31-of-lebanons-2023-gdp/" target="_blank" rel="noopener">Remittances make up 31% of Lebanon&rsquo;s 2023 GDP</a>.</li>
-              <li>The Beiruter, <a href="https://www.thebeiruter.com/article/an-economy-outside-its-borders/1081" target="_blank" rel="noopener">An economy outside its borders</a> and <a href="https://www.thebeiruter.com/article/lebanon%E2%80%99s-remittance-lifeline-is-exposed-to-the-middle-east-war/1390" target="_blank" rel="noopener">Lebanon&rsquo;s remittance lifeline is exposed to the Middle East war</a>: 30.7% of GDP in 2023, 48% of inflows from the Gulf, a diaspora of 14 million against 4 million residents.</li>
-              <li>UNDP, <a href="https://www.undp.org/sites/g/files/zskgke326/files/2023-06/remittances_report_june_2023.pdf" target="_blank" rel="noopener">The increasing role and importance of remittances in Lebanon</a>, June 2023.</li>
-              <li>The New Arab, <a href="https://www.newarab.com/analysis/long-term-impact-lebanons-remittances-dependency" target="_blank" rel="noopener">The long-term impact of Lebanon&rsquo;s remittances dependency</a>.</li>
-              <li>Baladi Map, <a href="https://www.baladimap.com" target="_blank" rel="noopener">baladimap.com</a>, the partner platform where reports enter.</li>
-              <li>Dawlati, the state&rsquo;s e-services portal launched by OMSAR in July 2026: <a href="https://portal.dawlati.gov.lb/" target="_blank" rel="noopener">portal.dawlati.gov.lb</a> and the <a href="https://omsar.gov.lb/en/digital-transformation/e-services/dawlati/" target="_blank" rel="noopener">OMSAR page</a>.</li>
-            </ol>
-          
-      <div style="margin-top:30px;"><button class="btn btn-primary" type="button" data-goto="network">See the network that answers it &rarr;</button></div>
+    <div class="section pb-block">
+      <details class="pb-sources">
+        <summary>Sources</summary>
+        <ol>
+          <li>Founder&rsquo;s notes on the origin of Man&#257;ra, September 2026.</li>
+          <li>White paper written after a political movement&rsquo;s public session, 2026, in two versions.</li>
+          <li>World Bank, remittances as a share of GDP: <a href="https://tradingeconomics.com/lebanon/workers-remittances-and-compensation-of-employees-received-percent-of-gdp-wb-data.html" target="_blank" rel="noopener">Trading Economics</a>, <a href="https://data.worldbank.org/indicator/BX.TRF.PWKR.DT.GD.ZS?locations=LB" target="_blank" rel="noopener">World Bank data</a>.</li>
+          <li>L&rsquo;Orient Today, <a href="https://today.lorientlejour.com/article/1449753/world-bank-lebanon-received-58-billion-in-remittances-in-2024.html" target="_blank" rel="noopener">Lebanon received $5.8 billion in remittances in 2024</a>.</li>
+          <li>BLOMINVEST, <a href="https://blog.blominvestbank.com/lebanon-ranked-12th-worldwide-in-remittance-received-per-gdp/" target="_blank" rel="noopener">Lebanon ranked 12th worldwide in remittances per GDP</a>.</li>
+          <li>Blog Baladi, <a href="https://blogbaladi.com/remittances-make-up-31-of-lebanons-2023-gdp/" target="_blank" rel="noopener">Remittances make up 31% of 2023 GDP</a>.</li>
+          <li>The Beiruter, <a href="https://www.thebeiruter.com/article/an-economy-outside-its-borders/1081" target="_blank" rel="noopener">An economy outside its borders</a>.</li>
+          <li>UNDP, <a href="https://www.undp.org/sites/g/files/zskgke326/files/2023-06/remittances_report_june_2023.pdf" target="_blank" rel="noopener">The role of remittances in Lebanon</a>, 2023.</li>
+          <li>The New Arab, <a href="https://www.newarab.com/analysis/long-term-impact-lebanons-remittances-dependency" target="_blank" rel="noopener">Lebanon&rsquo;s remittances dependency</a>.</li>
+          <li>Baladi Map, <a href="https://www.baladimap.com" target="_blank" rel="noopener">baladimap.com</a>.</li>
+          <li>Dawlati, the state&rsquo;s e-services portal: <a href="https://portal.dawlati.gov.lb/" target="_blank" rel="noopener">portal.dawlati.gov.lb</a>.</li>
+        </ol>
+      </details>
+      <div style="margin-top:26px;"><button class="btn btn-primary" type="button" data-goto="network">See the network that answers it &rarr;</button></div>
     </div>
   </div>
 </section>
