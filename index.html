@@ -1241,23 +1241,29 @@
     border-radius:10px; padding:14px 18px; font-size:12.5px; line-height:1.6; margin-bottom:30px; }
   .test-mock{ border:1px solid var(--border); border-radius:12px; padding:20px 22px; background:var(--bg-1); margin:12px 0 4px; }
   /* Problem page */
-  .pb-summary{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-top:6px; }
+  .pb-summary{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-top:6px; }
   .pb-summary > div{ border:1px solid var(--border); border-radius:12px; padding:14px 16px; background:var(--bg-1); }
   .pb-summary b{ display:block; font-size:13.5px; margin-bottom:4px; }
   .pb-summary span{ font-size:12.5px; color:var(--text-dim); line-height:1.55; }
-  .pb-block{ border-top:1px solid var(--border); padding-top:36px; margin-top:12px; }
-  .pb-steps{ display:grid; gap:10px; max-width:760px; }
+  .pb-block{ border-top:1px solid var(--border); padding-top:32px; margin-top:4px; }
+  .pb-steps{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
   .pb-step{ display:flex; gap:14px; align-items:flex-start; border:1px solid var(--border); border-radius:12px; padding:14px 16px; background:var(--bg-1); }
   .pb-n{ flex:0 0 auto; width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; font-weight:800; font-size:13px; display:flex; align-items:center; justify-content:center; margin-top:1px; }
   .pb-step b{ display:block; font-size:14px; margin-bottom:4px; }
   .pb-step p{ margin:0; font-size:13px; color:var(--text-dim); line-height:1.6; }
-  .pb-roles, .pb-wps{ display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:12px; }
-  .pb-role, .pb-wp{ border:1px solid var(--border); border-radius:12px; padding:14px 16px; background:var(--bg-1); }
+  .pb-roles{ display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; }
+  .pb-role{ border:1px solid var(--border); border-radius:12px; padding:14px 16px; background:var(--bg-1); }
+  .pb-wps{ border:1px solid var(--border); border-radius:12px; background:var(--bg-1); overflow:hidden; }
+  .pb-wp{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.5fr) minmax(0,1.5fr); gap:20px; padding:14px 16px; border-top:1px solid var(--border); }
+  .pb-wp-h{ border-top:0; background:var(--bg-2); padding:9px 16px; font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--text-faint); }
   .pb-role .np-tag{ display:inline-block; font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; background:var(--accent); color:#fff; padding:3px 10px; border-radius:999px; }
-  .pb-role b, .pb-wp > b{ display:block; font-size:14px; margin:6px 0 8px; }
+  .pb-role b{ display:block; font-size:14px; margin:6px 0 8px; }
+  .pb-wp > b{ font-size:13.5px; line-height:1.4; }
   .pb-role p, .pb-wp p{ margin:0 0 8px; font-size:12.5px; color:var(--text-dim); line-height:1.55; }
   .pb-role p:last-child, .pb-wp p:last-child{ margin-bottom:0; }
   .pb-k{ display:block; font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--text-faint); margin-bottom:2px; }
+  @media (max-width:900px){ .pb-summary, .pb-steps{ grid-template-columns:repeat(2,minmax(0,1fr)); } .pb-roles{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media (max-width:600px){ .pb-summary, .pb-steps, .pb-roles{ grid-template-columns:1fr; } .pb-wp{ grid-template-columns:1fr; gap:6px; } .pb-wp-h{ display:none; } .pb-wp p::before{ content:attr(data-k); display:block; font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--text-faint); } }
   .pb-sources summary{ cursor:pointer; font-weight:700; font-size:14px; color:var(--accent); }
   .pb-sources ol{ font-size:12.5px; line-height:1.7; color:var(--text-dim); max-width:70ch; padding-inline-start:20px; margin-top:10px; }
   .net-problem-box{ border:1px solid var(--border); border-radius:14px; padding:18px 20px 16px; background:var(--bg-1); margin:14px 0 34px; }
@@ -2236,6 +2242,7 @@
         <div><b>Residents report, then wait</b><span>A report goes on the map. Then nothing: no owner, no date, no answer.</span></div>
         <div><b>Municipalities know, and cannot act</b><span>No budget, no expert, no one whose job it is to finish.</span></div>
         <div><b>Money arrives, and stops</b><span>Family money holds the country up and rarely reaches the street outside.</span></div>
+        <div><b>Experts are ready, and cannot be hired</b><span>Skilled people want the work, but there is no certified market for public fixes and no open way to fund it.</span></div>
       </div>
     </div>
 
@@ -2264,12 +2271,7 @@
 
     <div class="section pb-block">
       <div class="section-head"><h2>3. What the numbers say</h2><p>Five findings from the white paper, and what each one changed in the design.</p></div>
-      <div class="pb-wps">
-        <div class="pb-wp"><b>Money from abroad stops at the first door</b><p><span class="pb-k">What is wrong</span>About 14 million Lebanese abroad send home around $6 billion a year, among the highest shares of any economy. Since the banks failed in 2019 it moves outside the system. It is sent out of love, so it stops at one household.</p><p><span class="pb-k">What we do</span>Map the cities the money comes from. Let towns post exact jobs. Let senders back one job and watch it. Take the commitment first, which cuts cheating.</p></div>
-        <div class="pb-wp"><b>Public things became private</b><p><span class="pb-k">What is wrong</span>A generator instead of a grid. A private garden instead of a park. When only the rich can reach a public good, it stops being public.</p><p><span class="pb-k">What we do</span>Put private money into public things through a public process, and pay local experts so the money stays in the country.</p></div>
-        <div class="pb-wp"><b>Good people are not joined up</b><p><span class="pb-k">What is wrong</span>Lebanon does not need new organisations. It needs the ones it has to work together. They stay apart because nobody built the easy way to join.</p><p><span class="pb-k">What we do</span>The Network page: 181 organisations, five roles, one process.</p></div>
-        <div class="pb-wp"><b>Trust comes from results, not words</b><p><span class="pb-k">What is wrong</span>People remember 2019. They discount every promise until they see results they can check. Being watched stops cheating better than being punished.</p><p><span class="pb-k">What we do</span>Small projects, finished on a public timeline, with the figures published. The ledger, the checker register and the scoreboard do exactly this.</p></div>
-        <div class="pb-wp"><b>Listening once is not a system</b><p><span class="pb-k">What is wrong</span>One good evening of listening is a moment. It needs a record of what was heard and what was done.</p><p><span class="pb-k">What we do</span>The request ledger is that record, and the affected residents sit in every request&rsquo;s chat.</p></div>
+      <div class="pb-wps"><div class="pb-wp pb-wp-h"><span>Finding</span><span>What is wrong</span><span>What we do</span></div><div class="pb-wp"><b>Money from abroad stops at the first door</b><p data-k="What is wrong">About 14 million Lebanese abroad send home around $6 billion a year, among the highest shares of any economy. Since the banks failed in 2019 it moves outside the system. It is sent out of love, so it stops at one household.</p><p data-k="What we do">Map the cities the money comes from. Let towns post exact jobs. Let senders back one job and watch it. Take the commitment first, which cuts cheating.</p></div><div class="pb-wp"><b>Public things became private</b><p data-k="What is wrong">A generator instead of a grid. A private garden instead of a park. When only the rich can reach a public good, it stops being public.</p><p data-k="What we do">Put private money into public things through a public process, and pay local experts so the money stays in the country.</p></div><div class="pb-wp"><b>Good people are not joined up</b><p data-k="What is wrong">Lebanon does not need new organisations. It needs the ones it has to work together. They stay apart because nobody built the easy way to join.</p><p data-k="What we do">The Network page: 181 organisations, five roles, one process.</p></div><div class="pb-wp"><b>Trust comes from results, not words</b><p data-k="What is wrong">People remember 2019. They discount every promise until they see results they can check. Being watched stops cheating better than being punished.</p><p data-k="What we do">Small projects, finished on a public timeline, with the figures published. The ledger, the checker register and the scoreboard do exactly this.</p></div><div class="pb-wp"><b>Listening once is not a system</b><p data-k="What is wrong">One good evening of listening is a moment. It needs a record of what was heard and what was done.</p><p data-k="What we do">The request ledger is that record, and the affected residents sit in every request&rsquo;s chat.</p></div>
       </div>
     </div>
 
