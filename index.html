@@ -1240,6 +1240,32 @@
   .test-warn{ border:1px dashed #dc2626; background:rgba(220,38,38,0.07); color:#b91c1c;
     border-radius:10px; padding:14px 18px; font-size:12.5px; line-height:1.6; margin-bottom:30px; }
   .test-mock{ border:1px solid var(--border); border-radius:12px; padding:20px 22px; background:var(--bg-1); margin:12px 0 4px; }
+  /* Problem page */
+  .pb-summary{ display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; margin-top:6px; }
+  .pb-summary > div{ border:1px solid var(--border); border-radius:12px; padding:14px 16px; background:var(--bg-1); }
+  .pb-summary b{ display:block; font-size:13.5px; margin-bottom:4px; }
+  .pb-summary span{ font-size:12.5px; color:var(--text-dim); line-height:1.55; }
+  .pb-block{ border-top:1px solid var(--border); padding-top:32px; margin-top:4px; }
+  .pb-steps{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; }
+  .pb-step{ display:flex; gap:14px; align-items:flex-start; border:1px solid var(--border); border-radius:12px; padding:14px 16px; background:var(--bg-1); }
+  .pb-n{ flex:0 0 auto; width:28px; height:28px; border-radius:50%; background:var(--accent); color:#fff; font-weight:800; font-size:13px; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+  .pb-step b{ display:block; font-size:14px; margin-bottom:4px; }
+  .pb-step p{ margin:0; font-size:13px; color:var(--text-dim); line-height:1.6; }
+  .pb-roles{ display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; }
+  .pb-role{ border:1px solid var(--border); border-radius:12px; padding:14px 16px; background:var(--bg-1); }
+  .pb-wps{ border:1px solid var(--border); border-radius:12px; background:var(--bg-1); overflow:hidden; }
+  .pb-wp{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.5fr) minmax(0,1.5fr); gap:20px; padding:14px 16px; border-top:1px solid var(--border); }
+  .pb-wp-h{ border-top:0; background:var(--bg-2); padding:9px 16px; font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--text-faint); }
+  .pb-role .np-tag{ display:inline-block; font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; background:var(--accent); color:#fff; padding:3px 10px; border-radius:999px; }
+  .pb-role b{ display:block; font-size:14px; margin:6px 0 8px; }
+  .pb-wp > b{ font-size:13.5px; line-height:1.4; }
+  .pb-role p, .pb-wp p{ margin:0 0 8px; font-size:12.5px; color:var(--text-dim); line-height:1.55; }
+  .pb-role p:last-child, .pb-wp p:last-child{ margin-bottom:0; }
+  .pb-k{ display:block; font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--text-faint); margin-bottom:2px; }
+  @media (max-width:900px){ .pb-summary, .pb-steps{ grid-template-columns:repeat(2,minmax(0,1fr)); } .pb-roles{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media (max-width:600px){ .pb-summary, .pb-steps, .pb-roles{ grid-template-columns:1fr; } .pb-wp{ grid-template-columns:1fr; gap:6px; } .pb-wp-h{ display:none; } .pb-wp p::before{ content:attr(data-k); display:block; font-size:10px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--text-faint); } }
+  .pb-sources summary{ cursor:pointer; font-weight:700; font-size:14px; color:var(--accent); }
+  .pb-sources ol{ font-size:12.5px; line-height:1.7; color:var(--text-dim); max-width:70ch; padding-inline-start:20px; margin-top:10px; }
   .net-problem-box{ border:1px solid var(--border); border-radius:14px; padding:18px 20px 16px; background:var(--bg-1); margin:14px 0 34px; }
   .net-problem-box h4{ font-size:16px; margin:8px 0 8px; }
   .net-problem-box .np-tag{ display:inline-block; font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; background:var(--accent); color:#fff; padding:3px 10px; border-radius:999px; }
@@ -1528,6 +1554,7 @@
   </div>
   <nav id="mainNav">
     <button data-view="home" data-i18n>Home</button>
+    <button data-view="problem" data-i18n>Problem</button>
     <button data-view="network" data-i18n>Network</button>
     <button data-view="dashboard" data-i18n>Projects</button>
     <button data-view="map" data-i18n>Map</button>
@@ -1623,6 +1650,18 @@
       </div>
     </div>
     <div class="microcopy" style="margin-top:16px;"><b>Free to use</b> · Independent · Non-partisan</div>
+    <div class="section" id="homeProblem" style="padding:44px 0 0;">
+
+            <div class="section-head"><h2>The problem</h2><p>Lebanon does not lack people who want things fixed, or money to fix them. It lacks a way to connect the two that anyone can check.</p></div>
+            <div class="light-grid">
+              <div class="light-card"><b style="font-size:13.5px;">Residents report, then wait</b><p style="font-size:12.5px;color:var(--text-dim);margin:8px 0 0;line-height:1.6;">Baladi Map gets a problem onto a map in minutes. Then nothing: no timeline, no owner, no answer to &ldquo;who fixes this, and how would I know?&rdquo;</p></div>
+              <div class="light-card"><b style="font-size:13.5px;">Municipalities know, and cannot act</b><p style="font-size:12.5px;color:var(--text-dim);margin:8px 0 0;line-height:1.6;">A board meeting on a polluted plot ends in argument: no budget, no expertise, no one whose job it is to see it through. Reaching them at all took a personal contact.</p></div>
+              <div class="light-card"><b style="font-size:13.5px;">Money arrives, and stops</b><p style="font-size:12.5px;color:var(--text-dim);margin:8px 0 0;line-height:1.6;">Remittances hold the country up, household by household, and rarely reach the street outside. Public spending is a black box, so nobody funds it twice.</p></div>
+            </div>
+            <p style="font-size:13px;color:var(--text-dim);line-height:1.7;margin:14px 0 0;max-width:74ch;">Good intent keeps meeting the same three walls. Man&#257;ra is the connector: one request, five roles no two of which sit in the same hands, and a public record of every step so that trust comes from results instead of promises.</p>
+            <button class="btn-text" type="button" data-goto="problem" style="all:unset;cursor:pointer;color:var(--accent);font-weight:700;font-size:13.5px;margin-top:12px;">Read the full problem &rarr;</button>
+          
+    </div>
   </div>
 
   <div class="section reveal"><div class="wrap">
@@ -2188,6 +2227,73 @@
         <div class="proj-carousel" id="mapVerifiersCarousel"></div>
         <button class="carousel-arrow right" id="mapVerifiersArrowRight" aria-label="Scroll right">&rsaquo;</button>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- THE PROBLEM -->
+<section class="page" id="view-problem">
+  <div class="wrap">
+    <div class="section" style="padding-top:44px;">
+      <div style="margin-bottom:2px;"><span style="font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;background:var(--bg-2);color:var(--text-faint);padding:3px 9px;border-radius:10px;">Why Man&#257;ra exists</span></div>
+      <div class="section-head"><h2>The problem</h2><p style="max-width:66ch;">Lebanon has people who want things fixed and money to fix them. It has no way to connect the two that anyone can check. Here is how we found that out, who it hurts, and what the numbers say.</p></div>
+
+      <div class="pb-summary">
+        <div><b>Residents report, then wait</b><span>A report goes on the map. Then nothing: no owner, no date, no answer.</span></div>
+        <div><b>Municipalities know, and cannot act</b><span>No budget, no expert, no one whose job it is to finish.</span></div>
+        <div><b>Experts are ready, and cannot be hired</b><span>Skilled people want the work, but there is no certified market for public fixes and no open way to fund it.</span></div>
+        <div><b>Money arrives, and stops</b><span>Family money holds the country up and rarely reaches the street outside.</span></div>
+        <div><b>Nobody checks the work</b><span>No independent person confirms the price, the steps or the proof, so nobody can trust the result.</span></div>
+      </div>
+    </div>
+
+    <div class="section pb-block">
+      <div class="section-head"><h2>1. Who it hurts</h2><p>Five roles, five versions of the same problem.</p></div>
+      <div class="pb-roles">
+        <div class="pb-role"><span class="np-tag">Report</span><b>Residents</b><p><span class="pb-k">Today</span>A report goes up. Nobody says who will fix it, by when, or what it costs.</p><p><span class="pb-k">With Man&#257;ra</span>The report becomes a request with a named expert, a checker, a budget and a date. The people who confirmed it get a seat in the request&rsquo;s chat.</p></div>
+        <div class="pb-role"><span class="np-tag">Certify</span><b>Government</b><p><span class="pb-k">Today</span>Everyone assumes the worst of it. For fifty years it has pushed public costs onto private people.</p><p><span class="pb-k">With Man&#257;ra</span>It keeps the two jobs only it can do: say the request is real, and pick the expert. It never sets the price and never holds the money.</p></div>
+        <div class="pb-role"><span class="np-tag">Solve</span><b>Experts</b><p><span class="pb-k">Today</span>Hundreds of good contractors with no way to reach public work, and the same hurdles on every job.</p><p><span class="pb-k">With Man&#257;ra</span>Problems are posted. Experts bid inside a checked price range. The best bid wins on half quality, half price. Payment follows proof.</p></div>
+        <div class="pb-role"><span class="np-tag">Fund</span><b>Sponsors</b><p><span class="pb-k">Today</span>No way to pay for one specific thing back home and see it happen. So the money stays with family.</p><p><span class="pb-k">With Man&#257;ra</span>A sponsor funds a named request. Money sits in escrow and leaves one checked step at a time. If the request stalls, it all comes back.</p></div>
+        <div class="pb-role"><span class="np-tag">Check</span><b>Verifiers</b><p><span class="pb-k">Today</span>Nobody independent checks the price, the steps or the proof. So nobody outside can believe the result.</p><p><span class="pb-k">With Man&#257;ra</span>An independent checker approves the request before any money is taken, sets the price range, and signs each step. A second checker, who sees no names, checks the first.</p></div>
+      </div>
+    </div>
+
+    <div class="section pb-block">
+      <div class="section-head"><h2>2. How we found out</h2><p>Six things that happened, in order.</p></div>
+      <div class="pb-steps">
+        <div class="pb-step"><span class="pb-n">1</span><div><b>A dirty plot of land</b><p>Rubbish piled up on public land near home. We cleaned it by hand, twice a week, and took photos to the municipality. Nobody knew whose job it was. We only reached the board through a friend. The meeting was an argument. No budget, no expert, no plan.</p></div></div>
+        <div class="pb-step"><span class="pb-n">2</span><div><b>No way to be heard</b><p>A think-tank idea, Project Pulse, would put twenty people in a room with a minister each week. Good for listening. But listening does nothing on its own; someone still has to act.</p></div></div>
+        <div class="pb-step"><span class="pb-n">3</span><div><b>One number that kept coming back</b><p>At a political event, one fact stood out: Lebanese abroad send home about $5.8 billion a year. That money keeps the country going. It goes to one family and stops. Nobody tracks what it does. The idea on the way home: let a public record, not a promise, make people trust each other.</p></div></div>
+        <div class="pb-step"><span class="pb-n">4</span><div><b>One person doing too much</b><p>A recycling pioneer told us what every clean project costs him: the same paperwork and the same corruption, every time. Lebanon has hundreds of small good efforts and nothing that joins them up.</p></div></div>
+        <div class="pb-step"><span class="pb-n">5</span><div><b>Baladi Map</b><p>Baladi Map is very good at finding problems and getting people onto one map. We built a demo of the &ldquo;next&rdquo; and showed the founder. We are now partners: a problem enters on Baladi Map, and Man&#257;ra is what happens after.</p></div></div>
+        <div class="pb-step"><span class="pb-n">6</span><div><b>The pattern</b><p>Good intent, then a stalled project, every time. The cause is always the same: a hand-off nobody owns and nobody can see. Make every hand-off visible and the work gets done.</p></div></div>
+      </div>
+    </div>
+
+    <div class="section pb-block">
+      <div class="section-head"><h2>3. What the numbers say</h2><p>Five findings from the white paper, and what each one changed in the design.</p></div>
+      <div class="pb-wps"><div class="pb-wp pb-wp-h"><span>Finding</span><span>What is wrong</span><span>What we do</span></div><div class="pb-wp"><b>Money from abroad stops at the first door</b><p data-k="What is wrong">About 14 million Lebanese abroad send home around $6 billion a year, among the highest shares of any economy. Since the banks failed in 2019 it moves outside the system. It is sent out of love, so it stops at one household.</p><p data-k="What we do">Map the cities the money comes from. Let towns post exact jobs. Let senders back one job and watch it. Take the commitment first, which cuts cheating.</p></div><div class="pb-wp"><b>Public things became private</b><p data-k="What is wrong">A generator instead of a grid. A private garden instead of a park. When only the rich can reach a public good, it stops being public.</p><p data-k="What we do">Put private money into public things through a public process, and pay local experts so the money stays in the country.</p></div><div class="pb-wp"><b>Good people are not joined up</b><p data-k="What is wrong">Lebanon does not need new organisations. It needs the ones it has to work together. They stay apart because nobody built the easy way to join.</p><p data-k="What we do">The Network page: 181 organisations, five roles, one process.</p></div><div class="pb-wp"><b>Trust comes from results, not words</b><p data-k="What is wrong">People remember 2019. They discount every promise until they see results they can check. Being watched stops cheating better than being punished.</p><p data-k="What we do">Small projects, finished on a public timeline, with the figures published. The ledger, the checker register and the scoreboard do exactly this.</p></div><div class="pb-wp"><b>Listening once is not a system</b><p data-k="What is wrong">One good evening of listening is a moment. It needs a record of what was heard and what was done.</p><p data-k="What we do">The request ledger is that record, and the affected residents sit in every request&rsquo;s chat.</p></div>
+      </div>
+    </div>
+
+    <div class="section pb-block">
+      <details class="pb-sources">
+        <summary>Sources</summary>
+        <ol>
+          <li>Founder&rsquo;s notes on the origin of Man&#257;ra, September 2026.</li>
+          <li>White paper written after a political movement&rsquo;s public session, 2026, in two versions.</li>
+          <li>World Bank, remittances as a share of GDP: <a href="https://tradingeconomics.com/lebanon/workers-remittances-and-compensation-of-employees-received-percent-of-gdp-wb-data.html" target="_blank" rel="noopener">Trading Economics</a>, <a href="https://data.worldbank.org/indicator/BX.TRF.PWKR.DT.GD.ZS?locations=LB" target="_blank" rel="noopener">World Bank data</a>.</li>
+          <li>L&rsquo;Orient Today, <a href="https://today.lorientlejour.com/article/1449753/world-bank-lebanon-received-58-billion-in-remittances-in-2024.html" target="_blank" rel="noopener">Lebanon received $5.8 billion in remittances in 2024</a>.</li>
+          <li>BLOMINVEST, <a href="https://blog.blominvestbank.com/lebanon-ranked-12th-worldwide-in-remittance-received-per-gdp/" target="_blank" rel="noopener">Lebanon ranked 12th worldwide in remittances per GDP</a>.</li>
+          <li>Blog Baladi, <a href="https://blogbaladi.com/remittances-make-up-31-of-lebanons-2023-gdp/" target="_blank" rel="noopener">Remittances make up 31% of 2023 GDP</a>.</li>
+          <li>The Beiruter, <a href="https://www.thebeiruter.com/article/an-economy-outside-its-borders/1081" target="_blank" rel="noopener">An economy outside its borders</a>.</li>
+          <li>UNDP, <a href="https://www.undp.org/sites/g/files/zskgke326/files/2023-06/remittances_report_june_2023.pdf" target="_blank" rel="noopener">The role of remittances in Lebanon</a>, 2023.</li>
+          <li>The New Arab, <a href="https://www.newarab.com/analysis/long-term-impact-lebanons-remittances-dependency" target="_blank" rel="noopener">Lebanon&rsquo;s remittances dependency</a>.</li>
+          <li>Baladi Map, <a href="https://www.baladimap.com" target="_blank" rel="noopener">baladimap.com</a>.</li>
+          <li>Dawlati, the state&rsquo;s e-services portal: <a href="https://portal.dawlati.gov.lb/" target="_blank" rel="noopener">portal.dawlati.gov.lb</a>.</li>
+        </ol>
+      </details>
+      <div style="margin-top:26px;"><button class="btn btn-primary" type="button" data-goto="network">See the network that answers it &rarr;</button></div>
     </div>
   </div>
 </section>
@@ -11679,7 +11785,7 @@ if(corridorsSection){
 }
 
 const BREADCRUMB_NAMES = {
-  home:'Home', network:'Network', dashboard:'All Projects', map:'Map', corridors:'Diaspora',
+  home:'Home', problem:'The problem', network:'Network', dashboard:'All Projects', map:'Map', corridors:'Diaspora',
   scoreboard:'Scoreboard', trust:'Trust', join:'Join', 'lead-list':'Full Lead List',
   'workflow-demo':'Workflow Demo', 'account-demo':'Account Dashboards', detail:'Project Detail',
   municipalities:'Municipality Directory'
@@ -13112,7 +13218,7 @@ function routeSlug(s){
 // view id  ->  url slug. Defined inside a function on purpose (see note above).
 function viewSlug(view){
   return ({
-    home:'', network:'network', dashboard:'projects', map:'map', corridors:'diaspora',
+    home:'', problem:'problem', network:'network', dashboard:'projects', map:'map', corridors:'diaspora',
     scoreboard:'scoreboard', trust:'trust', join:'join', 'lead-list':'directory',
     municipalities:'municipalities', 'workflow-demo':'walkthrough', 'account-demo':'account', verifiers:'verifiers',
     test:'test'  /* TEMPORARY — remove with the TEST page */
@@ -13120,7 +13226,7 @@ function viewSlug(view){
 }
 function slugToView(slug){
   var out = null;
-  ['home','network','dashboard','map','corridors','scoreboard','trust','join',
+  ['home','problem','network','dashboard','map','corridors','scoreboard','trust','join',
    'lead-list','municipalities','workflow-demo','account-demo','test','verifiers'].forEach(function(v){
     if(viewSlug(v) === slug) out = v;
   });
