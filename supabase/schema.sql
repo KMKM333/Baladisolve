@@ -230,3 +230,10 @@ create or replace view pledges_public as
 create or replace view verifiers_l2_public as
   select id, pseudonym, appointed, licence_expiry, reviewed, confirmed, sent_back, median_days
   from verifiers_l2;
+
+-- The views are read-only windows. A view runs with its owner's rights and
+-- skips the row-level security of the table underneath, and these are simple
+-- enough for Postgres to treat as writable, so without this anyone holding the
+-- public key could update or delete rows through them.
+revoke all on bids_public, pledges_public, verifiers_l2_public from anon, authenticated;
+grant select on bids_public, pledges_public, verifiers_l2_public to anon, authenticated;
