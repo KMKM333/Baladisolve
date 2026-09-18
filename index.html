@@ -13213,7 +13213,7 @@ window.MANARA_SUPABASE = { url: '', anonKey: '' };
   if(!cfg || !cfg.url || !cfg.anonKey) return;
   function fail(why, e){ console.warn('Manāra: database unavailable, using built-in data —', why, e || ''); }
   var tag = document.createElement('script');
-  tag.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js';
+  tag.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js';
   tag.onerror = function(){ fail('client script did not load'); };
   tag.onload = function(){
     var db;
