@@ -73,3 +73,12 @@ jobs:
           Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>
           MSG
           git push
+
+      # The database follows the file. This runs last, so a database problem can
+      # never stop the file (the site's fallback) from being refreshed; it fails
+      # the run visibly instead. With no secret set it skips and exits cleanly.
+      # The secret key lives only in this repository's Actions secrets.
+      - name: Copy the reports into the database
+        env:
+          SUPABASE_SECRET_KEY: ${{ secrets.SUPABASE_SECRET_KEY }}
+        run: node scripts/sync-to-supabase.mjs
