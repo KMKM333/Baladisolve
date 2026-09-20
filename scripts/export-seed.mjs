@@ -3,68 +3,9 @@
 // supabase/schema.sql. Runs the site's classic scripts in a sandbox (the same
 // trick scripts/check-html.mjs uses) so the arrays are read from the source of
 // truth rather than re-typed. Usage: node scripts/export-seed.mjs > supabase/seed.sql
-import fs from 'node:fs';
-import vm from 'node:vm';
+import { readSiteData } from './lib/read-site-data.mjs';
 
-const html = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-const scripts = [...html.matchAll(/<script(?![^>]*\bsrc=)([^>]*)>([\s\S]*?)<\/script>/g)]
-  .filter((m) => !/type\s*=\s*["']module["']/.test(m[1]))
-  .map((m) => m[2]);
-const main = scripts.find((b) => /const PROJECTS\s*=/.test(b));
-if (!main) throw new Error('main script not found');
-
-  const makeStub = (depth = 0) => {
-    if (depth > 12) return undefined; // guard against unbounded chains
-    const target = function () {};
-    return new Proxy(target, {
-      get(t, prop) {
-        if (prop === Symbol.iterator) return function* () {};
-        if (prop === Symbol.toPrimitive) return () => 0;
-        if (prop === Symbol.asyncIterator) return undefined;
-        if (prop === 'then') return undefined;        // never look thenable
-        if (prop === 'length') return 0;
-        if (prop === 'nodeType') return 1;
-        if (prop === Symbol.toStringTag) return 'Stub';
-        if (prop === 'constructor') return Object;
-        // Array-ish helpers: run the callback once for a little more reach.
-        if (['forEach', 'map', 'filter', 'find', 'some', 'every', 'flatMap'].includes(prop)) {
-          return (cb) => { if (typeof cb === 'function') cb(makeStub(depth + 1), 0, makeStub(depth + 1)); return makeStub(depth + 1); };
-        }
-        return makeStub(depth + 1);
-      },
-      set: () => true,
-      has: () => true,                                 // unknown globals resolve
-      deleteProperty: () => true,
-      apply: () => makeStub(depth + 1),
-      construct: () => makeStub(depth + 1),
-      getPrototypeOf: () => Object.prototype,
-      getOwnPropertyDescriptor: () => ({ configurable: true, enumerable: true, value: undefined }),
-      ownKeys: () => [],
-    });
-  };
-
-let captured = null;
-const target = Object.create(null);
-target.__EXPORT = (o) => { captured = o; };
-const sandbox = new Proxy(target, {
-  has: () => true,
-  get: (t, prop) => {
-    if (prop in t) return t[prop];
-    if (prop === Symbol.unscopables) return undefined;
-    if (typeof globalThis[prop] !== 'undefined' &&
-        ['Math','JSON','Date','Object','Array','String','Number','Boolean','RegExp','Error','TypeError',
-         'ReferenceError','SyntaxError','Promise','Map','Set','WeakMap','WeakSet','Symbol','Intl',
-         'parseInt','parseFloat','isNaN','isFinite','encodeURIComponent','decodeURIComponent',
-         'URL','URLSearchParams','TextEncoder','TextDecoder','structuredClone'].includes(prop)) return globalThis[prop];
-    return makeStub();
-  },
-  set: (t, prop, v) => { t[prop] = v; return true; },
-});
-const ctx = vm.createContext(sandbox);
-new vm.Script(main + '\n;__EXPORT({PROJECTS, VERIFIERS, VERIFIERS_L2, MUNICIPALITIES, MUNI_COORDS, STAKEHOLDER_CHAT});', { filename: 'index.html' })
-  .runInContext(ctx, { timeout: 20000 });
-if (!captured) throw new Error('export hook did not run');
-const { PROJECTS, VERIFIERS, VERIFIERS_L2, MUNICIPALITIES, MUNI_COORDS, STAKEHOLDER_CHAT } = captured;
+const { PROJECTS, VERIFIERS, VERIFIERS_L2, MUNICIPALITIES, MUNI_COORDS, STAKEHOLDER_CHAT } = readSiteData();
 
 const q = (v) => v == null ? 'null' : `'${String(v).replace(/'/g, "''")}'`;
 const n = (v) => (v == null || v === '' || Number.isNaN(Number(v))) ? 'null' : String(Number(v));
