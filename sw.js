@@ -1,4 +1,4 @@
-// Manāra service worker — the cheap app: installable, and readable offline.
+// BaladiSolve service worker — the cheap app: installable, and readable offline.
 //
 // index.html is network-first, so a deploy is never masked by a stale copy —
 // the single-page site already confused people once when an open tab kept old
@@ -6,8 +6,8 @@
 // down, the last good copy is served instead. Third-party assets (fonts, map
 // tiles, libraries, report photos) are cached as they are seen and refreshed
 // in the background, so a second visit works with a weak connection.
-const SHELL = 'manara-shell-v1';
-const ASSETS = 'manara-assets-v1';
+const SHELL = 'baladisolve-shell-v2';
+const ASSETS = 'baladisolve-assets-v2';
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(SHELL).then((c) => c.add('/')).then(() => self.skipWaiting()));
